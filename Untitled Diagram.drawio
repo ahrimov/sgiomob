@@ -1,1 +1,311 @@
-<mxfile host="app.diagrams.net" modified="2022-06-16T14:30:27.065Z" agent="5.0 (X11)" version="20.0.1" etag="21I6RQja5JEZdIP-KAnQ" type="github"><diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">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</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2022-06-16T15:51:44.873Z" agent="5.0 (X11)" etag="pdkl9CiBjS7g4LSHP7C5" version="20.0.1" type="github">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="1995" dy="691" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="G264VleLrpq128u82SBT-5" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Main page&lt;/div&gt;&lt;div&gt;index.html&lt;/div&gt;&lt;div&gt;index.js&lt;/div&gt;" style="html=1;dropTarget=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="260" y="240" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-6" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="G264VleLrpq128u82SBT-5">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-7" value="&lt;div&gt;Map&lt;/div&gt;&lt;div&gt;map.js&lt;/div&gt;&lt;div&gt;map.html&lt;/div&gt;&lt;div&gt;map.css&lt;br&gt;&lt;/div&gt;" style="html=1;dropTarget=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="190" y="90" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-8" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="G264VleLrpq128u82SBT-7">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-9" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-7" target="G264VleLrpq128u82SBT-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="260" y="350" as="sourcePoint" />
+            <mxPoint x="310" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-45" value="&lt;div&gt;show on&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-9">
+          <mxGeometry x="-0.3598" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-10" value="&lt;div&gt;Top interface&lt;/div&gt;&lt;div&gt;top_interface.html&lt;/div&gt;&lt;div&gt;top_interface.js&lt;/div&gt;&lt;div&gt;top_interface.css&lt;br&gt;&lt;/div&gt;" style="html=1;dropTarget=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="480" y="100" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-11" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="G264VleLrpq128u82SBT-10">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-12" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-10" target="G264VleLrpq128u82SBT-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="590" y="290" as="sourcePoint" />
+            <mxPoint x="640" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-46" value="&lt;div&gt;show on&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-12">
+          <mxGeometry x="-0.5089" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-13" value="&lt;div&gt;Initial&lt;/div&gt;&lt;div&gt;intitial.js&lt;/div&gt;" style="html=1;dropTarget=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="520" y="240" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-14" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="G264VleLrpq128u82SBT-13">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-15" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-5" target="G264VleLrpq128u82SBT-13">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="430" y="430" as="sourcePoint" />
+            <mxPoint x="460" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-48" value="&lt;div&gt;run after start&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-15">
+          <mxGeometry x="-0.2183" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-16" value="&lt;div&gt;XMLParser&lt;/div&gt;&lt;div&gt;xml_parser.js&lt;br&gt;&lt;/div&gt;" style="html=1;dropTarget=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="680" y="390" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-17" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="G264VleLrpq128u82SBT-16">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-19" value="&lt;div&gt;DBManager&lt;/div&gt;&lt;div&gt;db_manager.js&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="html=1;dropTarget=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="390" y="390" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-20" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="G264VleLrpq128u82SBT-19">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-23" value="&lt;div&gt;local db&lt;/div&gt;&lt;div&gt;sgiomob/project/&lt;/div&gt;" style="whiteSpace=wrap;html=1;shape=mxgraph.basic.document" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="440" y="535" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-24" value="&lt;div&gt;main config&lt;/div&gt;&lt;div&gt;sgiomob/project/config.xml&lt;/div&gt;" style="whiteSpace=wrap;html=1;shape=mxgraph.basic.document" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="670" y="560" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-27" value="&lt;div&gt;some vector layers&lt;/div&gt;&lt;div&gt;sgiomob/project/..&lt;b&gt;.&lt;/b&gt;xml&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;shape=mxgraph.basic.document" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="810" y="560" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-29" value="&lt;div&gt;Layers list&lt;/div&gt;&lt;div&gt;layers_list.js&lt;/div&gt;&lt;div&gt;layers_list.html&lt;/div&gt;&lt;div&gt;layers_list.css&lt;/div&gt;" style="html=1;dropTarget=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-40" y="210" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-30" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="G264VleLrpq128u82SBT-29">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-32" value="&lt;div&gt;Element list&lt;/div&gt;&lt;div&gt;element_list.js&lt;/div&gt;&lt;div&gt;element_list.html&lt;/div&gt;&lt;div&gt;element_list.css&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;" style="html=1;dropTarget=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-40" y="340" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-33" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="G264VleLrpq128u82SBT-32">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-41" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-29" target="G264VleLrpq128u82SBT-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="190" y="340" as="sourcePoint" />
+            <mxPoint x="240" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-44" value="&lt;div&gt;show on&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-41">
+          <mxGeometry x="-0.3333" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-60" value="&lt;div&gt;Layers&lt;/div&gt;&lt;div&gt;(Collection of layers)&lt;br&gt;&lt;/div&gt;" style="html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="760" y="150" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-61" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.642;exitY=-0.011;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-16" target="G264VleLrpq128u82SBT-60">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="770" y="290" as="sourcePoint" />
+            <mxPoint x="820" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-62" value="&lt;div&gt;create&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-61">
+          <mxGeometry x="-0.3941" y="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-63" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.75;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-13" target="G264VleLrpq128u82SBT-16">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="658.0799999999999" y="321.98" as="sourcePoint" />
+            <mxPoint x="695.02" y="380.99" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-64" value="&lt;div&gt;run&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-63">
+          <mxGeometry x="-0.3704" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-65" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.144;exitY=1.011;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-16" target="G264VleLrpq128u82SBT-24">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="740" y="570" as="sourcePoint" />
+            <mxPoint x="790" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-66" value="search for" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-65">
+          <mxGeometry x="-0.3929" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-67" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.883;exitY=1.022;exitDx=0;exitDy=0;entryX=0.41;entryY=0.02;entryDx=0;entryDy=0;entryPerimeter=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-16" target="G264VleLrpq128u82SBT-27">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="800" y="540" as="sourcePoint" />
+            <mxPoint x="850" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-68" value="search for" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-67">
+          <mxGeometry x="-0.5332" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-69" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-19" target="G264VleLrpq128u82SBT-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="695.9200000000001" y="480.99" as="sourcePoint" />
+            <mxPoint x="698.5324796777209" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-70" value="search for" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-69">
+          <mxGeometry x="-0.3929" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-77" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.157;exitY=0.031;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-60" target="G264VleLrpq128u82SBT-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="780" y="140" as="sourcePoint" />
+            <mxPoint x="820" y="50" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="780" y="60" />
+              <mxPoint x="280" y="60" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-78" value="draw on" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-77">
+          <mxGeometry x="-0.2093" y="3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-79" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.603;exitY=0.02;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-60" target="G264VleLrpq128u82SBT-29">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="820" y="110" as="sourcePoint" />
+            <mxPoint x="870" y="60" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="840" y="40" />
+              <mxPoint x="50" y="40" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-80" value="show on" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-79">
+          <mxGeometry x="0.0025" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-81" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-32" target="G264VleLrpq128u82SBT-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="60" y="410" as="sourcePoint" />
+            <mxPoint x="110" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-82" value="show on" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-81">
+          <mxGeometry x="-0.4043" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-85" value="&lt;div&gt;Attribute panel&lt;/div&gt;&lt;div&gt;attribute_panel.js&lt;/div&gt;&lt;div&gt;attribute_panel.html&lt;/div&gt;&lt;div&gt;attribute_panel.css&lt;br&gt;&lt;/div&gt;" style="html=1;dropTarget=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="20" y="470" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-86" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="G264VleLrpq128u82SBT-85">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-87" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.701;exitY=0.022;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-85" target="G264VleLrpq128u82SBT-5">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="260" y="440" as="sourcePoint" />
+            <mxPoint x="310" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-88" value="show on" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-87">
+          <mxGeometry x="-0.3275" y="3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-89" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-85" target="G264VleLrpq128u82SBT-19">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="570" as="sourcePoint" />
+            <mxPoint x="330" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-90" value="data request " style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-89">
+          <mxGeometry x="-0.3431" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-91" value="&lt;div&gt;Elements&lt;/div&gt;&lt;div&gt;(features in ol)&lt;br&gt;&lt;/div&gt;" style="html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="880" y="250" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-92" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-60" target="G264VleLrpq128u82SBT-91">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="790" y="330" as="sourcePoint" />
+            <mxPoint x="840" y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-93" value="include" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-92">
+          <mxGeometry x="-0.3554" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-94" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.639;exitY=0.027;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-91">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="940" y="220" as="sourcePoint" />
+            <mxPoint x="-40" y="380" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="950" y="30" />
+              <mxPoint x="-80" y="30" />
+              <mxPoint x="-80" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-95" value="show on" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-94">
+          <mxGeometry x="0.1259" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-96" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.545;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-16" target="G264VleLrpq128u82SBT-91">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="805.5600000000004" y="399.01" as="sourcePoint" />
+            <mxPoint x="802.5" y="210" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="940" y="413" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-97" value="&lt;div&gt;create&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-96">
+          <mxGeometry x="-0.3941" y="1" relative="1" as="geometry">
+            <mxPoint x="-4" y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-98" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="G264VleLrpq128u82SBT-16" target="G264VleLrpq128u82SBT-19">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="540" y="390" as="sourcePoint" />
+            <mxPoint x="590" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="G264VleLrpq128u82SBT-99" value="data request" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="G264VleLrpq128u82SBT-98">
+          <mxGeometry x="0.3361" y="2" relative="1" as="geometry">
+            <mxPoint x="30" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
