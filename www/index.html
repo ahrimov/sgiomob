@@ -3,24 +3,44 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <link rel="stylesheet" href="./libs/v6.14.1-dist/ol.css" type="text/css">
-    </head>
-    <style>
-        html, body, #map-container {
-          margin: 0;
-          height: 100%;
-          width: 100%;
-          font-family: sans-serif;
-        }
-      </style>
-    <body>
-        <div id="map-container"></div>
+        <link rel="stylesheet" href="./libs/OnsenUI-OnsenUI-dist-956b022/css/onsenui.css">
+        <link rel="stylesheet" href="./libs/OnsenUI-OnsenUI-dist-956b022/css/onsen-css-components.min.css">
+        <link rel="stylesheet" href="./css/home.css" type="text/css">
+
+        <script src="./libs/OnsenUI-OnsenUI-dist-956b022/js/onsenui.min.js"></script>
         <script src="./libs/v6.14.1-dist/ol.js"></script>
+    </head>
+
+    <body>
+        
+        <ons-splitter>
+          <ons-splitter-side id="menu" side="left" width="220px" collapse>
+            <ons-page>
+              <ons-list>
+                <ons-list-item onclick="fn.load('./views/navigator.html')" tappable>
+                  Home
+                </ons-list-item>
+                <ons-list-item onclick="fn.load('./views/about.html')" tappable>
+                  About
+                </ons-list-item>
+              </ons-list>
+            </ons-page>
+          </ons-splitter-side>
+          
+          <ons-splitter-content id="content" page="./views/navigator.html">
+           
+          </ons-splitter-content>
+        </ons-splitter>
+
+      
         <script src="./js/index.js"></script>
         <script src="./js/initial.js"></script>
         <script src="./js/FileManage.js"></script>
         <script src="./js/XMLParser.js"></script>
         <script src="./js/DBManage.js"></script>
+        <script src="./js/Map.js"></script>
         <script src="cordova.js"></script>
     </body>
 </html>

@@ -1,0 +1,40 @@
+<ons-page>
+    <ons-toolbar>
+    <div class="left">
+        
+        <ons-toolbar-button onclick="fn.openMenu()">
+        <ons-icon icon="md-menu"></ons-icon>
+        </ons-toolbar-button>
+        
+    </div>
+    <div class="center">
+        Home
+    </div>
+
+    
+    <div class="right">
+        <ons-toolbar-button id="push">
+            <ons-icon icon="md-layers"></ons-icon>
+        </ons-toolbar-button>
+    </div>
+    </ons-toolbar>
+
+    <div id="map-container"></div>
+
+    <script>
+    ons.getScriptPage().onInit = function() {
+        showMap()
+        this.querySelector('#push').onclick = function() {
+            document.querySelector('#myNavigator').pushPage('./views/layers.html', {data: {title: 'Page 2'}});
+        };
+        this.onShow = function() { 
+            //showMap()
+        };
+        /*this.onHide = function() { 
+            
+        };*/
+        //this.onDestroy = function() { ... };
+    };
+    
+    </script>
+</ons-page>
