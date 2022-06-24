@@ -13,11 +13,28 @@
     <script>
         var list = "<ons-list>"
         for(layer of layers){
-          list += "<ons-list-item>" + layer.label + "</ons-list-item>"
+          list += "<ons-list-item tappable>" +
+            "<label class='left'>" +
+              `<ons-checkbox input-id=${layer.id} onClick=changeVisible('${layer.id}')></ons-checkbox>` + 
+            "</label>" +
+            "<label class='center'>" + layer.label + "</label>" +
+          "</ons-list-item>"
         }
         list += "</ons-list>"
         var content = document.getElementById("layers-list")
         content.innerHTML = list
-        ons.compile(content)
+        for(layer of layers){
+          if(layer.visible){
+            document.querySelector(`ons-checkbox[input-id=${layer.id}]`).checked = true
+          }
+        }
+        function changeVisible(id){
+          for(layer of layers){
+            if(layer.id == id){
+              layer.visible = !layer.visible
+              layer.setVisible(layer.visible)
+            }
+          }
+        }
     </script>
 </ons-page>

@@ -30,6 +30,7 @@ function layerParser(data){
     layers.push(layer)
     getDataLayerFromBD(layer)
     map.addLayer(layer)
+    layer.visible = true
 }
 
 
