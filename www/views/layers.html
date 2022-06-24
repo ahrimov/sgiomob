@@ -18,6 +18,9 @@
               `<ons-checkbox input-id=${layer.id} onClick=changeVisible('${layer.id}')></ons-checkbox>` + 
             "</label>" +
             "<label class='center'>" + layer.label + "</label>" +
+            "<label class='right'><ons-button onClick=showActionSheet()>" +
+              "<ons-icon icon='md-more-vert'></ons-icon>" +
+            "</ons-button></label>" + 
           "</ons-list-item>"
         }
         list += "</ons-list>"
@@ -35,6 +38,24 @@
               layer.setVisible(layer.visible)
             }
           }
+        }
+        function showActionSheet(){
+          ons.openActionSheet({
+            title: 'From object',
+            cancelable: true,
+            buttons: [
+              'Label 0',
+              'Label 1',
+              {
+                label: 'Label 2',
+                modifier: 'destructive'
+              },
+              {
+                label: 'Cancel',
+                icon: 'md-close'
+              }
+            ]
+          }).then(function (index) { console.log('index: ', index) });
         }
     </script>
 </ons-page>
