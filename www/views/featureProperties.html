@@ -1,0 +1,67 @@
+<ons-page>
+    <ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button>
+                <ons-back-button>Back</ons-back-button>
+            </ons-toolbar-button>
+        </div>
+        <div class="center" id="title">
+            Панель свойств объекта
+        </div>
+    </ons-toolbar>
+    <div id="local-map"></div>
+    <div id="table"></div>
+    <script>
+        document.addEventListener('init', function(event) {
+            var page = event.target;
+            var layer = findLayer(page.data.layerID)
+            const query = "SELECT " + layer.atribs.join(', ') + " from " + page.data.layerID + 
+            " WHERE id = " + page.data.featureID
+            getDataFromDB(query, function(data){
+                var table = "<table>" 
+                for(let i = 0; i < layer.atribs.length; i++){
+                    table += "<tr>" + 
+                        `<td class='title'>${layer.atribs_label[i]}</td>`
+                    if(layer.atribs_type[i] == "BOOLEAN"){
+                        table += `<td class='checkbox'><ons-checkbox value=${layer.atribs} disabled></td>`
+                    }
+                    else{
+                        table += `<td class='content'>${data.rows.item(0)[layer.atribs[i]]}</td>`
+                    }
+                        table += "</tr>"
+                }
+                table += "</table>"
+                var content = document.getElementById("table");
+                content.innerHTML = table
+            })
+        });
+
+        function findLayer(layerID){
+            for(layer of layers){
+                if(layer.id == layerID){
+                    return layer
+                }
+            }
+        }
+    </script>
+    <style>
+  		table {
+            width: 100%;  
+            border-collapse: separate;
+            border-spacing: 10;
+        }
+        .title {
+        	width: 20%;
+            text-align: right; 
+          
+        }
+        .content {
+        	width: 80%;
+        }
+        .checkbox {
+            width: 80%;
+            text-align: center; 
+        vertical-align: middle;
+        }
+    </style>
+</ons-page>

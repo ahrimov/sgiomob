@@ -11,9 +11,10 @@
     </ons-toolbar>
     <div id="features-list"></div>
     <script>
+        var layerID
         document.addEventListener('init', function(event) {
             var page = event.target;
-            console.log("SELECT id, lpu, pipe from " + page.data.layerID)
+            layerID = page.data.layerID
             getDataFromDB("SELECT id, pipe from " + page.data.layerID, function(data){
                 var list = "<ons-list>" +
                     "<ons-list-header>" + 
@@ -21,7 +22,7 @@
                         "<div style='float: right; justify-content: center'>Название</div>" + 
                     "</ons-list-header>"
                 for(let i = 0; i < data.rows.length; i++){
-                    list += "<ons-list-item tappable>" + 
+                    list += `<ons-list-item tappable onClick=getPropertyPage('${data.rows.item(i).id}')>` + 
                         `<div class='left'>${data.rows.item(i).id}</div>` + 
                         `<div class='right'>${data.rows.item(i).pipe}</div>`+
                         "</ons-list-item>"
@@ -33,5 +34,15 @@
             })
             
         });
+
+        function getPropertyPage(featureID){
+            document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: layerID, featureID: featureID}});
+        }
+
     </script>
+    <style>
+        ons-list {
+            font-size: 12px;
+        }
+    </style>
 </ons-page>
