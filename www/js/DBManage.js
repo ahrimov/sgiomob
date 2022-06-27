@@ -60,3 +60,15 @@ function getDataLayerFromBD(layer){
             tx.executeSql(query, [], querySuccess, queryError);
         })
 }
+
+function getDataFromDB(query, callback){
+    var querySuccess = function(tx, res){
+        callback(res)
+    }
+    var queryError = function(){
+        console.log("Error with database transaction")
+    }
+    db.transaction(function (tx) {
+        tx.executeSql(query, [], querySuccess, queryError);
+    })
+}

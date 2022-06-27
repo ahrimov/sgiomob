@@ -18,7 +18,7 @@
               `<ons-checkbox input-id=${layer.id} onClick=changeVisible('${layer.id}')></ons-checkbox>` + 
             "</label>" +
             "<label class='center'>" + layer.label + "</label>" +
-            "<label class='right'><ons-button onClick=showActionSheet()>" +
+            `<label class='right'><ons-button modifier="quiet" onClick=showActionSheet('${layer.id}')>` +
               "<ons-icon icon='md-more-vert'></ons-icon>" +
             "</ons-button></label>" + 
           "</ons-list-item>"
@@ -39,15 +39,12 @@
             }
           }
         }
-        function showActionSheet(){
+        function showActionSheet(layerID){
           ons.openActionSheet({
-            title: 'From object',
             cancelable: true,
             buttons: [
-              'Label 0',
-              'Label 1',
               {
-                label: 'Label 2',
+                label: 'Список атрибутов',
                 modifier: 'destructive'
               },
               {
@@ -55,7 +52,13 @@
                 icon: 'md-close'
               }
             ]
-          }).then(function (index) { console.log('index: ', index) });
+          }).then(function (index) {
+              if(index == 0){
+                document.querySelector('#myNavigator').pushPage('./views/features.html', {data: {layerID: layerID, layerLabel: 'layerLabel'}});
+              }
+            });
         }
+
+
     </script>
 </ons-page>

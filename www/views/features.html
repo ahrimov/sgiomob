@@ -1,0 +1,37 @@
+<ons-page>
+    <ons-toolbar>
+        <div class="left">
+            <ons-toolbar-button>
+                <ons-back-button>Back</ons-back-button>
+            </ons-toolbar-button>
+        </div>
+        <div class="center" id="title">
+            Таблица
+        </div>
+    </ons-toolbar>
+    <div id="features-list"></div>
+    <script>
+        document.addEventListener('init', function(event) {
+            var page = event.target;
+            console.log("SELECT id, lpu, pipe from " + page.data.layerID)
+            getDataFromDB("SELECT id, pipe from " + page.data.layerID, function(data){
+                var list = "<ons-list>" +
+                    "<ons-list-header>" + 
+                        "<div style='float: left; justify-content: center'>ID</div>" + 
+                        "<div style='float: right; justify-content: center'>Название</div>" + 
+                    "</ons-list-header>"
+                for(let i = 0; i < data.rows.length; i++){
+                    list += "<ons-list-item tappable>" + 
+                        `<div class='left'>${data.rows.item(i).id}</div>` + 
+                        `<div class='right'>${data.rows.item(i).pipe}</div>`+
+                        "</ons-list-item>"
+                }
+                list += "</ons-list>"
+                var content = document.getElementById("features-list");
+                content.innerHTML = list
+                document.getElementById("title").innerHTML = page.data.layerID
+            })
+            
+        });
+    </script>
+</ons-page>
