@@ -6,6 +6,10 @@ function configParser(data){
     for(layerName of layersName){
         openFile(root_directory + pathToLayers + layerName, layerParser)
     }
+    var nameDB = dom.getElementsByTagName("NameDB").item(0).textContent
+    var filenameDB = dom.getElementsByTagName("FilenameDB").item(0).textContent
+    var pathToDB = dom.getElementsByTagName("PathToDB").item(0).textContent
+    //initialDB(root_directory + pathToDB, filenameDB, nameDB)
 }
 
 function layerParser(data){

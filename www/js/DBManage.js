@@ -5,9 +5,9 @@ function openDB(filename, name){
       })
 }
 
-function initialDB(dbName, name) {
+function initialDB(sourceFileName, dbName, name) {
 
-    var sourceFileName = root_directory + "Project/" + dbName;
+    //var sourceFileName = root_directory + "Project/" + dbName;
     var targetDirName = cordova.file.applicationStorageDirectory + "app_database/";
 
     return Promise.all([
@@ -72,3 +72,4 @@ function getDataFromDB(query, callback){
         tx.executeSql(query, [], querySuccess, queryError);
     })
 }
+

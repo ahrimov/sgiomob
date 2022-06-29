@@ -4,3 +4,13 @@
   width: 100%;
   font-family: sans-serif;
 }
+
+.zoom-plus{
+  top: 15em;
+  left: 88%;
+}
+
+.zoom-minus{
+  top: 13em;
+  left: 77%;
+}

@@ -12,6 +12,15 @@
     <div id="local-map"></div>
     <div id="table"></div>
     <script>
+                var raster = new ol.layer.Tile({
+                    source: new ol.source.OSM({})
+                });
+                var local_map = new ol.Map({
+                    target: 'local-map',
+                    controls: [],
+                    interactions: [],
+                    layers: [raster]
+                });
         document.addEventListener('init', function(event) {
             var page = event.target;
             var layer = findLayer(page.data.layerID)
@@ -23,7 +32,14 @@
                     table += "<tr>" + 
                         `<td class='title'>${layer.atribs_label[i]}</td>`
                     if(layer.atribs_type[i] == "BOOLEAN"){
-                        table += `<td class='checkbox'><ons-checkbox value=${layer.atribs} disabled></td>`
+                        table += `<td class='checkbox'><ons-checkbox value=${layer.atribs} disabled`
+                        if(data.rows.item(0)[layer.atribs[i]] === 1){
+                            table += " checked "
+                        }
+                        table += `></td>`
+                    }
+                    else if(layer.atribs_type[i] == "DATE"){
+                        table += `<td class='content'></td>`
                     }
                     else{
                         table += `<td class='content'>${data.rows.item(0)[layer.atribs[i]]}</td>`
@@ -34,6 +50,26 @@
                 var content = document.getElementById("table");
                 content.innerHTML = table
             })
+            const queryMap = "SELECT AsText(Geometry) as geom from " + page.data.layerID +
+             " WHERE id = "  + page.data.featureID
+            getDataFromDB(queryMap, function(data){
+                
+                const format = new ol.format.WKT();
+                var wkt = data.rows.item(0).geom
+                
+                var feature = format.readFeature(wkt)
+                var source = new ol.source.Vector()
+                source.addFeature(feature)
+                var clonedLayer = new ol.layer.Vector({
+                    style: layer.getStyle()
+                });
+                clonedLayer.setSource(source)
+                local_map.addLayer(clonedLayer)
+                local_map.setView(new ol.View({
+                    center: feature.getGeometry().getClosestPoint([0,0]),
+                    zoom: 10
+                }))
+            })
         });
 
         function findLayer(layerID){
@@ -42,6 +78,7 @@
                     return layer
                 }
             }
+            return null
         }
     </script>
     <style>
@@ -61,7 +98,13 @@
         .checkbox {
             width: 80%;
             text-align: center; 
-        vertical-align: middle;
+            vertical-align: middle;
+        }
+        #local-map {
+            margin: 0;
+            height: 30%;
+            width: 100%;
+            font-family: sans-serif;
         }
     </style>
 </ons-page>
