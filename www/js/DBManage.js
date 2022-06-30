@@ -22,9 +22,19 @@ function initialDB(sourceFileName, dbName, name) {
         var targetDir = files[1];
         return new Promise(function (resolve, reject) {
             targetDir.getFile(dbName, {}, resolve, reject);
-        }).then(function () {
-            console.log("file already copied");
-            openDB(dbName, name)
+        }).then(function (oldFile) {
+            console.log("file already copied")
+            return new Promise(function (resolve, reject) {
+                oldFile.remove(resolve, reject)
+            }).then(function () {
+                console.log("Old database was removed")
+                return new Promise(function (resolve, reject) {
+                    sourceFile.copyTo(targetDir, dbName, resolve, reject);
+                }).then(function () {
+                    console.log("database file copied");
+                    openDB(dbName, name)
+                })
+            })
         }).catch(function () {
             console.log("file doesn't exist, copying it");
             return new Promise(function (resolve, reject) {
@@ -39,6 +49,10 @@ function initialDB(sourceFileName, dbName, name) {
 
 
 function getDataLayerFromBD(layer){
+    if(typeof db === 'undefined'){
+        setTimeout(getDataLayerFromBD, 50, layer)
+        return
+    }
     var source = new ol.source.Vector()
     const query =  "SELECT id, pipe as name, AsText(Geometry) as geom from " + layer.id
         var querySuccess = function (tx, res) {
@@ -63,6 +77,10 @@ function getDataLayerFromBD(layer){
 }
 
 function getDataFromDB(query, callback){
+    if(typeof db === 'undefined'){
+        setTimeout(getDataFromDB, 50, query, callback)
+        return
+    }
     var querySuccess = function(tx, res){
         callback(res)
     }

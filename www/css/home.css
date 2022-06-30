@@ -6,11 +6,18 @@
 }
 
 .zoom-plus{
-  top: 15em;
-  left: 88%;
+  top: 78%;
+  left: 8700%;
+
 }
 
 .zoom-minus{
-  top: 13em;
-  left: 77%;
+  top: 80%;
+  left: 8700%;
+}
+
+.zoom-buttons{
+  z-index: 1000;
+  width: 1%;
+  height: 100%;
 }

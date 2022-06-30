@@ -3,7 +3,7 @@ document.addEventListener('deviceready', onDeviceReady, false);
 var layers = []
 var features = []
 
-var db;
+var db, currentMapView;
 
 var map = new ol.Map();
 

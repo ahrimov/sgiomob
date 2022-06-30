@@ -10,6 +10,7 @@ class CustomZoom extends ol.control.Control {
                                                     <ons-icon icon='md-minus'></ons-icon>
                                                 </ons-fab>`)
       const element = document.createElement('div');
+      element.className = 'zoom-buttons'
       element.appendChild(buttonZoomPlus);
       element.appendChild(buttonZoomMinus)
   
@@ -45,12 +46,7 @@ function showMap(){
     map = new ol.Map({
         target: 'map-container',
         layers: [raster],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([55.4362, 58.7667]),
-          zoom: 5,
-          minZoom: 1,
-          maxZoom: 20
-        }),
+        view: currentMapView,
         controls: [scaleLine, new CustomZoom]
     });
     for(layer of layers){
