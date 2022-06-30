@@ -45,7 +45,7 @@ function getDataLayerFromBD(layer){
             const format = new ol.format.WKT();
             for (let i = 0; i < res.rows.length; i++) {
                 var wkt = res.rows.item(i).geom
-                var feature = format.readFeature(wkt)
+                var feature = format.readFeature(wkt.replaceAll("nan", "0"))
                 feature.id = res.rows.item(i).id
                 feature.name = res.rows.item(i).name
                 source.addFeature(feature)
@@ -53,8 +53,9 @@ function getDataLayerFromBD(layer){
             }
             layer.setSource(source)
         }
-        var queryError = function () {
+        var queryError = function (err) {
             console.log("Error with database transaction")
+            console.log("Query:", query)
         }
         db.transaction(function (tx) {
             tx.executeSql(query, [], querySuccess, queryError);
@@ -65,8 +66,9 @@ function getDataFromDB(query, callback){
     var querySuccess = function(tx, res){
         callback(res)
     }
-    var queryError = function(){
+    var queryError = function(err){
         console.log("Error with database transaction")
+        console.log("Query:", query)
     }
     db.transaction(function (tx) {
         tx.executeSql(query, [], querySuccess, queryError);

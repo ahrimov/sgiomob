@@ -21,11 +21,10 @@
                     interactions: [],
                     layers: [raster]
                 });
-        document.addEventListener('init', function(event) {
-            var page = event.target;
-            var layer = findLayer(page.data.layerID)
-            const query = "SELECT " + layer.atribs.join(', ') + " from " + page.data.layerID + 
-            " WHERE id = " + page.data.featureID
+        ons.getScriptPage().onInit = function() {
+            var layer = findLayer(this.data.layerID)
+            const query = "SELECT " + layer.atribs.join(', ') + " from " + this.data.layerID + 
+            " WHERE id = " + this.data.featureID
             getDataFromDB(query, function(data){
                 var table = "<table>" 
                 for(let i = 0; i < layer.atribs.length; i++){
@@ -50,14 +49,13 @@
                 var content = document.getElementById("table");
                 content.innerHTML = table
             })
-            const queryMap = "SELECT AsText(Geometry) as geom from " + page.data.layerID +
-             " WHERE id = "  + page.data.featureID
+            const queryMap = "SELECT AsText(Geometry) as geom from " + this.data.layerID +
+             " WHERE id = "  + this.data.featureID
             getDataFromDB(queryMap, function(data){
                 
                 const format = new ol.format.WKT();
                 var wkt = data.rows.item(0).geom
-                
-                var feature = format.readFeature(wkt)
+                var feature = format.readFeature(wkt.replaceAll("nan", "0"))
                 var source = new ol.source.Vector()
                 source.addFeature(feature)
                 var clonedLayer = new ol.layer.Vector({
@@ -70,7 +68,7 @@
                     zoom: 10
                 }))
             })
-        });
+        }
 
         function findLayer(layerID){
             for(layer of layers){
