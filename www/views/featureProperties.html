@@ -38,7 +38,10 @@
                         table += `></td>`
                     }
                     else if(layer.atribs_type[i] == "DATE"){
-                        table += `<td class='content'></td>`
+                        let date_insp = data.rows.item(0)[layer.atribs[i]]
+                        if(date_insp !== 0 && typeof date_insp !== 'undefined'){
+                            table += `<td class='content'>${new Date(date_insp).toLocaleString() }</td>`
+                        }
                     }
                     else{
                         table += `<td class='content'>${data.rows.item(0)[layer.atribs[i]]}</td>`

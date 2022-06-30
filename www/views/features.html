@@ -12,10 +12,9 @@
     <div id="features-list"></div>
     <script>
         var layerID
-        document.addEventListener('init', function(event) {
-            var page = event.target;
-            layerID = page.data.layerID
-            getDataFromDB("SELECT id, pipe from " + page.data.layerID, function(data){
+        ons.getScriptPage().onInit = function() {
+            layerID = this.data.layerID
+            getDataFromDB("SELECT id, pipe from " + layerID, function(data){
                 var list = "<ons-list>" +
                     "<ons-list-header>" + 
                         "<div style='float: left; justify-content: center'>ID</div>" + 
@@ -30,10 +29,10 @@
                 list += "</ons-list>"
                 var content = document.getElementById("features-list");
                 content.innerHTML = list
-                document.getElementById("title").innerHTML = page.data.layerID
+                document.getElementById("title").innerHTML = layerID
             })
             
-        });
+        };
 
         function getPropertyPage(featureID){
             document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: layerID, featureID: featureID}});
