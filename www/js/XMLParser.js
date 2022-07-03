@@ -37,6 +37,13 @@ function layerParser(data){
         case "MULTIPOLYGON":
             style = polygonStyleParse(geometryStyle)
             break;
+        default:
+            style = new ol.style.Style({
+                image: new ol.style.Circle({
+                    fill: new ol.style.Fill({color: "#305cc9"}),
+                    radius: 3
+                })
+            })
     }
     var layer = new ol.layer.Vector({
         style: style,
@@ -88,6 +95,15 @@ function pointStyleParse(dom){
                     radius: size,
                     rotation: rotation,
                     angle: 0,
+                })
+            })
+        default:
+            return new ol.style.Style({
+                image: new ol.style.Circle({
+                    fill: fill,
+                    stroke: stroke,
+                    radius: size,
+                    rotation: rotation,
                 })
             })
     }
