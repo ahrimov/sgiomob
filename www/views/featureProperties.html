@@ -58,7 +58,7 @@
                 
                 const format = new ol.format.WKT();
                 var wkt = data.rows.item(0).geom
-                var feature = format.readFeature(wkt.replaceAll("nan", "0"))
+                var feature = format.readFeature(wkt.replace(/nan/g, "0"))
                 var source = new ol.source.Vector()
                 source.addFeature(feature)
                 var clonedLayer = new ol.layer.Vector({

@@ -59,7 +59,7 @@ function getDataLayerFromBD(layer){
             const format = new ol.format.WKT();
             for (let i = 0; i < res.rows.length; i++) {
                 var wkt = res.rows.item(i).geom
-                var feature = format.readFeature(wkt.replaceAll("nan", "0"))
+                var feature = format.readFeature(wkt.replace(/nan/g, "0"))
                 feature.id = res.rows.item(i).id
                 feature.name = res.rows.item(i).name
                 source.addFeature(feature)
