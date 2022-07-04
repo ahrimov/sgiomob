@@ -23,3 +23,7 @@ function createFolder(){
         console.log("Error while get a folder sgiomob:" + error)
     })
 }
+
+function checkIfFileExists(path, fileExists, fileDoesNotExist){
+    window.resolveLocalFileSystemURL(path, fileExists,  fileDoesNotExist)
+}
