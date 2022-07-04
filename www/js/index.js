@@ -7,6 +7,10 @@ var db, currentMapView;
 
 var map = new ol.Map();
 
+var raster = new ol.layer.Tile({
+  source: new ol.source.OSM({})
+});
+
 var root_directory = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/"
 
 function onDeviceReady() {

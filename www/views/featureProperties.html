@@ -12,16 +12,18 @@
     <div id="local-map"></div>
     <div id="table"></div>
     <script>
-                var raster = new ol.layer.Tile({
-                    source: new ol.source.OSM({})
-                });
-                var local_map = new ol.Map({
+       /* var raster = new ol.layer.Tile({
+  source: new ol.source.OSM({})
+});*/
+
+        ons.getScriptPage().onInit = function() {
+            let clone_raster = new ol.layer.Tile({source: raster.getSource()})
+            var local_map = new ol.Map({
                     target: 'local-map',
                     controls: [],
                     interactions: [],
-                    layers: [raster]
+                    layers: [clone_raster]
                 });
-        ons.getScriptPage().onInit = function() {
             var layer = findLayer(this.data.layerID)
             const query = "SELECT " + layer.atribs.join(', ') + " from " + this.data.layerID + 
             " WHERE id = " + this.data.featureID
@@ -68,7 +70,7 @@
                 local_map.addLayer(clonedLayer)
                 local_map.setView(new ol.View({
                     center: feature.getGeometry().getClosestPoint([0,0]),
-                    zoom: 10
+                    zoom: 8
                 }))
             })
         }

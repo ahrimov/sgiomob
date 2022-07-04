@@ -40,9 +40,10 @@ function showMap(){
     var scaleLine = new ol.control.ScaleLine({
         units: 'metric',
     })
-    var raster = new ol.layer.Tile({
+    /*var raster = new ol.layer.Tile({
         source: new ol.source.OSM({})
-    });
+      });*/
+      
     map = new ol.Map({
         target: 'map-container',
         layers: [raster],

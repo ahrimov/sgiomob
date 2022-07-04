@@ -22,6 +22,32 @@ function configParser(data){
         maxZoom: maxZoom
     })
     map.setView(currentMapView)
+    if(dom.getElementsByTagName("IsLocalTiles").item(0).textContent === '1'){
+        const pathToTiles = dom.getElementsByTagName("PathToTiles").item(0).textContent
+        switch(dom.getElementsByTagName("TileLoaderOption").item(0).textContent){
+            case "Invert":
+                var localSource = new ol.source.OSM({
+                    url: root_directory + pathToTiles + '{z}/{x}/{-y}.png',
+                    tileLoadFunction: function(imageTile, src){
+                    window.resolveLocalFileSystemURL(src, function success(fileEntry){
+                        imageTile.getImage().src = fileEntry.toInternalURL();
+                      })
+                    }
+                })
+                raster.setSource(localSource)
+                break;
+            default:
+                var localSource = new ol.source.OSM({
+                    url: root_directory + pathToTiles + '{z}/{x}/{y}.png',
+                    tileLoadFunction: function(imageTile, src){
+                    window.resolveLocalFileSystemURL(src, function success(fileEntry){
+                        imageTile.getImage().src = fileEntry.toInternalURL();
+                      })
+                    }
+                })
+                raster.setSource(localSource)
+        }
+    }
 }
 
 function layerParser(data){
