@@ -77,14 +77,13 @@ function layerParser(data){
     layer.id = dom.getElementsByTagName("id").item(0).textContent
     layer.label = dom.getElementsByTagName("label").item(0).textContent
     layer.atribs = []
-    layer.atribs_label = []
-    layer.atribs_type = []
     var atribs = dom.getElementsByTagName("attribute")
     for(atrib of atribs){
         if(atrib.getElementsByTagName("required").item(0).textContent === '1'){
-            layer.atribs.push(atrib.getElementsByTagName('id').item(0).textContent)
-            layer.atribs_label.push(atrib.getElementsByTagName('label').item(0).textContent)
-            layer.atribs_type.push(atrib.getAttribute('type'))
+            let atribName = atrib.getElementsByTagName('id').item(0).textContent
+            let label = atrib.getElementsByTagName('label').item(0).textContent
+            let type = atrib.getAttribute('type')
+            layer.atribs.push(new LayerAtribs(atribName, label, type))
         }
     }
     layers.push(layer)

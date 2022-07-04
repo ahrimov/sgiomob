@@ -54,9 +54,6 @@ function showMap(){
         map.addLayer(layer)
     }
 
-    /*map.on('click', ({ pixel }) => {
-        displayModuleFeature(pixel);
-    });*/
     let selectClick = new ol.interaction.Select({condition: ol.events.condition.click});
     map.addInteraction(selectClick);
 
@@ -67,19 +64,30 @@ function showMap(){
     });
 }
 
+function findLayer(layerID){
+    for(layer of layers){
+        if(layer.id == layerID){
+            return layer
+        }
+    }
+    return null
+}
 
-/*
-function displayModuleFeature(pixel) {
-    var selectClick = new ol.interaction.Select({})
-    if(features.length == 1){
-        var featureID = features[0].id
-        var layer = selectClick.getLayer(features[0]) 
-        console.log(layer)
-        document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: layer.id, featureID: featureID}});
+class LayerAtribs{
+    constructor(name, label, type){
+        this.name = name
+        this.label = label
+        this.type = type
     }
-    else if(features.length > 0 ){
-        console.log(features)
+
+}
+
+function getTypeByAtribName(atribs, atribName){
+    for(atrib of atribs){
+        if(atrib.name == atribName){
+            return atrib.type
+        }
     }
-}*/
+}
 
 

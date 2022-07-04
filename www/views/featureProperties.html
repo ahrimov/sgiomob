@@ -25,28 +25,32 @@
                     layers: [clone_raster]
                 });
             var layer = findLayer(this.data.layerID)
-            const query = "SELECT " + layer.atribs.join(', ') + " from " + this.data.layerID + 
+            let atribs = []
+            for(atrib of layer.atribs){
+                atribs.push(atrib.name)
+            }
+            let query = "SELECT " + atribs.join(', ') + " from " + this.data.layerID + 
             " WHERE id = " + this.data.featureID
             getDataFromDB(query, function(data){
                 var table = "<table>" 
-                for(let i = 0; i < layer.atribs.length; i++){
+                for(atrib of layer.atribs){
                     table += "<tr>" + 
-                        `<td class='title'>${layer.atribs_label[i]}</td>`
-                    if(layer.atribs_type[i] == "BOOLEAN"){
-                        table += `<td class='checkbox'><ons-checkbox value=${layer.atribs} disabled`
-                        if(data.rows.item(0)[layer.atribs[i]] === 1){
+                        `<td class='title'>${atrib.label}</td>`
+                    if(atrib.type == "BOOLEAN"){
+                        table += `<td class='checkbox'><ons-checkbox value=${atrib.name} disabled`
+                        if(data.rows.item(0)[atrib.name] === 1){
                             table += " checked "
                         }
                         table += `></td>`
                     }
-                    else if(layer.atribs_type[i] == "DATE"){
-                        let date_insp = data.rows.item(0)[layer.atribs[i]]
+                    else if(atrib.type == "DATE"){
+                        let date_insp = data.rows.item(0)[atrib.name]
                         if(date_insp !== 0 && typeof date_insp !== 'undefined'){
                             table += `<td class='content'>${new Date(date_insp).toLocaleString() }</td>`
                         }
                     }
                     else{
-                        table += `<td class='content'>${data.rows.item(0)[layer.atribs[i]]}</td>`
+                        table += `<td class='content'>${data.rows.item(0)[atrib.name]}</td>`
                     }
                         table += "</tr>"
                 }
@@ -74,21 +78,13 @@
                 }))
             })
         }
-
-        function findLayer(layerID){
-            for(layer of layers){
-                if(layer.id == layerID){
-                    return layer
-                }
-            }
-            return null
-        }
     </script>
     <style>
   		table {
             width: 100%;  
             border-collapse: separate;
             border-spacing: 20;
+            background-color: white;
         }
         .title {
         	width: 20%;
@@ -96,6 +92,7 @@
             font-weight: bold;
         }
         .content {
+            text-align: center; 
         	width: 70%;
         }
         .checkbox {
