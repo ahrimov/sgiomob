@@ -5,6 +5,8 @@ var features = []
 
 var db, currentMapView;
 
+var gps_position;
+
 var map = new ol.Map();
 
 var raster = new ol.layer.Tile({

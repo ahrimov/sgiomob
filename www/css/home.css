@@ -16,8 +16,13 @@
   left: 8700%;
 }
 
-.zoom-buttons{
+.buttons{
   z-index: 1000;
   width: 1%;
   height: 100%;
+}
+
+.gps-button{
+  top: 70%;
+  left: 200%;
 }

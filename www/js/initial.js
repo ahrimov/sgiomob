@@ -2,6 +2,7 @@ function initial(){
     let path = root_directory + "Project/config.xml"
     checkIfFileExists(path, fileExist, warning)
     openFile(path, configParser)
+    turnGPS()
 }
 
 function fileExist(){

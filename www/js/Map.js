@@ -1,4 +1,4 @@
-class CustomZoom extends ol.control.Control {
+class CustomControls extends ol.control.Control {
     constructor(opt_options) {
       const options = opt_options || {};
   
@@ -9,11 +9,15 @@ class CustomZoom extends ol.control.Control {
       const buttonZoomMinus = ons.createElement(`<ons-fab class='zoom-minus' modifier='mini'>
                                                     <ons-icon icon='md-minus'></ons-icon>
                                                 </ons-fab>`)
+      const gpsButton = ons.createElement(`<ons-fab class='gps-button' modifier='mini'>
+                                                <ons-icon icon='md-gps'></ons-icon>
+                                            </ons-fab>`)                                         
       const element = document.createElement('div');
-      element.className = 'zoom-buttons'
-      element.appendChild(buttonZoomPlus);
+      element.className = 'buttons'
+      element.appendChild(buttonZoomPlus)
       element.appendChild(buttonZoomMinus)
-  
+      element.appendChild(gpsButton)
+        
       super({
         element: element,
         target: options.target,
@@ -21,6 +25,7 @@ class CustomZoom extends ol.control.Control {
   
       buttonZoomPlus.addEventListener('click', this.zoomPlus.bind(this), false);
       buttonZoomMinus.addEventListener('click', this.zoomMinus.bind(this), false);
+      gpsButton.addEventListener('click', this.centerGPS.bind(this), false);
     }
   
     zoomPlus(){
@@ -34,21 +39,29 @@ class CustomZoom extends ol.control.Control {
         const zoom = view.getZoom();
         view.setZoom(zoom - 1)
     }
+
+    centerGPS(){
+        var view = new ol.View({
+            center: ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude]),
+            zoom: currentMapView.getMaxZoom(),
+            minZoom: currentMapView.getMinZoom(),
+            maxZoom: currentMapView.getMaxZoom()
+        })
+        currentMapView = view
+        map.setView(currentMapView)
+    }
 }
 
 function showMap(){
     var scaleLine = new ol.control.ScaleLine({
         units: 'metric',
     })
-    /*var raster = new ol.layer.Tile({
-        source: new ol.source.OSM({})
-      });*/
       
     map = new ol.Map({
         target: 'map-container',
         layers: [raster],
         view: currentMapView,
-        controls: [scaleLine, new CustomZoom]
+        controls: [scaleLine, new CustomControls]
     });
     for(layer of layers){
         map.addLayer(layer)
@@ -90,4 +103,27 @@ function getTypeByAtribName(atribs, atribName){
     }
 }
 
+function turnGPS(){
+    navigator.geolocation.watchPosition(function(position){
+        gps_position = position
+        var point = new ol.geom.Point(ol.proj.fromLonLat([position.coords.longitude, position.coords.latitude]))
+        var marker = new ol.Feature(point)
+        marker.setStyle(new ol.style.Style({
+            image: new  ol.style.Circle({
+                radius: 7,
+                fill: new  ol.style.Fill({
+                    color: '#fcfafa',
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#1870f5',
+                    width: 2
+                })
+            })
+        }))
+        var gpsSource = new ol.source.Vector()
+        gpsSource.addFeature(marker)
+        var gpsLayer = new ol.layer.Vector({source: gpsSource})
+        map.addLayer(gpsLayer)
+    });
+}
 

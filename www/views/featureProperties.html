@@ -79,7 +79,7 @@
                 local_map.addLayer(clonedLayer)
                 local_map.setView(new ol.View({
                     center: feature.getGeometry().getClosestPoint([0,0]),
-                    zoom: 8
+                    zoom:  currentMapView.getMaxZoom()
                 }))
             })
         }
