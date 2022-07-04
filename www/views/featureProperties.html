@@ -50,7 +50,12 @@
                         }
                     }
                     else{
-                        table += `<td class='content'>${data.rows.item(0)[atrib.name]}</td>`
+                        if(typeof data.rows.item(0)[atrib.name] == 'undefined'){
+                            table +=  `<td class='content'></td>`
+                        }
+                        else{
+                            table += `<td class='content'>${data.rows.item(0)[atrib.name]}</td>`
+                        }
                     }
                         table += "</tr>"
                 }
