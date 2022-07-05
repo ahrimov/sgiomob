@@ -63,6 +63,9 @@ function layerParser(data){
         case "MULTIPOLYGON":
             style = polygonStyleParse(geometryStyle)
             break;
+        case "MULTILINESTRING":
+            style = lineStyleParse(geometryStyle)
+            break;
         default:
             style = new ol.style.Style({
                 image: new ol.style.Circle({
@@ -79,12 +82,12 @@ function layerParser(data){
     layer.atribs = []
     var atribs = dom.getElementsByTagName("attribute")
     for(atrib of atribs){
-        if(atrib.getElementsByTagName("required").item(0).textContent === '1'){
+        //if(atrib.getElementsByTagName("required").item(0).textContent === '1'){
             let atribName = atrib.getElementsByTagName('id').item(0).textContent
             let label = atrib.getElementsByTagName('label').item(0).textContent
             let type = atrib.getAttribute('type')
             layer.atribs.push(new LayerAtribs(atribName, label, type))
-        }
+        //}
     }
     layers.push(layer)
     getDataLayerFromBD(layer)
@@ -142,6 +145,15 @@ function polygonStyleParse(dom){
         stroke: new ol.style.Stroke({
             color: dom.getElementsByTagName("CssParameter").item(1).textContent,
             width: parseInt(dom.getElementsByTagName("CssParameter").item(2).textContent)
+        })
+    })
+}
+
+function lineStyleParse(dom){
+    return new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: dom.getElementsByTagName("CssParameter").item(0).textContent,
+            width: parseInt(dom.getElementsByTagName("CssParameter").item(1).textContent)
         })
     })
 }

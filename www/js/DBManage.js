@@ -54,14 +54,13 @@ function getDataLayerFromBD(layer){
         return
     }
     var source = new ol.source.Vector()
-    const query =  "SELECT id, pipe as name, AsText(Geometry) as geom from " + layer.id
+    const query =  `SELECT ${layer.atribs[0].name} as id, AsText(Geometry) as geom from ` + layer.id
         var querySuccess = function (tx, res) {
             const format = new ol.format.WKT();
             for (let i = 0; i < res.rows.length; i++) {
                 var wkt = res.rows.item(i).geom
                 var feature = format.readFeature(wkt.replace(/nan/g, "0"))
                 feature.id = res.rows.item(i).id
-                feature.name = res.rows.item(i).name
                 source.addFeature(feature)
                 features.push(feature)
             }

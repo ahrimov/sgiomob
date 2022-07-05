@@ -27,3 +27,15 @@ function createFolder(){
 function checkIfFileExists(path, fileExists, fileDoesNotExist){
     window.resolveLocalFileSystemURL(path, fileExists,  fileDoesNotExist)
 }
+
+function exportKML(layerID){
+    window.resolveLocalFileSystemURL(root_directory, function(rootDirEntry){
+        rootDirEntry.getDirectory("outputs", {create: true}, function(mainDirEntry){
+            console.log("Create folder outputs")
+        }, function(error){
+            console.log("Erro while create folder")
+        })
+    }, function(error){
+        console.log("Error with access")
+    })
+}

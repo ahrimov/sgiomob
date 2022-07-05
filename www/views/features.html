@@ -15,7 +15,7 @@
         ons.getScriptPage().onInit = function() {
             layerID = this.data.layerID
             var layer = findLayer(layerID)
-            getDataFromDB("SELECT id, lpu from " + layerID, function(data){
+            getDataFromDB(`SELECT ${layer.atribs[0].name}, ${layer.atribs[1].name} from ` + layerID + " LIMIT 50", function(data){
                 let table = "<table class='features'>" +
                     "<thead>" + 
                         "<tr>" + 
@@ -41,9 +41,9 @@
                     "</thead>" + 
                     "<tbody>"
                 for(let i = 0; i < data.rows.length; i++){
-                    table += `<tr onClick=getPropertyPage('${data.rows.item(i).id}')>` + 
-                        `<td><div class='feat_left'>${data.rows.item(i).id}</div></td>` + 
-                        `<td><div class='feat_right'>${data.rows.item(i).lpu}</div></td>`+
+                    table += `<tr onClick=getPropertyPage('${data.rows.item(i)[layer.atribs[0].name]}')>` + 
+                        `<td><div class='feat_left'>${data.rows.item(i)[layer.atribs[0].name]}</div></td>` + 
+                        `<td><div class='feat_right'>${data.rows.item(i)[layer.atribs[1].name]}</div></td>`+
                         "</tr>"
                 }
                 table += "</tbody></table>"
@@ -64,7 +64,7 @@
             var layer = findLayer(layerID)
             let divClass = event.target.className
             divClass = divClass.split(" ")[0]
-            getDataFromDB(`SELECT ${event.target.value} as label from ` + layerID, function(data){
+            getDataFromDB(`SELECT ${event.target.value} as label from ` + layerID + " LIMIT 50", function(data){
                 let rows = document.getElementsByClassName(divClass)
                 switch(getTypeByAtribName(layer.atribs, event.target.value)){
                     case "BOOLEAN":

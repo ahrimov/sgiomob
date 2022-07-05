@@ -50,13 +50,20 @@
                 modifier: 'destructive'
               },
               {
+                label: 'Экспорт в kml',
+
+              },
+              {
                 label: 'Назад',
                 icon: 'md-close'
               }
             ]
           }).then(function (index) {
               if(index == 0){
-                document.querySelector('#myNavigator').pushPage('./views/features.html', {data: {layerID: layerID, layerLabel: 'layerLabel'}});
+                document.querySelector('#myNavigator').pushPage('./views/features.html', {data: {layerID: layerID}});
+              }
+              if(index == 1){
+                exportKML(layerID)
               }
             });
         }
