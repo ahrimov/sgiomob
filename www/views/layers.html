@@ -14,11 +14,18 @@
         ons.getScriptPage().onInit = function() {
           var list = "<ons-list>"
           for(layer of layers){
+            let label
+            if(layer.label.length > 20){
+              label = layer.label.slice(0, 20) + "..."
+            }
+            else{
+              label = layer.label
+            }
             list += "<ons-list-item tappable>" +
               "<label class='left'>" +
                 `<ons-checkbox input-id=${layer.id} onClick=changeVisible('${layer.id}')></ons-checkbox>` + 
               "</label>" +
-              "<label class='center'>" + layer.label + "</label>" +
+              "<label class='center'>" + label + "</label>" +
               `<label class='right'><ons-button modifier="quiet" onClick=showActionSheet('${layer.id}')>` +
                 "<ons-icon icon='md-more-vert'></ons-icon>" +
               "</ons-button></label>" + 

@@ -103,6 +103,31 @@ function getTypeByAtribName(atribs, atribName){
     }
 }
 
+function getValueFromLayerAtrib(layerID, atribName, value){
+    if(typeof value == 'undefined'){
+        return " "
+    }
+    let layer = findLayer(layerID)
+    for(atrib of layer.atribs){
+        if(atrib.name == atribName){
+            switch(getTypeByAtribName(layer.atribs, atribName)){
+                case "BOOLEAN":
+                    if(value === 1){
+                        return "Да"
+                    }
+                    else{
+                        return "Нет"
+                    }
+                case "DATE":
+                    return new Date(value).toLocaleString()
+                default:
+                    return value
+            }
+        }
+    }
+    return value
+}
+
 function turnGPS(){
     navigator.geolocation.watchPosition(function(position){
         gps_position = position
