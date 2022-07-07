@@ -61,6 +61,7 @@ function getDataLayerFromBD(layer){
                 var wkt = res.rows.item(i).geom
                 var feature = format.readFeature(wkt.replace(/nan/g, "0"))
                 feature.id = res.rows.item(i).id
+                feature.layerID = layer.id
                 source.addFeature(feature)
                 features.push(feature)
             }

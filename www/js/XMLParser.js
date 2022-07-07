@@ -76,16 +76,17 @@ function layerParser(data){
     }
     var layer = new ol.layer.Vector({
         style: style,
+        renderMode: 'image'
     }) 
     layer.id = dom.getElementsByTagName("id").item(0).textContent
     layer.label = dom.getElementsByTagName("label").item(0).textContent
     layer.atribs = []
     var atribs = dom.getElementsByTagName("attribute")
     for(atrib of atribs){
-        let atribName = atrib.getElementsByTagName('id').item(0).textContent
-        let label = atrib.getElementsByTagName('label').item(0).textContent
-        let type = atrib.getAttribute('type')
-        layer.atribs.push(new LayerAtribs(atribName, label, type))
+            let atribName = atrib.getElementsByTagName('id').item(0).textContent
+            let label = atrib.getElementsByTagName('label').item(0).textContent
+            let type = atrib.getAttribute('type')
+            layer.atribs.push(new LayerAtribs(atribName, label, type))
     }
     layers.push(layer)
     getDataLayerFromBD(layer)

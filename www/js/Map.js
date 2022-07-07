@@ -67,6 +67,10 @@ function showMap(){
         map.addLayer(layer)
     }
 
+    map.on('click', function(evt){
+        showDialogFeatures(map.getFeaturesAtPixel(evt.pixel))
+    })
+/*
     let selectClick = new ol.interaction.Select({condition: ol.events.condition.click});
     map.addInteraction(selectClick);
 
@@ -74,7 +78,7 @@ function showMap(){
         let featureSelected = e.selected[0];
         let layer = selectClick.getLayer(featureSelected);
         document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: layer.id, featureID: featureSelected.id}});
-    });
+    });*/
 }
 
 function findLayer(layerID){

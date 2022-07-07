@@ -20,6 +20,25 @@
 
     <div id="map-container"></div>
 
+    <template id="dialog_features.html">
+        <ons-dialog id="dialog-features">
+                <ons-toolbar class="dialog-toolbar">
+                    <div class="center dialog-toolbar-content">
+                        Выбранные элементы
+                    </div>
+                    <div class="right">
+                        <ons-toolbar-button onclick="hideDialog('dialog-features')">
+                            <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                        </ons-toolbar-button>
+                    </div>
+                </ons-toolbar>
+                <div > 
+                <ons-list id="dialog-features-content">
+                </ons-list>
+                </div>
+        </ons-dialog>
+      </template>
+
     <script>
     ons.getScriptPage().onInit = function() {
         showMap()
@@ -30,5 +49,74 @@
         };
     };
 
+    function openFeatureProperties(featureID, layerID){
+        var dialog = document.getElementById('dialog-features')
+        if(dialog){
+            dialog.remove()
+        }
+        document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: layerID, featureID: featureID}});
+    }
+
+    function showDialogFeatures(features){
+        if(features.length == 0){
+            return
+        }
+        if(features.length == 1){
+            openFeatureProperties(features[0].id, features[0].layerID)
+            return
+        }
+
+
+
+        ons.createElement('dialog_features.html', {append: true})
+            .then(function(dialog){
+                var content = document.getElementById('dialog-features-content')
+                var list = ''
+                for(layer of layers){
+                    for(feature of features){
+                        if(layer.id == feature.layerID){
+                            list += `<ons-list-header>${layer.label}</ons-list-header>`
+                            for(feature of features){
+                                if(feature.layerID == layer.id)
+                                list += `<ons-list-item onClick="openFeatureProperties('${feature.id}', '${feature.layerID}')" tappable>
+                                        Эллемент: ${feature.id}
+                                    </ons-list-item>`
+                            }
+                            break
+                        }
+                    }
+                }
+                /*for(feature of features){
+                    list += `<ons-list-item onClick="openFeatureProperties('${feature.id}', '${feature.layerID}')" tappable>
+                                Эллемент: ${feature.id}
+                            </ons-list-item>`
+                }*/
+                content.innerHTML = list
+                dialog.show()
+            })
+    }
+
+    function hideDialog(id){
+        document.getElementById(id).remove()
+    }
+
     </script>
+
+    <style>
+        .dialog-toolbar{
+            background-color: #2375fa;
+        }
+        .dialog-toolbar-content{
+            font-size: 12pt;
+            color: white;
+        }
+        .dialog-close{
+            color: white;
+        }
+        #dialog-features-content{
+            margin-top: 10vh;
+            max-height: 70vh;
+            overflow: scroll;
+        }
+    </style>
 </ons-page>
