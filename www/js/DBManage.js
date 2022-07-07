@@ -65,6 +65,7 @@ function getDataLayerFromBD(layer){
                 features.push(feature)
             }
             layer.setSource(source)
+            completeLoad()
         }
         var queryError = function (err) {
             console.log("Error with database transaction")
