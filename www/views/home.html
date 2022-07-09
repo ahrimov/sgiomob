@@ -20,7 +20,7 @@
 
     <div id="map-container"></div>
 
-    <template id="dialog_features.html">
+    <template id="dialog_features">
         <ons-dialog id="dialog-features">
                 <ons-toolbar class="dialog-toolbar">
                     <div class="center dialog-toolbar-content">
@@ -37,7 +37,7 @@
                 </ons-list>
                 </div>
         </ons-dialog>
-      </template>
+    </template>
 
     <script>
     ons.getScriptPage().onInit = function() {
@@ -49,49 +49,46 @@
         };
     };
 
-    function openFeatureProperties(featureID, layerID){
+    function openFeatureProperties(feature){
         var dialog = document.getElementById('dialog-features')
         if(dialog){
             dialog.remove()
         }
-        document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: layerID, featureID: featureID}});
+        document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: feature.layerID, featureID: feature.id}});
     }
 
-    function showDialogFeatures(features){
+    function showDialogFeatures(evt){
+        let features = map.getFeaturesAtPixel(evt.pixel)
+        console.log(features.length)
         if(features.length == 0){
             return
         }
         if(features.length == 1){
-            openFeatureProperties(features[0].id, features[0].layerID)
+            openFeatureProperties(features[0])
             return
         }
-
-
-
-        ons.createElement('dialog_features.html', {append: true})
+        ons.createElement('dialog_features', {append: true})
             .then(function(dialog){
-                var content = document.getElementById('dialog-features-content')
-                var list = ''
+                let content = document.getElementById('dialog-features-content')
+                let list = ''
                 for(layer of layers){
                     for(feature of features){
                         if(layer.id == feature.layerID){
-                            list += `<ons-list-header>${layer.label}</ons-list-header>`
-                            for(feature of features){
-                                if(feature.layerID == layer.id)
-                                list += `<ons-list-item onClick="openFeatureProperties('${feature.id}', '${feature.layerID}')" tappable>
-                                        Эллемент: ${feature.id}
-                                    </ons-list-item>`
+                            var header = ons._util.createElement("<ons-list-header></ons-list-header>")
+                            header.innerHTML = layer.label
+                            content.appendChild(header)
+                            for(let feature of features){
+                                if(feature.layerID == layer.id){
+                                    var item = ons._util.createElement("<ons-list-item tappable></ons-list-item>")
+                                    item.innerHTML = `Элемент: ${feature.id}`
+                                    item.addEventListener("click", () => openFeatureProperties(feature), false)
+                                    content.appendChild(item)
+                                }
                             }
                             break
                         }
                     }
                 }
-                /*for(feature of features){
-                    list += `<ons-list-item onClick="openFeatureProperties('${feature.id}', '${feature.layerID}')" tappable>
-                                Эллемент: ${feature.id}
-                            </ons-list-item>`
-                }*/
-                content.innerHTML = list
                 dialog.show()
             })
     }

@@ -9,46 +9,67 @@
         Слои
       </div>
     </ons-toolbar>
-    <div id="layers-list"></div>
+
+    <div id="layerListWithHandle" class="list-group">
+    </div>
+
+    <template id="layerListItem">
+      <div class="list-group-item" onclick="changeVisible(this)">
+        <ons-icon icon="md-reorder" class="reorder-move"></ons-icon>
+            <span class="layers-label"></span>
+            <ons-button modifier="quiet" class="layers-more-button" onclick="showActionSheet(this, event)">
+              <ons-icon icon='md-more-vert'></ons-icon>
+            </ons-button>
+        </div>
+    </template>
+
+   
     <script>
         ons.getScriptPage().onInit = function() {
-          var list = "<ons-list>"
+          var list = document.querySelector("#layerListWithHandle")
+          var template = document.querySelector('#layerListItem')
+          layers.sort(function(a, b){
+            return b.getZIndex() - a.getZIndex()
+          })
           for(layer of layers){
             let label
-            if(layer.label.length > 20){
-              label = layer.label.slice(0, 20) + "..."
+            if(layer.label.length > 30){
+              label = layer.label.slice(0, 30) + "..."
             }
             else{
               label = layer.label
             }
-            list += "<ons-list-item tappable>" +
-              "<label class='left'>" +
-                `<ons-checkbox input-id=${layer.id} onClick=changeVisible('${layer.id}')></ons-checkbox>` + 
-              "</label>" +
-              "<label class='center'>" + label + "</label>" +
-              `<label class='right'><ons-button modifier="quiet" onClick=showActionSheet('${layer.id}')>` +
-                "<ons-icon icon='md-more-vert'></ons-icon>" +
-              "</ons-button></label>" + 
-            "</ons-list-item>"
-          }
-          list += "</ons-list>"
-          var content = document.getElementById("layers-list")
-          content.innerHTML = list
-          for(layer of layers){
+            var item = template.content.cloneNode(true)
+            item.querySelector('.layers-label').textContent = label
+            item.querySelector('.list-group-item').setAttribute("data-id", layer.id)
+            item.querySelector('.layers-more-button').setAttribute("layer_id", layer.id)
             if(layer.visible){
-              document.querySelector(`ons-checkbox[input-id=${layer.id}]`).checked = true
+              item.querySelector('.list-group-item').style.backgroundColor = '#2375fa'
             }
+            list.appendChild(item)
           }
         }
-        function changeVisible(id){
+
+        function changeVisible(element){
+          var layerID = element.getAttribute("data-id")
           for(layer of layers){
-            if(layer.id == id){
+            if(layer.id == layerID){
               layer.visible = !layer.visible
               layer.setVisible(layer.visible)
+              if(layer.visible){
+                element.style.backgroundColor = '#2375fa'
+              }
+              else{
+                element.style.backgroundColor = '#FFFFFF'
+              }
             }
           }
         }
-        function showActionSheet(layerID){
+
+
+        function showActionSheet(element, event){
+          event.stopPropagation()
+          var layerID = element.getAttribute("layer_id")
           ons.openActionSheet({
             cancelable: true,
             buttons: [
@@ -73,8 +94,31 @@
                 exportKML(layerID)
               }
             });
+
         }
 
-
+      Sortable.create(layerListWithHandle, {
+        handle: '.reorder-move',
+        animation: 150,
+        onUpdate: function(event){
+          var count = layers.length
+          for(layerID of this.toArray()){
+            let layer = findLayer(layerID)
+            layer.setZIndex(count)
+            count--
+          }
+        }
+      });
     </script>
+    <style>
+      .layers-label{
+        margin-left: 2%;
+      }
+      .layers-more-button{
+        position: absolute;
+        left: 85%;
+        bottom: 5%;
+        color: black;
+      }
+    </style>
 </ons-page>

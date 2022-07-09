@@ -51,6 +51,10 @@ function configParser(data){
 }
 
 function layerParser(data){
+    if(typeof layerParser.counter == 'undefined'){
+        layerParser.counter = 0
+    }
+
     var parser = new DOMParser()
     var dom = parser.parseFromString(data, "application/xml")
     var geometryStyle = dom.getElementsByTagName("geometryStyle").item(0)
@@ -88,6 +92,11 @@ function layerParser(data){
             let type = atrib.getAttribute('type')
             layer.atribs.push(new LayerAtribs(atribName, label, type))
     }
+
+    
+    layerParser.counter++
+    layer.setZIndex(layerParser.counter)
+
     layers.push(layer)
     getDataLayerFromBD(layer)
     map.addLayer(layer)
