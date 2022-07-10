@@ -12,6 +12,13 @@
 
     <div id="layerListWithHandle" class="list-group">
     </div>
+    
+    <div id="raster-layer" class="list-group-item" onclick="changeRasterVisible(this)">
+        <span class="layers-label">Карта OSM</span>
+        <ons-button modifier="quiet" class="layers-more-button" onclick="clickRasterMenu(event)">
+          <ons-icon icon='md-more-vert'></ons-icon>
+        </ons-button>
+      </div>
 
     <template id="layerListItem">
       <div class="list-group-item" onclick="changeVisible(this)">
@@ -23,8 +30,19 @@
         </div>
     </template>
 
+    <template id="raster-layer-sheet">
+      <ons-action-sheet id="raster-layer" cancelable>
+        <ons-action-sheet-button>
+            <ons-switch id="raster-layer-switch"></ons-switch>
+            <span>Использовать локальные тайлы</span>
+        </ons-action-sheet-button> 
+        <ons-action-sheet-button icon="md-close" onclick="hideRasterSheet()">Назад</ons-action-sheet-button>
+      </ons-action-sheet>
+    </template>
+
    
     <script>
+      var app = {}
         ons.getScriptPage().onInit = function() {
           var list = document.querySelector("#layerListWithHandle")
           var template = document.querySelector('#layerListItem')
@@ -48,6 +66,43 @@
             }
             list.appendChild(item)
           }
+
+          if(raster.visible){
+            document.querySelector('#raster-layer').style.backgroundColor = '#2375fa'
+          }
+
+          ons.createElement('raster-layer-sheet', { append: true })
+            .then(function(sheet) {
+              console.log('new create')
+              showRasterSheet = sheet.show.bind(sheet)
+              hideRasterSheet = sheet.hide.bind(sheet)
+
+              console.log('islocal ', raster.isLocal)
+              console.log(document.querySelector('#raster-layer-switch'))
+
+              if(typeof localSource == 'undefined'){
+                document.querySelector('#raster-layer-switch').setAttribute('disabled', 'true')
+              }
+
+              //if(raster.isLocal){
+                console.log(raster.isLocal)
+                console.log(document.querySelector('#raster-layer-switch').checked)
+              //}
+              
+/*
+              document.querySelector('#raster-layer-switch').addEventListener('change', function(){
+              
+                console.log('acrive')
+                raster.isLocal = !raster.isLocal
+                /*if(raster.isLocal){
+                  raster.setSource(localSource)
+                }
+                else{
+                  raster.setSource(new ol.source.OSM({}))
+                }
+              })*/
+            })
+          
         }
 
         function changeVisible(element){
@@ -63,6 +118,17 @@
                 element.style.backgroundColor = '#FFFFFF'
               }
             }
+          }
+        }
+
+        function changeRasterVisible(element){
+          raster.visible = !raster.visible
+          raster.setVisible(raster.visible)
+          if(raster.visible){
+            element.style.backgroundColor = '#2375fa'
+          }
+          else{
+            element.style.backgroundColor = '#FFFFFF'
           }
         }
 
@@ -96,6 +162,13 @@
             });
 
         }
+
+        function clickRasterMenu(event){
+          event.stopPropagation()
+          showRasterSheet()
+        }
+
+
 
       Sortable.create(layerListWithHandle, {
         handle: '.reorder-move',

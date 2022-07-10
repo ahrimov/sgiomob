@@ -23,10 +23,11 @@ function configParser(data){
     })
     map.setView(currentMapView)
     if(dom.getElementsByTagName("IsLocalTiles").item(0).textContent === '1'){
+        raster.isLocal = true
         const pathToTiles = dom.getElementsByTagName("PathToTiles").item(0).textContent
         switch(dom.getElementsByTagName("TileLoaderOption").item(0).textContent){
             case "Invert":
-                var localSource = new ol.source.OSM({
+                localSource = new ol.source.OSM({
                     url: root_directory + pathToTiles + '{z}/{x}/{-y}.png',
                     tileLoadFunction: function(imageTile, src){
                     window.resolveLocalFileSystemURL(src, function success(fileEntry){
@@ -37,7 +38,7 @@ function configParser(data){
                 raster.setSource(localSource)
                 break;
             default:
-                var localSource = new ol.source.OSM({
+                localSource = new ol.source.OSM({
                     url: root_directory + pathToTiles + '{z}/{x}/{y}.png',
                     tileLoadFunction: function(imageTile, src){
                     window.resolveLocalFileSystemURL(src, function success(fileEntry){
