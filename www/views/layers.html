@@ -12,13 +12,21 @@
 
     <div id="layerListWithHandle" class="list-group">
     </div>
-    
+
+    <ons-list-item expandable>
+      <span class="layers-label">Карта OSM</span>
+      <div class="expandable-content">
+        <ons-switch id="raster-layer-switch"></ons-switch>
+          Использовать локальные тайлы
+        </div>
+    </ons-list-item>
+    <!--
     <div id="raster-layer" class="list-group-item" onclick="changeRasterVisible(this)">
         <span class="layers-label">Карта OSM</span>
         <ons-button modifier="quiet" class="layers-more-button" onclick="clickRasterMenu(event)">
           <ons-icon icon='md-more-vert'></ons-icon>
         </ons-button>
-      </div>
+    </div>-->
 
     <template id="layerListItem">
       <div class="list-group-item" onclick="changeVisible(this)">
@@ -66,43 +74,28 @@
             }
             list.appendChild(item)
           }
-
+/*
           if(raster.visible){
             document.querySelector('#raster-layer').style.backgroundColor = '#2375fa'
+          }*/
+
+          if(typeof localSource == 'undefined'){
+            document.querySelector('#raster-layer-switch').setAttribute('disabled', 'true')
           }
 
-          ons.createElement('raster-layer-sheet', { append: true })
-            .then(function(sheet) {
-              console.log('new create')
-              showRasterSheet = sheet.show.bind(sheet)
-              hideRasterSheet = sheet.hide.bind(sheet)
-
-              console.log('islocal ', raster.isLocal)
-              console.log(document.querySelector('#raster-layer-switch'))
-
-              if(typeof localSource == 'undefined'){
-                document.querySelector('#raster-layer-switch').setAttribute('disabled', 'true')
-              }
-
-              //if(raster.isLocal){
-                console.log(raster.isLocal)
-                console.log(document.querySelector('#raster-layer-switch').checked)
-              //}
+          if(raster.isLocal){
+            document.querySelector('#raster-layer-switch').setAttribute('checked', 'true')
+          }
               
-/*
-              document.querySelector('#raster-layer-switch').addEventListener('change', function(){
-              
-                console.log('acrive')
-                raster.isLocal = !raster.isLocal
-                /*if(raster.isLocal){
-                  raster.setSource(localSource)
-                }
-                else{
-                  raster.setSource(new ol.source.OSM({}))
-                }
-              })*/
-            })
-          
+          document.querySelector('#raster-layer-switch').addEventListener('change', function(){
+            raster.isLocal = !raster.isLocal
+            if(raster.isLocal){
+              raster.setSource(localSource)
+            }
+            else{
+              raster.setSource(new ol.source.OSM({}))
+            }
+          })
         }
 
         function changeVisible(element){
