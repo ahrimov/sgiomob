@@ -18,19 +18,15 @@
       <div class="expandable-content">
         <ons-switch id="raster-layer-switch"></ons-switch>
           Использовать локальные тайлы
+          </br>
+          <ons-switch id="raster-layer-switch-visible"></ons-switch>
+          <span>Показывать подложку</span>
         </div>
     </ons-list-item>
-    <!--
-    <div id="raster-layer" class="list-group-item" onclick="changeRasterVisible(this)">
-        <span class="layers-label">Карта OSM</span>
-        <ons-button modifier="quiet" class="layers-more-button" onclick="clickRasterMenu(event)">
-          <ons-icon icon='md-more-vert'></ons-icon>
-        </ons-button>
-    </div>-->
 
     <template id="layerListItem">
       <div class="list-group-item" onclick="changeVisible(this)">
-        <ons-icon icon="md-reorder" class="reorder-move"></ons-icon>
+        <ons-icon icon="md-reorder" class="reorder-move" size="150%"></ons-icon>
             <span class="layers-label"></span>
             <ons-button modifier="quiet" class="layers-more-button" onclick="showActionSheet(this, event)">
               <ons-icon icon='md-more-vert'></ons-icon>
@@ -38,17 +34,6 @@
         </div>
     </template>
 
-    <template id="raster-layer-sheet">
-      <ons-action-sheet id="raster-layer" cancelable>
-        <ons-action-sheet-button>
-            <ons-switch id="raster-layer-switch"></ons-switch>
-            <span>Использовать локальные тайлы</span>
-        </ons-action-sheet-button> 
-        <ons-action-sheet-button icon="md-close" onclick="hideRasterSheet()">Назад</ons-action-sheet-button>
-      </ons-action-sheet>
-    </template>
-
-   
     <script>
       var app = {}
         ons.getScriptPage().onInit = function() {
@@ -74,10 +59,6 @@
             }
             list.appendChild(item)
           }
-/*
-          if(raster.visible){
-            document.querySelector('#raster-layer').style.backgroundColor = '#2375fa'
-          }*/
 
           if(typeof localSource == 'undefined'){
             document.querySelector('#raster-layer-switch').setAttribute('disabled', 'true')
@@ -95,6 +76,15 @@
             else{
               raster.setSource(new ol.source.OSM({}))
             }
+          })
+
+          if(raster.visible){
+            document.querySelector('#raster-layer-switch-visible').setAttribute('checked', 'true')
+          }
+
+          document.querySelector('#raster-layer-switch-visible').addEventListener('change', function(){
+            raster.visible = !raster.visible
+            raster.setVisible(raster.visible)
           })
         }
 
@@ -178,13 +168,15 @@
     </script>
     <style>
       .layers-label{
-        margin-left: 2%;
+
       }
+
       .layers-more-button{
         position: absolute;
         left: 85%;
         bottom: 5%;
         color: black;
       }
+
     </style>
 </ons-page>
