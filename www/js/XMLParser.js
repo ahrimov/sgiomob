@@ -32,6 +32,12 @@ function configParser(data){
                     tileLoadFunction: function(imageTile, src){
                     window.resolveLocalFileSystemURL(src, function success(fileEntry){
                         imageTile.getImage().src = fileEntry.toInternalURL();
+                      }, function(error){
+                        window.resolveLocalFileSystemURL(root_directory + pathToTiles + 'empty_tile.png', function(fileEntry){
+                            imageTile.getImage().src = fileEntry.toInternalURL();
+                        }, function(error){
+                            console.log('Not find a tile')
+                        })
                       })
                     }
                 })
@@ -43,6 +49,12 @@ function configParser(data){
                     tileLoadFunction: function(imageTile, src){
                     window.resolveLocalFileSystemURL(src, function success(fileEntry){
                         imageTile.getImage().src = fileEntry.toInternalURL();
+                      }, function(error){
+                        window.resolveLocalFileSystemURL(root_directory + pathToTiles + 'empty_tile.png', function(fileEntry){
+                            imageTile.getImage().src = fileEntry.toInternalURL();
+                        }, function(error){
+                            console.log('Not find a tile')
+                        })
                       })
                     }
                 })
