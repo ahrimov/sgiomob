@@ -60,6 +60,7 @@ function configParser(data){
                 })
                 raster.setSource(localSource)
         }
+        updateInfo()
     }
 }
 
@@ -97,6 +98,7 @@ function layerParser(data){
     }) 
     layer.id = dom.getElementsByTagName("id").item(0).textContent
     layer.label = dom.getElementsByTagName("label").item(0).textContent
+    layer.geometryType = geometryType
     layer.atribs = []
     var atribs = dom.getElementsByTagName("attribute")
     for(atrib of atribs){

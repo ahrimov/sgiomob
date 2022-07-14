@@ -6,12 +6,14 @@
 }
 
 .zoom-plus{
+  position: relative;
   top: 78%;
   left: 8700%;
 
 }
 
 .zoom-minus{
+  position: relative;
   top: 80%;
   left: 8700%;
 }
@@ -23,6 +25,30 @@
 }
 
 .gps-button{
-  top: 70%;
+  position: relative;
+  top: 64.5%;
   left: 200%;
+}
+
+
+.dot {
+  height: 12px;
+  width: 12px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: green;
+}
+
+.att {
+  border-radius: 25px;
+  padding: 3px;
+  border: 1px solid black;
+  width: 2700%;
+  height: 5%;
+  background-color: white;
+  opacity: .7;
+  position: relative;
+  top: 65.5%;
+  left: 200%
 }

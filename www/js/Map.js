@@ -2,21 +2,28 @@ class CustomControls extends ol.control.Control {
     constructor(opt_options) {
       const options = opt_options || {};
   
-      const buttonZoomPlus = ons.createElement(`<ons-fab class='zoom-plus' modifier='mini'>
+      const buttonZoomPlus = ons.createElement(`<div class='zoom-plus'><ons-fab modifier='mini'>
                                                     <ons-icon icon='md-plus'></ons-icon>
-                                                </ons-fab>`)
+                                                </ons-fab></div>`)
     
-      const buttonZoomMinus = ons.createElement(`<ons-fab class='zoom-minus' modifier='mini'>
+      const buttonZoomMinus = ons.createElement(`<div class='zoom-minus'><ons-fab modifier='mini'>
                                                     <ons-icon icon='md-minus'></ons-icon>
-                                                </ons-fab>`)
-      const gpsButton = ons.createElement(`<ons-fab class='gps-button' modifier='mini'>
+                                                </ons-fab></div>`)
+      const gpsButton = ons.createElement(`<div class='gps-button'><ons-fab  modifier='mini'>
                                                 <ons-icon icon='md-gps'></ons-icon>
-                                            </ons-fab>`)                                         
+                                            </ons-fab></div>`)
+      let div = document.createElement('div')
+      div.className = "att"
+      let str = `<span class='dot'></span>
+                <span id='info-label'>Онлайн</span>`
+      div.innerHTML = str.trim()                                
       const element = document.createElement('div');
       element.className = 'buttons'
+
       element.appendChild(buttonZoomPlus)
       element.appendChild(buttonZoomMinus)
       element.appendChild(gpsButton)
+      element.appendChild(div)
         
       super({
         element: element,
@@ -70,6 +77,7 @@ function showMap(){
     map.on('click', function(evt){
         setTimeout(showDialogFeatures, 50, evt)
     })
+    updateInfo()
 }
 
 function findLayer(layerID){
@@ -124,7 +132,11 @@ function getValueFromLayerAtrib(layerID, atribName, value){
 }
 
 function turnGPS(){
+    var gpsSource = new ol.source.Vector()
+    var gpsLayer = new ol.layer.Vector({source: gpsSource})
+    map.addLayer(gpsLayer)
     navigator.geolocation.watchPosition(function(position){
+        gpsSource.clear()
         gps_position = position
         var point = new ol.geom.Point(ol.proj.fromLonLat([position.coords.longitude, position.coords.latitude]))
         var marker = new ol.Feature(point)
@@ -140,10 +152,45 @@ function turnGPS(){
                 })
             })
         }))
-        var gpsSource = new ol.source.Vector()
+        var circle = new ol.geom.Polygon.circular({
+            center: [0, 0],
+            radius: 1000000
+        })
+        console.log(circle.getFirstCoordinate())
+/*
+        var circle = new ol.geom.Circle({
+            center: ol.proj.fromLonLat([position.coords.longitude, position.coords.latitude]),
+            radius: position.coords.accuracy
+        })*/
+        var circle_feature = new ol.Feature(circle)
+        
+        circle_feature.setStyle(new ol.style.Style({
+            image: new ol.style.Circle({
+                fill: new ol.style.Fill({
+                    color: [135, 207, 255, 0.5]
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#2765f5',
+                    with: 1
+                })
+            })
+        }))
+        gpsSource.addFeature(circle_feature)
         gpsSource.addFeature(marker)
-        var gpsLayer = new ol.layer.Vector({source: gpsSource})
-        map.addLayer(gpsLayer)
+        
     });
 }
+
+ function updateInfo(){
+    console.log('aaa')
+    if(raster.isLocal){
+        document.querySelector('#info-label').innerHTML = "Оффлайн"
+        document.querySelector('.dot').setAttribute('style', 'background-color: #bbb;')
+    }
+    else{
+        document.querySelector('#info-label').innerHTML = "Онлайн"
+        document.querySelector('.dot').setAttribute('style', 'background-color: green;')
+    }
+ }
+
 

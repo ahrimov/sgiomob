@@ -12,9 +12,6 @@
     <div id="local-map"></div>
     <div id="table"></div>
     <script>
-       /* var raster = new ol.layer.Tile({
-  source: new ol.source.OSM({})
-});*/
 
         ons.getScriptPage().onInit = function() {
             let clone_raster = new ol.layer.Tile({source: raster.getSource()})
@@ -29,11 +26,14 @@
             for(atrib of layer.atribs){
                 atribs.push(atrib.name)
             }
-            let query = "SELECT " + atribs.join(', ') + " from " + this.data.layerID + 
+            let query = "SELECT AsText(Geometry) as geom, " + atribs.join(', ') + " from " + this.data.layerID + 
             " WHERE id = " + this.data.featureID
             getDataFromDB(query, function(data){
                 var table = "<table>" 
                 for(atrib of layer.atribs){
+                    if(checkServiceFiled(atrib.name)){
+                        continue
+                    }
                     table += "<tr>" + 
                         `<td class='title'>${atrib.label}</td>`
                     if(atrib.type == "BOOLEAN"){
@@ -59,6 +59,7 @@
                     }
                         table += "</tr>"
                 }
+                table = addMetricCharacter(layer, table, data.rows.item(0).geom)
                 table += "</table>"
                 var content = document.getElementById("table");
                 content.innerHTML = table
@@ -83,6 +84,40 @@
                 }))
             })
         }
+
+        function checkServiceFiled(label){
+            if(label == 'lg_attach'){
+                return true
+            }
+            return false
+        }
+
+        function addMetricCharacter(layer, table, geom){
+            const format = new ol.format.WKT();
+            let wkt = geom
+            let feature = format.readFeature(wkt.replace(/nan/g, "0"))
+            let geometry = feature.getGeometry()
+            switch(layer.geometryType){
+                case "MULTIPOINT":
+                    table += `<td class='title'>Координаты точки</td>`
+                    let coords = geometry.getCoordinates()
+                    let str = coords.toString()
+                    let arr = str.split(',')
+                    let lonlat = ol.proj.toLonLat([parseInt(arr[0]), parseInt(arr[1])]);
+                    table += `<td class='content'>${lonlat}</td>`
+                    break
+                case 'MULTILINESTRING':
+                    table += `<td class='title'>Длина линии</td>`
+                    table += `<td class='content'>${ol.sphere.getLength(geometry)}</td>`
+                    break
+                case 'MULTIPOLYGON':
+                    table += `<td class='title'>Площадь</td>`
+                    table += `<td class='content'>${ol.sphere.getArea(geometry)}</td>`
+                    break
+            }
+            return table
+        }
+
     </script>
     <style>
   		table {
