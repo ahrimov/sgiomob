@@ -16,7 +16,8 @@ class CustomControls extends ol.control.Control {
       div.className = "att"
       let str = `<span class='dot'></span>
                 <span id='info-label'>Онлайн</span>`
-      div.innerHTML = str.trim()                                
+      div.innerHTML = str.trim()
+      const crosshair = ons.createElement(`<img class='crosshair' src='../resources/crosshair.png'>`)                                
       const element = document.createElement('div');
       element.className = 'buttons'
 
@@ -24,6 +25,7 @@ class CustomControls extends ol.control.Control {
       element.appendChild(buttonZoomMinus)
       element.appendChild(gpsButton)
       element.appendChild(div)
+      element.appendChild(crosshair)
         
       super({
         element: element,
