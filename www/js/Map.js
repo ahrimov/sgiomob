@@ -152,20 +152,11 @@ function turnGPS(){
                 })
             })
         }))
-        var circle = new ol.geom.Polygon.circular({
-            center: [0, 0],
-            radius: 1000000
-        })
-        console.log(circle.getFirstCoordinate())
-/*
-        var circle = new ol.geom.Circle({
-            center: ol.proj.fromLonLat([position.coords.longitude, position.coords.latitude]),
-            radius: position.coords.accuracy
-        })*/
+
+        var circle = new ol.geom.Circle(ol.proj.fromLonLat([position.coords.longitude, position.coords.latitude]), position.coords.accuracy);
         var circle_feature = new ol.Feature(circle)
-        
         circle_feature.setStyle(new ol.style.Style({
-            image: new ol.style.Circle({
+            
                 fill: new ol.style.Fill({
                     color: [135, 207, 255, 0.5]
                 }),
@@ -173,7 +164,7 @@ function turnGPS(){
                     color: '#2765f5',
                     with: 1
                 })
-            })
+        
         }))
         gpsSource.addFeature(circle_feature)
         gpsSource.addFeature(marker)
@@ -182,7 +173,6 @@ function turnGPS(){
 }
 
  function updateInfo(){
-    console.log('aaa')
     if(raster.isLocal){
         document.querySelector('#info-label').innerHTML = "Оффлайн"
         document.querySelector('.dot').setAttribute('style', 'background-color: #bbb;')
