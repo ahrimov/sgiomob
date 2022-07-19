@@ -62,10 +62,11 @@ class CustomControls extends ol.control.Control {
 }
 
 function showMap(){
+    console.log('show map')
     var scaleLine = new ol.control.ScaleLine({
         units: 'metric',
     })
-      
+
     map = new ol.Map({
         target: 'map-container',
         layers: [raster],

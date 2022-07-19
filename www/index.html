@@ -17,27 +17,27 @@
     </head>
 
     <body>
-        
-        <ons-splitter>
-          <ons-splitter-side id="menu" side="left" width="220px" collapse>
-            <ons-page>
-              <ons-list>
-                <ons-list-item onclick="fn.load('./views/navigator.html')" tappable>
-                  Home
-                </ons-list-item>
-                <ons-list-item onclick="fn.load('./views/about.html')" tappable>
-                  About
-                </ons-list-item>
-              </ons-list>
-            </ons-page>
-          </ons-splitter-side>
-          
-          <ons-splitter-content id="content" page="./views/navigator.html">
-           
-          </ons-splitter-content>
-        </ons-splitter>
 
-      
+        <ons-splitter ng-app="myApp">
+            <ons-splitter-side collapse id="menu" side="left">
+              <ons-page>
+                <ons-toolbar><div class="center">sgiomob</div></ons-toolbar>
+                <ons-list>
+                    <ons-list-item tappable onclick="fn.load('./views/layers.html')">
+                      Слои
+                    </ons-list-item>
+                    <ons-list-item tappable onclick="fn.load('./views/about.html')">
+                      About
+                    </ons-list-item>
+                  </ons-list>
+              </ons-page>
+            </ons-splitter-side>
+            <ons-splitter-content>
+                <ons-navigator id="myNavigator" var="myNavigator" page="./views/home.html">
+            </ons-navigator>
+            </ons-splitter-content>
+          </ons-splitter>
+
         <script src="./js/index.js"></script>
         <script src="./js/initial.js"></script>
         <script src="./js/FileManage.js"></script>

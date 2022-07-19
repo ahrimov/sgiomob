@@ -1,8 +1,9 @@
 <ons-page>
+    
     <ons-toolbar>
     <div class="left">
         
-        <ons-toolbar-button> <!-- use onclick="fn.openMenu()" --> 
+        <ons-toolbar-button onclick="fn.openMenu()"> <!-- use onclick="fn.openMenu()" --> 
         <ons-icon icon="md-menu"></ons-icon>
         </ons-toolbar-button>
         
@@ -41,12 +42,18 @@
 
     <script>
     ons.getScriptPage().onInit = function() {
+        //console.log('welcome to home')
         showMap()
         this.querySelector('#push').onclick = function() {
             document.querySelector('#myNavigator').pushPage('./views/layers.html');
         };
         this.onShow = function() { 
+            //showMap()
         };
+        this.onDestroy = function(){
+            console.log('destroy')
+            
+        }
     };
 
     function openFeatureProperties(feature){

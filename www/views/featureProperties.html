@@ -82,6 +82,10 @@
                     center: feature.getGeometry().getClosestPoint([0,0]),
                     zoom:  currentMapView.getMaxZoom()
                 }))
+
+                local_map.on('click', function(evt){
+                    centerOnFeature(feature.getGeometry().getClosestPoint([0,0]))
+                })
             })
         }
 
@@ -116,6 +120,14 @@
                     break
             }
             return table
+        }
+
+        function centerOnFeature(center){
+            let navigator = document.querySelector('#myNavigator')
+            currentMapView.setCenter(center)
+            currentMapView.setZoom(currentMapView.getMaxZoom())
+            navigator.popPage({times: navigator.pages.length - 1})
+            
         }
 
     </script>

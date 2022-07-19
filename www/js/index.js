@@ -32,10 +32,9 @@ window.fn.openMenu = function() {
 };
 
 window.fn.load = function(page) {
-  var content = document.getElementById('content');
+  document.querySelector('#myNavigator').pushPage(page)
   var menu = document.getElementById('menu');
-  content.load(page)
-    .then(menu.close.bind(menu));
+  menu.close()
 };
 
 
