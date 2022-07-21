@@ -8,14 +8,52 @@
         <div class="center" id="title">
             Таблица
         </div>
+        <div class="right">
+            <ons-toolbar-button id="tool-search" onclick="showDialogSearch()">
+                <ons-icon icon="md-search"></ons-icon>
+            </ons-toolbar-button>
+        </div>
     </ons-toolbar>
     <div id="features-list"></div>
+
+    <template id="select_atribs">
+        <ons-select onchange="editFeaturesTable(event)">
+        </ons-select>
+    </template>
+
+    <template id="dialog_search">
+        <ons-dialog id="dialog-search">
+                <ons-toolbar class="dialog-toolbar">
+                    <div class="center dialog-toolbar-content">
+                        Поиск
+                    </div>
+                    <div class="right">
+                        <ons-toolbar-button onclick="hideDialog('dialog-search')">
+                            <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                        </ons-toolbar-button>
+                    </div>
+                </ons-toolbar>
+                <div class="dialog-search-content">
+                    <p>Имя столбца</p>
+                        <ons-select id='ons-select-dialog-search' modifier="material" onchange="selectingSearch(event)">
+                            <select id='select-dialog-search' required></select>
+                        </ons-select>
+                    <div id="select-value-dialog-search"></div>
+                    <ons-button modifier="quiet" onclick="acceptFilter()" style="float:right;">Установить</ons-button>
+                    <ons-button modifier="quiet" onclick="clearFilter()" style="float:right;">Отмена</ons-button>
+                </div>
+        </ons-dialog>
+    </template>
+
+
     <script>
         var layerID
         var left_row, right_row
         var count_row
         var limit = 50
         var offset = 0
+        var filter_atrib_name
+        var filter_atrib_value = '%'
         ons.getScriptPage().onInit = function() {
             layerID = this.data.layerID
 
@@ -55,8 +93,9 @@
             document.getElementById("title").innerHTML = layer.label
             left_row = layer.atribs[0].name
             right_row = layer.atribs[1].name
+            filter_atrib_name = layer.atribs[0].name
             document.getElementsByClassName("feat_right")[0].value = right_row
-            showFeaturesList(layerID, left_row, right_row, limit, offset)
+            showFeaturesList(layerID, left_row, right_row, filter_atrib_name, filter_atrib_value, limit, offset)
 
             this.querySelector('.page__content').addEventListener('scroll',  function (e) {
                 checkPosition()
@@ -75,12 +114,12 @@
             if(divClass == 'feat_left'){
                 left_row = event.target.value
             }
-            else if(divClass == 'feat_right'){
+            else if(divClass == 'feat_right'){    
                 right_row = event.target.value
             }
             let table = document.querySelector('#features-tbody')
             table.innerHTML = ""
-            showFeaturesList(layerID, left_row, right_row, limit, offset)
+            showFeaturesList(layerID, left_row, right_row, filter_atrib_name, filter_atrib_value, limit, offset)
         }
 
         function checkPosition(){
@@ -95,13 +134,15 @@
                 if(offset > count_row){
                     return
                 }
-                showFeaturesList(layerID, left_row, right_row, limit, offset)
+                showFeaturesList(layerID, left_row, right_row, filter_atrib_name, filter_atrib_value, limit, offset)
             }
         }
 
-        function showFeaturesList(layerID, left_row, right_row, limit, offset){
+        function showFeaturesList(layerID, left_row, right_row, filter_atrib_name, filter_atrib_value, limit, offset){
             let layer = findLayer(layerID)
-            const query = `SELECT  ${layer.atribs[0].name} as id, ${left_row} as left, ${right_row} as right from ${layerID} LIMIT ${limit} OFFSET ${offset}`
+            const query = `SELECT  ${layer.atribs[0].name} as id, ${left_row} as left, ${right_row} as right from ${layerID}
+                WHERE ${filter_atrib_name} LIKE '${filter_atrib_value}%' 
+                LIMIT ${limit} OFFSET ${offset}`
             getDataFromDB(query, function(data){
                 let table = document.querySelector('#features-tbody')
                 for(let i = 0; i < data.rows.length; i++){
@@ -115,6 +156,113 @@
             })
         }
 
+
+        function showDialogSearch(){
+            ons.createElement('dialog_search', {append: true})
+            .then(function(dialog){
+                let layer = findLayer(layerID)
+                let select = document.querySelector('#select-dialog-search')
+                let options = ''
+                for(atrib of layer.atribs){
+                    options += `<option value="${atrib.name}">${atrib.label}</option>`
+                }
+                select.innerHTML = options
+                select.value = filter_atrib_name
+
+                let typeAtrib = getTypeByAtribName(layer.atribs, filter_atrib_name)
+                addInputForFilter(typeAtrib)
+                if(filter_atrib_value != '%'){
+                    inputSetValue(filter_atrib_value, typeAtrib)
+                }
+                dialog.show()
+            })
+        }
+
+        function selectingSearch(event){
+            let atribName = event.target.value
+            let layer = findLayer(layerID)
+            addInputForFilter(getTypeByAtribName(layer.atribs, atribName))
+        }
+
+        function addInputForFilter(type){
+            let dialog_search_values = document.querySelector('#select-value-dialog-search')
+            switch(type){
+                case 'DOUBLE':
+                    let number_input = `<ons-input id="filter-value" modifier="underbar" type="number" float></ons-input>`
+                    dialog_search_values.innerHTML = number_input
+                    break
+                case 'STRING':
+                    let string_input = `<ons-input id="filter-value" modifier="underbar" float></ons-input>`
+                    dialog_search_values.innerHTML = string_input
+                    break
+                case 'BOOLEAN':
+                    let boolean_input = `<ons-radio id="radio-1" name="boolean-input" input-id="radio-1" value='1'></ons-radio>
+                                         <label for="radio-1">Да</label>
+                                         <ons-radio id="radio-0" name="boolean-input" input-id="radio-0" value='0'></ons-radio>
+                                         <label for="radio-0">Нет</label>`
+                    dialog_search_values.innerHTML = boolean_input
+                    break
+                default:
+                    dialog_search_values.innerHTML = ''
+                    break
+            }
+        }
+
+        function acceptFilter(){
+            filter_atrib_name = document.querySelector('#ons-select-dialog-search').value
+            let layer = findLayer(layerID)
+            let typeAtrib = getTypeByAtribName(layer.atribs, filter_atrib_name)
+            filter_atrib_value = inputGetValue(typeAtrib)
+            offset = 0
+            let table = document.querySelector('#features-tbody')
+            table.innerHTML = ""
+            showFeaturesList(layerID, left_row, right_row, filter_atrib_name, filter_atrib_value, limit, offset)
+
+            hideDialog('dialog-search')
+        }
+
+        function clearFilter(){
+            let table = document.querySelector('#features-tbody')
+            table.innerHTML = ""
+            filter_atrib_name = left_row
+            filter_atrib_value = '%'
+            offset = 0
+            showFeaturesList(layerID, left_row, right_row, filter_atrib_name, filter_atrib_value, limit, offset)
+
+            hideDialog('dialog-search')
+        }
+
+        function inputSetValue(value, type){
+            switch(type){
+                case 'BOOLEAN':
+                    if(value == 1){
+                        document.querySelector('#radio-1').checked = true
+                        document.querySelector('#radio-0').checked = false
+                    }
+                    else{
+                        document.querySelector('#radio-0').checked = true
+                        document.querySelector('#radio-1').checked = false
+                    }
+                    break
+                default:
+                    document.querySelector('#filter-value').value = filter_atrib_value
+                    break
+            }
+        }
+
+        function inputGetValue(type){
+            switch(type){
+                case 'BOOLEAN':
+                    let group = document.getElementsByName('boolean-input')
+                    for(element of group){
+                        if(element.checked)
+                            return element.value
+                    }
+                    break
+                default:
+                    return document.querySelector('#filter-value').value
+            }
+        }
 
     </script>
 </ons-page>
