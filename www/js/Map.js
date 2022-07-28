@@ -12,6 +12,9 @@ class CustomControls extends ol.control.Control {
       const gpsButton = ons.createElement(`<div class='gps-button'><ons-fab  modifier='mini'>
                                                 <ons-icon icon='md-gps'></ons-icon>
                                             </ons-fab></div>`)
+      const drawButton = ons.createElement(`<div class='draw-button'><ons-fab>
+                                            <ons-icon icon='md-plus'></ons-icon>
+                                        </ons-fab></div>`)
       let div = document.createElement('div')
       div.className = "att"
       let str = `<span class='dot'></span>
@@ -21,6 +24,7 @@ class CustomControls extends ol.control.Control {
       const element = document.createElement('div');
       element.className = 'buttons'
 
+      element.append(drawButton)
       element.appendChild(buttonZoomPlus)
       element.appendChild(buttonZoomMinus)
       element.appendChild(gpsButton)
@@ -32,6 +36,7 @@ class CustomControls extends ol.control.Control {
         target: options.target,
       });
   
+      drawButton.addEventListener('click', this.clickDrawButton.bind(this), false);
       buttonZoomPlus.addEventListener('click', this.zoomPlus.bind(this), false);
       buttonZoomMinus.addEventListener('click', this.zoomMinus.bind(this), false);
       gpsButton.addEventListener('click', this.centerGPS.bind(this), false);
@@ -58,6 +63,20 @@ class CustomControls extends ol.control.Control {
         })
         currentMapView = view
         map.setView(currentMapView)
+    }
+
+    clickDrawButton(){
+        if(typeof this.clickDrawButton.isOpen == 'undefined'){
+            this.clickDrawButton.isOpen = false
+        }
+        this.clickDrawButton.isOpen = !this.clickDrawButton.isOpen
+        if(this.clickDrawButton.isOpen){
+            openDrawBar()
+        }
+        else{
+            closeDrawBar()
+        }
+        
     }
 }
 

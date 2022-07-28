@@ -6,16 +6,16 @@
 }
 
 .zoom-plus{
-  position: relative;
-  top: 78%;
-  left: 8700%;
+  position: absolute;
+  top: 75%;
+  left: 85%;
 
 }
 
 .zoom-minus{
-  position: relative;
-  top: 80%;
-  left: 8700%;
+  position: absolute;
+  top: 82%;
+  left: 85%;
 }
 
 .buttons{
@@ -25,9 +25,20 @@
 }
 
 .gps-button{
-  position: relative;
-  top: 64.5%;
-  left: 200%;
+  position: absolute;
+  top: 83%;
+  left: 2%;
+}
+
+.draw-button{
+  position: absolute;
+  top: 90%;
+  left: 83%;
+}
+
+.draw-button .fab{
+  background-color: #2375fa;
+  color: white;
 }
 
 
@@ -44,13 +55,13 @@
   border-radius: 25px;
   padding: 3px;
   border: 1px solid black;
-  width: 2700%;
-  height: 5%;
+  width: 90px;
+  height: 25px;
   background-color: white;
   opacity: .7;
-  position: relative;
-  top: 65.5%;
-  left: 200%
+  position: absolute;
+  top: 90%;
+  left: 2%
 }
 
 .crosshair{
@@ -59,4 +70,41 @@
   position: absolute;
   left: 43.6%;
   top: 46.3%;
+}
+
+.downbar {
+  width: 100%;
+  height: 15%;
+      
+  display: none;
+  background-color: white;
+
+  /*transform: translateY(200%);
+  transition: 0.5s;*/
+}
+
+.carousel-item-content{
+  text-align: center; 
+  padding: 5%;
+}
+
+
+.draw-button:hover + .downbar {
+  transform: translateX(0);
+}
+
+.dialog-toolbar{
+  background-color: #2375fa;
+}
+.dialog-toolbar-content{
+  font-size: 12pt;
+  color: white;
+}
+.dialog-close{
+  color: white;
+}
+#dialog-features-content{
+  margin-top: 10vh;
+  max-height: 70vh;
+  overflow: scroll;
 }

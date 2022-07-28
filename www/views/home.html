@@ -3,7 +3,7 @@
     <ons-toolbar>
     <div class="left">
         
-        <ons-toolbar-button onclick="fn.openMenu()"> <!-- use onclick="fn.openMenu()" --> 
+        <ons-toolbar-button onclick="fn.openMenu()"> 
         <ons-icon icon="md-menu"></ons-icon>
         </ons-toolbar-button>
         
@@ -20,6 +20,16 @@
     </ons-toolbar>
 
     <div id="map-container"></div>
+
+    <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="150px" swipeable id="draw-bar" class="downbar">
+    </ons-carousel>
+
+    <template id="carousel-item">
+        <ons-carousel-item>
+            <div class="carousel-item-content">
+            </div>
+          </ons-carousel-item>
+    </template>
 
     <template id="dialog_features">
         <ons-dialog id="dialog-features">
@@ -43,6 +53,15 @@
     <script>
     ons.getScriptPage().onInit = function() {
         showMap()
+
+        let drawBar = document.querySelector('#draw-bar')
+        for(layer of layers){
+            let template = document.querySelector('#carousel-item')
+            let carouselItem = template.content.cloneNode(true)
+            carouselItem.querySelector('.carousel-item-content').innerHTML = layer.label
+            drawBar.appendChild(carouselItem)
+        }
+
         this.querySelector('#push').onclick = function() {
             document.querySelector('#myNavigator').pushPage('./views/layers.html');
         };
@@ -100,27 +119,23 @@
             })
     }
 
+    function openDrawBar(){
+        let mapContainer = document.querySelector('#map-container')
+        let drawBar = document.querySelector('#draw-bar')
+        mapContainer.style['height'] = "85%"
+        drawBar.style["display"] = "block"
+    }
+
+    function closeDrawBar(){
+        let mapContainer = document.querySelector('#map-container')
+        let drawBar = document.querySelector('#draw-bar')
+        mapContainer.style['height'] = "100%"
+        drawBar.style["display"] = "none"
+    }
+
     function hideDialog(id){
         document.getElementById(id).remove()
     }
 
     </script>
-
-    <style>
-        .dialog-toolbar{
-            background-color: #2375fa;
-        }
-        .dialog-toolbar-content{
-            font-size: 12pt;
-            color: white;
-        }
-        .dialog-close{
-            color: white;
-        }
-        #dialog-features-content{
-            margin-top: 10vh;
-            max-height: 70vh;
-            overflow: scroll;
-        }
-    </style>
 </ons-page>

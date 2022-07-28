@@ -1,5 +1,5 @@
 function initial(){
-    document.querySelector('#myNavigator').pushPage('./views/loadScreen.html');
+    //document.querySelector('#myNavigator').pushPage('./views/loadScreen.html');
     let path = root_directory + "Project/config.xml"
     checkIfFileExists(path, fileExist, warning)
     openFile(path, configParser)
@@ -8,7 +8,7 @@ function initial(){
 }
 
 function fileExist(){
-    console.log('ok')
+    console.log('Config file exist!')
 }
 
 function warning(){
@@ -24,5 +24,6 @@ function completeLoad(){
     completeLoad.counter++
     if(completeLoad.counter == layers.length){
         document.querySelector('#myNavigator').popPage()
+        document.querySelector('#myNavigator').pushPage('./views/home.html')
     }
 }
