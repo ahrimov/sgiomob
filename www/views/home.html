@@ -55,10 +55,15 @@
         showMap()
 
         let drawBar = document.querySelector('#draw-bar')
-        for(layer of layers){
+        for(let layer of layers){
             let template = document.querySelector('#carousel-item')
             let carouselItem = template.content.cloneNode(true)
             carouselItem.querySelector('.carousel-item-content').innerHTML = layer.label
+            carouselItem.querySelector('.carousel-item-content').addEventListener('click', function(){
+                console.log(layer.label)
+                map.interactMode = MapInteractMode.Draw
+                addDrawInteraction(layer)
+            })
             drawBar.appendChild(carouselItem)
         }
 
@@ -85,7 +90,6 @@
 
     function showDialogFeatures(evt){
         let features = map.getFeaturesAtPixel(evt.pixel)
-        console.log(features.length)
         if(features.length == 0){
             return
         }
@@ -131,6 +135,9 @@
         let drawBar = document.querySelector('#draw-bar')
         mapContainer.style['height'] = "100%"
         drawBar.style["display"] = "none"
+        map.interactMode = MapInteractMode.FindFeature
+        if(typeof map.draw != 'undefined')
+            map.removeInteraction(map.draw); 
     }
 
     function hideDialog(id){

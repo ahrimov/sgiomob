@@ -23,7 +23,6 @@ function completeLoad(){
     }
     completeLoad.counter++
     if(completeLoad.counter == layers.length){
-        document.querySelector('#myNavigator').popPage()
         document.querySelector('#myNavigator').pushPage('./views/home.html')
     }
 }

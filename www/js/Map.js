@@ -1,3 +1,8 @@
+const MapInteractMode = Object.freeze({
+	FindFeature: Symbol("feature"),
+	Draw: Symbol("draw")
+})
+
 class CustomControls extends ol.control.Control {
     constructor(opt_options) {
       const options = opt_options || {};
@@ -91,13 +96,24 @@ function showMap(){
         view: currentMapView,
         controls: [scaleLine, new CustomControls]
     });
+    map.interactMode = MapInteractMode.FindFeature
     for(layer of layers){
         map.addLayer(layer)
     }
 
     map.on('click', function(evt){
-        setTimeout(showDialogFeatures, 50, evt)
+        switch(map.interactMode){
+            case MapInteractMode.FindFeature:
+                setTimeout(showDialogFeatures, 50, evt)
+                break
+            case MapInteractMode.Draw:
+                
+                break
+            default:
+                setTimeout(showDialogFeatures, 50, evt)
+        }
     })
+
     updateInfo()
 }
 
@@ -203,5 +219,27 @@ function turnGPS(){
         document.querySelector('.dot').setAttribute('style', 'background-color: green;')
     }
  }
+
+function addDrawInteraction(layer){
+    if(typeof map.draw != 'undefined')
+        map.removeInteraction(map.draw);
+    map.draw = new ol.interaction.Draw({
+        source: layer.getSource(),
+        type: "Point",
+    });
+    map.addInteraction(map.draw);
+}
+
+ /*function drawFeature(evt){
+    console.log(evt.coordinate)
+    let
+    let feature = {
+        geometry: new ol.geom.Point(evt.coordinate)
+    }
+    feature.id = 1
+    feature.layerID = map.activeLayer.id
+    let source = map.activeLayer.getSource()
+    source.addFeature(feature)
+ }*/
 
 
