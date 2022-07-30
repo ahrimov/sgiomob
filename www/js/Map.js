@@ -1,8 +1,3 @@
-const MapInteractMode = Object.freeze({
-	FindFeature: Symbol("feature"),
-	Draw: Symbol("draw")
-})
-
 class CustomControls extends ol.control.Control {
     constructor(opt_options) {
       const options = opt_options || {};
@@ -18,7 +13,13 @@ class CustomControls extends ol.control.Control {
                                                 <ons-icon icon='md-gps'></ons-icon>
                                             </ons-fab></div>`)
       const drawButton = ons.createElement(`<div class='draw-button'><ons-fab>
-                                            <ons-icon icon='md-plus'></ons-icon>
+                                            <ons-icon class='icon' icon='md-plus'></ons-icon>
+                                        </ons-fab></div>`)
+      const acceptDrawButton = ons.createElement(`<div class='accept-draw-button'><ons-fab>
+                                                    <ons-icon class='icon' icon='md-check'></ons-icon>
+                                                </ons-fab></div>`)
+      const cancelButton = ons.createElement(`<div class='cancel-button'><ons-fab modifier='mini'>
+                                            <ons-icon icon='md-close'></ons-icon>
                                         </ons-fab></div>`)
       let div = document.createElement('div')
       div.className = "att"
@@ -30,9 +31,11 @@ class CustomControls extends ol.control.Control {
       element.className = 'buttons'
 
       element.append(drawButton)
+      element.append(acceptDrawButton)
       element.appendChild(buttonZoomPlus)
       element.appendChild(buttonZoomMinus)
       element.appendChild(gpsButton)
+      element.appendChild(cancelButton)
       element.appendChild(div)
       element.appendChild(crosshair)
         
@@ -42,9 +45,11 @@ class CustomControls extends ol.control.Control {
       });
   
       drawButton.addEventListener('click', this.clickDrawButton.bind(this), false);
+      acceptDrawButton.addEventListener('click', this.acceptDraw.bind(this), false);
       buttonZoomPlus.addEventListener('click', this.zoomPlus.bind(this), false);
       buttonZoomMinus.addEventListener('click', this.zoomMinus.bind(this), false);
       gpsButton.addEventListener('click', this.centerGPS.bind(this), false);
+      cancelButton.addEventListener('click', this.cancelDraw.bind(this), false);
     }
   
     zoomPlus(){
@@ -81,7 +86,20 @@ class CustomControls extends ol.control.Control {
         else{
             closeDrawBar()
         }
-        
+    }
+
+    acceptDraw(){
+
+        finishDraw()
+    }
+
+    cancelDraw(){
+        if(typeof map.draw.currentFeature != 'undefined'){
+            let layer = map.activeLayer
+            layer.getSource().removeFeature(map.draw.currentFeature)
+        }
+
+        finishDraw()
     }
 }
 
@@ -96,22 +114,12 @@ function showMap(){
         view: currentMapView,
         controls: [scaleLine, new CustomControls]
     });
-    map.interactMode = MapInteractMode.FindFeature
     for(layer of layers){
         map.addLayer(layer)
     }
 
     map.on('click', function(evt){
-        switch(map.interactMode){
-            case MapInteractMode.FindFeature:
-                setTimeout(showDialogFeatures, 50, evt)
-                break
-            case MapInteractMode.Draw:
-                
-                break
-            default:
-                setTimeout(showDialogFeatures, 50, evt)
-        }
+        setTimeout(showDialogFeatures, 50, evt)
     })
 
     updateInfo()
@@ -221,25 +229,66 @@ function turnGPS(){
  }
 
 function addDrawInteraction(layer){
+    map.activeLayer = layer
     if(typeof map.draw != 'undefined')
         map.removeInteraction(map.draw);
     map.draw = new ol.interaction.Draw({
         source: layer.getSource(),
-        type: "Point",
+        type: convertGeometryType(layer.geometryType),
+        stopClick: true,
     });
+
+    map.draw.on('drawstart', function(event){
+        if(typeof map.draw.currentFeature != 'undefined')
+            layer.getSource().removeFeature(map.draw.currentFeature)
+        map.draw.currentFeature = event.feature
+    })
+
+    displayCancelButton()
+   
     map.addInteraction(map.draw);
 }
 
- /*function drawFeature(evt){
-    console.log(evt.coordinate)
-    let
-    let feature = {
-        geometry: new ol.geom.Point(evt.coordinate)
+function finishDraw(){
+    if(typeof map.draw != 'undefined')
+        map.removeInteraction(map.draw);
+
+    removeCancelButton()
+
+    let acceptDrawButton = document.querySelector('.accept-draw-button')
+    acceptDrawButton.style['display'] = 'none'
+    let drawButton = document.querySelector('.draw-button')
+    drawButton.style['display'] = 'block'
+
+    let drawInstrumentBar = document.querySelector('#draw-instrument-bar')
+    drawInstrumentBar.style['display'] = 'none'
+    let drawBar = document.querySelector('#draw-bar')
+    drawBar.style['display'] = 'block'
+    
+}
+
+function displayCancelButton(){
+    let cancelButton = document.querySelector('.cancel-button')
+    cancelButton.style['display'] = 'block'
+}
+
+function removeCancelButton(){
+    let cancelButton = document.querySelector('.cancel-button')
+    cancelButton.style['display'] = 'none'
+}
+
+function convertGeometryType(type){
+    switch(type){
+        case 'MULTIPOINT':
+            return 'MultiPoint'
+        case 'MULTIPOLYGON':
+            return 'MultiPolygon'
+        case 'MULTILINESTRING':
+            return 'MultiLineString'
+        default:
+            return 'Point'
     }
-    feature.id = 1
-    feature.layerID = map.activeLayer.id
-    let source = map.activeLayer.getSource()
-    source.addFeature(feature)
- }*/
+}
+
 
 

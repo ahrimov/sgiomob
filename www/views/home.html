@@ -24,6 +24,24 @@
     <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="150px" swipeable id="draw-bar" class="downbar">
     </ons-carousel>
 
+    <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="150px" swipeable id="draw-instrument-bar" class="downbar">
+        <ons-carousel-item>
+            <div class="carousel-item-content">
+                Центр карты
+            </div>
+        </ons-carousel-item>
+        <ons-carousel-item>
+            <div class="carousel-item-content">
+                Местонахождение устройства
+            </div>
+        </ons-carousel-item>
+        <ons-carousel-item>
+            <div class="carousel-item-content">
+                Координаты
+            </div>
+        </ons-carousel-item>
+    </ons-carousel>
+
     <template id="carousel-item">
         <ons-carousel-item>
             <div class="carousel-item-content">
@@ -53,38 +71,19 @@
     <script>
     ons.getScriptPage().onInit = function() {
         showMap()
-
-        let drawBar = document.querySelector('#draw-bar')
-        for(let layer of layers){
-            let template = document.querySelector('#carousel-item')
-            let carouselItem = template.content.cloneNode(true)
-            carouselItem.querySelector('.carousel-item-content').innerHTML = layer.label
-            carouselItem.querySelector('.carousel-item-content').addEventListener('click', function(){
-                console.log(layer.label)
-                map.interactMode = MapInteractMode.Draw
-                addDrawInteraction(layer)
-            })
-            drawBar.appendChild(carouselItem)
-        }
+        createDrawBar()
 
         this.querySelector('#push').onclick = function() {
             document.querySelector('#myNavigator').pushPage('./views/layers.html');
         };
+
         this.onShow = function() { 
             map.updateSize();
-            
         };
-        this.onDestroy = function(){
-            console.log('destroy')
-            
-        }
     };
 
     function openFeatureProperties(feature){
-        var dialog = document.getElementById('dialog-features')
-        if(dialog){
-            dialog.remove()
-        }
+        hideDialog('dialog-features')
         document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: feature.layerID, featureID: feature.id}});
     }
 
@@ -135,13 +134,36 @@
         let drawBar = document.querySelector('#draw-bar')
         mapContainer.style['height'] = "100%"
         drawBar.style["display"] = "none"
-        map.interactMode = MapInteractMode.FindFeature
-        if(typeof map.draw != 'undefined')
-            map.removeInteraction(map.draw); 
+    }
+
+    function createDrawBar(){
+        let drawBar = document.querySelector('#draw-bar')
+        for(let layer of layers){
+            let template = document.querySelector('#carousel-item')
+            let carouselItem = template.content.cloneNode(true)
+            carouselItem.querySelector('.carousel-item-content').innerHTML = layer.label
+            carouselItem.querySelector('.carousel-item-content').addEventListener('click', function(){
+
+                let drawButton = document.querySelector('.draw-button')
+                drawButton.style['display'] = 'none'
+                let acceptDrawButton = document.querySelector('.accept-draw-button')
+                acceptDrawButton.style['display'] = 'block'
+
+                drawBar.style['display'] = 'none'
+                let drawInstrumentBar = document.querySelector('#draw-instrument-bar')
+                drawInstrumentBar.style['display'] = 'block'
+
+                addDrawInteraction(layer)
+            })
+            drawBar.appendChild(carouselItem)
+        }
     }
 
     function hideDialog(id){
-        document.getElementById(id).remove()
+        let dialog = document.getElementById(id)
+        if(dialog){
+            dialog.remove()
+        }
     }
 
     </script>

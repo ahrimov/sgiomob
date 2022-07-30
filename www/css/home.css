@@ -41,6 +41,24 @@
   color: white;
 }
 
+.accept-draw-button{
+  display: none;
+  position: absolute;
+  top: 90%;
+  left: 83%;
+}
+
+.accept-draw-button .fab{
+  background-color: #2375fa;
+  color: white;
+}
+
+.cancel-button{
+  display: none;
+  position: absolute;
+  top: 10%;
+  left: 85%;
+}
 
 .dot {
   height: 12px;
@@ -78,9 +96,6 @@
       
   display: none;
   background-color: white;
-
-  /*transform: translateY(200%);
-  transition: 0.5s;*/
 }
 
 .carousel-item-content{
@@ -88,9 +103,8 @@
   padding: 5%;
 }
 
-
-.draw-button:hover + .downbar {
-  transform: translateX(0);
+.carousel-item-content:hover{
+  background-color: #c0c2c2;
 }
 
 .dialog-toolbar{
