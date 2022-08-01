@@ -249,6 +249,11 @@ function addDrawInteraction(layer){
     map.addInteraction(map.draw);
 }
 
+function drawNextPoint(coordinate){
+    map.draw.appendCoordinates([coordinate])
+}
+
+
 function finishDraw(){
     if(typeof map.draw != 'undefined')
         map.removeInteraction(map.draw);

@@ -26,17 +26,17 @@
 
     <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="150px" swipeable id="draw-instrument-bar" class="downbar">
         <ons-carousel-item>
-            <div class="carousel-item-content">
+            <div class="carousel-item-content" id="instrument-draw-center" onclick="drawInstrumentCenter()">
                 Центр карты
             </div>
         </ons-carousel-item>
         <ons-carousel-item>
-            <div class="carousel-item-content">
+            <div class="carousel-item-content" id="intrument-draw-gps">
                 Местонахождение устройства
             </div>
         </ons-carousel-item>
         <ons-carousel-item>
-            <div class="carousel-item-content">
+            <div class="carousel-item-content" id="instrument-draw-coordinate">
                 Координаты
             </div>
         </ons-carousel-item>
@@ -157,6 +157,10 @@
             })
             drawBar.appendChild(carouselItem)
         }
+    }
+
+    function drawInstrumentCenter(){
+        drawNextPoint(currentMapView.getCenter())
     }
 
     function hideDialog(id){
