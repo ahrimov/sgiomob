@@ -83,15 +83,19 @@
 }
 
 .crosshair{
-  width: 10%;
-  height: 7%;
+  width: 40px;
+  height: 40px;
   position: absolute;
-
-
-
-  left: 43.2%;
-  top: 43.9%;
+  left: 50%;
+  top: 50%;
+  text-align: center;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
+
 
 .downbar {
   width: 100%;
