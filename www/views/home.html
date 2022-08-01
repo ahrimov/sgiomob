@@ -31,12 +31,12 @@
             </div>
         </ons-carousel-item>
         <ons-carousel-item>
-            <div class="carousel-item-content" id="intrument-draw-gps">
+            <div class="carousel-item-content" id="intrument-draw-gps" onclick="drawInstrumentGPS()">
                 Местонахождение устройства
             </div>
         </ons-carousel-item>
         <ons-carousel-item>
-            <div class="carousel-item-content" id="instrument-draw-coordinate">
+            <div class="carousel-item-content" id="instrument-draw-coordinate" onclick="showDrawInstrumentDialog()">
                 Координаты
             </div>
         </ons-carousel-item>
@@ -65,6 +65,34 @@
                 <ons-list id="dialog-features-content">
                 </ons-list>
                 </div>
+        </ons-dialog>
+    </template>
+
+    <template id="dialog_draw_instrument_coordinate">
+        <ons-dialog id="dialog-draw-instrument-coordinate">
+            <ons-toolbar class="dialog-toolbar">
+                <div class="center dialog-toolbar-content">
+                    Координаты
+                </div>
+                <div class="right">
+                    <ons-toolbar-button onclick="hideDialog('dialog-draw-instrument-coordinate')">
+                        <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div class="dialog-draw-instrument-coordinate-content">
+                <p>Введите координаты</p>
+                <div>
+                    <span>Y:</span>
+                    <ons-input id="Y-value" modifier="underbar" type="number" float value="0"></ons-input>
+                </div>
+                <div>
+                    <span>X:</span>
+                    <ons-input id="X-value" modifier="underbar" type="number" float value="0"></ons-input>
+                </div>
+                <ons-button modifier="quiet" onclick="drawInstrumentCoordinate()" style="float:right;">Установить</ons-button>
+                <ons-button modifier="quiet" onclick="hideDialog('dialog-draw-instrument-coordinate')" style="float:right;">Отмена</ons-button>
+            </div>
         </ons-dialog>
     </template>
 
@@ -162,7 +190,32 @@
     }
 
     function drawInstrumentCenter(){
-        drawNextPoint(currentMapView.getCenter())
+        appendCoordinate(currentMapView.getCenter())
+    }
+
+    function drawInstrumentGPS(){
+        currentMapView.setCenter([gps_position.coords.longitude, gps_position.coords.latitude])
+        let coordinate = ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude])
+        appendCoordinate(coordinate)
+    }
+
+    function showDrawInstrumentDialog(){
+        ons.createElement('dialog_draw_instrument_coordinate', {append: true})
+            .then(function(dialog){
+                dialog.show()
+            })
+    }
+
+    function drawInstrumentCoordinate(){
+        let y = document.querySelector('#Y-value').value
+        let x = document.querySelector('#X-value').value
+        if(y < -90 || y > 90 || x > 180 || x < -180){
+            ons.notification.alert('Недопустимые значения координат')
+            return
+        }
+        hideDialog('dialog-draw-instrument-coordinate')
+        appendCoordinate(ol.proj.fromLonLat([x, y]))
+        currentMapView.setCenter(ol.proj.fromLonLat([x, y]))
     }
 
     function hideDialog(id){

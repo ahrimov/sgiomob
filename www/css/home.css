@@ -56,8 +56,15 @@
 .cancel-button{
   display: none;
   position: absolute;
-  top: 10%;
+  top: 7%;
   left: 85%;
+}
+
+.undo-button{
+  display: none;
+  position: absolute;
+  top: 7%;
+  left: 70%;
 }
 
 .dot {
@@ -130,13 +137,11 @@
   overflow: scroll;
 }
 
-
-
-
-.rotate-north {
-  top: 65px;
-  left: .5em;
-}
-.ol-touch .rotate-north {
-  top: 80px;
+.dialog-draw-instrument-coordinate-content{
+  margin-top: 10vh;
+  max-height: 70vh;
+  overflow: scroll;
+  margin-left: 1vh;
+  margin-right: 1vh;
+  margin-bottom: 1vh;
 }

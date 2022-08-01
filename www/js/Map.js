@@ -24,8 +24,7 @@ class CustomControls extends ol.control.Control {
       div.className = "att"
       let str = `<span class='dot'></span>
                 <span id='info-label'>Онлайн</span>`
-      div.innerHTML = str.trim()
-      //const crosshair = ons.createElement(`<img class='crosshair' src='../resources/crosshair.png'>`)                                
+      div.innerHTML = str.trim()                           
       const element = document.createElement('div');
       element.className = 'buttons'
 
@@ -36,7 +35,6 @@ class CustomControls extends ol.control.Control {
       element.appendChild(gpsButton)
       element.appendChild(cancelButton)
       element.appendChild(div)
-      //element.appendChild(crosshair)
         
       super({
         element: element,
@@ -103,24 +101,40 @@ class CustomControls extends ol.control.Control {
 }
 
 
-
-
 class Crosshair extends ol.control.Control {
     constructor(opt_options) {
       const options = opt_options || {};
   
       const crosshair = ons.createElement(`<img class='crosshair' src='../resources/crosshair.png'>`)
   
-      /*const element = document.createElement('div');
-      element.className = 'crosshair';
-      element.appendChild(crosshair);*/
-  
       super({
         element: crosshair,
         target: options.target,
       });
     }
-  }
+}
+
+class UndoButton extends ol.control.Control {
+    constructor(opt_options) {
+        const options = opt_options || {};
+    
+        const undoButton = ons.createElement(`<div class='undo-button'><ons-fab modifier='mini'>
+                                                <ons-icon icon='md-undo'></ons-icon>
+                                            </ons-fab></div>`)
+    
+        super({
+          element: undoButton,
+          target: options.target,
+        });
+
+        undoButton.addEventListener('click', this.undoDraw.bind(this), false);
+      }
+
+      undoDraw(){
+        if(typeof map.draw != 'undefined')
+            map.draw.removeLastPoint()
+      }
+}
 
 function showMap(){
     var scaleLine = new ol.control.ScaleLine({
@@ -131,7 +145,7 @@ function showMap(){
         target: 'map-container',
         layers: [raster],
         view: currentMapView,
-        controls: [scaleLine, new CustomControls, new Crosshair]
+        controls: [scaleLine, new CustomControls, new Crosshair, new UndoButton]
     });
     for(layer of layers){
         map.addLayer(layer)
@@ -258,9 +272,15 @@ function addDrawInteraction(layer){
     });
 
     map.draw.on('drawstart', function(event){
-        if(typeof map.draw.currentFeature != 'undefined')
-            layer.getSource().removeFeature(map.draw.currentFeature)
-        map.draw.currentFeature = event.feature
+        drawNextPoint(layer, event.feature)
+        
+        let undoButton = document.querySelector('.undo-button')
+        undoButton.style['display'] = 'block'
+    })
+
+    map.draw.on('drawend', function(event){
+        let undoButton = document.querySelector('.undo-button')
+        undoButton.style['display'] = 'none'
     })
 
     displayCancelButton()
@@ -268,8 +288,25 @@ function addDrawInteraction(layer){
     map.addInteraction(map.draw);
 }
 
-function drawNextPoint(coordinate){
-    map.draw.appendCoordinates([coordinate])
+function drawNextPoint(layer, feature){
+    if(typeof map.draw.currentFeature != 'undefined')
+        layer.getSource().removeFeature(map.draw.currentFeature)
+    map.draw.currentFeature = feature
+}
+
+function appendCoordinate(coordinate){
+    if(map.activeLayer.geometryType == 'MULTIPOINT'){
+        var point = new ol.geom.Point(coordinate)
+        let feature = new ol.Feature({
+            geometry: point
+        })
+        drawNextPoint(map.activeLayer, feature)
+        let source = map.activeLayer.getSource()
+        source.addFeature(feature)
+    }
+    else{
+        map.draw.appendCoordinates([coordinate])
+    }
 }
 
 
@@ -288,6 +325,9 @@ function finishDraw(){
     drawInstrumentBar.style['display'] = 'none'
     let drawBar = document.querySelector('#draw-bar')
     drawBar.style['display'] = 'block'
+
+    let undoButton = document.querySelector('.undo-button')
+    undoButton.style['display'] = 'none'
     
 }
 
