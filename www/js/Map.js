@@ -5,7 +5,6 @@ class CustomControls extends ol.control.Control {
       const buttonZoomPlus = ons.createElement(`<div class='zoom-plus'><ons-fab modifier='mini'>
                                                     <ons-icon icon='md-plus'></ons-icon>
                                                 </ons-fab></div>`)
-    
       const buttonZoomMinus = ons.createElement(`<div class='zoom-minus'><ons-fab modifier='mini'>
                                                     <ons-icon icon='md-minus'></ons-icon>
                                                 </ons-fab></div>`)
@@ -26,7 +25,7 @@ class CustomControls extends ol.control.Control {
       let str = `<span class='dot'></span>
                 <span id='info-label'>Онлайн</span>`
       div.innerHTML = str.trim()
-      const crosshair = ons.createElement(`<img class='crosshair' src='../resources/crosshair.png'>`)                                
+      //const crosshair = ons.createElement(`<img class='crosshair' src='../resources/crosshair.png'>`)                                
       const element = document.createElement('div');
       element.className = 'buttons'
 
@@ -37,7 +36,7 @@ class CustomControls extends ol.control.Control {
       element.appendChild(gpsButton)
       element.appendChild(cancelButton)
       element.appendChild(div)
-      element.appendChild(crosshair)
+      //element.appendChild(crosshair)
         
       super({
         element: element,
@@ -103,6 +102,26 @@ class CustomControls extends ol.control.Control {
     }
 }
 
+
+
+
+class Crosshair extends ol.control.Control {
+    constructor(opt_options) {
+      const options = opt_options || {};
+  
+      const crosshair = ons.createElement(`<img class='crosshair' src='../resources/crosshair.png'>`)
+  
+      /*const element = document.createElement('div');
+      element.className = 'crosshair';
+      element.appendChild(crosshair);*/
+  
+      super({
+        element: crosshair,
+        target: options.target,
+      });
+    }
+  }
+
 function showMap(){
     var scaleLine = new ol.control.ScaleLine({
         units: 'metric',
@@ -112,7 +131,7 @@ function showMap(){
         target: 'map-container',
         layers: [raster],
         view: currentMapView,
-        controls: [scaleLine, new CustomControls]
+        controls: [scaleLine, new CustomControls, new Crosshair]
     });
     for(layer of layers){
         map.addLayer(layer)

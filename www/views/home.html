@@ -127,6 +127,7 @@
         let drawBar = document.querySelector('#draw-bar')
         mapContainer.style['height'] = "85%"
         drawBar.style["display"] = "block"
+        map.updateSize();
     }
 
     function closeDrawBar(){
@@ -134,6 +135,7 @@
         let drawBar = document.querySelector('#draw-bar')
         mapContainer.style['height'] = "100%"
         drawBar.style["display"] = "none"
+        map.updateSize();
     }
 
     function createDrawBar(){
