@@ -112,9 +112,7 @@
 
     function openFeatureProperties(feature){
         hideDialog('dialog-features')
-        console.log('feature id', feature.id)
-        console.log('layer id', feature.layerID)
-        document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: feature.layerID, featureID: feature.id}});
+        document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {feature: feature}});
     }
 
     function showDialogFeatures(evt){

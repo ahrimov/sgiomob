@@ -104,7 +104,9 @@
         };
 
         function getPropertyPage(featureID){
-            document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: layerID, featureID: featureID}});
+            let layer = findLayer(layerID)
+            let feature = findFeatureByID(layer, featureID)
+            document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {feature: feature}});
         }
 
         function editFeaturesTable(event){

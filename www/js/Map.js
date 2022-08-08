@@ -29,6 +29,16 @@ function findLayer(layerID){
     return null
 }
 
+function findFeatureByID(layer, id){
+    let source = layer.getSource()
+    let features = source.getFeatures()
+    for(let feature of features){
+        if(feature.id == id)
+            return feature
+    }
+    return null
+}
+
 class LayerAtribs{
     constructor(name, label, type, options = null){
         this.name = name

@@ -9,8 +9,34 @@
             Панель свойств объекта
         </div>
     </ons-toolbar>
-    <div id="local-map"></div>
-    <div id="table"></div>
+    <div id="featureProperties" class="page-content">
+        <div id="local-map"></div>
+        <div id="table"></div>
+    </div>
+
+    <ons-carousel direction="horizontal" item-width="25%" swipeable id="feature-instruments">
+        <ons-carousel-item>
+            <div class="carousel-item-content" id="feature-instrument-map">
+                <ons-icon icon="md-map"></ons-icon>
+            </div>
+        </ons-carousel-item>
+        <ons-carousel-item>
+            <div class="carousel-item-content" id="feature-instrument-edit">
+                <ons-icon icon="md-edit"></ons-icon>
+            </div>
+        </ons-carousel-item>
+        <ons-carousel-item>
+            <div class="carousel-item-content" id="feature-instrument-edit-geometry">
+                <ons-icon icon="md-border-color"></ons-icon>
+            </div>
+        </ons-carousel-item>
+        <ons-carousel-item>
+            <div class="carousel-item-content" id="feature-instrument-delete">
+                <ons-icon icon="md-delete"></ons-icon>
+            </div>
+        </ons-carousel-item>
+    </ons-carousel>
+
     <script>
 
         ons.getScriptPage().onInit = function() {
@@ -21,13 +47,14 @@
                     interactions: [],
                     layers: [clone_raster]
                 });
-            var layer = findLayer(this.data.layerID)
+            let feature = this.data.feature
+            let layer = findLayer(feature.layerID)
             let atribs = []
             for(atrib of layer.atribs){
                 atribs.push(atrib.name)
             }
-            let query = "SELECT AsText(Geometry) as geom, " + atribs.join(', ') + " from " + this.data.layerID + 
-            " WHERE id = " + this.data.featureID
+            let query = "SELECT AsText(Geometry) as geom, " + atribs.join(', ') + " from " + layer.id + 
+            " WHERE id = " + feature.id
             requestToDB(query, function(data){
                 var table = "<table>" 
                 for(atrib of layer.atribs){
@@ -37,7 +64,7 @@
                     table += "<tr>" + 
                         `<td class='title'>${atrib.label}</td>`
                     if(atrib.type == "BOOLEAN"){
-                        table += `<td class='checkbox'><ons-checkbox value=${atrib.name} disabled`
+                        table += `<td class='content checkbox'><ons-checkbox value=${atrib.name} disabled`
                         if(data.rows.item(0)[atrib.name] === 1){
                             table += " checked "
                         }
@@ -64,17 +91,17 @@
                 var content = document.getElementById("table");
                 content.innerHTML = table
             })
-            const queryMap = "SELECT AsText(Geometry) as geom from " + this.data.layerID +
-             " WHERE id = "  + this.data.featureID
-             requestToDB(queryMap, function(data){
-                
-                const format = new ol.format.WKT();
-                var wkt = data.rows.item(0).geom
-                console.log(wkt)
-                var feature = format.readFeature(wkt.replace(/nan/g, "0"))
-                var source = new ol.source.Vector()
+
+            displayLocalMap()
+
+            document.querySelector('#feature-instrument-map').addEventListener('click', centerOnCurrentFeature, false)
+            document.querySelector('#feature-instrument-delete').addEventListener('click', clickDeleteFeature, false)
+
+
+            function displayLocalMap(){
+                let source = new ol.source.Vector()
                 source.addFeature(feature)
-                var clonedLayer = new ol.layer.Vector({
+                let clonedLayer = new ol.layer.Vector({
                     style: layer.getStyle()
                 });
                 clonedLayer.setSource(source)
@@ -85,74 +112,67 @@
                 }))
 
                 local_map.on('click', function(evt){
-                    centerOnFeature(feature.getGeometry().getClosestPoint([0,0]))
+                    centerOnCurrentFeature()
                 })
-            })
-        }
-
-
-
-        function addMetricCharacter(layer, table, geom){
-            const format = new ol.format.WKT();
-            let wkt = geom
-            let feature = format.readFeature(wkt.replace(/nan/g, "0"))
-            let geometry = feature.getGeometry()
-            switch(layer.geometryType){
-                case "MULTIPOINT":
-                    table += `<td class='title'>Координаты точки</td>`
-                    let coords = geometry.getCoordinates()
-                    let str = coords.toString()
-                    let arr = str.split(',')
-                    let lonlat = ol.proj.toLonLat([parseInt(arr[0]), parseInt(arr[1])]);
-                    table += `<td class='content'>${lonlat}</td>`
-                    break
-                case 'MULTILINESTRING':
-                    table += `<td class='title'>Длина линии</td>`
-                    table += `<td class='content'>${ol.sphere.getLength(geometry)}</td>`
-                    break
-                case 'MULTIPOLYGON':
-                    table += `<td class='title'>Площадь</td>`
-                    table += `<td class='content'>${ol.sphere.getArea(geometry)}</td>`
-                    break
             }
-            return table
-        }
 
-        function centerOnFeature(center){
-            let navigator = document.querySelector('#myNavigator')
-            currentMapView.setCenter(center)
-            currentMapView.setZoom(currentMapView.getMaxZoom())
-            navigator.popPage({times: navigator.pages.length - 1})
-            
+            function addMetricCharacter(layer, table, geom){
+                const format = new ol.format.WKT();
+                let wkt = geom
+                let feature = format.readFeature(wkt.replace(/nan/g, "0"))
+                let geometry = feature.getGeometry()
+                switch(layer.geometryType){
+                    case "MULTIPOINT":
+                        table += `<td class='title'>Координаты точки</td>`
+                        let coords = geometry.getCoordinates()
+                        let str = coords.toString()
+                        let arr = str.split(',')
+                        let lonlat = ol.proj.toLonLat([parseInt(arr[0]), parseInt(arr[1])]);
+                        table += `<td class='content'>${lonlat}</td>`
+                        break
+                    case 'MULTILINESTRING':
+                        table += `<td class='title'>Длина линии</td>`
+                        table += `<td class='content'>${ol.sphere.getLength(geometry)}</td>`
+                        break
+                    case 'MULTIPOLYGON':
+                        table += `<td class='title'>Площадь</td>`
+                        table += `<td class='content'>${ol.sphere.getArea(geometry)}</td>`
+                        break
+                }
+                return table
+            }
+
+            function centerOnCurrentFeature(){
+                centerOnFeature(feature.getGeometry().getClosestPoint([0,0]))
+            }
+
+            function centerOnFeature(center){
+                let navigator = document.querySelector('#myNavigator')
+                currentMapView.setCenter(center)
+                currentMapView.setZoom(currentMapView.getMaxZoom())
+                navigator.popPage({times: navigator.pages.length - 1})
+            }
+
+            function clickDeleteFeature(){
+                ons
+                .notification.confirm({title: 'Удаление', message: 'Вы уверены, что хотите удалить элемент?'})
+                .then(function(index) {
+                    if(index == 1)
+                        deleteCurrentFeature()
+                });
+            }
+
+            function deleteCurrentFeature(){
+                const query = `DELETE FROM ${feature.layerID} WHERE id='${feature.id}';`
+                requestToDB(query, function(res){
+                    layer.getSource().removeFeature(feature)
+
+                    let navigator = document.querySelector('#myNavigator')
+                    navigator.popPage({times: navigator.pages.length - 1})
+                })
+            }
+
         }
 
     </script>
-    <style>
-  		table {
-            width: 100%;  
-            border-collapse: separate;
-            border-spacing: 20;
-            background-color: white;
-        }
-        .title {
-        	width: 20%;
-            text-align: right; 
-            font-weight: bold;
-        }
-        .content {
-            text-align: center; 
-        	width: 70%;
-        }
-        .checkbox {
-            width: 70%;
-            text-align: center; 
-            vertical-align: middle;
-        }
-        #local-map {
-            margin: 0;
-            height: 30%;
-            width: 100%;
-            font-family: sans-serif;
-        }
-    </style>
 </ons-page>
