@@ -43,13 +43,8 @@
             return b.getZIndex() - a.getZIndex()
           })
           for(layer of layers){
-            let label
-            if(layer.label.length > 30){
-              label = layer.label.slice(0, 30) + "..."
-            }
-            else{
-              label = layer.label
-            }
+            let label = clipping(layer.label, 30)
+            
             var item = template.content.cloneNode(true)
             item.querySelector('.layers-label').textContent = label
             item.querySelector('.list-group-item').setAttribute("data-id", layer.id)

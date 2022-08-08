@@ -112,6 +112,8 @@
 
     function openFeatureProperties(feature){
         hideDialog('dialog-features')
+        console.log('feature id', feature.id)
+        console.log('layer id', feature.layerID)
         document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: feature.layerID, featureID: feature.id}});
     }
 
@@ -153,7 +155,7 @@
     function openDrawBar(){
         let mapContainer = document.querySelector('#map-container')
         let drawBar = document.querySelector('#draw-bar')
-        mapContainer.style['height'] = "85%"
+        mapContainer.style['height'] = "90%"
         drawBar.style["display"] = "block"
         map.updateSize();
     }
@@ -171,13 +173,17 @@
         for(let layer of layers){
             let template = document.querySelector('#carousel-item')
             let carouselItem = template.content.cloneNode(true)
-            carouselItem.querySelector('.carousel-item-content').innerHTML = layer.label
+            carouselItem.querySelector('.carousel-item-content').innerHTML = clipping(layer.label, 18)
             carouselItem.querySelector('.carousel-item-content').addEventListener('click', function(){
 
                 let drawButton = document.querySelector('.draw-button')
                 drawButton.style['display'] = 'none'
                 let acceptDrawButton = document.querySelector('.accept-draw-button')
                 acceptDrawButton.style['display'] = 'block'
+
+                let fabAcceptDrawButton = document.querySelector('.accept-draw-button-fab')
+                fabAcceptDrawButton.setAttribute('disabled', 'true')
+                
 
                 drawBar.style['display'] = 'none'
                 let drawInstrumentBar = document.querySelector('#draw-instrument-bar')

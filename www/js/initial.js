@@ -1,9 +1,8 @@
 function initial(){
-    //document.querySelector('#myNavigator').pushPage('./views/loadScreen.html');
+    document.querySelector('#myNavigator').pushPage('./views/loadScreen.html');
     let path = root_directory + "Project/config.xml"
     checkIfFileExists(path, fileExist, warning)
     openFile(path, configParser)
-    //showMap()
     turnGPS()
 }
 
@@ -23,6 +22,6 @@ function completeLoad(){
     }
     completeLoad.counter++
     if(completeLoad.counter == layers.length){
-        document.querySelector('#myNavigator').pushPage('./views/home.html')
+        document.querySelector('#myNavigator').resetToPage('./views/home.html')
     }
 }

@@ -105,7 +105,12 @@ function layerParser(data){
             let atribName = atrib.getElementsByTagName('id').item(0).textContent
             let label = atrib.getElementsByTagName('label').item(0).textContent
             let type = atrib.getAttribute('type')
-            layer.atribs.push(new LayerAtribs(atribName, label, type))
+            if(type == 'ENUM'){
+                let options = atrib.getElementsByTagName('options').item(0).textContent.split('|')
+                layer.atribs.push(new LayerAtribs(atribName, label, type, options))
+            }
+            else
+                layer.atribs.push(new LayerAtribs(atribName, label, type))
     }
 
     

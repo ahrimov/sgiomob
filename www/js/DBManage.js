@@ -63,7 +63,7 @@ function getDataLayerFromBD(layer){
                 feature.id = res.rows.item(i).id
                 feature.layerID = layer.id
                 source.addFeature(feature)
-                features.push(feature)
+                //features.push(feature)
             }
             layer.setSource(source)
             completeLoad()
@@ -77,16 +77,23 @@ function getDataLayerFromBD(layer){
         })
 }
 
-function getDataFromDB(query, callback){
+function requestToDB(query, callback){
     if(typeof db === 'undefined'){
-        setTimeout(getDataFromDB, 50, query, callback)
+        setTimeout(requestToDB, 50, query, callback)
         return
     }
     var querySuccess = function(tx, res){
         callback(res)
     }
-    var queryError = function(err){
-        console.log("Error with database transaction")
+    var queryError = function(tx, err){
+       /*for (var key in tx) {
+            console.log('key ', key, ' value ', err[key]);
+          }*/
+          //console.log()
+          for(var key in err){
+            console.log('key ', key, ' value ', err[key]);
+          }
+        console.log("Error with database transaction", err)
         console.log("Query:", query)
     }
     db.transaction(function (tx) {

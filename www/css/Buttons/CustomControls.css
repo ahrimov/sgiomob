@@ -1,0 +1,78 @@
+
+.zoom-plus{
+    position: absolute;
+    top: 75%;
+    left: 85%;
+  
+  }
+  
+  .zoom-minus{
+    position: absolute;
+    top: 82%;
+    left: 85%;
+  }
+  
+  .buttons{
+  
+    width: 1%;
+    height: 100%;
+  }
+  
+  .gps-button{
+    position: absolute;
+    top: 83%;
+    left: 2%;
+  }
+  
+  .draw-button{
+    position: absolute;
+    top: 90%;
+    left: 83%;
+  }
+  
+  .draw-button .fab{
+    background-color: #2375fa;
+    color: white;
+  }
+  
+  .accept-draw-button{
+    display: none;
+    position: absolute;
+    top: 90%;
+    left: 83%;
+  }
+  
+  .accept-draw-button .fab{
+    background-color: #2375fa;
+    color: white;
+  }
+  
+  .cancel-button{
+    display: none;
+    position: absolute;
+    top: 7%;
+    left: 85%;
+  }
+  
+  .dot {
+    height: 12px;
+    width: 12px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: green;
+  }
+  
+  .att {
+    border-radius: 25px;
+    padding: 3px;
+    border: 1px solid black;
+    width: 90px;
+    height: 25px;
+    background-color: white;
+    opacity: .7;
+    position: absolute;
+    top: 90%;
+    left: 2%
+  }
+  

@@ -1,0 +1,129 @@
+<ons-page>
+    <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button>
+              <ons-back-button>Back</ons-back-button>
+          </ons-toolbar-button>
+        </div>
+        <div class="center toolbar-label">
+          Добавление нового элемента
+        </div>
+      </ons-toolbar>
+      <div id="add-feature-content" class="page-content">
+      </div>
+
+      <div class="under-bar">
+        <ons-button id='saveFeatureButton' style="float:right; margin: 1%;">Сохранить</ons-button>
+        <ons-button id="backButton" style="float:right; margin: 1%;">Отмена</ons-button>
+      </div>
+
+      <script>
+        ons.getScriptPage().onInit = function() {
+            let layer = this.data.layer
+            let feature = this.data.feature
+            let content  = '<table>'
+            for(let atrib of layer.atribs){
+                if(checkServiceField(atrib.name))
+                  continue
+                let line = `<tr>
+                        <td class='title'>${atrib.label}</td>
+                        <td class='input'>
+                          ${inputByType(atrib)}
+                        </td>
+                      </tr>`
+                content += line
+            }
+            content += `</table>`
+            document.querySelector('#add-feature-content').innerHTML = content
+
+            document.querySelector('#saveFeatureButton').addEventListener('click', saveFeature, false)
+            document.querySelector('#backButton').addEventListener('click', back, false)
+
+            autonumericID()
+
+            function autonumericID(){
+              let idName = layer.atribs[0].name
+              requestToDB(`SELECT MAX(${idName}) as id FROM ${layer.id}`, function(data){
+                let id = 0
+                if(typeof data.rows.item(0).id != 'undefined')
+                  id = data.rows.item(0).id + 1
+                document.querySelector(`#${idName}`).value = id
+              })
+            }
+
+            function back(){
+                document.querySelector('#myNavigator').popPage();
+            }
+
+            function saveFeature(){
+                let atribNames = []
+                let atribValues = []
+                for(let atrib of layer.atribs){
+                  if(checkServiceField(atrib.name))
+                    continue
+                  if(atrib.type == 'BOOLEAN'){
+                    atribNames.push(atrib.name)
+                    if(document.querySelector(`#${atrib.name}`).checked == true)
+                      atribValues.push(1)
+                    else
+                      atribValues.push(0)
+                  }
+                  else{
+                    let value = document.querySelector(`#${atrib.name}`).value
+                    if(value != ''){
+                      atribNames.push(atrib.name)
+                      atribValues.push(`'${value}'`)
+                    }
+                  }
+                }
+                const format = new ol.format.WKT()
+                let feautureString = format.writeFeature(feature)
+                feautureString = convertToGeometryType(feautureString)
+                let query = `
+                             INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
+                             VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
+                            ;`
+
+                requestToDB(query, function(res){
+                  let id = document.querySelector(`#${layer.atribs[0].name}`).value
+                  feature.id = id
+                  feature.layerID = layer.id
+                  finishDraw()
+                  document.querySelector('#myNavigator').popPage();
+                }) 
+            }
+
+            function inputByType(atrib){
+              switch(atrib.type){
+                case 'DOUBLE':
+                  return `<ons-input id='${atrib.name}' modifier="underbar" type="number" float></ons-input>`
+                case 'DATE':
+                  return `<ons-input id='${atrib.name}' modifier="underbar" type="date" float></ons-input>`
+                case 'BOOLEAN':
+                  return `<ons-checkbox id='${atrib.name}'></ons-checkbox>`
+                case 'ENUM':
+                  let select = `<ons-select id='${atrib.name}'>`
+                  for(let option of atrib.options){
+                    select += `<option value='${option}'>${option}</option>`
+                  }
+                  select += `</ons-select>`
+                  return select
+                default:
+                  return `<ons-input id='${atrib.name}' modifier="underbar" float></ons-input>`
+              }
+            }
+
+            function convertToGeometryType(inp_string){
+              let string = insert(inp_string, ' Z', inp_string.search(/\(\(/))
+              let res = string.matchAll(/,/g)
+              let offset = 0
+              for(let r of res){
+                string = insert(string, ' 0', r.index + offset)
+                offset += 2
+              }
+              return insert(string, ' 0', string.search(/\)\)/))
+            }
+        }
+
+      </script>
+</ons-page>

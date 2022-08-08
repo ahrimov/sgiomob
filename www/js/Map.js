@@ -1,141 +1,3 @@
-class CustomControls extends ol.control.Control {
-    constructor(opt_options) {
-      const options = opt_options || {};
-  
-      const buttonZoomPlus = ons.createElement(`<div class='zoom-plus'><ons-fab modifier='mini'>
-                                                    <ons-icon icon='md-plus'></ons-icon>
-                                                </ons-fab></div>`)
-      const buttonZoomMinus = ons.createElement(`<div class='zoom-minus'><ons-fab modifier='mini'>
-                                                    <ons-icon icon='md-minus'></ons-icon>
-                                                </ons-fab></div>`)
-      const gpsButton = ons.createElement(`<div class='gps-button'><ons-fab  modifier='mini'>
-                                                <ons-icon icon='md-gps'></ons-icon>
-                                            </ons-fab></div>`)
-      const drawButton = ons.createElement(`<div class='draw-button'><ons-fab>
-                                            <ons-icon class='icon' icon='md-plus'></ons-icon>
-                                        </ons-fab></div>`)
-      const acceptDrawButton = ons.createElement(`<div class='accept-draw-button'><ons-fab>
-                                                    <ons-icon class='icon' icon='md-check'></ons-icon>
-                                                </ons-fab></div>`)
-      const cancelButton = ons.createElement(`<div class='cancel-button'><ons-fab modifier='mini'>
-                                            <ons-icon icon='md-close'></ons-icon>
-                                        </ons-fab></div>`)
-      let div = document.createElement('div')
-      div.className = "att"
-      let str = `<span class='dot'></span>
-                <span id='info-label'>Онлайн</span>`
-      div.innerHTML = str.trim()                           
-      const element = document.createElement('div');
-      element.className = 'buttons'
-
-      element.append(drawButton)
-      element.append(acceptDrawButton)
-      element.appendChild(buttonZoomPlus)
-      element.appendChild(buttonZoomMinus)
-      element.appendChild(gpsButton)
-      element.appendChild(cancelButton)
-      element.appendChild(div)
-        
-      super({
-        element: element,
-        target: options.target,
-      });
-  
-      drawButton.addEventListener('click', this.clickDrawButton.bind(this), false);
-      acceptDrawButton.addEventListener('click', this.acceptDraw.bind(this), false);
-      buttonZoomPlus.addEventListener('click', this.zoomPlus.bind(this), false);
-      buttonZoomMinus.addEventListener('click', this.zoomMinus.bind(this), false);
-      gpsButton.addEventListener('click', this.centerGPS.bind(this), false);
-      cancelButton.addEventListener('click', this.cancelDraw.bind(this), false);
-    }
-  
-    zoomPlus(){
-        const view = this.getMap().getView();
-        const zoom = view.getZoom();
-        view.setZoom(zoom + 1)
-    }
-
-    zoomMinus(){
-        const view = this.getMap().getView();
-        const zoom = view.getZoom();
-        view.setZoom(zoom - 1)
-    }
-
-    centerGPS(){
-        var view = new ol.View({
-            center: ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude]),
-            zoom: currentMapView.getMaxZoom(),
-            minZoom: currentMapView.getMinZoom(),
-            maxZoom: currentMapView.getMaxZoom()
-        })
-        currentMapView = view
-        map.setView(currentMapView)
-    }
-
-    clickDrawButton(){
-        if(typeof this.clickDrawButton.isOpen == 'undefined'){
-            this.clickDrawButton.isOpen = false
-        }
-        this.clickDrawButton.isOpen = !this.clickDrawButton.isOpen
-        if(this.clickDrawButton.isOpen){
-            openDrawBar()
-        }
-        else{
-            closeDrawBar()
-        }
-    }
-
-    acceptDraw(){
-
-        finishDraw()
-    }
-
-    cancelDraw(){
-        if(typeof map.draw.currentFeature != 'undefined'){
-            let layer = map.activeLayer
-            layer.getSource().removeFeature(map.draw.currentFeature)
-        }
-
-        finishDraw()
-    }
-}
-
-
-class Crosshair extends ol.control.Control {
-    constructor(opt_options) {
-      const options = opt_options || {};
-  
-      const crosshair = ons.createElement(`<img class='crosshair' src='../resources/crosshair.png'>`)
-  
-      super({
-        element: crosshair,
-        target: options.target,
-      });
-    }
-}
-
-class UndoButton extends ol.control.Control {
-    constructor(opt_options) {
-        const options = opt_options || {};
-    
-        const undoButton = ons.createElement(`<div class='undo-button'><ons-fab modifier='mini'>
-                                                <ons-icon icon='md-undo'></ons-icon>
-                                            </ons-fab></div>`)
-    
-        super({
-          element: undoButton,
-          target: options.target,
-        });
-
-        undoButton.addEventListener('click', this.undoDraw.bind(this), false);
-      }
-
-      undoDraw(){
-        if(typeof map.draw != 'undefined')
-            map.draw.removeLastPoint()
-      }
-}
-
 function showMap(){
     var scaleLine = new ol.control.ScaleLine({
         units: 'metric',
@@ -145,7 +7,7 @@ function showMap(){
         target: 'map-container',
         layers: [raster],
         view: currentMapView,
-        controls: [scaleLine, new CustomControls, new Crosshair, new UndoButton]
+        controls: [scaleLine, new CustomControls, new Crosshair, new UndoButton, new AcceptDrawButton]
     });
     for(layer of layers){
         map.addLayer(layer)
@@ -168,12 +30,21 @@ function findLayer(layerID){
 }
 
 class LayerAtribs{
-    constructor(name, label, type){
+    constructor(name, label, type, options = null){
         this.name = name
         this.label = label
         this.type = type
+        this.options = options
     }
+}
 
+function checkServiceField(label){
+    if(label == 'lg_attach' || label == 'date_to1' || label == 'result_to1' ||
+        label == 'date_to2' || label == 'result_to2' || label == 'date_tr' ||
+        label == 'result_tr' || label == 'date_sr' || label == 'result_sr'){
+        return true
+    }
+    return false
 }
 
 function getTypeByAtribName(atribs, atribName){
@@ -273,14 +144,28 @@ function addDrawInteraction(layer){
 
     map.draw.on('drawstart', function(event){
         drawNextPoint(layer, event.feature)
-        
+
         let undoButton = document.querySelector('.undo-button')
         undoButton.style['display'] = 'block'
+
+        let acceptDrawButton = document.querySelector('.accept-draw-button-fab')
+        acceptDrawButton.disabled = true
+
+        /*let modify = ol.interaction.Modify({
+            features: [event.feature]
+        })
+        map.modify = modify
+        map.addInteraction(modify)*/
     })
 
     map.draw.on('drawend', function(event){
         let undoButton = document.querySelector('.undo-button')
         undoButton.style['display'] = 'none'
+
+        let acceptDrawButton = document.querySelector('.accept-draw-button-fab')
+        acceptDrawButton.disabled = false
+
+        //map.removeInteraction(map.modify)
     })
 
     displayCancelButton()
@@ -327,7 +212,7 @@ function finishDraw(){
     drawBar.style['display'] = 'block'
 
     let undoButton = document.querySelector('.undo-button')
-    undoButton.style['display'] = 'none'
+    undoButton.style['display'] = 'none'  
     
 }
 
@@ -353,6 +238,7 @@ function convertGeometryType(type){
             return 'Point'
     }
 }
+
 
 
 

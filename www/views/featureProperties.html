@@ -28,10 +28,10 @@
             }
             let query = "SELECT AsText(Geometry) as geom, " + atribs.join(', ') + " from " + this.data.layerID + 
             " WHERE id = " + this.data.featureID
-            getDataFromDB(query, function(data){
+            requestToDB(query, function(data){
                 var table = "<table>" 
                 for(atrib of layer.atribs){
-                    if(checkServiceFiled(atrib.name)){
+                    if(checkServiceField(atrib.name)){
                         continue
                     }
                     table += "<tr>" + 
@@ -66,10 +66,11 @@
             })
             const queryMap = "SELECT AsText(Geometry) as geom from " + this.data.layerID +
              " WHERE id = "  + this.data.featureID
-            getDataFromDB(queryMap, function(data){
+             requestToDB(queryMap, function(data){
                 
                 const format = new ol.format.WKT();
                 var wkt = data.rows.item(0).geom
+                console.log(wkt)
                 var feature = format.readFeature(wkt.replace(/nan/g, "0"))
                 var source = new ol.source.Vector()
                 source.addFeature(feature)
@@ -89,12 +90,7 @@
             })
         }
 
-        function checkServiceFiled(label){
-            if(label == 'lg_attach'){
-                return true
-            }
-            return false
-        }
+
 
         function addMetricCharacter(layer, table, geom){
             const format = new ol.format.WKT();
@@ -126,7 +122,7 @@
             let navigator = document.querySelector('#myNavigator')
             currentMapView.setCenter(center)
             currentMapView.setZoom(currentMapView.getMaxZoom())
-            navigator.popPage({times: navigator.pages.length - 2})
+            navigator.popPage({times: navigator.pages.length - 1})
             
         }
 
