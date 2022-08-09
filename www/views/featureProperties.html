@@ -37,6 +37,11 @@
         </ons-carousel-item>
     </ons-carousel>
 
+    <div class="under-bar">
+        <ons-button id='saveModificationFeature' style="float:right; margin: 1%;">Сохранить</ons-button>
+        <ons-button id="cancelModification" style="float:right; margin: 1%;">Отмена</ons-button>
+      </div>
+
     <script>
 
         ons.getScriptPage().onInit = function() {
@@ -50,7 +55,11 @@
             let feature = this.data.feature
             let layer = findLayer(feature.layerID)
             let atribs = []
+            let values = []
             for(atrib of layer.atribs){
+                if(checkServiceField(atrib.name)){
+                    continue
+                }
                 atribs.push(atrib.name)
             }
             let query = "SELECT AsText(Geometry) as geom, " + atribs.join(', ') + " from " + layer.id + 
@@ -61,30 +70,12 @@
                     if(checkServiceField(atrib.name)){
                         continue
                     }
-                    table += "<tr>" + 
-                        `<td class='title'>${atrib.label}</td>`
-                    if(atrib.type == "BOOLEAN"){
-                        table += `<td class='content checkbox'><ons-checkbox value=${atrib.name} disabled`
-                        if(data.rows.item(0)[atrib.name] === 1){
-                            table += " checked "
-                        }
-                        table += `></td>`
-                    }
-                    else if(atrib.type == "DATE"){
-                        let date_insp = data.rows.item(0)[atrib.name]
-                        if(date_insp !== 0 && typeof date_insp !== 'undefined'){
-                            table += `<td class='content'>${new Date(date_insp).toLocaleString() }</td>`
-                        }
-                    }
-                    else{
-                        if(typeof data.rows.item(0)[atrib.name] == 'undefined'){
-                            table +=  `<td class='content'></td>`
-                        }
-                        else{
-                            table += `<td class='content'>${data.rows.item(0)[atrib.name]}</td>`
-                        }
-                    }
-                        table += "</tr>"
+                    table += `<tr>
+                        <td class='title'>${atrib.label}</td>
+                        <td class='content'>${contentByType(atrib, data.rows.item(0)[atrib.name])}
+                        </tr>`
+                    
+                    values.push(data.rows.item(0)[atrib.name])
                 }
                 table = addMetricCharacter(layer, table, data.rows.item(0).geom)
                 table += "</table>"
@@ -95,8 +86,61 @@
             displayLocalMap()
 
             document.querySelector('#feature-instrument-map').addEventListener('click', centerOnCurrentFeature, false)
+            document.querySelector('#feature-instrument-edit').addEventListener('click', clickEditFeature, false)
             document.querySelector('#feature-instrument-delete').addEventListener('click', clickDeleteFeature, false)
 
+            document.querySelector('#saveModificationFeature').addEventListener('click', updateFeature, false)
+            document.querySelector('#cancelModification').addEventListener('click', cancel, false)
+
+
+            function contentByType(atrib, content){
+                switch(atrib.type){
+                case 'DATE':
+                    let date_insp = content
+                    if(date_insp !== 0 && typeof date_insp !== 'undefined'){
+                        return new Date(date_insp).toLocaleString()
+                    }
+                case 'BOOLEAN':
+                    let check = ''
+                    if(content === 1)
+                        check = 'checked'
+                    return `<ons-checkbox id='${atrib.name}' ${check}  disabled></ons-checkbox>`
+                default:
+                    if(typeof content == 'undefined')
+                        return ''
+                    return content
+                }
+            }
+
+
+            function inputByType(atrib, content){
+                switch(atrib.type){
+                case 'DOUBLE':
+                    if(typeof content == 'undefined')
+                        return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="number" float></ons-input>`
+                    return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" type="number" float  ></ons-input>`
+                case 'DATE':
+                    if(typeof content == 'undefined')
+                        return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="date" float></ons-input>`
+                    return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" type="date" float  ></ons-input>`
+                case 'BOOLEAN':
+                    let check = ''
+                    if(content === 1)
+                        check = 'checked'
+                    return `<ons-checkbox id='${atrib.name}' ${check}  ></ons-checkbox>`
+                case 'ENUM':
+                    let select = `<ons-select id='${atrib.name}' class='input-content' value='${content}'>`
+                    for(let option of atrib.options){
+                        select += `<option value='${option}'>${option}</option>`
+                    }
+                    select += `</ons-select>`
+                    return select
+                default:
+                    if(typeof content == 'undefined')
+                        return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" float></ons-input>`
+                    return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" float></ons-input>`
+                }
+            }
 
             function displayLocalMap(){
                 let source = new ol.source.Vector()
@@ -128,15 +172,15 @@
                         let str = coords.toString()
                         let arr = str.split(',')
                         let lonlat = ol.proj.toLonLat([parseInt(arr[0]), parseInt(arr[1])]);
-                        table += `<td class='content'>${lonlat}</td>`
+                        table += `<td class='metric'>${lonlat}</td>`
                         break
                     case 'MULTILINESTRING':
                         table += `<td class='title'>Длина линии</td>`
-                        table += `<td class='content'>${ol.sphere.getLength(geometry)}</td>`
+                        table += `<td class='metric'>${ol.sphere.getLength(geometry)}</td>`
                         break
                     case 'MULTIPOLYGON':
                         table += `<td class='title'>Площадь</td>`
-                        table += `<td class='content'>${ol.sphere.getArea(geometry)}</td>`
+                        table += `<td class='metric'>${ol.sphere.getArea(geometry)}</td>`
                         break
                 }
                 return table
@@ -151,6 +195,15 @@
                 currentMapView.setCenter(center)
                 currentMapView.setZoom(currentMapView.getMaxZoom())
                 navigator.popPage({times: navigator.pages.length - 1})
+            }
+
+            function clickEditFeature(){
+                let content = document.querySelectorAll('.content')
+                for(let index in values){
+                    content[index].innerHTML = inputByType(layer.atribs[index], values[index])
+                }
+                document.querySelector('#feature-instruments').style['display'] = 'none'
+                document.querySelector('.under-bar').style['display'] = 'block'
             }
 
             function clickDeleteFeature(){
@@ -172,6 +225,35 @@
                 })
             }
 
+            function updateFeature(){
+                let updates = []
+                let input_content = document.querySelectorAll('.input-content')
+                for(let index in values){
+                    values[index] = input_content[index].value
+                    if(values[index] == '')
+                        continue
+                    updates.push(`${atribs[index]} = '${values[index]}'`)
+                }
+                const query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature.id}`
+                console.log(query)
+                requestToDB(query, function(res){
+                    feature.id = values[0]
+                })
+                cancel()
+            }
+
+            function cancel(){
+                let input_content = document.querySelectorAll('.input-content')
+                for(let index in values){
+                    input_content[index].remove()
+                }
+                let content = document.querySelectorAll('.content')
+                for(let index in values){
+                    content[index].innerHTML = contentByType(layer.atribs[index], values[index])
+                }
+                document.querySelector('.under-bar').style['display'] = 'none'
+                document.querySelector('#feature-instruments').style['display'] = 'block'
+            }
         }
 
     </script>
