@@ -3,7 +3,7 @@ document.addEventListener('deviceready', onDeviceReady, false);
 var layers = []
 var features = []
 
-var db, currentMapView;
+var db, dbMetaData, currentMapView;
 
 var gps_position;
 

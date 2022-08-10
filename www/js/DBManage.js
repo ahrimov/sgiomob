@@ -1,13 +1,15 @@
-function openDB(filename, name){
+function openDB(filename, name, sourceDirName){
     db = window.sqlitePlugin.openDatabase({
         path: cordova.file.applicationStorageDirectory + "app_database/" + filename,
         name: name
       })
+    db.filename = filename
+    db.sourceDirName = sourceDirName
 }
 
-function initialDB(sourceFileName, dbName, name) {
+function initialDB(sourceDirName, dbName, name) {
 
-    //var sourceFileName = root_directory + "Project/" + dbName;
+    var sourceFileName = sourceDirName + dbName;
     var targetDirName = cordova.file.applicationStorageDirectory + "app_database/";
 
     return Promise.all([
@@ -32,7 +34,7 @@ function initialDB(sourceFileName, dbName, name) {
                     sourceFile.copyTo(targetDir, dbName, resolve, reject);
                 }).then(function () {
                     console.log("database file copied");
-                    openDB(dbName, name)
+                    openDB(dbName, name, sourceDirName)
                 })
             })
         }).catch(function () {
@@ -41,10 +43,45 @@ function initialDB(sourceFileName, dbName, name) {
                 sourceFile.copyTo(targetDir, dbName, resolve, reject);
             }).then(function () {
                 console.log("database file copied");
-                openDB(dbName, name)
+                openDB(dbName, name, sourceDirName)
             });
         });
     });
+}
+
+function saveDB(){
+    if(typeof db == 'undefined')
+        return
+    let dbName = db.filename
+    let pathDirExternalDB = db.sourceDirName
+
+    let pathInternalDB = cordova.file.applicationStorageDirectory + "app_database/" + dbName;
+    //let pathExternalDB = pathDirExternalDB + dbName
+
+    return Promise.all([
+        new Promise(function (resolve, reject) {
+            resolveLocalFileSystemURL(pathInternalDB, resolve, reject);
+        }),
+        new Promise(function (resolve, reject) {
+            resolveLocalFileSystemURL(pathDirExternalDB, resolve, reject);
+        })
+    ]).then(function(files){
+        let internalDB = files[0]
+        let dirExternalDB = files[1]
+        return new Promise(function(resolve, reject){
+            dirExternalDB.getFile(dbName, {}, resolve, reject)
+        }).then(function(externalDB){
+            return new Promise(function(resolve, reject){
+                externalDB.remove(resolve, reject)
+            }).then(function() {
+                return new Promise(function(resolve, reject){
+                    internalDB.copyTo(dirExternalDB, dbName, resolve, reject)
+                }).then(function(){
+                    console.log('database save succesfully')
+                })
+            })
+        })
+    })
 }
 
 

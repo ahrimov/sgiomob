@@ -160,12 +160,6 @@ function addDrawInteraction(layer){
 
         let acceptDrawButton = document.querySelector('.accept-draw-button-fab')
         acceptDrawButton.disabled = true
-
-        /*let modify = ol.interaction.Modify({
-            features: [event.feature]
-        })
-        map.modify = modify
-        map.addInteraction(modify)*/
     })
 
     map.draw.on('drawend', function(event){
@@ -224,6 +218,15 @@ function finishDraw(){
     let undoButton = document.querySelector('.undo-button')
     undoButton.style['display'] = 'none'  
     
+}
+
+function addModify(feature){
+    console.log('geometry', feature.geometry)
+    let modify = ol.interaction.Modify({
+        features: [feature]
+    })
+    map.modify = modify
+    map.addInteraction(modify)
 }
 
 function displayCancelButton(){

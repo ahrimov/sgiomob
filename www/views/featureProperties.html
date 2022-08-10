@@ -87,6 +87,7 @@
 
             document.querySelector('#feature-instrument-map').addEventListener('click', centerOnCurrentFeature, false)
             document.querySelector('#feature-instrument-edit').addEventListener('click', clickEditFeature, false)
+            //document.querySelector('#feature-instrument-edit-geometry').addEventListener('click', clickEditGeometry, false)
             document.querySelector('#feature-instrument-delete').addEventListener('click', clickDeleteFeature, false)
 
             document.querySelector('#saveModificationFeature').addEventListener('click', updateFeature, false)
@@ -206,6 +207,28 @@
                 document.querySelector('.under-bar').style['display'] = 'block'
             }
 
+            function clickEditGeometry(){
+                console.log('2')
+                const modify = new ol.interaction.Modify({
+                    source: layer.getSource(),
+                    stopClick: true,
+                    condition: function(evt){
+                        let features = map.getFeaturesAtPixel(evt.pixel)
+                        for(let feat of features){
+                            if(feat.id == feature.id)
+                                return true
+                        }
+                        return false
+                    }
+                })
+                console.log('3')
+                map.modify = modify
+                map.addInteraction(modify)
+                console.log('4')
+                let navigator = document.querySelector('#myNavigator')
+                navigator.popPage({times: navigator.pages.length - 1})
+            }
+
             function clickDeleteFeature(){
                 ons
                 .notification.confirm({title: 'Удаление', message: 'Вы уверены, что хотите удалить элемент?'})
@@ -219,6 +242,7 @@
                 const query = `DELETE FROM ${feature.layerID} WHERE id='${feature.id}';`
                 requestToDB(query, function(res){
                     layer.getSource().removeFeature(feature)
+                    saveDB()
 
                     let navigator = document.querySelector('#myNavigator')
                     navigator.popPage({times: navigator.pages.length - 1})
@@ -235,11 +259,12 @@
                     updates.push(`${atribs[index]} = '${values[index]}'`)
                 }
                 const query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature.id}`
-                console.log(query)
                 requestToDB(query, function(res){
                     feature.id = values[0]
+                    saveDB()
                 })
                 cancel()
+
             }
 
             function cancel(){
