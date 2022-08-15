@@ -5,6 +5,8 @@ var features = []
 
 var db, dbMetaData, currentMapView;
 
+var pathToImageStorage;
+
 var gps_position;
 
 var map = new ol.Map();

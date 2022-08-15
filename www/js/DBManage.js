@@ -123,13 +123,6 @@ function requestToDB(query, callback){
         callback(res)
     }
     var queryError = function(tx, err){
-       /*for (var key in tx) {
-            console.log('key ', key, ' value ', err[key]);
-          }*/
-          //console.log()
-          for(var key in err){
-            console.log('key ', key, ' value ', err[key]);
-          }
         console.log("Error with database transaction", err)
         console.log("Query:", query)
     }

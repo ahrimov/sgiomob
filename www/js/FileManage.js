@@ -12,6 +12,10 @@ function openFile(path, post_processing){
     })
 }
 
+function getFileEntry(path, success, fail) {
+    window.resolveLocalFileSystemURL(path, success, fail);
+}
+
 function createFolder(){
     window.resolveLocalFileSystemURL("file:///storage/self/primary", function(rootDirEntry){
         rootDirEntry.getDirectory("sgiomob", {create: true}, function(mainDirEntry){

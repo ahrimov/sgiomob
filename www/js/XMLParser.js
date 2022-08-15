@@ -62,6 +62,8 @@ function configParser(data){
         }
         updateInfo()
     }
+
+    pathToImageStorage = dom.getElementsByTagName("PathToImageStorage").item(0).textContent
 }
 
 function layerParser(data){
