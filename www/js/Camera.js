@@ -4,7 +4,8 @@ function setOptions(srcType) {
         quality: 50,
         destinationType: Camera.DestinationType.FILE_URI,
         // In this app, dynamically set the picture source, Camera or photo gallery
-        sourceType: srcType
+        sourceType: srcType,
+        correctOrientation: true
     }
     return options;
 }
