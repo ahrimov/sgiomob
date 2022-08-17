@@ -18,6 +18,7 @@ function showMap(){
     })
 
     updateInfo()
+    turnGPS()
 }
 
 function findLayer(layerID){
