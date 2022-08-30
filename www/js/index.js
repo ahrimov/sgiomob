@@ -7,6 +7,8 @@ var db, dbMetaData, currentMapView;
 
 var pathToImageStorage;
 
+var pathToKMLStorage;
+
 var gps_position;
 
 var map = new ol.Map();

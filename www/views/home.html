@@ -194,11 +194,11 @@
     }
 
     function drawInstrumentCenter(){
-        appendCoordinate(currentMapView.getCenter())
+        appendCoordinate(map.getView().getCenter())
     }
 
     function drawInstrumentGPS(){
-        currentMapView.setCenter([gps_position.coords.longitude, gps_position.coords.latitude])
+        map.getView().setCenter([gps_position.coords.longitude, gps_position.coords.latitude])
         let coordinate = ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude])
         appendCoordinate(coordinate)
     }
@@ -219,7 +219,7 @@
         }
         hideDialog('dialog-draw-instrument-coordinate')
         appendCoordinate(ol.proj.fromLonLat([x, y]))
-        currentMapView.setCenter(ol.proj.fromLonLat([x, y]))
+        map.getView().setCenter(ol.proj.fromLonLat([x, y]))
     }
 
     function hideDialog(id){

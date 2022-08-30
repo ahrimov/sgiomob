@@ -32,6 +32,43 @@ function checkIfFileExists(path, fileExists, fileDoesNotExist){
     window.resolveLocalFileSystemURL(path, fileExists,  fileDoesNotExist)
 }
 
+function saveFile(pathDir, fileName, fileData){
+    window.resolveLocalFileSystemURL(pathDir, function(dirEntry){
+        dirEntry.getFile(fileName, {create: true}, function(fileEntry){
+            writeFile(fileEntry,  fileData)
+        }, function(error){
+            ons.notification.alert(`Невозможно создать файл. Ошибка:`, error)
+        })
+    }, function (error){
+        ons.notification.alert(`Невозможно открыть директорию. Ошибка:`, error)
+    })
+}
+
+
+function writeFile(fileEntry, dataObj) {
+    // Create a FileWriter object for our FileEntry (log.txt).
+    fileEntry.createWriter(function (fileWriter) {
+
+        fileWriter.onwriteend = function() {
+            console.log("Successful file write...");
+            //readFile(fileEntry);
+        };
+
+        fileWriter.onerror = function (e) {
+            console.log("Failed file write: " + e.toString());
+        };
+
+        // If data object is not passed in,
+        // create a new Blob instead.
+        if (!dataObj) {
+            dataObj = new Blob(['some file data'], { type: 'text/plain' });
+        }
+
+        fileWriter.write(dataObj);
+    });
+}
+
+/*
 function exportKML(layerID){
     window.resolveLocalFileSystemURL(root_directory, function(rootDirEntry){
         rootDirEntry.getDirectory("outputs", {create: true}, function(mainDirEntry){
@@ -42,4 +79,4 @@ function exportKML(layerID){
     }, function(error){
         console.log("Error with access")
     })
-}
+}*/

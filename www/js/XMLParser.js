@@ -19,9 +19,9 @@ function configParser(data){
         center: ol.proj.fromLonLat([centerLong, centerLat]),
         zoom: zoom,
         minZoom: minZoom,
-        maxZoom: maxZoom
+        maxZoom: maxZoom,
+        projectin: `EPSG:4326`
     })
-    map.setView(currentMapView)
     if(dom.getElementsByTagName("IsLocalTiles").item(0).textContent === '1'){
         raster.isLocal = true
         const pathToTiles = dom.getElementsByTagName("PathToTiles").item(0).textContent
@@ -64,6 +64,7 @@ function configParser(data){
     }
 
     pathToImageStorage = dom.getElementsByTagName("PathToImageStorage").item(0).textContent
+    pathToKMLStorage = dom.getElementsByTagName("PathToKMLStorage").item(0).textContent
 }
 
 function layerParser(data){
