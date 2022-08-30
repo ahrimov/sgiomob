@@ -83,7 +83,7 @@
                              INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
                              VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
                             ;`
-
+                
                 requestToDB(query, function(res){
                   let id = document.querySelector(`#${layer.atribs[0].name}`).value
                   feature.id = id
@@ -114,7 +114,7 @@
                   return `<ons-input id='${atrib.name}' modifier="underbar" float></ons-input>`
               }
             }
-
+/*
             function convertToGeometryType(inp_string){
               let string = insert(inp_string, ' Z', inp_string.search(/\(\(/))
               let res = string.matchAll(/,/g)
@@ -124,7 +124,7 @@
                 offset += 2
               }
               return insert(string, ' 0', string.search(/\)\)/))
-            }
+            }*/
         }
 
       </script>

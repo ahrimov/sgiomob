@@ -50,8 +50,8 @@ function writeFile(fileEntry, dataObj) {
     fileEntry.createWriter(function (fileWriter) {
 
         fileWriter.onwriteend = function() {
-            console.log("Successful file write...");
-            //readFile(fileEntry);
+            //console.log("Successful file write...", fileEntry.toInternalURL());
+            ons.notification.alert('Файл успешно сохранён: ' + fileEntry.name)
         };
 
         fileWriter.onerror = function (e) {
@@ -68,15 +68,12 @@ function writeFile(fileEntry, dataObj) {
     });
 }
 
-/*
-function exportKML(layerID){
-    window.resolveLocalFileSystemURL(root_directory, function(rootDirEntry){
-        rootDirEntry.getDirectory("outputs", {create: true}, function(mainDirEntry){
-            console.log("Create folder outputs")
-        }, function(error){
-            console.log("Erro while create folder")
+
+function showAllFilesAtDir(pathToDir, succes){
+    window.resolveLocalFileSystemURL(pathToDir, function(dirEntry){
+        let directoryReader = dirEntry.createReader();
+        directoryReader.readEntries(succes, function(error){
+            console.log('Unable to read directory')
         })
-    }, function(error){
-        console.log("Error with access")
     })
-}*/
+}

@@ -1,0 +1,32 @@
+#dialog-file-chooser-content{
+  margin-top: 10vh;
+  max-height: 70vh;
+  overflow: scroll;
+}
+
+#dialog-comparison-KML-content{
+    margin-top: 10vh;
+    max-height: 70vh;
+    overflow: scroll;
+    margin-left: 2vh;
+    margin-right: 2vh;
+    margin-bottom: 1vh;
+}
+
+#dialog-comparison-KML-content p{
+    font-size: 12px;
+}
+
+.left_atrib{
+    color: brown;
+    overflow: hidden;
+    width: 50%;
+    word-wrap: break-word;
+}
+
+.layers-more-button{
+    position: absolute;
+    left: 85%;
+    bottom: 5%;
+    color: black;
+}

@@ -34,6 +34,48 @@
         </div>
     </template>
 
+    <template id="file_chooser">
+      <ons-dialog id="file-chooser">
+              <ons-toolbar class="dialog-toolbar">
+                  <div class="center dialog-toolbar-content">
+                      Выберите файл KML
+                  </div>
+                  <div class="right">
+                      <ons-toolbar-button onclick="hideDialog('file-chooser')">
+                          <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                      </ons-toolbar-button>
+                  </div>
+              </ons-toolbar>
+              <div> 
+              <ons-list id="dialog-file-chooser-content">
+              </ons-list>
+              </div>
+      </ons-dialog>
+  </template>
+
+  <template id="comparison_KML">
+    <ons-dialog id="comparison-KML">
+            <ons-toolbar class="dialog-toolbar">
+                <div class="center dialog-toolbar-content">
+                    Сопоставление атрибутов
+                </div>
+                <div class="right">
+                    <ons-toolbar-button onclick="hideDialog('comparison-KML')">
+                        <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div id="dialog-comparison-KML-content">
+                <p>Соотнесите служебные имена характеристик в левой части (атрибуты из панели свойств)
+                     и имена характеристик в правой (полученные из импортируемого Вами файла)</p>
+                <div id="dialog-list-properties">
+                </div>
+                <ons-button modifier="quiet" id="acceptImportKML" style="float:right;">Применить</ons-button>
+                <ons-button modifier="quiet" onclick="hideDialog('comparison-KML')" style="float:right;">Отмена</ons-button>
+            </div>
+    </ons-dialog>
+</template>
+
     <script>
       var app = {}
         ons.getScriptPage().onInit = function() {
@@ -123,8 +165,10 @@
                 modifier: 'destructive'
               },
               {
-                label: 'Экспорт в kml',
-
+                label: 'Экспорт kml',
+              },
+              {
+                label: 'Импорт kml',
               },
               {
                 label: 'Назад',
@@ -138,8 +182,83 @@
               if(index == 1){
                 exportKML(layerID)
               }
+              if(index == 2){
+                chooseFile(layerID)
+              }
             });
+        }
 
+        function chooseFile(layerID){
+          ons.createElement('file_chooser', {append: true})
+            .then(function(dialog){
+              let content = document.getElementById('dialog-file-chooser-content')
+              showAllFilesAtDir(root_directory + pathToKMLStorage, function(entries){
+                let html = ''
+                for(let entry of entries){
+                  if(entry.name.search(`.xml`)){
+                    var item = ons._util.createElement("<ons-list-item tappable></ons-list-item>")
+                    item.innerHTML = `${entry.name}`
+                    item.addEventListener("click", () => {
+                      hideDialog('file-chooser')
+                      compareAtribs(layerID, entry.nativeURL)
+                    }, false)
+                    content.appendChild(item)
+                  }
+                }
+              })
+              dialog.show()
+            })
+        }
+
+        function compareAtribs(layerID, pathToKML){
+          let layer = findLayer(layerID)
+          openFile(pathToKML, function(data){
+              let format = new ol.format.KML()
+              let features = format.readFeatures(data)
+              if(features.length == 0){
+                  ons.notification.alert('Элементы не найдены')
+                  return
+              }
+              let properties = features[0].getProperties()
+              ons.createElement('comparison_KML', {append: true})
+                  .then(function(dialog){
+                      let html = '<table>'
+                      for(let atrib of layer.atribs){
+                          html += `<tr class='property'>
+                              <td class='left_property'>${atrib.name}</td>`
+
+                          let select = `<ons-select class='right_property' id='${atrib.name}'>`
+                          select += `<option value="" selected disabled hidden>Нет соотвествия</option>`
+                          for(var prop in properties){
+                              let selected = ''
+                              if(atrib.name == prop){
+                                  selected = ` selected="selected" `
+                              }
+                              select += `<option value='${prop}'${selected}>${prop}</option>`
+                          }
+                          select += `</ons-select>`
+
+                          html += `<td>${select}</td>
+                              </tr>`
+                      }
+                      html += `</table>`
+                      document.querySelector('#dialog-list-properties').innerHTML = html
+                      document.querySelector('#acceptImportKML').addEventListener('click', () => {acceptImportKML(layerID, features)}, false)
+                      dialog.show()
+                  })
+          })
+        }
+
+        function acceptImportKML(layerID, features){
+          let properties = {}
+          let htmlProperties = document.querySelectorAll('.property')
+          for(let elem of htmlProperties){
+            let left = elem.querySelector('.left_property').textContent
+            let right = elem.querySelector('.right_property').value
+            properties[left] = right
+          }
+          importKML(layerID, properties, features)
+          hideDialog('comparison-KML')
         }
 
         function clickRasterMenu(event){
@@ -161,15 +280,6 @@
           }
         }
       });
+
     </script>
-    <style>
-
-      .layers-more-button{
-        position: absolute;
-        left: 85%;
-        bottom: 5%;
-        color: black;
-      }
-
-    </style>
 </ons-page>
