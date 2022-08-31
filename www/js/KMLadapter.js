@@ -77,7 +77,7 @@ function importKML(layerID, properties, features){
                     for(let old_feature of layer.getSource().getFeatures()){
                         if(old_feature.id == feature_id){
                             old_feature.setGeometry(feature.getGeometry())
-                            //saveDB()
+                            saveDB()
                             break
                         }
                     }
@@ -109,7 +109,7 @@ function importKML(layerID, properties, features){
                     feature.layerID = layer.id
                     feature.setStyle(layer.getStyle())
                     layer.getSource().addFeature(feature)
-                    //saveDB()
+                    saveDB()
                   })          
             }
         }, `Ошибка в импортируемом KML.`)
