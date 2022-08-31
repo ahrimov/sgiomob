@@ -17,11 +17,9 @@
     font-size: 12px;
 }
 
-.left_atrib{
-    color: brown;
-    overflow: hidden;
+.left_property{
     width: 50%;
-    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .layers-more-button{

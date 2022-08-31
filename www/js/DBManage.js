@@ -114,7 +114,7 @@ function getDataLayerFromBD(layer){
         })
 }
 
-function requestToDB(query, callback){
+function requestToDB(query, callback, notification = 'Неизвестная ошибка'){
     if(typeof db === 'undefined'){
         setTimeout(requestToDB, 50, query, callback)
         return
@@ -123,6 +123,7 @@ function requestToDB(query, callback){
         callback(res)
     }
     var queryError = function(tx, err){
+        ons.notification.alert(notification)
         console.log("Error with database transaction", err)
         console.log("Query:", query)
     }
