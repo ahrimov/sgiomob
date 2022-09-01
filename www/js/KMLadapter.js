@@ -34,8 +34,7 @@ function exportKML(layerID){
         let date = new Date()
 
         function formatDate(date){
-            return `_${date.getHours()}_${date.getMinutes()}_${date.getSeconds()}_
-                ${date.getDate()}_${date.getMonth() + 1}_${date.getFullYear()}`
+            return `_${date.getHours()}_${date.getMinutes()}_${date.getSeconds()}_${date.getDate()}_${date.getMonth() + 1}_${date.getFullYear()}`
         }
 
         saveFile(root_directory + pathToKMLStorage, layer.id + formatDate(date) + '.kml', kml)
