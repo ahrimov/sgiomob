@@ -273,11 +273,11 @@
           .notification.confirm({title: 'Очистка слоя', message: `Вы уверены, что хотите очитстить слой ${layer.label}?`})
           .then(function(index) {
               if(index == 1){
-                let query = `TRUNCATE TABLE ${layer.id}`
+                let query = `DELETE FROM ${layer.id}`
                 requestToDB(query, function(res){
                   layer.getSource().clear(true)
                   ons.notification.alert(`Слой ${layer.label} очищен`)
-                  //saveDB()
+                  saveDB()
                 })
               }
           });
