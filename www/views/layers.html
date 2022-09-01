@@ -171,6 +171,9 @@
                 label: 'Импорт kml',
               },
               {
+                label: 'Очистить слой'
+              },
+              {
                 label: 'Назад',
                 icon: 'md-close'
               }
@@ -184,6 +187,9 @@
               }
               if(index == 2){
                 chooseFile(layerID)
+              }
+              if(index == 3){
+                clearLayer(layerID)
               }
             });
         }
@@ -259,6 +265,23 @@
           }
           importKML(layerID, properties, features)
           hideDialog('comparison-KML')
+        }
+
+        function clearLayer(layerID){
+          let layer = findLayer(layerID)
+          ons
+          .notification.confirm({title: 'Очистка слоя', message: `Вы уверены, что хотите очитстить слой ${layer.label}?`})
+          .then(function(index) {
+              if(index == 1){
+                let query = `TRUNCATE TABLE ${layer.id}`
+                requestToDB(query, function(res){
+                  layer.getSource().clear(true)
+                  ons.notification.alert(`Слой ${layer.label} очищен`)
+                  //saveDB()
+                })
+              }
+          });
+
         }
 
         function clickRasterMenu(event){
