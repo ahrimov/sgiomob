@@ -1,6 +1,6 @@
 function initial(){
     document.querySelector('#myNavigator').pushPage('./views/loadScreen.html');
-    let path = root_directory + "Project/config.xml"
+    let path = root_directory + "config.xml"
     checkIfFileExists(path, fileExist, warning)
     openFile(path, configParser)
     

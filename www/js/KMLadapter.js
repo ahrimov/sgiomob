@@ -31,11 +31,7 @@ function exportKML(layerID){
             featureProjection: 'EPSG:3857'
         })
 
-        let date = new Date()
-
-        function formatDate(date){
-            return `_${date.getHours()}_${date.getMinutes()}_${date.getSeconds()}_${date.getDate()}_${date.getMonth() + 1}_${date.getFullYear()}`
-        }
+        let date = new Date()      
 
         saveFile(root_directory + pathToKMLStorage, layer.id + formatDate(date) + '.kml', kml)
     })
@@ -43,6 +39,10 @@ function exportKML(layerID){
 
 function importKML(layerID, properties, features){
     let layer = findLayer(layerID)
+
+    let loading = new LoadScreen(features.length, 'Импорт KML завершён')
+    loading.startLoad()
+
     for(let feature of features){
 
         if(compareGeometryTypes(layer.geometryType, feature.getGeometry().getType()) == 0){
@@ -51,6 +51,11 @@ function importKML(layerID, properties, features){
 
         let props = filterProperties(feature.getProperties(), properties, layer)
         let feature_id = props[properties[layer.atribs[0].name]]
+
+        if(typeof feature_id == 'undefined'){
+            feature_id = autonumericID(layer.atribs[0].name, layer)
+        }
+
         let query = `SELECT COUNT(1) as bool FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature_id};`
         requestToDB(query, function(data){
             if(data.rows.item(0).bool == 1){
@@ -71,12 +76,12 @@ function importKML(layerID, properties, features){
                 feautureString = convertToGeometryType(feautureString)
                 updates.push(`Geometry = GeomFromText('${feautureString}', 3857)`)
                 query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature_id} `
-                console.log(query)
                 requestToDB(query, function(res){
                     for(let old_feature of layer.getSource().getFeatures()){
                         if(old_feature.id == feature_id){
                             old_feature.setGeometry(feature.getGeometry())
                             saveDB()
+                            loading.elementLoaded()
                             break
                         }
                     }
@@ -102,13 +107,13 @@ function importKML(layerID, properties, features){
                     INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
                     VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
                 ;`
-                console.log(query)
                 requestToDB(query, function(res){
                     feature.id = feature_id
                     feature.layerID = layer.id
                     feature.setStyle(layer.getStyle())
                     layer.getSource().addFeature(feature)
                     saveDB()
+                    loading.elementLoaded()
                   })          
             }
         }, `Ошибка в импортируемом KML.`)

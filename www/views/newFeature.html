@@ -39,17 +39,7 @@
             document.querySelector('#saveFeatureButton').addEventListener('click', saveFeature, false)
             document.querySelector('#backButton').addEventListener('click', back, false)
 
-            autonumericID()
-
-            function autonumericID(){
-              let idName = layer.atribs[0].name
-              requestToDB(`SELECT MAX(${idName}) as id FROM ${layer.id}`, function(data){
-                let id = 0
-                if(typeof data.rows.item(0).id != 'undefined')
-                  id = data.rows.item(0).id + 1
-                document.querySelector(`#${idName}`).value = id
-              })
-            }
+            document.querySelector(`#${layer.atribs[0].name}`).value = autonumericID(layer.atribs[0].name, layer)
 
             function back(){
                 document.querySelector('#myNavigator').popPage();

@@ -14,3 +14,7 @@ function clipping(string, limit){
       }
     return string
 }
+
+function formatDate(date){
+  return `_${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}`
+}

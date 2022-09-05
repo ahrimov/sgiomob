@@ -204,9 +204,21 @@
                     getFileEntry(imgUri, function(fileEntry){
 
                         firstImage()
-                        let gallery = document.querySelector('.gallery')
-                        saveImage(fileEntry, layer.id + Date.now() + ".png", layer, feature, function(imgUri){
+
+                        let date = new Date()  
+                        let imageName = `${layer.id}${formatDate(date)}.jpg`
+                        let image_options = {
+                            name: imageName,
+                            path: pathToImageStorage + imageName,
+                            created: date.toString(),
+                            mimeType:"image\/jpeg",
+                            desc:""
+                        }
+                        
+                        saveImage(fileEntry, image_options, layer, feature, function(imgUri){
+                            console.log(imgUri)
                             getFileEntry(imgUri, function(){
+                                let gallery = document.querySelector('.gallery')
                                 displayImage(fileEntry.toInternalURL(), gallery)
                             })
                         })
@@ -228,14 +240,15 @@
             }
 
             function displayImagesFromStorage(){
-                getImagesFromStorage(layer, feature, function(pathsToImages){
-                    if(pathsToImages.length == 0)
+                getImagesFromStorage(layer, feature, function(image_options){
+                    if(image_options.length == 0)
                         return
                         
                     firstImage()
                     let gallery = document.querySelector('.gallery')
-                    for(let path of pathsToImages){
-                        getFileEntry(path, function(fileEntry){
+                    for(let elem of image_options){
+                        //console.log('display: ', root_directory + elem.path)
+                        getFileEntry(root_directory + elem.path, function(fileEntry){
                             displayImage(fileEntry.toInternalURL(), gallery)
                         })
                     }

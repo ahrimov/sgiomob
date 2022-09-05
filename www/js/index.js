@@ -21,7 +21,7 @@ raster.isLocal = false
 
 var localSource;
 
-var root_directory = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/"
+var root_directory = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/Project/"
 
 function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);

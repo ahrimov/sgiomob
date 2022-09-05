@@ -36,17 +36,23 @@ function displayImage(imgUri, displayContainer) {
 }*/
 
 
-function saveImage(imgEntry, imgName, layer, feature, success_func){
+function saveImage(imgEntry, image_options, layer, feature, success_func){
     window.resolveLocalFileSystemURL(root_directory + pathToImageStorage, function success(dirEntry){
-        imgEntry.copyTo(dirEntry, imgName, function(){
+        imgEntry.copyTo(dirEntry, image_options.name, function(){
             requestToDB(`SELECT lg_attach as im FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature.id}`, function(data){
+
                 let lg_attach = data.rows.item(0).im
+                console.log(lg_attach)
                 if(typeof lg_attach == 'undefined')
-                    lg_attach = ''
-                lg_attach += root_directory + pathToImageStorage + imgName + '|'
-                requestToDB(`UPDATE ${layer.id} SET lg_attach = '${lg_attach}' WHERE ${layer.atribs[0].name} = ${feature.id}`, function(res){
+                    lg_attach = []
+                else
+                    lg_attach = JSON.parse(lg_attach)
+                lg_attach.push(image_options)
+                lg_attach = JSON.stringify(lg_attach)
+                let query = `UPDATE ${layer.id} SET lg_attach = '${lg_attach}' WHERE ${layer.atribs[0].name} = ${feature.id}`
+                requestToDB(query, function(data){
                     saveDB()
-                    success_func(root_directory + pathToImageStorage + imgName)
+                    success_func(root_directory + pathToImageStorage + image_options.name)
                 })
             })
         })
@@ -56,11 +62,13 @@ function saveImage(imgEntry, imgName, layer, feature, success_func){
 function getImagesFromStorage(layer, feature, success){
     const query = `SELECT lg_attach as im FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature.id}`
     requestToDB(query, function(data){
-        let pathsToImages = data.rows.item(0).im
-        if(typeof pathsToImages == 'undefined')
-            pathsToImages = []
+        let lg_attach = data.rows.item(0).im
+        console.log(lg_attach)
+        if(typeof lg_attach == 'undefined')
+            lg_attach = []
         else
-            pathsToImages = pathsToImages.split("|")
-        success(pathsToImages)
+            lg_attach = JSON.parse(lg_attach)
+        
+        success(lg_attach)
     })
 }
