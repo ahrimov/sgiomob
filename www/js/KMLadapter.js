@@ -37,11 +37,13 @@ function exportKML(layerID){
     })
 }
 
-function importKML(layerID, properties, features){
+async function importKML(layerID, properties, features){
     let layer = findLayer(layerID)
 
     let loading = new LoadScreen(features.length, 'Импорт KML завершён')
     loading.startLoad()
+
+    let featureMaxID
 
     for(let feature of features){
 
@@ -53,11 +55,20 @@ function importKML(layerID, properties, features){
         let feature_id = props[properties[layer.atribs[0].name]]
 
         if(typeof feature_id == 'undefined'){
-            feature_id = autonumericID(layer.atribs[0].name, layer)
+            if(typeof featureMaxID == 'undefined'){
+                featureMaxID = await autonumericID(layer.atribs[0].name, layer)
+                feature_id = featureMaxID
+            }
+            else{
+                featureMaxID++
+                feature_id = featureMaxID
+            }
+            props['id'] = feature_id
+            properties['id'] = 'id'
         }
 
         let query = `SELECT COUNT(1) as bool FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature_id};`
-        requestToDB(query, function(data){
+        await requestToDB(query, function(data){
             if(data.rows.item(0).bool == 1){
                 let updates = []
                 for(let key in properties){
@@ -114,7 +125,7 @@ function importKML(layerID, properties, features){
                     layer.getSource().addFeature(feature)
                     saveDB()
                     loading.elementLoaded()
-                  })          
+                  })       
             }
         }, `Ошибка в импортируемом KML.`)
     }
@@ -123,7 +134,7 @@ function importKML(layerID, properties, features){
         if(inp_string.search('MULTI') == -1)
             return insert(inp_string, 'MULTI')
         return inp_string
-      }
+    }
 
 }
 

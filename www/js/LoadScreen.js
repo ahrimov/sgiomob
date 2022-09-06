@@ -17,7 +17,7 @@ class LoadScreen{
     }
 
     finishLoad(){
-        document.querySelector('#myNavigator').popPage();
+        setTimeout(() => {document.querySelector('#myNavigator').popPage()}, 300) 
         if(this.message != ''){
             ons.notification.alert({title: 'Загрузка', message: this.message})
         }

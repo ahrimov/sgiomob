@@ -42,7 +42,7 @@ function saveImage(imgEntry, image_options, layer, feature, success_func){
             requestToDB(`SELECT lg_attach as im FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature.id}`, function(data){
 
                 let lg_attach = data.rows.item(0).im
-                console.log(lg_attach)
+                //console.log(lg_attach)
                 if(typeof lg_attach == 'undefined')
                     lg_attach = []
                 else
@@ -63,12 +63,12 @@ function getImagesFromStorage(layer, feature, success){
     const query = `SELECT lg_attach as im FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature.id}`
     requestToDB(query, function(data){
         let lg_attach = data.rows.item(0).im
-        console.log(lg_attach)
+        //console.log(lg_attach)
         if(typeof lg_attach == 'undefined')
             lg_attach = []
-        else
+        else{
             lg_attach = JSON.parse(lg_attach)
-        
+        }
         success(lg_attach)
     })
 }

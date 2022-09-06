@@ -39,7 +39,9 @@
             document.querySelector('#saveFeatureButton').addEventListener('click', saveFeature, false)
             document.querySelector('#backButton').addEventListener('click', back, false)
 
-            document.querySelector(`#${layer.atribs[0].name}`).value = autonumericID(layer.atribs[0].name, layer)
+            autonumericID(layer.atribs[0].name, layer).then((new_id) => {
+              document.querySelector(`#${layer.atribs[0].name}`).value = new_id
+            })
 
             function back(){
                 document.querySelector('#myNavigator').popPage();

@@ -216,7 +216,6 @@
                         }
                         
                         saveImage(fileEntry, image_options, layer, feature, function(imgUri){
-                            console.log(imgUri)
                             getFileEntry(imgUri, function(){
                                 let gallery = document.querySelector('.gallery')
                                 displayImage(fileEntry.toInternalURL(), gallery)
@@ -250,6 +249,8 @@
                         //console.log('display: ', root_directory + elem.path)
                         getFileEntry(root_directory + elem.path, function(fileEntry){
                             displayImage(fileEntry.toInternalURL(), gallery)
+                        }, function(error){
+                            ons.notification.alert(`Не удалось загрузить изображение: ${elem.path}`)
                         })
                     }
                 })

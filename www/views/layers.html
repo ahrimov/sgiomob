@@ -237,7 +237,7 @@
                           select += `<option value="" selected disabled hidden>Нет соотвествия</option>`
                           for(var prop in properties){
                               let selected = ''
-                              if(atrib.name == prop){
+                              if(atrib.name.toLowerCase() == prop.toLowerCase()){
                                   selected = ` selected="selected" `
                               }
                               select += `<option value='${prop}'${selected}>${prop}</option>`
