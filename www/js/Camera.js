@@ -5,7 +5,8 @@ function setOptions(srcType) {
         destinationType: Camera.DestinationType.FILE_URI,
         // In this app, dynamically set the picture source, Camera or photo gallery
         sourceType: srcType,
-        correctOrientation: true
+        correctOrientation: true,
+        encodingType: Camera.EncodingType.PNG
     }
     return options;
 }
@@ -37,7 +38,7 @@ function displayImage(imgUri, displayContainer) {
 
 
 function saveImage(imgEntry, image_options, layer, feature, success_func){
-    window.resolveLocalFileSystemURL(root_directory + pathToImageStorage, function success(dirEntry){
+    getFolder(pathToImageStorage, function(dirEntry){
         imgEntry.copyTo(dirEntry, image_options.name, function(){
             requestToDB(`SELECT lg_attach as im FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature.id}`, function(data){
 

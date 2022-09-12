@@ -16,15 +16,16 @@ function getFileEntry(path, success, fail) {
     window.resolveLocalFileSystemURL(path, success, fail);
 }
 
-function createFolder(){
-    window.resolveLocalFileSystemURL("file:///storage/self/primary", function(rootDirEntry){
-        rootDirEntry.getDirectory("sgiomob", {create: true}, function(mainDirEntry){
-            console.log("Create folder sgiomob is success")
+function getFolder(dirName, callback){
+    window.resolveLocalFileSystemURL(root_directory, function(rootDirEntry){
+        rootDirEntry.getDirectory(dirName, {create: true}, function(dirEntry){
+            console.log(`Get folder ${dirName} is success`)
+            callback(dirEntry)
         }, function(error){
             console.log("Error while create folder:" + error.message)
         })
-    }, function(error){
-        console.log("Error while get a folder sgiomob:" + error)
+    }, function (error){
+        ons.notification.alert(`Невозможно открыть директорию. Ошибка:`, error)
     })
 }
 
@@ -33,14 +34,12 @@ function checkIfFileExists(path, fileExists, fileDoesNotExist){
 }
 
 function saveFile(pathDir, fileName, fileData){
-    window.resolveLocalFileSystemURL(pathDir, function(dirEntry){
+    getFolder(pathDir, function(dirEntry){
         dirEntry.getFile(fileName, {create: true}, function(fileEntry){
             writeFile(fileEntry,  fileData)
         }, function(error){
             ons.notification.alert(`Невозможно создать файл. Ошибка:`, error)
         })
-    }, function (error){
-        ons.notification.alert(`Невозможно открыть директорию. Ошибка:`, error)
     })
 }
 

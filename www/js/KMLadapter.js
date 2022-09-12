@@ -31,9 +31,11 @@ function exportKML(layerID){
             featureProjection: 'EPSG:3857'
         })
 
-        let date = new Date()      
+        let date = new Date()
+        
+        kml = kml.replace(/,0/g, ",nan")
 
-        saveFile(root_directory + pathToKMLStorage, layer.id + formatDate(date) + '.kml', kml)
+        saveFile(pathToKMLStorage, layer.id + formatDate(date) + '.kml', kml)
     })
 }
 

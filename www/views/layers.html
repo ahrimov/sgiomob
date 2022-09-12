@@ -220,7 +220,7 @@
           let layer = findLayer(layerID)
           openFile(pathToKML, function(data){
               let format = new ol.format.KML()
-              let features = format.readFeatures(data)
+              let features = format.readFeatures(data.replace(/nan/g, "0"))
               if(features.length == 0){
                   ons.notification.alert('Элементы не найдены')
                   return

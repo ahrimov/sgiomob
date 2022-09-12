@@ -74,22 +74,32 @@
             let query = "SELECT AsText(Geometry) as geom, " + atribs.join(', ') + " from " + layer.id + 
             " WHERE id = " + feature.id
             requestToDB(query, function(data){
-                var table = "<table>" 
+                var table = document.createElement("table");
                 for(atrib of layer.atribs){
                     if(checkServiceField(atrib.name)){
                         continue
                     }
-                    table += `<tr>
-                        <td class='title'>${atrib.label}</td>
-                        <td class='content'>${contentByType(atrib, data.rows.item(0)[atrib.name])}
-                        </tr>`
-                    
+
+                    let tr = document.createElement("tr");
+                    tr.className = "property";
+                    let td_title = document.createElement("td");
+                    td_title.className = 'title';
+                    td_title.textContent = atrib.label;
+                    tr.append(td_title);
+                    let td_content = document.createElement("td");
+                    td_content.className = 'content';
+                    let content = contentByType(atrib, data.rows.item(0)[atrib.name]);
+                    if(content == ''){
+                        tr.style['visibility'] = 'collapse';
+                    }
+                    td_content.innerHTML = content;
+                    tr.append(td_content);
+                    table.append(tr);
+
                     values.push(data.rows.item(0)[atrib.name])
                 }
-                table = addMetricCharacter(layer, table, data.rows.item(0).geom)
-                table += "</table>"
-                var content = document.getElementById("table");
-                content.innerHTML = table
+                table.append(addMetricCharacter(layer, data.rows.item(0).geom))
+                document.getElementById("table").append(table)
             })
 
             displayLocalMap()
@@ -173,30 +183,31 @@
                 })
             }
 
-            function addMetricCharacter(layer, table, geom){
+            function addMetricCharacter(layer, geom){
                 const format = new ol.format.WKT();
                 let wkt = geom
                 let feature = format.readFeature(wkt.replace(/nan/g, "0"))
                 let geometry = feature.getGeometry()
+                let tr = document.createElement("tr");
                 switch(layer.geometryType){
                     case "MULTIPOINT":
-                        table += `<td class='title'>Координаты точки</td>`
+                        tr.innerHTML += `<td class='title'>Координаты точки</td>`
                         let coords = geometry.getCoordinates()
                         let str = coords.toString()
                         let arr = str.split(',')
-                        let lonlat = ol.proj.toLonLat([parseInt(arr[0]), parseInt(arr[1])]);
-                        table += `<td class='metric'>${lonlat}</td>`
+                        let lonlat = ol.proj.toLonLat([parseInt(arr[0]), 6, parseInt(arr[1])]);
+                        tr.innerHTML += `<td class='metric'>${ol.coordinate.toStringXY(lonlat, 5)}</td>`
                         break
                     case 'MULTILINESTRING':
-                        table += `<td class='title'>Длина линии</td>`
-                        table += `<td class='metric'>${ol.sphere.getLength(geometry)}</td>`
+                        tr.innerHTML += `<td class='title'>Длина линии</td>`
+                        tr.innerHTML += `<td class='metric'>${ol.sphere.getLength(geometry).toFixed(5)}</td>`
                         break
                     case 'MULTIPOLYGON':
-                        table += `<td class='title'>Площадь</td>`
-                        table += `<td class='metric'>${ol.sphere.getArea(geometry)}</td>`
+                        tr.innerHTML += `<td class='title'>Площадь</td>`
+                        tr.innerHTML += `<td class='metric'>${ol.sphere.getArea(geometry).toFixed(5)}</td>`
                         break
                 }
-                return table
+                return tr;
             }
 
             function clickOpenCamera(){
@@ -206,12 +217,12 @@
                         firstImage()
 
                         let date = new Date()  
-                        let imageName = `${layer.id}${formatDate(date)}.jpg`
+                        let imageName = `${layer.id}${formatDate(date)}.png`
                         let image_options = {
                             name: imageName,
                             path: pathToImageStorage + imageName,
                             created: date.toString(),
-                            mimeType:"image\/jpeg",
+                            mimeType:"image\/png",
                             desc:""
                         }
                         
@@ -297,6 +308,9 @@
                 for(let index in values){
                     content[index].innerHTML = inputByType(layer.atribs[index], values[index])
                 }
+
+                renderProperties(true)
+
                 document.querySelector('#feature-instruments').style['display'] = 'none'
                 document.querySelector('.feature-under-bar').style['display'] = 'block'
             }
@@ -370,8 +384,28 @@
                 for(let index in values){
                     content[index].innerHTML = contentByType(layer.atribs[index], values[index])
                 }
+                renderProperties(false)
+
                 document.querySelector('.feature-under-bar').style['display'] = 'none'
                 document.querySelector('#feature-instruments').style['display'] = 'block'
+            }
+
+            function renderProperties(visibility){
+                if(visibility){
+                    visibility = 'visible'
+                }
+                else{
+                    visibility = 'collapse'
+                }
+                let property_lines = document.querySelectorAll('.property');
+                for(let index in values){
+                    if(layer.atribs[index].type == 'BOOLEAN'){
+                        return;
+                    }
+                    if(property_lines[index].querySelector('.content').textContent == ''){
+                        property_lines[index].style['visibility'] = visibility;
+                    } 
+                }
             }
         }
 
