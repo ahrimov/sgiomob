@@ -7,14 +7,15 @@ function showMap(){
         target: 'map-container',
         layers: [raster],
         view: currentMapView,
-        controls: [scaleLine, new CustomControls, new Crosshair, new UndoButton, new AcceptDrawButton]
+        controls: [scaleLine, new CustomControls, new Crosshair, new UndoButton, new AcceptDrawButton, new AcceptModifyButton]
     });
     for(layer of layers){
         map.addLayer(layer)
     }
 
     map.on('click', function(evt){
-        setTimeout(showDialogFeatures, 50, evt)
+        if(typeof map.modify == 'undefined' || map.modify == null)
+            setTimeout(showDialogFeatures, 50, evt)
     })
 
     updateInfo()
@@ -122,6 +123,14 @@ function addDrawInteraction(layer){
 
         let acceptDrawButton = document.querySelector('.accept-draw-button-fab')
         acceptDrawButton.disabled = true
+
+        /*const modify = new ol.interaction.Modify({
+            source: layer.getSource()
+        })
+
+        map.modify = modify
+
+        map.addInteraction(modify);*/
     })
 
     map.draw.on('drawend', function(event){
@@ -131,10 +140,12 @@ function addDrawInteraction(layer){
         let acceptDrawButton = document.querySelector('.accept-draw-button-fab')
         acceptDrawButton.disabled = false
 
-        //map.removeInteraction(map.modify)
+        /*map.removeInteraction(map.modify)
+        map.modify = null*/
     })
 
     displayCancelButton()
+    homeDisableButtons()
    
     map.addInteraction(map.draw);
 }
@@ -166,6 +177,7 @@ function finishDraw(){
         map.removeInteraction(map.draw);
 
     removeCancelButton()
+    homeEnableButton()
 
     let acceptDrawButton = document.querySelector('.accept-draw-button')
     acceptDrawButton.style['display'] = 'none'
@@ -182,13 +194,115 @@ function finishDraw(){
     
 }
 
-function addModify(feature){
-    console.log('geometry', feature.geometry)
+function addModify(layer, feature){
+
+    let old_geometry = feature.getGeometry().clone();
+
+    const modify = new ol.interaction.Modify({
+        source: layer.getSource(),
+        stopClick: true,
+        condition: function(evt){
+            let features = map.getFeaturesAtPixel(evt.pixel)
+            for(let feat of features){
+                if(feat.id == feature.id)
+                    return true;
+            }
+            return false;
+        },
+    })
+
+    map.modify = modify
+
+    map.modify.modifyFeature = feature;
+    map.modify.oldGeometry = old_geometry;
+
+    console.log(old_geometry.getClosestPoint([0,0]))
+
+    map.addInteraction(modify)
+
+    let drawButton = document.querySelector('.draw-button')
+    drawButton.style['display'] = 'none'
+
+    let acceptModifyButton = document.querySelector('.accept-modify-button')
+    acceptModifyButton.style['display'] = 'block'
+
+
+    //clear page
+    let drawBar = document.querySelector('#draw-bar')
+    drawBar.style['display'] = 'none'
+    let mapContainer = document.querySelector('#map-container')
+    mapContainer.style['height'] = "100%"
+    map.updateSize();
+
+    homeDisableButtons()
+    
+
+
+    /*console.log('geometry', feature.geometry)
     let modify = ol.interaction.Modify({
         features: [feature]
     })
     map.modify = modify
-    map.addInteraction(modify)
+    map.addInteraction(modify)*/
+}
+
+function finishModify(){
+    ons.notification.confirm({
+        title: 'Модификация геометрии',
+        message: 'Вы уверены, что хотите изменить геометрию элемента?',
+        buttonLabels: ["Отмена", "Нет", "Да"]
+    })
+    .then(function(index) {
+        if (index === 0) { 
+            console.log(map.modify.oldGeometry.getClosestPoint([0,0]))
+            map.modify.modifyFeature.setGeometry(map.modify.oldGeometry);
+            removeModify();
+        }
+        if(index === 2){
+            updateFeatureGeometry(map.modify.modifyFeature);
+            removeModify();
+        }
+    });
+}
+
+function removeModify(){
+    map.removeInteraction(map.modify);
+    map.modify = null
+
+    homeEnableButton()
+
+    let acceptModifyButton = document.querySelector('.accept-modify-button')
+    acceptModifyButton.style['display'] = 'none'
+
+    let drawButton = document.querySelector('.draw-button')
+    drawButton.style['display'] = 'block'
+}
+
+function updateFeatureGeometry(feature){
+    let layer = findLayer(feature.layerID);
+
+    function convertToGeometryType(inp_string){
+        if(inp_string.search('Z') != -1) return inp_string;
+        let string = insert(inp_string, ' Z', inp_string.search(/\(\(/))
+        let res = string.matchAll(/,/g)
+        let offset = 0
+        for(let r of res){
+          string = insert(string, ' 0', r.index + offset)
+          offset += 2
+        }
+        return insert(string, ' 0', string.search(/\)\)/))
+    }
+
+    const format = new ol.format.WKT()
+    let feautureString = format.writeFeature(feature)
+    feautureString = convertToGeometryType(feautureString)
+    
+    let query = `UPDATE ${layer.id} SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`
+    console.log(query)
+    requestToDB(query, function(res){
+        //ons.notofication.alert
+        saveDB();
+    })
 }
 
 function displayCancelButton(){

@@ -46,6 +46,18 @@
     background-color: #2375fa;
     color: white;
   }
+
+  .accept-modify-button{
+    display: none;
+    position: absolute;
+    top: 90%;
+    left: 83%;
+  }
+  
+  .accept-modify-button .fab{
+    background-color: #2375fa;
+    color: white;
+  }
   
   .cancel-button{
     display: none;

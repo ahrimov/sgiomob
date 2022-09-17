@@ -89,6 +89,7 @@ async function importKML(layerID, properties, features){
                 feautureString = convertToGeometryType(feautureString)
                 updates.push(`Geometry = GeomFromText('${feautureString}', 3857)`)
                 query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature_id} `
+                console.log(query)
                 requestToDB(query, function(res){
                     for(let old_feature of layer.getSource().getFeatures()){
                         if(old_feature.id == feature_id){

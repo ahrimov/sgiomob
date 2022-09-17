@@ -68,11 +68,10 @@ class CustomControls extends ol.control.Control {
     }
 
     clickDrawButton(){
-        if(typeof this.clickDrawButton.isOpen == 'undefined'){
-            this.clickDrawButton.isOpen = false
-        }
-        this.clickDrawButton.isOpen = !this.clickDrawButton.isOpen
-        if(this.clickDrawButton.isOpen){
+        let drawBar = document.querySelector('#draw-bar')
+        let style = window.getComputedStyle(drawBar);
+        let display = style.getPropertyValue('display');
+        if(display == 'none'){
             openDrawBar()
         }
         else{

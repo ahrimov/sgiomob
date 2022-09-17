@@ -67,17 +67,17 @@
             let images = []
             for(atrib of layer.atribs){
                 if(checkServiceField(atrib.name)){
-                    continue
+                    continue;
                 }
-                atribs.push(atrib.name)
+                atribs.push(atrib.name);
             }
             let query = "SELECT AsText(Geometry) as geom, " + atribs.join(', ') + " from " + layer.id + 
-            " WHERE id = " + feature.id
+            " WHERE id = " + feature.id;
             requestToDB(query, function(data){
                 var table = document.createElement("table");
                 for(atrib of layer.atribs){
                     if(checkServiceField(atrib.name)){
-                        continue
+                        continue;
                     }
 
                     let tr = document.createElement("tr");
@@ -96,10 +96,10 @@
                     tr.append(td_content);
                     table.append(tr);
 
-                    values.push(data.rows.item(0)[atrib.name])
+                    values.push(data.rows.item(0)[atrib.name]);
                 }
-                table.append(addMetricCharacter(layer, data.rows.item(0).geom))
-                document.getElementById("table").append(table)
+                table.append(addMetricCharacter(layer, data.rows.item(0).geom));
+                document.getElementById("table").append(table);
             })
 
             displayLocalMap()
@@ -109,7 +109,7 @@
 
             document.querySelector('#feature-instrument-map').addEventListener('click', centerOnCurrentFeature, false)
             document.querySelector('#feature-instrument-edit').addEventListener('click', clickEditFeature, false)
-            //document.querySelector('#feature-instrument-edit-geometry').addEventListener('click', clickEditGeometry, false)
+            document.querySelector('#feature-instrument-edit-geometry').addEventListener('click', clickEditGeometry, false)
             document.querySelector('#feature-instrument-delete').addEventListener('click', clickDeleteFeature, false)
 
             document.querySelector('#saveModificationFeature').addEventListener('click', updateFeature, false)
@@ -123,6 +123,7 @@
                     if(date_insp !== 0 && typeof date_insp !== 'undefined'){
                         return new Date(date_insp).toLocaleString()
                     }
+                    return '';
                 case 'BOOLEAN':
                     let check = ''
                     if(content === 1)
@@ -139,11 +140,11 @@
             function inputByType(atrib, content){
                 switch(atrib.type){
                 case 'DOUBLE':
-                    if(typeof content == 'undefined')
-                        return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="number" float></ons-input>`
-                    return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" type="number" float  ></ons-input>`
+                    if(typeof content == 'undefined' || content == '')
+                        return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="number" placeholder="Числовые данные" float></ons-input>`
+                    return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" float  ></ons-input>`
                 case 'DATE':
-                    if(typeof content == 'undefined')
+                    if(typeof content == 'undefined' || content == '')
                         return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="date" float></ons-input>`
                     return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" type="date" float  ></ons-input>`
                 case 'BOOLEAN':
@@ -159,8 +160,8 @@
                     select += `</ons-select>`
                     return select
                 default:
-                    if(typeof content == 'undefined')
-                        return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" float></ons-input>`
+                    if(typeof content == 'undefined' || content == '')
+                        return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" placeholder="Текстовые данные" float></ons-input>`
                     return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" float></ons-input>`
                 }
             }
@@ -173,10 +174,7 @@
                 });
                 clonedLayer.setSource(source)
                 local_map.addLayer(clonedLayer)
-                local_map.setView(new ol.View({
-                    center: feature.getGeometry().getClosestPoint([0,0]),
-                    zoom:  map.getView().getMaxZoom()
-                }))
+                local_map.getView().fit(source.getExtent())
 
                 local_map.on('click', function(evt){
                     centerOnCurrentFeature()
@@ -210,6 +208,7 @@
                 return tr;
             }
 
+            //camera function
             function clickOpenCamera(){
                 openCamera(function(imgUri){
                     getFileEntry(imgUri, function(fileEntry){
@@ -316,7 +315,7 @@
             }
 
             function clickEditGeometry(){
-                console.log('2')
+                /*console.log('2')
                 const modify = new ol.interaction.Modify({
                     source: layer.getSource(),
                     stopClick: true,
@@ -332,7 +331,8 @@
                 console.log('3')
                 map.modify = modify
                 map.addInteraction(modify)
-                console.log('4')
+                console.log('4')*/
+                addModify(layer, feature);
                 let navigator = document.querySelector('#myNavigator')
                 navigator.popPage({times: navigator.pages.length - 1})
             }

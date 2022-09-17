@@ -11,24 +11,28 @@
       </ons-toolbar>
       <div id="add-feature-content" class="page-content">
       </div>
-      <div id="photos">
-        <ons-button modifier="outline light" id="addNewPhoto">
-            <div>
-                <ons-icon icon="md-plus" size="30px"></ons-icon>
-                <p>Нажмите, чтобы<br/>добавить фотографию</p>
-            </div>
-        </ons-button>
-    </div>
 
       <div class="under-bar">
         <ons-button id='saveFeatureButton' style="float:right; margin: 1%;">Сохранить</ons-button>
         <ons-button id="backButton" style="float:right; margin: 1%;">Отмена</ons-button>
       </div>
 
+      <template id="photogallery">
+        <div id="photos">
+          <ons-button modifier="outline light" id="addNewPhoto">
+              <div>
+                  <ons-icon icon="md-plus" size="30px"></ons-icon>
+                  <p>Нажмите, чтобы<br/>добавить фотографию</p>
+              </div>
+          </ons-button>
+        </div>
+      </template>
+
       <script>
         ons.getScriptPage().onInit = function() {
             let layer = this.data.layer
             let feature = this.data.feature
+            let featureImages = []
             let content  = '<table>'
             for(let atrib of layer.atribs){
                 if(checkServiceField(atrib.name))
@@ -41,8 +45,14 @@
                       </tr>`
                 content += line
             }
-            content += `</table>`
-            document.querySelector('#add-feature-content').innerHTML = content
+            content += `</table>`;
+            document.querySelector('#add-feature-content').innerHTML = content;
+            
+            let template_gallery = document.querySelector('#photogallery');
+            let clone_gallery = template_gallery.content.cloneNode(true);
+            document.querySelector('#add-feature-content').appendChild(clone_gallery);
+            document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false)
+
 
             document.querySelector('#saveFeatureButton').addEventListener('click', saveFeature, false)
             document.querySelector('#backButton').addEventListener('click', back, false)
@@ -83,22 +93,39 @@
                              INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
                              VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
                             ;`
-                
+                console.log(query)
                 requestToDB(query, function(res){
                   let id = document.querySelector(`#${layer.atribs[0].name}`).value
                   feature.id = id
                   feature.layerID = layer.id
                   finishDraw()
                   document.querySelector('#myNavigator').popPage();
-                  
-                  saveDB()
+
+                  if(featureImages.length > 0)
+                    saveImageToNewFeature();
+
+                  saveDB();
                 }) 
+            }
+
+            async function saveImageToNewFeature(){
+              let i = 0;
+              saveImageInDB(i, layer, feature);
+            }
+
+            function saveImageInDB(i, layer, feature){
+              saveImage(featureImages[i].imageEntry, featureImages[i].image_options, layer, feature, function(imgUri){
+                i++;
+                if(i < featureImages.length){
+                  saveImageInDB(i, layer, feature)
+                }
+              })
             }
 
             function inputByType(atrib){
               switch(atrib.type){
                 case 'DOUBLE':
-                  return `<ons-input id='${atrib.name}' modifier="underbar" type="number" float></ons-input>`
+                  return `<ons-input id='${atrib.name}' modifier="underbar" type="number" placeholder="Числовые данные" float></ons-input>`
                 case 'DATE':
                   return `<ons-input id='${atrib.name}' modifier="underbar" type="date" float></ons-input>`
                 case 'BOOLEAN':
@@ -111,7 +138,7 @@
                   select += `</ons-select>`
                   return select
                 default:
-                  return `<ons-input id='${atrib.name}' modifier="underbar" float></ons-input>`
+                  return `<ons-input id='${atrib.name}' modifier="underbar" placeholder="Текстовые данные" float></ons-input>`
               }
             }
 
@@ -124,6 +151,96 @@
                 offset += 2
               }
               return insert(string, ' 0', string.search(/\)\)/))
+            }
+
+
+            //camera function (dublicate) 
+
+            function clickOpenCamera(){
+                openCamera(function(imgUri){
+                    getFileEntry(imgUri, function(fileEntry){
+
+                        firstImage();
+
+                        let date = new Date();  
+                        let imageName = `${layer.id}${formatDate(date)}.png`;
+                        let image_options = {
+                            name: imageName,
+                            path: pathToImageStorage + imageName,
+                            created: date.toString(),
+                            mimeType:"image\/png",
+                            desc:""
+                        };
+
+                        let image = {imageEntry: fileEntry, image_options : image_options};
+                        featureImages.push(image);
+
+                        let gallery = document.querySelector('.gallery');
+                        displayImage(fileEntry.toInternalURL(), gallery);
+                        
+                        /*saveImage(fileEntry, image_options, layer, feature, function(imgUri){
+                            getFileEntry(imgUri, function(){
+                                let gallery = document.querySelector('.gallery')
+                                displayImage(fileEntry.toInternalURL(), gallery)
+                            })
+                        })*/
+                    }, function(error){
+                        console.log(`Cann't save image: ` + error)
+                        ons.notification.alert({message: 'Cannot save image'})
+                    })
+                }, function(error){
+                    console.log(`Image didn't create`)
+                })
+            }
+
+            
+            function displayImage(image, container){
+                let image_element = document.createElement('img')
+                image_element.className = "pre-image"
+                image_element.src = image
+                container.appendChild(image_element)
+            }
+
+            function displayImagesFromStorage(){
+                getImagesFromStorage(layer, feature, function(image_options){
+                    if(image_options.length == 0)
+                        return
+                        
+                    firstImage()
+                    let gallery = document.querySelector('.gallery')
+                    for(let elem of image_options){
+                        //console.log('display: ', root_directory + elem.path)
+                        getFileEntry(root_directory + elem.path, function(fileEntry){
+                            displayImage(fileEntry.toInternalURL(), gallery)
+                        }, function(error){
+                            ons.notification.alert(`Не удалось загрузить изображение: ${elem.path}`)
+                        })
+                    }
+                })
+            }
+
+            function firstImage(){
+                if(typeof firstImage.counter == 'undefined'){
+                    firstImage.counter = 0
+                    changeAddPhotoButton()
+                    let gallery = document.createElement('div')
+                    gallery.className = "gallery"
+                    document.querySelector('#photos').appendChild(gallery)
+                }
+                else
+                    return
+            }
+
+            function changeAddPhotoButton(){
+                let addNewPhoto = document.querySelector('#addNewPhoto')
+                addNewPhoto.remove()
+                addNewPhoto = ons.createElement(`<ons-button modifier="outline light" id="addNewPhoto"></ons-button>`)
+                addNewPhoto.innerHTML = `<div class='signature'>
+                    <ons-icon icon="md-plus" size="20px"></ons-icon></div>`
+                addNewPhoto.style['width'] = "25%"
+                addNewPhoto.style['float'] = 'right'
+                document.querySelector('#photos').appendChild(addNewPhoto)
+                document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false)
             }
         }
 

@@ -3,7 +3,7 @@
     <ons-toolbar>
     <div class="left">
         
-        <ons-toolbar-button onclick="fn.openMenu()"> 
+        <ons-toolbar-button id='side-menu-button' onclick="fn.openMenu()"> 
         <ons-icon icon="md-menu"></ons-icon>
         </ons-toolbar-button>
         
@@ -13,7 +13,7 @@
     </div>
 
     <div class="right">
-        <ons-toolbar-button id="push">
+        <ons-toolbar-button id="layers-button">
             <ons-icon icon="md-layers"></ons-icon>
         </ons-toolbar-button>
     </div>
@@ -101,7 +101,7 @@
         showMap()
         createDrawBar()
 
-        this.querySelector('#push').onclick = function() {
+        this.querySelector('#layers-button').onclick = function() {
             document.querySelector('#myNavigator').pushPage('./views/layers.html');
         };
 
@@ -109,6 +109,16 @@
             map.updateSize();
         };
     };
+
+    function homeDisableButtons(){
+        document.querySelector('#layers-button').disabled = true
+        document.querySelector('#side-menu-button').disabled = true
+    }
+
+    function homeEnableButton(){
+        document.querySelector('#layers-button').disabled = false
+        document.querySelector('#side-menu-button').disabled = false
+    }
 
     function openFeatureProperties(feature){
         hideDialog('dialog-features')
@@ -156,6 +166,13 @@
         mapContainer.style['height'] = "90%"
         drawBar.style["display"] = "block"
         map.updateSize();
+
+        /*let page = document.querySelector('#myNavigator').topPage;
+        page.onDeviceBackButton = function(event){
+            //event.preventDefault();
+            closeDrawBar();
+        }*/
+        //document.querySelector('#myNavigator').onDeviceBackButton.enable();
     }
 
     function closeDrawBar(){
@@ -164,6 +181,8 @@
         mapContainer.style['height'] = "100%"
         drawBar.style["display"] = "none"
         map.updateSize();
+
+        //document.querySelector('#myNavigator').onDeviceBackButton.destroy();
     }
 
     function createDrawBar(){

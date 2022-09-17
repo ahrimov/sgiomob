@@ -38,6 +38,7 @@ function displayImage(imgUri, displayContainer) {
 
 
 function saveImage(imgEntry, image_options, layer, feature, success_func){
+    console.log( image_options.name)
     getFolder(pathToImageStorage, function(dirEntry){
         imgEntry.copyTo(dirEntry, image_options.name, function(){
             requestToDB(`SELECT lg_attach as im FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature.id}`, function(data){
@@ -53,7 +54,9 @@ function saveImage(imgEntry, image_options, layer, feature, success_func){
                 let query = `UPDATE ${layer.id} SET lg_attach = '${lg_attach}' WHERE ${layer.atribs[0].name} = ${feature.id}`
                 requestToDB(query, function(data){
                     saveDB()
+                    
                     success_func(root_directory + pathToImageStorage + image_options.name)
+                    console.log('succes load 2')
                 })
             })
         })

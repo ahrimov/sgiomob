@@ -1,8 +1,21 @@
 function initial(){
     document.querySelector('#myNavigator').pushPage('./views/loadScreen.html');
+
+    ons.ready(function(){
+        ons.setDefaultDeviceBackButtonListener(function(event) {
+            ons.notification.confirm({title: 'Потверждение выхода', message: 'Вы уверены, что хотите выйти?'}) 
+            .then(function(index) {
+                if (index === 1) { 
+                navigator.app.exitApp(); 
+                }
+            });
+        });
+    })
+
     let path = root_directory + "config.xml"
     checkIfFileExists(path, fileExist, warning)
     openFile(path, configParser)
+
     
 }
 
