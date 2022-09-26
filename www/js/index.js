@@ -23,6 +23,10 @@ var localSource;
 
 var root_directory = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/Project/"
 
+const globalHitTolerance = 20;
+
+const selectedColor = 'rgb(179, 179, 0)';
+
 function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     initial()

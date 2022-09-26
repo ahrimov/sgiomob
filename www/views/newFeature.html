@@ -93,7 +93,6 @@
                              INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
                              VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
                             ;`
-                console.log(query)
                 requestToDB(query, function(res){
                   let id = document.querySelector(`#${layer.atribs[0].name}`).value
                   feature.id = id
@@ -114,7 +113,7 @@
             }
 
             function saveImageInDB(i, layer, feature){
-              saveImage(featureImages[i].imageEntry, featureImages[i].image_options, layer, feature, function(imgUri){
+              saveImage(featureImages[i].imageEntry, featureImages[i].imageName, featureImages[i].image_options, layer, feature, function(imgUri){
                 i++;
                 if(i < featureImages.length){
                   saveImageInDB(i, layer, feature)
@@ -162,28 +161,23 @@
 
                         firstImage();
 
-                        let date = new Date();  
-                        let imageName = `${layer.id}${formatDate(date)}.png`;
+                        let date = new Date()  
+                        let imageName = `${layer.id}${formatDate(date)}.jpg`
+                        let pathToImage = './' + pathToImageStorage + imageName
+                        pathToImage = pathToImage.replace(/\//g, String.raw`\/`)
                         let image_options = {
-                            name: imageName,
-                            path: pathToImageStorage + imageName,
-                            created: date.toString(),
-                            mimeType:"image\/png",
+                            path: pathToImage,
+                            created: date.toISOString(),
+                            mimeType:"image\/jpeg",
                             desc:""
-                        };
+                        }
 
-                        let image = {imageEntry: fileEntry, image_options : image_options};
+                        let image = {imageEntry: fileEntry, imageName: imageName, image_options : image_options};
                         featureImages.push(image);
 
                         let gallery = document.querySelector('.gallery');
                         displayImage(fileEntry.toInternalURL(), gallery);
-                        
-                        /*saveImage(fileEntry, image_options, layer, feature, function(imgUri){
-                            getFileEntry(imgUri, function(){
-                                let gallery = document.querySelector('.gallery')
-                                displayImage(fileEntry.toInternalURL(), gallery)
-                            })
-                        })*/
+
                     }, function(error){
                         console.log(`Cann't save image: ` + error)
                         ons.notification.alert({message: 'Cannot save image'})
@@ -209,11 +203,11 @@
                     firstImage()
                     let gallery = document.querySelector('.gallery')
                     for(let elem of image_options){
-                        //console.log('display: ', root_directory + elem.path)
-                        getFileEntry(root_directory + elem.path, function(fileEntry){
+                        pathToImage = elem.path.replace(/\\\//g, '/');
+                        getFileEntry(root_directory + pathToImage, function(fileEntry){
                             displayImage(fileEntry.toInternalURL(), gallery)
                         }, function(error){
-                            ons.notification.alert(`Не удалось загрузить изображение: ${elem.path}`)
+                            ons.notification.alert(`Не удалось загрузить изображение: ${pathToImage}`)
                         })
                     }
                 })

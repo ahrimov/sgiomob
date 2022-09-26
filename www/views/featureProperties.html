@@ -193,7 +193,7 @@
                         let coords = geometry.getCoordinates()
                         let str = coords.toString()
                         let arr = str.split(',')
-                        let lonlat = ol.proj.toLonLat([parseInt(arr[0]), 6, parseInt(arr[1])]);
+                        let lonlat = ol.proj.toLonLat([parseInt(arr[0]), parseInt(arr[1])]);
                         tr.innerHTML += `<td class='metric'>${ol.coordinate.toStringXY(lonlat, 5)}</td>`
                         break
                     case 'MULTILINESTRING':
@@ -216,16 +216,17 @@
                         firstImage()
 
                         let date = new Date()  
-                        let imageName = `${layer.id}${formatDate(date)}.png`
+                        let imageName = `${layer.id}${formatDate(date)}.jpg`
+                        let pathToImage = './' + pathToImageStorage + imageName
+                        pathToImage = pathToImage.replace(/\//g, String.raw`\/`)
                         let image_options = {
-                            name: imageName,
-                            path: pathToImageStorage + imageName,
-                            created: date.toString(),
-                            mimeType:"image\/png",
+                            path: pathToImage,
+                            created: date.toISOString(),
+                            mimeType:"image\/jpeg",
                             desc:""
                         }
                         
-                        saveImage(fileEntry, image_options, layer, feature, function(imgUri){
+                        saveImage(fileEntry, imageName, image_options, layer, feature, function(imgUri){
                             getFileEntry(imgUri, function(){
                                 let gallery = document.querySelector('.gallery')
                                 displayImage(fileEntry.toInternalURL(), gallery)
@@ -256,11 +257,11 @@
                     firstImage()
                     let gallery = document.querySelector('.gallery')
                     for(let elem of image_options){
-                        //console.log('display: ', root_directory + elem.path)
-                        getFileEntry(root_directory + elem.path, function(fileEntry){
+                        pathToImage = elem.path.replace(/\\\//g, '/');
+                        getFileEntry(root_directory + pathToImage, function(fileEntry){
                             displayImage(fileEntry.toInternalURL(), gallery)
                         }, function(error){
-                            ons.notification.alert(`Не удалось загрузить изображение: ${elem.path}`)
+                            ons.notification.alert(`Не удалось загрузить изображение: ${pathToImage}`)
                         })
                     }
                 })
@@ -315,23 +316,6 @@
             }
 
             function clickEditGeometry(){
-                /*console.log('2')
-                const modify = new ol.interaction.Modify({
-                    source: layer.getSource(),
-                    stopClick: true,
-                    condition: function(evt){
-                        let features = map.getFeaturesAtPixel(evt.pixel)
-                        for(let feat of features){
-                            if(feat.id == feature.id)
-                                return true
-                        }
-                        return false
-                    }
-                })
-                console.log('3')
-                map.modify = modify
-                map.addInteraction(modify)
-                console.log('4')*/
                 addModify(layer, feature);
                 let navigator = document.querySelector('#myNavigator')
                 navigator.popPage({times: navigator.pages.length - 1})

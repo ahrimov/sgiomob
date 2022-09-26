@@ -16,7 +16,24 @@ class AcceptDrawButton extends ol.control.Control {
 
     acceptDraw(){
         let button = document.querySelector('.accept-draw-button-fab')
-        if(!button.disabled)
+        if(!button.disabled){
+            let coordString = map.draw.currentFeature.getGeometry().getCoordinates().toString()
+            let len = coordString.split(',').length
+            if(map.draw.currentFeature.getGeometry().getType() == 'LineString'){
+              if(len <= 2){
+                ons.notification.alert('Невозможно создать геометрию объекта')
+                return;
+              }
+            }
+            if(map.draw.currentFeature.getGeometry().getType() == 'Polygon'){
+              if(len <= 4){
+                ons.notification.alert('Невозможно создать геометрию объекта');
+                return;
+              }
+            }
+            
+            map.draw.finishDrawing();
             document.querySelector('#myNavigator').pushPage('./views/newFeature.html', {data: {layer: map.activeLayer, feature: map.draw.currentFeature}});
+        }
     }
 }

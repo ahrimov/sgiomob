@@ -15,7 +15,20 @@ class UndoButton extends ol.control.Control {
       }
 
       undoDraw(){
-        if(typeof map.draw != 'undefined')
+        if(typeof map.draw != 'undefined'){
             map.draw.removeLastPoint()
+            let coordString = map.draw.currentFeature.getGeometry().getCoordinates().toString()
+            let len = coordString.split(',').length
+            if(map.draw.currentFeature.getGeometry().getType() == 'LineString'){
+              if(len <= 2){
+                finishDraw()
+              }
+            }
+            if(map.draw.currentFeature.getGeometry().getType() == 'Polygon'){
+              if(len <= 4){
+                finishDraw()
+              }
+            }
       }
+    }
 }

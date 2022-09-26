@@ -34,6 +34,9 @@ function exportKML(layerID){
         let date = new Date()
         
         kml = kml.replace(/,0/g, ",nan")
+        kml = kml.replace(/<\/\w*>/g, '$&\n')
+        kml = kml.replace(/\/>/g, '$&\n')
+        kml = kml.replace(/\\\\/g, '\\')
 
         saveFile(pathToKMLStorage, layer.id + formatDate(date) + '.kml', kml)
     })
@@ -48,10 +51,10 @@ async function importKML(layerID, properties, features){
     let featureMaxID
 
     for(let feature of features){
-
         if(compareGeometryTypes(layer.geometryType, feature.getGeometry().getType()) == 0){
             convertFeatureToLayerGeometry(feature, layer)
         }
+
 
         let props = filterProperties(feature.getProperties(), properties, layer)
         let feature_id = props[properties[layer.atribs[0].name]]
@@ -89,7 +92,6 @@ async function importKML(layerID, properties, features){
                 feautureString = convertToGeometryType(feautureString)
                 updates.push(`Geometry = GeomFromText('${feautureString}', 3857)`)
                 query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature_id} `
-                console.log(query)
                 requestToDB(query, function(res){
                     for(let old_feature of layer.getSource().getFeatures()){
                         if(old_feature.id == feature_id){
@@ -134,6 +136,8 @@ async function importKML(layerID, properties, features){
     }
 
     function convertToGeometryType(inp_string){
+        inp_string = inp_string.replace(/\(+/g, '((')
+        inp_string = inp_string.replace(/\)+/g, '))')
         if(inp_string.search('MULTI') == -1)
             return insert(inp_string, 'MULTI')
         return inp_string

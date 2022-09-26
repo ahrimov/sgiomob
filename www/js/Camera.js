@@ -6,7 +6,7 @@ function setOptions(srcType) {
         // In this app, dynamically set the picture source, Camera or photo gallery
         sourceType: srcType,
         correctOrientation: true,
-        encodingType: Camera.EncodingType.PNG
+        encodingType: Camera.EncodingType.JPG
     }
     return options;
 }
@@ -37,14 +37,12 @@ function displayImage(imgUri, displayContainer) {
 }*/
 
 
-function saveImage(imgEntry, image_options, layer, feature, success_func){
-    console.log( image_options.name)
+function saveImage(imgEntry, image_name, image_options, layer, feature, success_func){
     getFolder(pathToImageStorage, function(dirEntry){
-        imgEntry.copyTo(dirEntry, image_options.name, function(){
+        imgEntry.copyTo(dirEntry, image_name, function(){
             requestToDB(`SELECT lg_attach as im FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature.id}`, function(data){
 
                 let lg_attach = data.rows.item(0).im
-                //console.log(lg_attach)
                 if(typeof lg_attach == 'undefined')
                     lg_attach = []
                 else
@@ -55,8 +53,7 @@ function saveImage(imgEntry, image_options, layer, feature, success_func){
                 requestToDB(query, function(data){
                     saveDB()
                     
-                    success_func(root_directory + pathToImageStorage + image_options.name)
-                    console.log('succes load 2')
+                    success_func(root_directory + pathToImageStorage + image_name)
                 })
             })
         })
@@ -67,7 +64,6 @@ function getImagesFromStorage(layer, feature, success){
     const query = `SELECT lg_attach as im FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature.id}`
     requestToDB(query, function(data){
         let lg_attach = data.rows.item(0).im
-        //console.log(lg_attach)
         if(typeof lg_attach == 'undefined')
             lg_attach = []
         else{

@@ -126,7 +126,7 @@
     }
 
     function showDialogFeatures(evt){
-        let features = map.getFeaturesAtPixel(evt.pixel)
+        let features = map.getFeaturesAtPixel(evt.pixel, {hitTolerance: globalHitTolerance})
         if(features.length == 0){
             return
         }

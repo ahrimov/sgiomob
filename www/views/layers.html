@@ -220,6 +220,13 @@
           let layer = findLayer(layerID)
           openFile(pathToKML, function(data){
               let format = new ol.format.KML()
+/*
+              data = data.replace(/nan/g, "0")
+              const array = [...data.matchAll(/\d*.\d*,\d*.\d*,(\d*.\d*)/g)];
+              for(let elem of array){
+                data = data.replace(elem[1], 0)
+              }*/
+
               let features = format.readFeatures(data.replace(/nan/g, "0"))
               if(features.length == 0){
                   ons.notification.alert('Элементы не найдены')

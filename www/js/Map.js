@@ -122,7 +122,7 @@ function addDrawInteraction(layer){
         undoButton.style['display'] = 'block'
 
         let acceptDrawButton = document.querySelector('.accept-draw-button-fab')
-        acceptDrawButton.disabled = true
+        acceptDrawButton.disabled = false
 
         /*const modify = new ol.interaction.Modify({
             source: layer.getSource()
@@ -136,9 +136,10 @@ function addDrawInteraction(layer){
     map.draw.on('drawend', function(event){
         let undoButton = document.querySelector('.undo-button')
         undoButton.style['display'] = 'none'
+        
 
-        let acceptDrawButton = document.querySelector('.accept-draw-button-fab')
-        acceptDrawButton.disabled = false
+        /*let acceptDrawButton = document.querySelector('.accept-draw-button-fab')
+        acceptDrawButton.disabled = false*/
 
         /*map.removeInteraction(map.modify)
         map.modify = null*/
@@ -198,25 +199,112 @@ function addModify(layer, feature){
 
     let old_geometry = feature.getGeometry().clone();
 
+    var white = [255, 255, 255, 1];
+    var width = 3;
+
+    var style1 = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: width * 2,
+          fill: new ol.style.Fill({
+            color: "red"
+          }),
+          stroke: new ol.style.Stroke({
+            color: white,
+            width: width / 2
+          })
+        }),
+        zIndex: Infinity
+      });
+      
+      var style2 = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: width * 2,
+          fill: new ol.style.Fill({
+            color: "green"
+          }),
+          stroke: new ol.style.Stroke({
+            color: white,
+            width: width / 2
+          })
+        }),
+        zIndex: Infinity
+      });
+
     const modify = new ol.interaction.Modify({
-        source: layer.getSource(),
-        stopClick: true,
-        condition: function(evt){
+        //source: layer.getSource(),
+        features: new ol.Collection([feature]),
+        /*condition: function(evt){
             let features = map.getFeaturesAtPixel(evt.pixel)
             for(let feat of features){
                 if(feat.id == feature.id)
                     return true;
             }
             return false;
-        },
+        },*/
+        snapToPointer: true,
+        pixelTolerance: 30,
+        //hitDetection: true,
+        style: function (feature) {
+            var point = feature.getGeometry().getCoordinates();
+           // console.log(point)
+            
+            var geometry = feature.get("features")[0].getGeometry();
+            var type = geometry.getType();
+            var coordinates =
+              type === "Point"
+                ? [geometry.getCoordinates()]
+                : type === "LineString"
+                ? geometry.getCoordinates()
+                : type === "Polygon"
+                ? geometry.getCoordinates()[0]
+                : [];
+            var match = false;
+            //console.log(coordinates)
+            coordinates.forEach(function (coordinate) {
+              match =
+                match || (coordinate[0] === point[0] && coordinate[1] === point[1]);
+            });
+            return match ? style1 : style2;
+          }
     })
 
     map.modify = modify
 
     map.modify.modifyFeature = feature;
+    map.modify.featureStyle = layer.getStyle().clone();
     map.modify.oldGeometry = old_geometry;
 
-    console.log(old_geometry.getClosestPoint([0,0]))
+    let style = layer.getStyle().clone();
+    switch(layer.geometryType){
+        case 'MULTIPOINT':
+            style = new ol.style.Style({
+                image: new ol.style.Circle({
+                    fill: new ol.style.Fill({color: selectedColor}),
+                    stroke: new ol.style.Stroke({color: selectedColor}),
+                    radius: 6
+                })
+            })
+            break;
+        case 'MULTIPOLYGON':
+            style.getStroke().setColor(selectedColor);
+            break;
+        case 'MULTILINESTRING':
+            style.getStroke().setColor(selectedColor);
+
+            break;
+    }
+    feature.setStyle(style);
+    createFeatureNodes(feature);
+
+    map.modify.on('modifystart', function(event){
+        updateFeatureNodes(feature, map.modify.featureNodesLayer.getSource())
+        //console.log('modify start')
+    })
+
+    map.modify.on('modifyend', function(event){
+        updateFeatureNodes(feature, map.modify.featureNodesLayer.getSource())
+        //console.log('modify end')
+    })
 
     map.addInteraction(modify)
 
@@ -235,15 +323,44 @@ function addModify(layer, feature){
     map.updateSize();
 
     homeDisableButtons()
-    
+}
 
+function createFeatureNodes(feature){
+    let node_layer = new ol.layer.Vector();
+    let style1 = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 3 * 2,
+          fill: new ol.style.Fill({
+            color: "red"
+          }),
+          stroke: new ol.style.Stroke({
+            color: "white",
+            width: 3 / 2
+          })
+        }),
+        zIndex: Infinity
+      });
+    node_layer.setStyle(style1);
+    let node_source = new ol.source.Vector();
+    node_layer.setSource(node_source);
+    updateFeatureNodes(feature, node_source);
+    map.addLayer(node_layer);
+    map.modify.featureNodesLayer = node_layer;
+}
 
-    /*console.log('geometry', feature.geometry)
-    let modify = ol.interaction.Modify({
-        features: [feature]
-    })
-    map.modify = modify
-    map.addInteraction(modify)*/
+function updateFeatureNodes(feature, node_source){
+    node_source.clear(true);
+    let coordinates = feature.getGeometry().getCoordinates();
+    coordinates = coordinates.toString()
+    coordinates = coordinates.split(',')
+    for(let i = 0; i < coordinates.length; i += 3){
+        let node = new ol.Feature({geometry: new ol.geom.Point([coordinates[i], coordinates[i + 1]])});
+        node_source.addFeature(node);
+    }
+}
+
+function deleteFeatureNodes(){
+    map.removeLayer(map.modify.featureNodesLayer);
 }
 
 function finishModify(){
@@ -254,7 +371,6 @@ function finishModify(){
     })
     .then(function(index) {
         if (index === 0) { 
-            console.log(map.modify.oldGeometry.getClosestPoint([0,0]))
             map.modify.modifyFeature.setGeometry(map.modify.oldGeometry);
             removeModify();
         }
@@ -266,6 +382,8 @@ function finishModify(){
 }
 
 function removeModify(){
+    map.modify.modifyFeature.setStyle(map.modify.featureStyle);
+    deleteFeatureNodes();
     map.removeInteraction(map.modify);
     map.modify = null
 
