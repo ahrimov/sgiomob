@@ -371,7 +371,7 @@ function updateFeatureNodes(feature, node_source){
     node_source.clear(true);
     let coordinates = feature.getGeometry().getCoordinates();
     coordinates = coordinates.toString();
-    coordinates = coordinates.replaceAll(/,0/g, '')
+    coordinates = coordinates.replace(/,0/g, '')
     coordinates = coordinates.split(',');
     console.log(coordinates);
     for(let i = 0; i < coordinates.length; i += 2){
