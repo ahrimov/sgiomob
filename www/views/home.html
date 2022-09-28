@@ -21,31 +21,31 @@
 
     <div id="map-container"></div>
 
-    <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="150px" swipeable id="draw-bar" class="downbar">
+    <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="180px" swipeable id="draw-bar" class="downbar">
     </ons-carousel>
 
-    <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="150px" swipeable id="draw-instrument-bar" class="downbar">
+    <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="180px" swipeable id="draw-instrument-bar" class="downbar">
         <ons-carousel-item>
-            <div class="carousel-item-content" id="instrument-draw-center" onclick="drawInstrumentCenter()">
-                Центр карты
-            </div>
+            <ons-button modifier="quiet" class="carousel-item-content" id="instrument-draw-center" onclick="drawInstrumentCenter()">
+                <p class="button-signature">Центр карты</p>
+            </ons-button>
         </ons-carousel-item>
         <ons-carousel-item>
-            <div class="carousel-item-content" id="intrument-draw-gps" onclick="drawInstrumentGPS()">
-                Местонахождение устройства
-            </div>
+            <ons-button modifier="quiet" class="carousel-item-content" id="intrument-draw-gps" onclick="drawInstrumentGPS()">
+                <p class="button-signature">Местонахождение устройства</p>
+            </ons-button>
         </ons-carousel-item>
         <ons-carousel-item>
-            <div class="carousel-item-content" id="instrument-draw-coordinate" onclick="showDrawInstrumentDialog()">
-                Координаты
-            </div>
+            <ons-button modifier="quiet" class="carousel-item-content" id="instrument-draw-coordinate" onclick="showDrawInstrumentDialog()">
+                <p class="button-signature">Координаты</p>
+            </ons-button>
         </ons-carousel-item>
     </ons-carousel>
 
     <template id="carousel-item">
         <ons-carousel-item>
-            <div class="carousel-item-content">
-            </div>
+            <ons-button class="carousel-item-content" modifier="quiet">
+            </ons-button>
           </ons-carousel-item>
     </template>
 

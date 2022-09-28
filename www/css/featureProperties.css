@@ -79,13 +79,13 @@
     border: 1px #8e9191;
 }
 
-#feature-instruments .carousel-item-content{
+#feature-instruments .instruments-item-content{
     text-align: center; 
     padding: 5%;
     border: 1px #8e9191;
 }
   
-#feature-instruments .carousel-item-content:hover{
+#feature-instruments .instruments-item-content:hover{
     background-color: #c0c2c2;
 }
 

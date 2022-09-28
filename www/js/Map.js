@@ -18,6 +18,25 @@ function showMap(){
             setTimeout(showDialogFeatures, 50, evt)
     })
 
+    map.on('moveend', (event) => {
+        let extent = map.getView().calculateExtent(map.getSize());
+        layers.forEach((layer) =>{
+            let source = layer.getSource();
+            let features = source.getFeaturesInExtent(extent);
+            let visible = layer.getVisible();
+            if(visible == true && features.length > numberFeaturesOnMap){
+                layer.setVisible(false);
+                layer.visible = false;
+                ons.notification.alert({
+                    title:'Внимание',
+                    message:'Не поддерживаемое количество объектов. Измените разрешение.'})
+            }
+            else if(visible == false && features.length < numberFeaturesOnMap){
+                layer.setVisible(true);
+            }
+        })
+    });
+
     updateInfo()
     turnGPS()
 }
@@ -351,9 +370,12 @@ function createFeatureNodes(feature){
 function updateFeatureNodes(feature, node_source){
     node_source.clear(true);
     let coordinates = feature.getGeometry().getCoordinates();
-    coordinates = coordinates.toString()
-    coordinates = coordinates.split(',')
-    for(let i = 0; i < coordinates.length; i += 3){
+    coordinates = coordinates.toString();
+    coordinates = coordinates.replaceAll(/,0/g, '')
+    coordinates = coordinates.split(',');
+    console.log(coordinates);
+    for(let i = 0; i < coordinates.length; i += 2){
+        console.log(coordinates[i])
         let node = new ol.Feature({geometry: new ol.geom.Point([coordinates[i], coordinates[i + 1]])});
         node_source.addFeature(node);
     }

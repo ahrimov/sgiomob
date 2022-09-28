@@ -91,7 +91,7 @@
             item.querySelector('.layers-label').textContent = label
             item.querySelector('.list-group-item').setAttribute("data-id", layer.id)
             item.querySelector('.layers-more-button').setAttribute("layer_id", layer.id)
-            if(layer.visible){
+            if(layer.getVisible()){
               item.querySelector('.list-group-item').style.backgroundColor = '#2375fa'
             }
             list.appendChild(item)
@@ -127,29 +127,18 @@
         }
 
         function changeVisible(element){
-          var layerID = element.getAttribute("data-id")
+          var layerID = element.getAttribute("data-id");
           for(layer of layers){
             if(layer.id == layerID){
-              layer.visible = !layer.visible
-              layer.setVisible(layer.visible)
+              layer.visible = !layer.visible;
+              layer.setVisible(layer.visible);
               if(layer.visible){
-                element.style.backgroundColor = '#2375fa'
+                element.style.backgroundColor = '#2375fa';
               }
               else{
-                element.style.backgroundColor = '#FFFFFF'
+                element.style.backgroundColor = '#FFFFFF';
               }
             }
-          }
-        }
-
-        function changeRasterVisible(element){
-          raster.visible = !raster.visible
-          raster.setVisible(raster.visible)
-          if(raster.visible){
-            element.style.backgroundColor = '#2375fa'
-          }
-          else{
-            element.style.backgroundColor = '#FFFFFF'
           }
         }
 
