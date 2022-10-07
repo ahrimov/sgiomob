@@ -119,8 +119,9 @@
             function contentByType(atrib, content){
                 switch(atrib.type){
                 case 'DATE':
-                    let date_insp = content
-                    if(date_insp !== 0 && typeof date_insp !== 'undefined'){
+                    let date_insp = content;
+                    console.log(content)
+                    if(date_insp !== 0 && typeof date_insp !== 'undefined' && date_insp !== ''){
                         return new Date(date_insp).toLocaleString()
                     }
                     return '';
@@ -222,7 +223,7 @@
                         let image_options = {
                             path: pathToImage,
                             created: date.toISOString(),
-                            mimeType:"image\/jpeg",
+                            mimeType:"image" + String.raw`\/` + "jpeg",
                             desc:""
                         }
                         
@@ -318,6 +319,7 @@
             function clickEditGeometry(){
                 addModify(layer, feature);
                 let navigator = document.querySelector('#myNavigator')
+                map.getView().setCenter(feature.getGeometry().getClosestPoint([0,0]))
                 navigator.popPage({times: navigator.pages.length - 1})
             }
 

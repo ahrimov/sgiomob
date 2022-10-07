@@ -43,18 +43,25 @@ function exportKML(layerID){
 }
 
 async function importKML(layerID, properties, features){
-    let layer = findLayer(layerID)
+
+    features = features.filter(feature => {
+        if(typeof feature.getGeometry() == 'undefined' || feature.getGeometry() == null){
+            return false;
+        }
+        return true;
+    
+    })
+    let layer = findLayer(layerID);
 
     let loading = new LoadScreen(features.length, 'Импорт KML завершён')
     loading.startLoad()
 
     let featureMaxID
-
+   
     for(let feature of features){
         if(compareGeometryTypes(layer.geometryType, feature.getGeometry().getType()) == 0){
             convertFeatureToLayerGeometry(feature, layer)
         }
-
 
         let props = filterProperties(feature.getProperties(), properties, layer)
         let feature_id = props[properties[layer.atribs[0].name]]
@@ -192,8 +199,14 @@ function filterProperties(values, dict, layer){
         }
         if(layer.atribs[dict[key]] == 'DATE'){
             let date = new Date(values[key]);
+            console.log('aa', date)
+            if(date == "Invalid Date"){
+                let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
+                date = date.replace(pattern,'$3-$2-$1');
+                values[key] = date;
+            }
             if(!date instanceof Date && !isNaN(date.valueOf())){
-                values[key] = ''
+                values[key] = '';
             }
         }
         if(layer.atribs[dict[key]] == 'ENUM'){

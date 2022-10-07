@@ -82,18 +82,49 @@ function layerParser(data){
     var style;
     switch(geometryType){
         case "MULTIPOINT":
-            style = pointStyleParse(geometryStyle)
+            try{
+                style = pointStyleParse(geometryStyle);
+            } catch(e) {
+                style = new ol.style.Style({
+                    image: new ol.style.Circle({
+                        fill: new ol.style.Fill({color: generateColor()}),
+                        radius: 3
+                    })
+                })
+            }
             break;
         case "MULTIPOLYGON":
-            style = polygonStyleParse(geometryStyle)
+            try{
+                style = polygonStyleParse(geometryStyle);
+            }
+            catch(e){
+                style = new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: generateColor()
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: 'rgb(0,0,0)',
+                        width: 1
+                    })
+                })
+            }
             break;
         case "MULTILINESTRING":
-            style = lineStyleParse(geometryStyle)
+            try{
+                style = lineStyleParse(geometryStyle);
+            } catch(e){
+                style = new ol.style.Style({
+                    stroke: new ol.style.Stroke({
+                        color: generateColor(),
+                        width: 2
+                    })
+                })
+            }
             break;
         default:
             style = new ol.style.Style({
                 image: new ol.style.Circle({
-                    fill: new ol.style.Fill({color: "#305cc9"}),
+                    fill: new ol.style.Fill({color: generateColor()}),
                     radius: 3
                 })
             })

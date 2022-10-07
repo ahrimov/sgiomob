@@ -130,9 +130,14 @@
           var layerID = element.getAttribute("data-id");
           for(layer of layers){
             if(layer.id == layerID){
-              layer.visible = !layer.visible;
-              layer.setVisible(layer.visible);
-              if(layer.visible){
+              if(layer.visible == layer.getVisible()){
+                layer.visible = !layer.visible;
+                layer.setVisible(layer.visible);
+              }
+              else{
+                ons.notification.alert('Слой невозможно отобразить.')
+              }
+              if(layer.getVisible()){
                 element.style.backgroundColor = '#2375fa';
               }
               else{
@@ -257,7 +262,7 @@
           for(let elem of htmlProperties){
             let left = elem.querySelector('.left_property').textContent
             let right = elem.querySelector('.right_property').value
-            properties[left] = right
+            properties[left] = right.toLowerCase();
           }
           importKML(layerID, properties, features)
           hideDialog('comparison-KML')

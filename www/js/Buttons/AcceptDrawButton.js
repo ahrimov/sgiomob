@@ -18,10 +18,15 @@ class AcceptDrawButton extends ol.control.Control {
         let button = document.querySelector('.accept-draw-button-fab')
         if(!button.disabled){
             let coordString = map.draw.currentFeature.getGeometry().getCoordinates().toString()
-            let len = coordString.split(',').length
+            let coords = coordString.split(',')
+            let len = coords.length
             if(map.draw.currentFeature.getGeometry().getType() == 'LineString'){
               if(len <= 2){
                 ons.notification.alert('Невозможно создать геометрию объекта')
+                return;
+              }
+              if(len == 4 && coords[0] == coords[2] && coords[1] == coords[3]){
+                ons.notification.alert('Невозможно создать геометрию объекта. Слишком мало узлов.')
                 return;
               }
             }

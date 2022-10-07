@@ -7,7 +7,7 @@ function showMap(){
         target: 'map-container',
         layers: [raster],
         view: currentMapView,
-        controls: [scaleLine, new CustomControls, new Crosshair, new UndoButton, new AcceptDrawButton, new AcceptModifyButton]
+        controls: [scaleLine, new CustomControls, new UndoButton, new AcceptDrawButton, new AcceptModifyButton]
     });
     for(layer of layers){
         map.addLayer(layer)
@@ -21,18 +21,27 @@ function showMap(){
     map.on('moveend', (event) => {
         let extent = map.getView().calculateExtent(map.getSize());
         layers.forEach((layer) =>{
-            let source = layer.getSource();
-            let features = source.getFeaturesInExtent(extent);
-            let visible = layer.getVisible();
-            if(visible == true && features.length > numberFeaturesOnMap){
-                layer.setVisible(false);
-                layer.visible = false;
-                ons.notification.alert({
-                    title:'Внимание',
-                    message:'Не поддерживаемое количество объектов. Измените разрешение.'})
-            }
-            else if(visible == false && features.length < numberFeaturesOnMap){
-                layer.setVisible(true);
+            if(layer.visible){
+
+                let source = layer.getSource();
+                let features = source.getFeaturesInExtent(extent);
+                let number_nodes = 0;
+                for(let feature of features){
+                    let coordinates = feature.getGeometry().getCoordinates();
+                    coordinates = coordinates.toString();
+                    coordinates = coordinates.split(',');
+                    number_nodes += coordinates.length/3;
+                }
+                let visible = layer.getVisible();
+                if(visible == true && number_nodes > numberFeaturesOnMap){
+                    layer.setVisible(false);
+                    ons.notification.alert({
+                        title:'Внимание',
+                        message:`Не поддерживаемое количество объектов на слое ${layer.label}. Измените разрешение.`})
+                }
+                else if(visible == false && number_nodes < numberFeaturesOnMap){
+                    layer.setVisible(true);
+                }
             }
         })
     });
@@ -142,26 +151,11 @@ function addDrawInteraction(layer){
 
         let acceptDrawButton = document.querySelector('.accept-draw-button-fab')
         acceptDrawButton.disabled = false
-
-        /*const modify = new ol.interaction.Modify({
-            source: layer.getSource()
-        })
-
-        map.modify = modify
-
-        map.addInteraction(modify);*/
     })
 
     map.draw.on('drawend', function(event){
         let undoButton = document.querySelector('.undo-button')
         undoButton.style['display'] = 'none'
-        
-
-        /*let acceptDrawButton = document.querySelector('.accept-draw-button-fab')
-        acceptDrawButton.disabled = false*/
-
-        /*map.removeInteraction(map.modify)
-        map.modify = null*/
     })
 
     displayCancelButton()
@@ -317,12 +311,10 @@ function addModify(layer, feature){
 
     map.modify.on('modifystart', function(event){
         updateFeatureNodes(feature, map.modify.featureNodesLayer.getSource())
-        //console.log('modify start')
     })
 
     map.modify.on('modifyend', function(event){
         updateFeatureNodes(feature, map.modify.featureNodesLayer.getSource())
-        //console.log('modify end')
     })
 
     map.addInteraction(modify)
@@ -373,7 +365,6 @@ function updateFeatureNodes(feature, node_source){
     coordinates = coordinates.toString();
     coordinates = coordinates.replace(/,0/g, '')
     coordinates = coordinates.split(',');
-    console.log(coordinates);
     for(let i = 0; i < coordinates.length; i += 2){
         console.log(coordinates[i])
         let node = new ol.Feature({geometry: new ol.geom.Point([coordinates[i], coordinates[i + 1]])});
