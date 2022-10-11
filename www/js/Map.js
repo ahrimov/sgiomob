@@ -35,6 +35,7 @@ function showMap(){
                 let visible = layer.getVisible();
                 if(visible == true && number_nodes > numberFeaturesOnMap){
                     layer.setVisible(false);
+                    removeModify();
                     ons.notification.alert({
                         title:'Внимание',
                         message:`Не поддерживаемое количество объектов на слое ${layer.label}. Измените разрешение.`})
@@ -219,7 +220,7 @@ function addModify(layer, feature){
         image: new ol.style.Circle({
           radius: width * 2,
           fill: new ol.style.Fill({
-            color: "red"
+            color: "rgb(239, 0, 6)"
           }),
           stroke: new ol.style.Stroke({
             color: white,
@@ -233,7 +234,7 @@ function addModify(layer, feature){
         image: new ol.style.Circle({
           radius: width * 2,
           fill: new ol.style.Fill({
-            color: "green"
+            color: "rgb(159, 227, 0)"
           }),
           stroke: new ol.style.Stroke({
             color: white,
@@ -244,23 +245,18 @@ function addModify(layer, feature){
       });
 
     const modify = new ol.interaction.Modify({
-        //source: layer.getSource(),
         features: new ol.Collection([feature]),
-        /*condition: function(evt){
-            let features = map.getFeaturesAtPixel(evt.pixel)
-            for(let feat of features){
-                if(feat.id == feature.id)
-                    return true;
+        condition: ol.events.condition.always, /*function(olBrowserEvent){
+            console.log(olBrowserEvent.type)
+            console.log(olBrowserEvent.target.type)
+            for(let key in olBrowserEvent.target){
+                console.log(key)
             }
-            return false;
+            return this.getPointerCount() !== 2;
         },*/
-        snapToPointer: true,
         pixelTolerance: 30,
-        //hitDetection: true,
         style: function (feature) {
             var point = feature.getGeometry().getCoordinates();
-           // console.log(point)
-            
             var geometry = feature.get("features")[0].getGeometry();
             var type = geometry.getType();
             var coordinates =
@@ -272,7 +268,6 @@ function addModify(layer, feature){
                 ? geometry.getCoordinates()[0]
                 : [];
             var match = false;
-            //console.log(coordinates)
             coordinates.forEach(function (coordinate) {
               match =
                 match || (coordinate[0] === point[0] && coordinate[1] === point[1]);
@@ -299,18 +294,18 @@ function addModify(layer, feature){
             })
             break;
         case 'MULTIPOLYGON':
+            style.getStroke().setWidth(3);
             style.getStroke().setColor(selectedColor);
             break;
         case 'MULTILINESTRING':
+            style.getStroke().setWidth(3);
             style.getStroke().setColor(selectedColor);
-
             break;
     }
     feature.setStyle(style);
     createFeatureNodes(feature);
 
     map.modify.on('modifystart', function(event){
-        updateFeatureNodes(feature, map.modify.featureNodesLayer.getSource())
     })
 
     map.modify.on('modifyend', function(event){
@@ -342,18 +337,19 @@ function createFeatureNodes(feature){
         image: new ol.style.Circle({
           radius: 3 * 2,
           fill: new ol.style.Fill({
-            color: "red"
+            color: "rgb(239, 0, 6)"
           }),
           stroke: new ol.style.Stroke({
             color: "white",
             width: 3 / 2
           })
         }),
-        zIndex: Infinity
+        zIndex: 10
       });
     node_layer.setStyle(style1);
     let node_source = new ol.source.Vector();
     node_layer.setSource(node_source);
+    node_layer.setZIndex(Infinity);
     updateFeatureNodes(feature, node_source);
     map.addLayer(node_layer);
     map.modify.featureNodesLayer = node_layer;
@@ -366,7 +362,6 @@ function updateFeatureNodes(feature, node_source){
     coordinates = coordinates.replace(/,0/g, '')
     coordinates = coordinates.split(',');
     for(let i = 0; i < coordinates.length; i += 2){
-        console.log(coordinates[i])
         let node = new ol.Feature({geometry: new ol.geom.Point([coordinates[i], coordinates[i + 1]])});
         node_source.addFeature(node);
     }
@@ -395,6 +390,7 @@ function finishModify(){
 }
 
 function removeModify(){
+    if(typeof map.modify == 'undefined' || map.modify == null) return;
     map.modify.modifyFeature.setStyle(map.modify.featureStyle);
     deleteFeatureNodes();
     map.removeInteraction(map.modify);
@@ -413,15 +409,29 @@ function updateFeatureGeometry(feature){
     let layer = findLayer(feature.layerID);
 
     function convertToGeometryType(inp_string){
-        if(inp_string.search('Z') != -1) return inp_string;
-        let string = insert(inp_string, ' Z', inp_string.search(/\(\(/))
-        let res = string.matchAll(/,/g)
-        let offset = 0
-        for(let r of res){
-          string = insert(string, ' 0', r.index + offset)
-          offset += 2
+        if(inp_string.search('Z') != -1 && inp_string.search('MULTI') != -1) return inp_string;
+
+        if(inp_string.search('Z') != -1 && inp_string.search('MULTI') == -1){
+            inp_string = inp_string.replace(/\(+/g, '((');
+            inp_string = inp_string.replace(/\)+/g, '))');
+            if(inp_string.search('MULTI') == -1)
+                inp_string = insert(inp_string, 'MULTI');
+            return inp_string; 
         }
-        return insert(string, ' 0', string.search(/\)\)/))
+
+        if(inp_string.search('MULTI') == -1)
+            inp_string = insert(inp_string, 'MULTI');
+
+        let string = inp_string
+        if(inp_string.search('Z') == -1)
+            string = insert(inp_string, ' Z', inp_string.search(/\(\(/));
+        let res = string.matchAll(/,/g);
+        let offset = 0;
+        for(let r of res){
+          string = insert(string, ' 0', r.index + offset);
+          offset += 2;
+        }
+        return insert(string, ' 0', string.search(/\)\)/));
     }
 
     const format = new ol.format.WKT()
@@ -431,7 +441,6 @@ function updateFeatureGeometry(feature){
     let query = `UPDATE ${layer.id} SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`
     console.log(query)
     requestToDB(query, function(res){
-        //ons.notofication.alert
         saveDB();
     })
 }

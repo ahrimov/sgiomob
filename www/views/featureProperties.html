@@ -89,7 +89,7 @@
                     let td_content = document.createElement("td");
                     td_content.className = 'content';
                     let content = contentByType(atrib, data.rows.item(0)[atrib.name]);
-                    if(content == ''){
+                    if(content === ''){
                         tr.style['visibility'] = 'collapse';
                     }
                     td_content.innerHTML = content;
@@ -120,7 +120,6 @@
                 switch(atrib.type){
                 case 'DATE':
                     let date_insp = content;
-                    console.log(content)
                     if(date_insp !== 0 && typeof date_insp !== 'undefined' && date_insp !== ''){
                         return new Date(date_insp).toLocaleString()
                     }
@@ -152,7 +151,7 @@
                     let check = ''
                     if(content === 1)
                         check = 'checked'
-                    return `<ons-checkbox id='${atrib.name}' ${check}  ></ons-checkbox>`
+                    return `<ons-checkbox id='${atrib.name}' ${check}  class='input-content'></ons-checkbox>`
                 case 'ENUM':
                     let select = `<ons-select id='${atrib.name}' class='input-content' value='${content}'>`
                     for(let option of atrib.options){
@@ -346,10 +345,20 @@
             function updateFeature(){
                 let updates = []
                 let input_content = document.querySelectorAll('.input-content')
+                console.log('updates:')
                 for(let index in values){
-                    values[index] = input_content[index].value
-                    if(values[index] == '')
+                    if(layer.atribs[index].type == 'BOOLEAN'){
+                        if(input_content[index].checked)
+                            values[index] = 1;
+                        else
+                            values[index] = 0; 
+                    }
+                    else{
+                        values[index] = input_content[index].value;
+                    }
+                    if(values[index] === ''){
                         continue
+                    }
                     updates.push(`${atribs[index]} = '${values[index]}'`)
                 }
                 const query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature.id}`
@@ -388,7 +397,7 @@
                     if(layer.atribs[index].type == 'BOOLEAN'){
                         return;
                     }
-                    if(property_lines[index].querySelector('.content').textContent == ''){
+                    if(property_lines[index].querySelector('.content').textContent === ''){
                         property_lines[index].style['visibility'] = visibility;
                     } 
                 }

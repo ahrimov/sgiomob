@@ -27,7 +27,7 @@ let numberFeaturesOnMap = 10000;
 
 const globalHitTolerance = 20;
 
-const selectedColor = 'rgb(179, 179, 0)';
+const selectedColor = "rgb(255, 153, 0)";
 
 function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);

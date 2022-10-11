@@ -3,6 +3,7 @@
     <name>sgiomob</name>
     <description>Simple maps</description>
     <content src="index.html" />
+    <icon src="www/resources/sgio.png" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
 </widget>

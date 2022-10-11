@@ -25,7 +25,7 @@ function fileExist(){
 
 function warning(){
     ons.notification.alert(`Не найден файл io.cordova.sgiomob/Project/ config.xml.
-    Пожалуйста, перенесите файлы проекта в папку Adnroid/data /io.cordova.sgiomob .`);
+    Пожалуйста, перенесите файлы проекта в папку Android/data /io.cordova.sgiomob .`);
 }
 
 
