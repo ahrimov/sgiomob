@@ -34,7 +34,7 @@ function showMap(){
                     coordinates = coordinates.split(',');
                     number_nodes += coordinates.length/3;
 
-                    if(visible == true && is_overflow == false && number_nodes > numberFeaturesOnMap){
+                    if(visible == true && is_overflow == false && number_nodes > numberNodesOnMap){
                         layer.setVisible(false);
                         is_overflow = true;
                         ons.notification.alert({
@@ -46,7 +46,7 @@ function showMap(){
                 if(visible == true && is_overflow == true){
                     layer.setVisible(false);
                 }
-                else if(visible == false && number_nodes < numberFeaturesOnMap){
+                else if(visible == false && number_nodes < numberNodesOnMap){
                     is_overflow = false;
                     layer.setVisible(true);
                 }
@@ -100,6 +100,14 @@ function getTypeByAtribName(atribs, atribName){
     for(atrib of atribs){
         if(atrib.name == atribName){
             return atrib.type
+        }
+    }
+}
+
+function getAtribByName(atribs, atribName){
+    for(atrib of atribs){
+        if(atrib.name == atribName){
+            return atrib
         }
     }
 }

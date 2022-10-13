@@ -123,7 +123,7 @@ function requestToDB(query, callback, notification = 'Неизвестная о�
         callback(res)
     }
     var queryError = function(tx, err){
-        ons.notification.alert(notification)
+        ons.notification.alert({title:"Внимание", message:notification})
         console.log("Error with database transaction", err)
         console.log("Query:", query)
     }

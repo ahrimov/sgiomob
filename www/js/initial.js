@@ -3,7 +3,7 @@ function initial(){
 
     ons.ready(function(){
         ons.setDefaultDeviceBackButtonListener(function(event) {
-            ons.notification.confirm({title: 'Потверждение выхода', message: 'Вы уверены, что хотите выйти?'}) 
+            ons.notification.confirm({title: 'Потверждение выхода', message: 'Вы уверены, что хотите выйти?', buttonLabels: ["Нет", "Да"]}) 
             .then(function(index) {
                 if (index === 1) { 
                 navigator.app.exitApp(); 
@@ -24,8 +24,8 @@ function fileExist(){
 }
 
 function warning(){
-    ons.notification.alert(`Не найден файл io.cordova.sgiomob/Project/ config.xml.
-    Пожалуйста, перенесите файлы проекта в папку Android/data /io.cordova.sgiomob .`);
+    ons.notification.alert({title:"Внимание", message:`Не найден файл io.cordova.sgiomob/Project/ config.xml.
+    Пожалуйста, перенесите файлы проекта в папку Android/data /io.cordova.sgiomob .`});
 }
 
 

@@ -165,13 +165,16 @@
                 let layer = findLayer(layerID)
                 let select = document.querySelector('#select-dialog-search')
                 let options = ''
-                for(atrib of layer.atribs){
+                for(let atrib of layer.atribs){
+                    if(checkServiceField(atrib.name)){
+                        continue;
+                    }
                     options += `<option value="${atrib.name}">${atrib.label}</option>`
                 }
                 select.innerHTML = options
                 select.value = filter_atrib_name
 
-                let typeAtrib = getTypeByAtribName(layer.atribs, filter_atrib_name)
+                let typeAtrib = getAtribByName(layer.atribs, filter_atrib_name)
                 addInputForFilter(typeAtrib)
                 if(filter_atrib_value != '%'){
                     inputSetValue(filter_atrib_value, typeAtrib)
@@ -183,12 +186,12 @@
         function selectingSearch(event){
             let atribName = event.target.value
             let layer = findLayer(layerID)
-            addInputForFilter(getTypeByAtribName(layer.atribs, atribName))
+            addInputForFilter(getAtribByName(layer.atribs, atribName))
         }
 
-        function addInputForFilter(type){
+        function addInputForFilter(atrib){
             let dialog_search_values = document.querySelector('#select-value-dialog-search')
-            switch(type){
+            switch(atrib.type){
                 case 'DOUBLE':
                     let number_input = `<ons-input id="filter-value" modifier="underbar" type="number" float></ons-input>`
                     dialog_search_values.innerHTML = number_input
@@ -204,6 +207,17 @@
                                          <label for="radio-0">Нет</label>`
                     dialog_search_values.innerHTML = boolean_input
                     break
+                case 'ENUM':
+                    let select = `<ons-select id="filter-value">`;
+                    for(let option of atrib.options){
+                        select += `<option value='${option}'>${option}</option>`;
+                    }
+                    select += `</ons-select>`;
+                    dialog_search_values.innerHTML = select;
+                    break;
+                case 'DATE':
+                    dialog_search_values.innerHTML = `<ons-input id="filter-value" modifier="underbar" type="date" float></ons-input>`
+                    break;
                 default:
                     dialog_search_values.innerHTML = ''
                     break

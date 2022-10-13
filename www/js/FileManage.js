@@ -25,7 +25,7 @@ function getFolder(dirName, callback){
             console.log("Error while create folder:" + error.message)
         })
     }, function (error){
-        ons.notification.alert(`Невозможно открыть директорию. Ошибка:`, error)
+        ons.notification.alert({title:"Внимание", message:`Невозможно открыть директорию. Ошибка:` + error})
     })
 }
 
@@ -38,7 +38,7 @@ function saveFile(pathDir, fileName, fileData){
         dirEntry.getFile(fileName, {create: true}, function(fileEntry){
             writeFile(fileEntry,  fileData)
         }, function(error){
-            ons.notification.alert(`Невозможно создать файл. Ошибка:`, error)
+            ons.notification.alert({title:"Внимание", message:`Невозможно создать файл. Ошибка:` + error})
         })
     })
 }
@@ -50,7 +50,7 @@ function writeFile(fileEntry, dataObj) {
 
         fileWriter.onwriteend = function() {
             //console.log("Successful file write...", fileEntry.toInternalURL());
-            ons.notification.alert('Файл успешно сохранён: ' + fileEntry.name)
+            ons.notification.alert({title:"Внимание", message:'Файл успешно сохранён: ' + fileEntry.name})
         };
 
         fileWriter.onerror = function (e) {

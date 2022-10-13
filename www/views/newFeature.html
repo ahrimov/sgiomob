@@ -207,7 +207,7 @@
                         getFileEntry(root_directory + pathToImage, function(fileEntry){
                             displayImage(fileEntry.toInternalURL(), gallery)
                         }, function(error){
-                            ons.notification.alert(`Не удалось загрузить изображение: ${pathToImage}`)
+                            ons.notification.alert({title:'Внимание', message: `Не удалось загрузить изображение: ${pathToImage}`})
                         })
                     }
                 })

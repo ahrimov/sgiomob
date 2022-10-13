@@ -65,8 +65,8 @@ function configParser(data){
 
     pathToImageStorage = dom.getElementsByTagName("PathToImageStorage").item(0).textContent
     pathToKMLStorage = dom.getElementsByTagName("PathToKMLStorage").item(0).textContent
-    if(typeof dom.getElementsByTagName("NumberFeaturesOnMap").item(0).textContent != "undefined"){
-        numberFeaturesOnMap = dom.getElementsByTagName("NumberFeaturesOnMap").item(0).textContent;
+    if(typeof dom.getElementsByTagName("NumberNodesOnMap").item(0).textContent != "undefined"){
+        numberNodesOnMap = dom.getElementsByTagName("NumberNodesOnMap").item(0).textContent;
     }   
 }
 

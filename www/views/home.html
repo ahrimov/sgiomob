@@ -22,8 +22,7 @@
     <img class='crosshair' src='../resources/crosshair.png'>
     <div id="map-container"></div>
 
-    <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="180px" swipeable id="draw-bar" class="downbar">
-    </ons-carousel>
+    <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="180px" swipeable id="draw-bar" class="downbar"></ons-carousel>
 
     <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="180px" swipeable id="draw-instrument-bar" class="downbar">
         <ons-carousel-item>
@@ -234,7 +233,7 @@
         let y = document.querySelector('#Y-value').value
         let x = document.querySelector('#X-value').value
         if(y < -90 || y > 90 || x > 180 || x < -180){
-            ons.notification.alert('Недопустимые значения координат')
+            ons.notification.alert({title:"Внимание", message:'Недопустимые значения координат'})
             return
         }
         hideDialog('dialog-draw-instrument-coordinate')

@@ -23,7 +23,7 @@ var localSource;
 
 var root_directory = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/Project/"
 
-let numberFeaturesOnMap = 10000;
+let numberNodesOnMap = 10000;
 
 const globalHitTolerance = 20;
 

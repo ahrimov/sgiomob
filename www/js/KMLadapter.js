@@ -216,8 +216,8 @@ function filterProperties(values, dict, layer){
         }
         if(layer.atribs[dict[key]] == 'BOOLEAN'){
             if(['true', 'false'].indexOf(values[key]) == -1){
-                ons.notification.alert(`Ошибка в импортируемом KML.
-                 Возможно неккоректное отображение данных`)
+                ons.notification.alert({title:"Внимание", message:`Ошибка в импортируемом KML.
+                 Возможно неккоректное отображение данных`})
             }
         }
     }

@@ -135,7 +135,7 @@
                 layer.setVisible(layer.visible);
               }
               else{
-                ons.notification.alert('Слой невозможно отобразить.')
+                ons.notification.alert({title:"Внимание", meassage:'Слой невозможно отобразить.'})
               }
               if(layer.getVisible()){
                 element.style.backgroundColor = '#2375fa';
@@ -223,7 +223,7 @@
 
               let features = format.readFeatures(data.replace(/nan/g, "0"))
               if(features.length == 0){
-                  ons.notification.alert('Элементы не найдены')
+                  ons.notification.alert({title:"Внимание", message:'Элементы не найдены'})
                   return
               }
               let properties = features[0].getProperties()
@@ -271,13 +271,13 @@
         function clearLayer(layerID){
           let layer = findLayer(layerID)
           ons
-          .notification.confirm({title: 'Очистка слоя', message: `Вы уверены, что хотите очитстить слой ${layer.label}?`})
+          .notification.confirm({title: 'Очистка слоя', message: `Вы уверены, что хотите очитстить слой ${layer.label}?`, buttonLabels: ["Нет", "Да"]})
           .then(function(index) {
               if(index == 1){
                 let query = `DELETE FROM ${layer.id}`
                 requestToDB(query, function(res){
                   layer.getSource().clear(true)
-                  ons.notification.alert(`Слой ${layer.label} очищен`)
+                  ons.notification.alert({title:"Внимание", message:`Слой ${layer.label} очищен`})
                   saveDB()
                 })
               }

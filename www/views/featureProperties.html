@@ -234,7 +234,7 @@
                         })
                     }, function(error){
                         console.log(`Cann't save image: ` + error)
-                        ons.notification.alert({message: 'Cannot save image'})
+                        ons.notification.alert({title:"Внимание", message: 'Невозможно сохранить изображение'})
                     })
                 }, function(error){
                     console.log(`Image didn't create`)
@@ -261,7 +261,7 @@
                         getFileEntry(root_directory + pathToImage, function(fileEntry){
                             displayImage(fileEntry.toInternalURL(), gallery)
                         }, function(error){
-                            ons.notification.alert(`Не удалось загрузить изображение: ${pathToImage}`)
+                            ons.notification.alert({title:"Внимание", message: `Не удалось загрузить изображение: ${pathToImage}`})
                         })
                     }
                 })
@@ -324,7 +324,7 @@
 
             function clickDeleteFeature(){
                 ons
-                .notification.confirm({title: 'Удаление', message: 'Вы уверены, что хотите удалить элемент?'})
+                .notification.confirm({title: 'Удаление', message: 'Вы уверены, что хотите удалить элемент?', buttonLabels: ["Нет", "Да"]})
                 .then(function(index) {
                     if(index == 1)
                         deleteCurrentFeature()
