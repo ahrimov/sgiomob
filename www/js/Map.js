@@ -20,29 +20,37 @@ function showMap(){
 
     map.on('moveend', (event) => {
         let extent = map.getView().calculateExtent(map.getSize());
+        let is_overflow = false;
+        let number_nodes = 0;
         layers.forEach((layer) =>{
             if(layer.visible){
 
                 let source = layer.getSource();
                 let features = source.getFeaturesInExtent(extent);
-                let number_nodes = 0;
+                let visible = layer.getVisible();
                 for(let feature of features){
                     let coordinates = feature.getGeometry().getCoordinates();
                     coordinates = coordinates.toString();
                     coordinates = coordinates.split(',');
                     number_nodes += coordinates.length/3;
+
+                    if(visible == true && is_overflow == false && number_nodes > numberFeaturesOnMap){
+                        layer.setVisible(false);
+                        is_overflow = true;
+                        ons.notification.alert({
+                            title:'Внимание',
+                            message:`Не поддерживаемое количество объектов на слое ${layer.label}. Измените разрешение.`});
+                        break;
+                    }
                 }
-                let visible = layer.getVisible();
-                if(visible == true && number_nodes > numberFeaturesOnMap){
+                if(visible == true && is_overflow == true){
                     layer.setVisible(false);
-                    removeModify();
-                    ons.notification.alert({
-                        title:'Внимание',
-                        message:`Не поддерживаемое количество объектов на слое ${layer.label}. Измените разрешение.`})
                 }
                 else if(visible == false && number_nodes < numberFeaturesOnMap){
+                    is_overflow = false;
                     layer.setVisible(true);
                 }
+                
             }
         })
     });
@@ -328,7 +336,25 @@ function addModify(layer, feature){
     mapContainer.style['height'] = "100%"
     map.updateSize();
 
+    disablePinchZoom();
+
     homeDisableButtons()
+}
+
+function enablePinchZoom(){
+    let interactions = map.getInteractions().getArray();
+    let pinchZoomInteraction = interactions.filter(function(interaction) {
+        return interaction instanceof ol.interaction.PinchZoom;
+    })[0];
+    pinchZoomInteraction.setActive(true);
+}
+
+function disablePinchZoom(){
+    let interactions = map.getInteractions().getArray();
+    let pinchZoomInteraction = interactions.filter(function(interaction) {
+        return interaction instanceof ol.interaction.PinchZoom;
+    })[0];
+    pinchZoomInteraction.setActive(false);
 }
 
 function createFeatureNodes(feature){
@@ -391,6 +417,7 @@ function finishModify(){
 
 function removeModify(){
     if(typeof map.modify == 'undefined' || map.modify == null) return;
+    enablePinchZoom();
     map.modify.modifyFeature.setStyle(map.modify.featureStyle);
     deleteFeatureNodes();
     map.removeInteraction(map.modify);
