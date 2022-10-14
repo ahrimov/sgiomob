@@ -43,11 +43,13 @@ function exportKML(layerID){
 }
 
 async function importKML(layerID, properties, features){
-
+    
     features = features.filter(feature => {
-        if(typeof feature.getGeometry() == 'undefined' || feature.getGeometry() == null){
+        console.log(feature.getGeometry())
+        if(typeof feature.getGeometry() == 'undefined' || feature.getGeometry() == null || feature.getGeometry().getCoordinates() == ''){
             return false;
         }
+        console.log(feature.getGeometry().getCoordinates())
         return true;
     
     })
