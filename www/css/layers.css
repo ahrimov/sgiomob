@@ -1,7 +1,13 @@
 #dialog-file-chooser-content{
   margin-top: 10vh;
   max-height: 70vh;
+  max-width: 60vh;
   overflow: scroll;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  color: red;
 }
 
 #dialog-comparison-KML-content{

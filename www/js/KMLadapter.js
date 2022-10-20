@@ -42,14 +42,12 @@ function exportKML(layerID){
     })
 }
 
-async function importKML(layerID, properties, features){
+async function importKML(layerID, dict, features){
     
     features = features.filter(feature => {
-        console.log(feature.getGeometry())
         if(typeof feature.getGeometry() == 'undefined' || feature.getGeometry() == null || feature.getGeometry().getCoordinates() == ''){
             return false;
         }
-        console.log(feature.getGeometry().getCoordinates())
         return true;
     
     })
@@ -65,8 +63,8 @@ async function importKML(layerID, properties, features){
             convertFeatureToLayerGeometry(feature, layer)
         }
 
-        let props = filterProperties(feature.getProperties(), properties, layer)
-        let feature_id = props[properties[layer.atribs[0].name]]
+        let props = filterProperties(feature.getProperties(), dict, layer)
+        let feature_id = props[dict[layer.atribs[0].name]]
 
         if(typeof feature_id == 'undefined'){
             if(typeof featureMaxID == 'undefined'){
@@ -78,19 +76,19 @@ async function importKML(layerID, properties, features){
                 feature_id = featureMaxID
             }
             props['id'] = feature_id
-            properties['id'] = 'id'
+            dict['id'] = 'id'
         }
 
         let query = `SELECT COUNT(1) as bool FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature_id};`
         await requestToDB(query, function(data){
             if(data.rows.item(0).bool == 1){
                 let updates = []
-                for(let key in properties){
-                    if(typeof properties[key] == 'undefined' ||
-                     properties[key] == '' || typeof props[properties[key]] == 'undefined' ||
+                for(let key in dict){
+                    if(typeof dict[key] == 'undefined' ||
+                     dict[key] == '' || typeof props[dict[key]] == 'undefined' ||
                      key == 'ID')
                         continue
-                    updates.push(`${key} = '${props[properties[key]]}'`)
+                    updates.push(`${key} = '${props[dict[key]]}'`)
                 }
 
                 let geom = feature.getGeometry()
@@ -115,12 +113,13 @@ async function importKML(layerID, properties, features){
             else{
                 let atribNames = []
                 let atribValues = []
-                for(let key in properties){
-                    if(typeof properties[key] == 'undefined' || properties[key] == '' ||
-                        typeof props[properties[key]] == 'undefined')
+                for(let key in dict){
+                    console.log(`key ${key}  props ${dict[key]} value ${props[dict[key]]}`)
+                    if(typeof dict[key] == 'undefined' || dict[key] === '' ||
+                        typeof props[dict[key]] == 'undefined')
                         continue;
                     atribNames.push(key)
-                    atribValues.push(`'${props[properties[key]]}'`)
+                    atribValues.push(`'${props[dict[key]]}'`)
                 }
 
                 let geom = feature.getGeometry()
@@ -132,6 +131,7 @@ async function importKML(layerID, properties, features){
                     INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
                     VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
                 ;`
+                console.log(query)
                 requestToDB(query, function(res){
                     feature.id = feature_id
                     feature.layerID = layer.id
