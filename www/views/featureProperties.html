@@ -318,7 +318,6 @@
             function clickEditGeometry(){
                 addModify(layer, feature);
                 let navigator = document.querySelector('#myNavigator')
-                map.getView().setCenter(feature.getGeometry().getClosestPoint([0,0]))
                 navigator.popPage({times: navigator.pages.length - 1})
             }
 

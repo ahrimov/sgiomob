@@ -22,10 +22,12 @@
   height: 100%;
   width: 180px;
   white-space: pre-line;
+  font-size: 80%;
 }
 
 .button-signature{
-  white-space: pre-line;
+  position: relative;
+  bottom: 70%;
 }
 
 .dialog-toolbar{

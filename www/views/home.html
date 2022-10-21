@@ -166,7 +166,7 @@
         mapContainer.style['height'] = "90%"
         drawBar.style["display"] = "block"
         map.updateSize();
-
+        document.querySelector('.crosshair').style['top'] = '45%';
         /*let page = document.querySelector('#myNavigator').topPage;
         page.onDeviceBackButton = function(event){
             //event.preventDefault();
@@ -181,7 +181,7 @@
         mapContainer.style['height'] = "100%"
         drawBar.style["display"] = "none"
         map.updateSize();
-
+        document.querySelector('.crosshair').style['top'] = '50%';
         //document.querySelector('#myNavigator').onDeviceBackButton.destroy();
     }
 
@@ -190,7 +190,7 @@
         for(let layer of layers){
             let template = document.querySelector('#carousel-item')
             let carouselItem = template.content.cloneNode(true)
-            carouselItem.querySelector('.carousel-item-content').innerHTML = clipping(layer.label, 18)
+            carouselItem.querySelector('.carousel-item-content').innerHTML = layer.label
             carouselItem.querySelector('.carousel-item-content').addEventListener('click', function(){
 
                 let drawButton = document.querySelector('.draw-button')
@@ -217,8 +217,9 @@
     }
 
     function drawInstrumentGPS(){
-        map.getView().setCenter([gps_position.coords.longitude, gps_position.coords.latitude])
         let coordinate = ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude])
+        map.getView().setCenter(coordinate)
+        
         appendCoordinate(coordinate)
     }
 

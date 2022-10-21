@@ -195,9 +195,11 @@ function convertFeatureToLayerGeometry(feature, layer){
 }
 
 function filterProperties(values, dict, layer){
+    result = {}
     for(let key in values){
+        result[key.toLowerCase()] = values[key];
         if(layer.atribs[dict[key]] == 'DOUBLE'){
-            values[key] = values[key].replace(/\D/g, '')
+            result[key.toLowerCase()] = values[key].replace(/\D/g, '')
         }
         if(layer.atribs[dict[key]] == 'DATE'){
             let date = new Date(values[key]);
@@ -205,15 +207,15 @@ function filterProperties(values, dict, layer){
             if(date == "Invalid Date"){
                 let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
                 date = date.replace(pattern,'$3-$2-$1');
-                values[key] = date;
+                result[key.toLowerCase()]  = date;
             }
             if(!date instanceof Date && !isNaN(date.valueOf())){
-                values[key] = '';
+                result[key.toLowerCase()]  = '';
             }
         }
         if(layer.atribs[dict[key]] == 'ENUM'){
             if(options.indexOf(values[key]) == -1){
-                values[key] = ''
+                result[key.toLowerCase()]  = ''
             }
         }
         if(layer.atribs[dict[key]] == 'BOOLEAN'){
@@ -223,5 +225,5 @@ function filterProperties(values, dict, layer){
             }
         }
     }
-    return values
+    return result;
 }

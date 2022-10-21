@@ -22,17 +22,26 @@ class AcceptDrawButton extends ol.control.Control {
             let len = coords.length
             if(map.draw.currentFeature.getGeometry().getType() == 'LineString'){
               if(len <= 2){
-                ons.notification.alert('Невозможно создать геометрию объекта')
+                ons.notification.alert({
+                  title:'Внимание',
+                  message:'Невозможно создать геометрию объекта'
+                })
                 return;
               }
               if(len == 4 && coords[0] == coords[2] && coords[1] == coords[3]){
-                ons.notification.alert('Невозможно создать геометрию объекта. Слишком мало узлов.')
+                ons.notification.alert({
+                  title:'Внимание',
+                  message:'Невозможно создать геометрию объекта. Слишком мало узлов.'
+                })
                 return;
               }
             }
             if(map.draw.currentFeature.getGeometry().getType() == 'Polygon'){
               if(len <= 4){
-                ons.notification.alert('Невозможно создать геометрию объекта');
+                ons.notification.alert({
+                  title:'Внимание',
+                  message:'Невозможно создать геометрию объекта'
+                });
                 return;
               }
             }

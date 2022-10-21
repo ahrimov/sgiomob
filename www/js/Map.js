@@ -342,6 +342,7 @@ function addModify(layer, feature){
     drawBar.style['display'] = 'none'
     let mapContainer = document.querySelector('#map-container')
     mapContainer.style['height'] = "100%"
+    document.querySelector('.crosshair').style['top'] = '50%';
     map.updateSize();
 
     disablePinchZoom();
