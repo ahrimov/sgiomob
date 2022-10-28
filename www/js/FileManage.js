@@ -3,12 +3,13 @@ function openFile(path, post_processing){
         file.file(function (file) {
             var reader = new FileReader();
             reader.onloadend = function(evt){
-                post_processing(this.result)
+                post_processing(this.result, file.name)
             }
             reader.readAsText(file, 'utf-8');
         })
     }, function(error){
         console.log("Error while open file:", path)
+        ons.notification.alert({title:"Внимание", message:`Ошибка при открытии файла: ` + path})
     })
 }
 

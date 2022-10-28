@@ -33,7 +33,8 @@ function completeLoad(){
     if(typeof completeLoad.counter == 'undefined'){
         completeLoad.counter = 0
     }
-    completeLoad.counter++
+    completeLoad.counter++;
+    document.querySelector('#load_stage').textContent = `${completeLoad.counter}/${layers.length}`;
     if(completeLoad.counter == layers.length){
         document.querySelector('#myNavigator').resetToPage('./views/home.html')
         

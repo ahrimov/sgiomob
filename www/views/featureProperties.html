@@ -210,35 +210,41 @@
 
             //camera function
             function clickOpenCamera(){
-                openCamera(function(imgUri){
-                    getFileEntry(imgUri, function(fileEntry){
+                try{
+                    openCamera(function(imgUri){
+                        getFileEntry(imgUri, function(fileEntry){
 
-                        firstImage()
+                            firstImage()
 
-                        let date = new Date()  
-                        let imageName = `${layer.id}${formatDate(date)}.jpg`
-                        let pathToImage = './' + pathToImageStorage + imageName
-                        pathToImage = pathToImage.replace(/\//g, String.raw`\/`)
-                        let image_options = {
-                            path: pathToImage,
-                            created: date.toISOString(),
-                            mimeType:"image" + String.raw`\/` + "jpeg",
-                            desc:""
-                        }
-                        
-                        saveImage(fileEntry, imageName, image_options, layer, feature, function(imgUri){
-                            getFileEntry(imgUri, function(){
-                                let gallery = document.querySelector('.gallery')
-                                displayImage(fileEntry.toInternalURL(), gallery)
+                            let date = new Date()  
+                            let imageName = `${layer.id}${formatDate(date)}.jpg`
+                            let pathToImage = './' + pathToImageStorage + imageName
+                            pathToImage = pathToImage.replace(/\//g, String.raw`\/`)
+                            let image_options = {
+                                path: pathToImage,
+                                created: date.toISOString(),
+                                mimeType:"image" + String.raw`\/` + "jpeg",
+                                desc:""
+                            }
+                            
+                            saveImage(fileEntry, imageName, image_options, layer, feature, function(imgUri){
+                                getFileEntry(imgUri, function(){
+                                    let gallery = document.querySelector('.gallery')
+                                    displayImage(fileEntry.toInternalURL(), gallery)
+                                })
                             })
+                        }, function(error){
+                            console.log(`Cann't save image: ` + error)
+                            ons.notification.alert({title:"Внимание", message: 'Невозможно сохранить изображение'})
                         })
                     }, function(error){
-                        console.log(`Cann't save image: ` + error)
-                        ons.notification.alert({title:"Внимание", message: 'Невозможно сохранить изображение'})
+                        console.log(`Image didn't create`);
+                        ons.notification.alert({title:"Внимание", message: 'Ошибка камеры'})
                     })
-                }, function(error){
-                    console.log(`Image didn't create`)
-                })
+                }
+                catch(err){
+                    ons.notification.alert({title:"Внимание", message: 'Что-то пошло не так'})
+                }
             }
 
 

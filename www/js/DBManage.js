@@ -92,6 +92,7 @@ function getDataLayerFromBD(layer){
     }
     var source = new ol.source.Vector()
     const query =  `SELECT ${layer.atribs[0].name} as id, AsText(Geometry) as geom from ` + layer.id
+    try{  
         var querySuccess = function (tx, res) {
             const format = new ol.format.WKT();
             for (let i = 0; i < res.rows.length; i++) {
@@ -100,7 +101,6 @@ function getDataLayerFromBD(layer){
                 feature.id = res.rows.item(i).id
                 feature.layerID = layer.id
                 source.addFeature(feature)
-                //features.push(feature)
             }
             layer.setSource(source)
             completeLoad()
@@ -108,10 +108,15 @@ function getDataLayerFromBD(layer){
         var queryError = function (err) {
             console.log("Error with database transaction")
             console.log("Query:", query)
+            ons.notification.alert({title:"Внимание", message: 'Ошибка в базе данных.'})
         }
         db.transaction(function (tx) {
             tx.executeSql(query, [], querySuccess, queryError);
         })
+    }  catch(err){
+        ons.notification.alert({title:"Внимание", message: 'Ошибка в базе данных.'});
+        completeLoad();
+    }
 }
 
 function requestToDB(query, callback, notification = 'Неизвестная ошибка'){

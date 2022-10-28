@@ -81,10 +81,17 @@
         ons.getScriptPage().onInit = function() {
           var list = document.querySelector("#layerListWithHandle")
           var template = document.querySelector('#layerListItem')
+          console.log('before')
+          for(layer of layers){
+            console.log(layer.label)
+          }
           layers.sort(function(a, b){
             return b.getZIndex() - a.getZIndex()
           })
           for(layer of layers){
+            console.log('after')
+            console.log(layer.label)
+            
             let label = clipping(layer.label, 30)
             
             var item = template.content.cloneNode(true)

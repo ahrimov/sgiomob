@@ -217,8 +217,8 @@ function finishDraw(){
 
     let drawInstrumentBar = document.querySelector('#draw-instrument-bar')
     drawInstrumentBar.style['display'] = 'none'
-    let drawBar = document.querySelector('#draw-bar')
-    drawBar.style['display'] = 'block'
+    let drawBar = document.querySelector('#downbar-wrapper')
+    drawBar.style['display'] = 'grid'
 
     let undoButton = document.querySelector('.undo-button')
     undoButton.style['display'] = 'none'  
@@ -338,7 +338,7 @@ function addModify(layer, feature){
 
 
     //clear page
-    let drawBar = document.querySelector('#draw-bar')
+    let drawBar = document.querySelector('#downbar-wrapper')
     drawBar.style['display'] = 'none'
     let mapContainer = document.querySelector('#map-container')
     mapContainer.style['height'] = "100%"

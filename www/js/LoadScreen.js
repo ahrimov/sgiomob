@@ -10,7 +10,8 @@ class LoadScreen{
     }
 
     elementLoaded(){
-        this.counter++
+        this.counter++;
+        document.querySelector('#load_stage').textContent = `${this.counter}/${this.amount}`;
         if(this.counter >= this.amount){
             this.finishLoad()
         }

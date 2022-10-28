@@ -22,7 +22,11 @@
     <img class='crosshair' src='../resources/crosshair.png'>
     <div id="map-container"></div>
 
-    <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="180px" swipeable id="draw-bar" class="downbar"></ons-carousel>
+    <div id="downbar-wrapper">
+        <ons-button modifier="quiet" onclick="carousel_prev()"><ons-icon icon="md-arrow-left" class="button-icon"></ons-icon></ons-button>
+        <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="180px" swipeable id="draw-bar"></ons-carousel>
+        <ons-button modifier="quiet" onclick="carousel_next()"><ons-icon icon="md-arrow-right" class="button-icon"></ons-icon></ons-button>
+    </div>
 
     <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="180px" swipeable id="draw-instrument-bar" class="downbar">
         <ons-carousel-item>
@@ -120,6 +124,16 @@
         document.querySelector('#side-menu-button').disabled = false
     }
 
+    function carousel_prev(){
+        let carousel = document.getElementById('draw-bar');
+        carousel.prev();
+    }
+
+    function carousel_next(){
+        let carousel = document.getElementById('draw-bar');
+        carousel.next();
+    }
+
     function openFeatureProperties(feature){
         hideDialog('dialog-features')
         document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {feature: feature}});
@@ -162,9 +176,9 @@
 
     function openDrawBar(){
         let mapContainer = document.querySelector('#map-container')
-        let drawBar = document.querySelector('#draw-bar')
+        let drawBar = document.querySelector('#downbar-wrapper')
         mapContainer.style['height'] = "90%"
-        drawBar.style["display"] = "block"
+        drawBar.style["display"] = "grid"
         map.updateSize();
         document.querySelector('.crosshair').style['top'] = '45%';
         /*let page = document.querySelector('#myNavigator').topPage;
@@ -177,7 +191,7 @@
 
     function closeDrawBar(){
         let mapContainer = document.querySelector('#map-container')
-        let drawBar = document.querySelector('#draw-bar')
+        let drawBar = document.querySelector('#downbar-wrapper')
         mapContainer.style['height'] = "100%"
         drawBar.style["display"] = "none"
         map.updateSize();
@@ -186,7 +200,8 @@
     }
 
     function createDrawBar(){
-        let drawBar = document.querySelector('#draw-bar')
+        let drawBar = document.querySelector('#downbar-wrapper')
+        let drawCarousel = document.querySelector('#draw-bar')
         for(let layer of layers){
             let template = document.querySelector('#carousel-item')
             let carouselItem = template.content.cloneNode(true)
@@ -208,7 +223,7 @@
 
                 addDrawInteraction(layer)
             })
-            drawBar.appendChild(carouselItem)
+            drawCarousel.appendChild(carouselItem)
         }
     }
 

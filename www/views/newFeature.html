@@ -156,6 +156,7 @@
             //camera function (dublicate) 
 
             function clickOpenCamera(){
+              try{
                 openCamera(function(imgUri){
                     getFileEntry(imgUri, function(fileEntry){
 
@@ -180,11 +181,16 @@
 
                     }, function(error){
                         console.log(`Cann't save image: ` + error)
-                        ons.notification.alert({message: 'Cannot save image'})
+                        ons.notification.alert({title:"Внимание", message: 'Невозможно сохранить изображение'});
                     })
                 }, function(error){
-                    console.log(`Image didn't create`)
+                    console.log(`Image didn't create`);
+                    ons.notification.alert({title:"Внимание", message: 'Ошибка камеры'});
                 })
+              }
+              catch(err){
+                ons.notification.alert({title:"Внимание", message: 'Что-то пошло не так'})
+              }
             }
 
             

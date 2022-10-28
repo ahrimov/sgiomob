@@ -68,7 +68,7 @@ class CustomControls extends ol.control.Control {
     }
 
     clickDrawButton(){
-        let drawBar = document.querySelector('#draw-bar')
+        let drawBar = document.querySelector('#downbar-wrapper')
         let style = window.getComputedStyle(drawBar);
         let display = style.getPropertyValue('display');
         if(display == 'none'){
