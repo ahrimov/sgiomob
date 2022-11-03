@@ -213,7 +213,7 @@ function filterProperties(values, dict, layer){
             let date = new Date(values[key]);
             if(date == "Invalid Date"){
                 let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-                date = date.replace(pattern,'$3-$1-$2');
+                date = date.replace(pattern,'$3-$2-$1');
                 result[key.toLowerCase()]  = date;
             }
             if(!date instanceof Date && !isNaN(date.valueOf())){
