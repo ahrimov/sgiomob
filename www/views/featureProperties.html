@@ -121,7 +121,7 @@
                 case 'DATE':
                     let date_insp = content;
                     if(date_insp !== 0 && typeof date_insp !== 'undefined' && date_insp !== ''){
-                        return new Date(date_insp).toLocaleString()
+                        return new Date(date_insp).toLocaleString('ru-RU',  {year: 'numeric',month: 'numeric',day: 'numeric'});
                     }
                     return '';
                 case 'BOOLEAN':

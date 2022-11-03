@@ -12,7 +12,15 @@ function exportKML(layerID){
         for(let i = 0; i < data.rows.length; i++){
             let prop = {}
             for(let atrib of layer.atribs){
-                prop[atrib.name] = data.rows.item(i)[atrib.name]
+                prop[atrib.name] = data.rows.item(i)[atrib.name];
+                if(atrib.type === 'DATE' && typeof data.rows.item(i)[atrib.name] !== 'undefined'){
+                    console.log('date', data.rows.item(i)[atrib.name])
+                    let date_string = data.rows.item(i)[atrib.name];
+                    let match = date_string.match(/(\d*)-(\d*)-(\d*)/);
+                    let export_date_string = `${match[3]}.${match[2]}.${match[1]}`;
+                    prop[atrib.name] = export_date_string;
+                    console.log(export_date_string)
+                }
             }
             for(let feature of features){
                 if(feature.id == data.rows.item(i)[layer.atribs[0].name]){
@@ -203,10 +211,9 @@ function filterProperties(values, dict, layer){
         }
         if(layer.atribs[dict[key]] == 'DATE'){
             let date = new Date(values[key]);
-            console.log('aa', date)
             if(date == "Invalid Date"){
                 let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-                date = date.replace(pattern,'$3-$2-$1');
+                date = date.replace(pattern,'$3-$1-$2');
                 result[key.toLowerCase()]  = date;
             }
             if(!date instanceof Date && !isNaN(date.valueOf())){
