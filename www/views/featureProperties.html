@@ -335,7 +335,7 @@
             function centerOnFeature(center){
                 let navigator = document.querySelector('#myNavigator')
                 map.getView().setCenter(center)
-                map.getView().setZoom(map.getView().getMaxZoom())
+                /*map.getView().setZoom(map.getView().getMaxZoom())*/
                 navigator.popPage({times: navigator.pages.length - 1})
             }
 
