@@ -117,7 +117,7 @@ function getValueFromLayerAtrib(layerID, atribName, value){
         return " "
     }
     let layer = findLayer(layerID)
-    for(atrib of layer.atribs){
+    for(let atrib of layer.atribs){
         if(atrib.name == atribName){
             switch(getTypeByAtribName(layer.atribs, atribName)){
                 case "BOOLEAN":
@@ -129,6 +129,8 @@ function getValueFromLayerAtrib(layerID, atribName, value){
                     }
                 case "DATE":
                     return new Date(value).toLocaleString()
+                case "ENUM":
+                    return atrib.options[value];
                 default:
                     return value
             }

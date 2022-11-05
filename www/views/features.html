@@ -209,8 +209,8 @@
                     break
                 case 'ENUM':
                     let select = `<ons-select id="filter-value">`;
-                    for(let option of atrib.options){
-                        select += `<option value='${option}'>${option}</option>`;
+                    for(let key in atrib.options){
+                        select += `<option value='${key}'>${atrib.options[key]}</option>`;
                     }
                     select += `</ons-select>`;
                     dialog_search_values.innerHTML = select;
