@@ -81,13 +81,9 @@
 
 #feature-instruments .instruments-item-content{
     text-align: center; 
-    padding: 5%;
-    border: 1px #8e9191;
+    width: 100%;
 }
-  
-#feature-instruments .instruments-item-content:hover{
-    background-color: #c0c2c2;
-}
+
 
 .feature-under-bar{
     display: none;

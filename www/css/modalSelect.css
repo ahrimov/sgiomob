@@ -1,0 +1,15 @@
+.modal-select{
+    margin-top: 10vh;
+    max-height: 70vh;
+    overflow: scroll;
+}
+
+.modal-select-check{
+    position: absolute;
+    left: 90%;
+    color: #2375fa;
+}
+
+.select-search{
+    position: sticky;
+}

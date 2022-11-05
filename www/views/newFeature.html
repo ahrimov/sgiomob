@@ -130,9 +130,9 @@
                 case 'BOOLEAN':
                   return `<ons-checkbox id='${atrib.name}'></ons-checkbox>`
                 case 'ENUM':
-                  let select = `<ons-select id='${atrib.name}'>`
-                  for(let option of atrib.options){
-                    select += `<option value='${option}'>${option}</option>`
+                  let select = `<ons-select id='${atrib.name}' onclick="callModalSelect('${layer.id}', '${atrib.name}', '${atrib.name}')">`
+                  for(let code in atrib.options){
+                    select += `<option value='${code}'>${atrib.options[code]}</option>`
                   }
                   select += `</ons-select>`
                   return select

@@ -24,24 +24,24 @@
 
     <ons-carousel direction="horizontal" item-width="25%" swipeable id="feature-instruments">
         <ons-carousel-item>
-            <div class="instruments-item-content" id="feature-instrument-map">
-                <ons-icon icon="md-map"></ons-icon>
-            </div>
+            <ons-button modifier="quiet" class="instruments-item-content" id="feature-instrument-map">
+                <ons-icon class="signature" icon="md-map"></ons-icon>
+            </ons-button>
         </ons-carousel-item>
         <ons-carousel-item>
-            <div class="instruments-item-content" id="feature-instrument-edit">
-                <ons-icon icon="md-edit"></ons-icon>
-            </div>
+            <ons-button modifier="quiet" class="instruments-item-content" id="feature-instrument-edit">
+                <ons-icon class="signature" icon="md-edit"></ons-icon>
+            </ons-button>
         </ons-carousel-item>
         <ons-carousel-item>
-            <div class="instruments-item-content" id="feature-instrument-edit-geometry">
-                <ons-icon icon="md-border-color"></ons-icon>
-            </div>
+            <ons-button modifier="quiet" class="instruments-item-content" id="feature-instrument-edit-geometry">
+                <ons-icon class="signature" icon="md-border-color"></ons-icon>
+            </ons-button>
         </ons-carousel-item>
         <ons-carousel-item>
-            <div class="instruments-item-content" id="feature-instrument-delete">
-                <ons-icon icon="md-delete"></ons-icon>
-            </div>
+            <ons-button modifier="quiet" class="instruments-item-content" id="feature-instrument-delete">
+                <ons-icon class="signature" icon="md-delete"></ons-icon>
+            </ons-button>
         </ons-carousel-item>
     </ons-carousel>
 
@@ -65,6 +65,7 @@
             let atribs = []
             let values = []
             let images = []
+            let is_editing_feature = false;
             for(atrib of layer.atribs){
                 if(checkServiceField(atrib.name)){
                     continue;
@@ -115,6 +116,29 @@
             document.querySelector('#saveModificationFeature').addEventListener('click', updateFeature, false)
             document.querySelector('#cancelModification').addEventListener('click', cancel, false)
 
+            if(!layer.enabled){
+                console.log('a')
+                document.querySelector('#feature-instrument-edit').setAttribute('disabled', false);
+                document.querySelector('#feature-instrument-edit-geometry').setAttribute('disabled', true);
+                document.querySelector('#feature-instrument-delete').setAttribute('disabled', true);
+            }
+
+            let navigator = document.querySelector('#myNavigator');
+            let page = navigator.topPage;
+            page.onDeviceBackButton = function(event){
+                if(is_editing_feature){
+                    ons.notification.confirm({title: 'Потверждение', message: 'Отменить изменения?', buttonLabels: ["Нет", "Да"]}) 
+                    .then(function(index) {
+                        if (index === 1) { 
+                            cancel();
+                        }
+                    });
+                }
+                else{
+                    navigator.popPage({times: navigator.pages.length - 1});
+                }
+            }
+
 
             function contentByType(atrib, content){
                 switch(atrib.type){
@@ -129,8 +153,10 @@
                     if(content === 1)
                         check = 'checked'
                     return `<ons-checkbox id='${atrib.name}' ${check}  disabled></ons-checkbox>`
+                case 'ENUM':
+                    return atrib.options[content];
                 default:
-                    if(typeof content == 'undefined')
+                    if(typeof content === 'undefined')
                         return ''
                     return content
                 }
@@ -140,11 +166,11 @@
             function inputByType(atrib, content){
                 switch(atrib.type){
                 case 'DOUBLE':
-                    if(typeof content == 'undefined' || content == '')
+                    if(typeof content === 'undefined' || content === '')
                         return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="number" placeholder="Числовые данные" float></ons-input>`
                     return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" float  ></ons-input>`
                 case 'DATE':
-                    if(typeof content == 'undefined' || content == '')
+                    if(typeof content === 'undefined' || content === '')
                         return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="date" float></ons-input>`
                     return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" type="date" float  ></ons-input>`
                 case 'BOOLEAN':
@@ -153,14 +179,18 @@
                         check = 'checked'
                     return `<ons-checkbox id='${atrib.name}' ${check}  class='input-content'></ons-checkbox>`
                 case 'ENUM':
-                    let select = `<ons-select id='${atrib.name}' class='input-content' value='${content}'>`
-                    for(let option of atrib.options){
-                        select += `<option value='${option}'>${option}</option>`
+                    let select = `<ons-select id='${atrib.name}' class='input-content' value='${content}' onclick="callModalSelect('${layer.id}','${atrib.name}', '${atrib.name}')">`
+                    for(let code in atrib.options){
+                        let selected = '';
+                        if (code == content){
+                            selected = `selected="selected"`
+                        }
+                        select += `<option value='${code}' ${selected}>${atrib.options[code]}</option>`
                     }
                     select += `</ons-select>`
                     return select
                 default:
-                    if(typeof content == 'undefined' || content == '')
+                    if(typeof content === 'undefined' || content === '')
                         return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" placeholder="Текстовые данные" float></ons-input>`
                     return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" float></ons-input>`
                 }
@@ -257,7 +287,7 @@
 
             function displayImagesFromStorage(){
                 getImagesFromStorage(layer, feature, function(image_options){
-                    if(image_options.length == 0)
+                    if(image_options.length === 0)
                         return
                         
                     firstImage()
@@ -267,7 +297,7 @@
                         getFileEntry(root_directory + pathToImage, function(fileEntry){
                             displayImage(fileEntry.toInternalURL(), gallery)
                         }, function(error){
-                            ons.notification.alert({title:"Внимание", message: `Не удалось загрузить изображение: ${pathToImage}`})
+                            ons.notification.alert({title:"Внимание", messageHTML: `<p class="notification-alert">Не удалось загрузить изображение: ${pathToImage}</p>`})
                         })
                     }
                 })
@@ -310,6 +340,7 @@
             }
 
             function clickEditFeature(){
+                is_editing_feature = true;
                 let content = document.querySelectorAll('.content')
                 for(let index in values){
                     content[index].innerHTML = inputByType(layer.atribs[index], values[index])
@@ -331,7 +362,7 @@
                 ons
                 .notification.confirm({title: 'Удаление', message: 'Вы уверены, что хотите удалить элемент?', buttonLabels: ["Нет", "Да"]})
                 .then(function(index) {
-                    if(index == 1)
+                    if(index === 1)
                         deleteCurrentFeature()
                 });
             }
@@ -350,9 +381,8 @@
             function updateFeature(){
                 let updates = []
                 let input_content = document.querySelectorAll('.input-content')
-                console.log('updates:')
                 for(let index in values){
-                    if(layer.atribs[index].type == 'BOOLEAN'){
+                    if(layer.atribs[index].type === 'BOOLEAN'){
                         if(input_content[index].checked)
                             values[index] = 1;
                         else
@@ -376,6 +406,7 @@
             }
 
             function cancel(){
+                is_editing_feature = false;
                 let input_content = document.querySelectorAll('.input-content')
                 for(let index in values){
                     input_content[index].remove()
@@ -399,7 +430,7 @@
                 }
                 let property_lines = document.querySelectorAll('.property');
                 for(let index in values){
-                    if(layer.atribs[index].type == 'BOOLEAN'){
+                    if(layer.atribs[index].type === 'BOOLEAN'){
                         return;
                     }
                     if(property_lines[index].querySelector('.content').textContent === ''){

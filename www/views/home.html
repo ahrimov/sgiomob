@@ -202,7 +202,11 @@
     function createDrawBar(){
         let drawBar = document.querySelector('#downbar-wrapper')
         let drawCarousel = document.querySelector('#draw-bar')
+        layers.sort(function(a, b){
+            return b.getZIndex() - a.getZIndex()
+          })
         for(let layer of layers){
+            if(!layer.enabled) continue;
             let template = document.querySelector('#carousel-item')
             let carouselItem = template.content.cloneNode(true)
             carouselItem.querySelector('.carousel-item-content').innerHTML = layer.label

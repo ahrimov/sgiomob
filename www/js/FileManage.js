@@ -20,7 +20,6 @@ function getFileEntry(path, success, fail) {
 function getFolder(dirName, callback){
     window.resolveLocalFileSystemURL(root_directory, function(rootDirEntry){
         rootDirEntry.getDirectory(dirName, {create: true}, function(dirEntry){
-            console.log(`Get folder ${dirName} is success`)
             callback(dirEntry)
         }, function(error){
             console.log("Error while create folder:" + error.message)
@@ -51,7 +50,7 @@ function writeFile(fileEntry, dataObj) {
 
         fileWriter.onwriteend = function() {
             //console.log("Successful file write...", fileEntry.toInternalURL());
-            ons.notification.alert({title:"Внимание", message:'Файл успешно сохранён: ' + fileEntry.name})
+            ons.notification.alert({title:"Внимание", messageHTML:'<p class="notification-alert">Файл успешно сохранён: ' + fileEntry.name + '</p>'})
         };
 
         fileWriter.onerror = function (e) {

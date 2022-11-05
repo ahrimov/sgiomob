@@ -143,13 +143,21 @@ function configParser(data, title){
                 let label = atrib.getElementsByTagName('label').item(0).textContent
                 let type = atrib.getAttribute('type')
                 if(type == 'ENUM'){
-                    let options = atrib.getElementsByTagName('options').item(0).textContent.split('|')
+                    let options = parseEnum(atrib.getElementsByTagName('options').item(0).textContent)
                     layer.atribs.push(new LayerAtribs(atribName, label, type, options))
                 }
                 else
                     layer.atribs.push(new LayerAtribs(atribName, label, type))
         }
 
+        let enabled = true;
+        if(typeof dom.getElementsByTagName("layerDb").item(0) != "undefined"){
+            let enabled_string = dom.getElementsByTagName("layerDb").item(0).getAttribute('enabled');
+            if(enabled_string === "false"){
+                enabled = false;
+            }
+        }
+        layer.enabled = enabled;
         
         layerParser.counter++;
 
@@ -227,5 +235,25 @@ function lineStyleParse(dom){
             width: parseInt(dom.getElementsByTagName("CssParameter").item(1).textContent)
         })
     })
+}
+
+function parseEnum(options_string){
+    let options_array = options_string.split('|');
+    let options = {}
+    for(let option_string of options_array){
+  	    if(option_string === "") continue;
+	    let key, value;
+  	    if(option_string.search(/[^#]#[^#]/) != -1){
+    	    let found = option_string.split('#');
+      	    key = found[0];
+      	    value = found[1];
+        }
+	    else{
+    	    key = option_string;
+      	    value = option_string;
+        }
+  	    options[key] = value;
+    }
+    return options;
 }
 

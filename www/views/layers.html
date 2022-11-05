@@ -28,6 +28,7 @@
       <div class="list-group-item" onclick="changeVisible(this)">
         <ons-icon icon="md-reorder" class="reorder-move" size="150%"></ons-icon>
             <span class="layers-label"></span>
+            <ons-icon class='block-icon' icon='md-block'></ons-icon>
             <ons-button modifier="quiet" class="layers-more-button" onclick="showActionSheet(this, event)">
               <ons-icon icon='md-more-vert'></ons-icon>
             </ons-button>
@@ -81,23 +82,19 @@
         ons.getScriptPage().onInit = function() {
           var list = document.querySelector("#layerListWithHandle")
           var template = document.querySelector('#layerListItem')
-          console.log('before')
-          for(layer of layers){
-            console.log(layer.label)
-          }
           layers.sort(function(a, b){
             return b.getZIndex() - a.getZIndex()
           })
           for(layer of layers){
-            console.log('after')
-            console.log(layer.label)
-            
             let label = clipping(layer.label, 30)
             
             var item = template.content.cloneNode(true)
             item.querySelector('.layers-label').textContent = label
             item.querySelector('.list-group-item').setAttribute("data-id", layer.id)
             item.querySelector('.layers-more-button').setAttribute("layer_id", layer.id)
+            if(layer.enabled){
+              item.querySelector('.block-icon').style['display'] = 'none';
+            }
             if(layer.getVisible()){
               item.querySelector('.list-group-item').style.backgroundColor = '#2375fa'
             }
@@ -264,21 +261,21 @@
         }
 
         function acceptImportKML(layerID, features){
-          let properties = {}
+          let dict = {}
           let htmlProperties = document.querySelectorAll('.property')
           for(let elem of htmlProperties){
             let left = elem.querySelector('.left_property').textContent
             let right = elem.querySelector('.right_property').value
-            properties[left] = right.toLowerCase();
+            dict[left] = right.toLowerCase();
           }
-          importKML(layerID, properties, features)
+          importKML(layerID, dict, features)
           hideDialog('comparison-KML')
         }
 
         function clearLayer(layerID){
           let layer = findLayer(layerID)
           ons
-          .notification.confirm({title: 'Очистка слоя', message: `Вы уверены, что хотите очитстить слой ${layer.label}?`, buttonLabels: ["Нет", "Да"]})
+          .notification.confirm({title: 'Очистка слоя', messageHTML: `<p class="notification-alert">Вы уверены, что хотите очитстить слой ${layer.label}?</p>`, buttonLabels: ["Нет", "Да"]})
           .then(function(index) {
               if(index == 1){
                 let query = `DELETE FROM ${layer.id}`

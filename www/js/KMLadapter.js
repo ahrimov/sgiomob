@@ -14,12 +14,10 @@ function exportKML(layerID){
             for(let atrib of layer.atribs){
                 prop[atrib.name] = data.rows.item(i)[atrib.name];
                 if(atrib.type === 'DATE' && typeof data.rows.item(i)[atrib.name] !== 'undefined'){
-                    console.log('date', data.rows.item(i)[atrib.name])
                     let date_string = data.rows.item(i)[atrib.name];
                     let match = date_string.match(/(\d*)-(\d*)-(\d*)/);
                     let export_date_string = `${match[3]}.${match[2]}.${match[1]}`;
                     prop[atrib.name] = export_date_string;
-                    console.log(export_date_string)
                 }
             }
             for(let feature of features){
@@ -122,7 +120,6 @@ async function importKML(layerID, dict, features){
                 let atribNames = []
                 let atribValues = []
                 for(let key in dict){
-                    console.log(`key ${key}  props ${dict[key]} value ${props[dict[key]]}`)
                     if(typeof dict[key] == 'undefined' || dict[key] === '' ||
                         typeof props[dict[key]] == 'undefined')
                         continue;
@@ -139,7 +136,6 @@ async function importKML(layerID, dict, features){
                     INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
                     VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
                 ;`
-                console.log(query)
                 requestToDB(query, function(res){
                     feature.id = feature_id
                     feature.layerID = layer.id
@@ -203,34 +199,49 @@ function convertFeatureToLayerGeometry(feature, layer){
 }
 
 function filterProperties(values, dict, layer){
-    result = {}
+    let result = {};
+    let is_error_in_kml = false;
     for(let key in values){
-        result[key.toLowerCase()] = values[key];
-        if(layer.atribs[dict[key]] == 'DOUBLE'){
-            result[key.toLowerCase()] = values[key].replace(/\D/g, '')
+        if(typeof values[key] === 'undefined') continue;
+        result[key.toLowerCase()] = values[key].toString();
+    }
+    for(let key in dict){
+        if(dict[key] === '' || typeof result[dict[key]] === 'undefined') continue;
+        let atrib = getAtribByName(layer.atribs, key)
+        if(atrib.type == 'DOUBLE'){
+            result[dict[key]] = result[dict[key]].replace(/\D/g, '')
         }
-        if(layer.atribs[dict[key]] == 'DATE'){
-            let date = new Date(values[key]);
-            if(date == "Invalid Date"){
-                let pattern = /(\d{2})\.(\d{2})\.(\d{4})/;
-                date = date.replace(pattern,'$3-$2-$1');
-                result[key.toLowerCase()]  = date;
+        if(atrib.type == 'DATE'){
+            let date_string = result[dict[key]];
+            let date;
+            let pattern = /(\d{1,2})\.(\d{1,2})\.(\d{2,4})/;
+            if(date_string.search(pattern) === 0){
+                date = date_string.replace(pattern,'$3-$2-$1');
+            }
+            else{
+                date = new Date(date_string);
             }
             if(!date instanceof Date && !isNaN(date.valueOf())){
-                result[key.toLowerCase()]  = '';
+                date  = '';
+                is_error_in_kml = true;
+            }
+            result[dict[key]] = date;
+        }
+        if(atrib.type == 'ENUM'){
+            if(Object.keys(atrib.options).indexOf(result[dict[key]]) === -1){
+                result[dict[key]]  = '';
+                is_error_in_kml = true;
             }
         }
-        if(layer.atribs[dict[key]] == 'ENUM'){
-            if(options.indexOf(values[key]) == -1){
-                result[key.toLowerCase()]  = ''
+        if(atrib.type == 'BOOLEAN'){
+            if(['true', 'false'].indexOf(result[dict[key]]) == -1){
+                is_error_in_kml = true;
             }
         }
-        if(layer.atribs[dict[key]] == 'BOOLEAN'){
-            if(['true', 'false'].indexOf(values[key]) == -1){
-                ons.notification.alert({title:"Внимание", message:`Ошибка в импортируемом KML.
+    }
+    if(is_error_in_kml){
+        ons.notification.alert({title:"Внимание", message:`Ошибка в импортируемом KML.
                  Возможно неккоректное отображение данных`})
-            }
-        }
     }
     return result;
 }

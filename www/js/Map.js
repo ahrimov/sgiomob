@@ -39,7 +39,7 @@ function showMap(){
                         is_overflow = true;
                         ons.notification.alert({
                             title:'Внимание',
-                            message:`Не поддерживаемое количество объектов на слое ${layer.label}. Измените разрешение.`});
+                            messageHTML:`<p class="notification-alert">Не поддерживаемое количество объектов на слое ${layer.label}. Измените разрешение.</p>`});
                         break;
                     }
                 }
@@ -474,8 +474,7 @@ function updateFeatureGeometry(feature){
     let feautureString = format.writeFeature(feature)
     feautureString = convertToGeometryType(feautureString)
     
-    let query = `UPDATE ${layer.id} SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`
-    console.log(query)
+    let query = `UPDATE ${layer.id} SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`;
     requestToDB(query, function(res){
         saveDB();
     })
