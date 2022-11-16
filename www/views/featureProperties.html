@@ -145,7 +145,11 @@
                 case 'DATE':
                     let date_insp = content;
                     if(date_insp !== 0 && typeof date_insp !== 'undefined' && date_insp !== ''){
-                        return new Date(date_insp).toLocaleString('ru-RU',  {year: 'numeric',month: 'numeric',day: 'numeric'});
+                        let date = new Date(date_insp).toLocaleString('ru-RU',  {year: 'numeric',month: 'numeric',day: 'numeric'});
+                        if(date === "Invalid Date"){
+                            return "Некорректная дата";
+                        }
+                        return date;
                     }
                     return '';
                 case 'BOOLEAN':
@@ -154,7 +158,7 @@
                         check = 'checked'
                     return `<ons-checkbox id='${atrib.name}' ${check}  disabled></ons-checkbox>`
                 case 'ENUM':
-                    return atrib.options[content];
+                        return atrib.options[content];
                 default:
                     if(typeof content === 'undefined')
                         return ''

@@ -227,12 +227,12 @@ function filterProperties(values, dict, layer){
             }
             result[dict[key]] = date;
         }
-        if(atrib.type == 'ENUM'){
+        /*if(atrib.type == 'ENUM'){
             if(Object.keys(atrib.options).indexOf(result[dict[key]]) === -1){
                 result[dict[key]]  = '';
                 is_error_in_kml = true;
             }
-        }
+        }*/
         if(atrib.type == 'BOOLEAN'){
             if(['true', 'false'].indexOf(result[dict[key]]) == -1){
                 is_error_in_kml = true;
