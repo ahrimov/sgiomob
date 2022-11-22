@@ -3,7 +3,6 @@
   max-height: 70vh;
   max-width: 60vh;
   overflow: scroll;
-  overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;

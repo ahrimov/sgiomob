@@ -145,7 +145,7 @@
             const query = `SELECT  ${layer.atribs[0].name} as id, ${left_row} as left, ${right_row} as right from ${layerID}
                 WHERE ${filter_atrib_name} LIKE '${filter_atrib_value}%' 
                 LIMIT ${limit} OFFSET ${offset}`
-            requestToDB(query, function(data){
+             requestToDB(query, function(data){
                 let table = document.querySelector('#features-tbody')
                 for(let i = 0; i < data.rows.length; i++){
                     let line = document.createElement("tr")

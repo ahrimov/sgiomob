@@ -13,7 +13,7 @@ function exportKML(layerID){
             let prop = {}
             for(let atrib of layer.atribs){
                 prop[atrib.name] = data.rows.item(i)[atrib.name];
-                if(atrib.type === 'DATE' && typeof data.rows.item(i)[atrib.name] !== 'undefined'){
+                if(atrib.type === 'DATE' && typeof data.rows.item(i)[atrib.name] !== 'undefined' && data.rows.item(i)[atrib.name] !== "Invalid Date"){
                     let date_string = data.rows.item(i)[atrib.name];
                     let match = date_string.match(/(\d*)-(\d*)-(\d*)/);
                     let export_date_string = `${match[3]}.${match[2]}.${match[1]}`;
@@ -38,11 +38,13 @@ function exportKML(layerID){
         })
 
         let date = new Date()
-        
+
         kml = kml.replace(/,0/g, ",nan")
         kml = kml.replace(/<\/\w*>/g, '$&\n')
         kml = kml.replace(/\/>/g, '$&\n')
         kml = kml.replace(/\\\\/g, '\\')
+
+        console.log('file export 3')
 
         saveFile(pathToKMLStorage, layer.id + formatDate(date) + '.kml', kml)
     })
@@ -62,14 +64,16 @@ async function importKML(layerID, dict, features){
     let loading = new LoadScreen(features.length, 'Импорт KML завершён')
     loading.startLoad()
 
-    let featureMaxID
+    let featureMaxID;
    
     for(let feature of features){
         if(compareGeometryTypes(layer.geometryType, feature.getGeometry().getType()) == 0){
             convertFeatureToLayerGeometry(feature, layer)
         }
 
-        let props = filterProperties(feature.getProperties(), dict, layer)
+        let props;
+        props = filterProperties(feature.getProperties(), dict, layer)
+
         let feature_id = props[dict[layer.atribs[0].name]]
 
         if(typeof feature_id == 'undefined'){
@@ -78,7 +82,7 @@ async function importKML(layerID, dict, features){
                 feature_id = featureMaxID
             }
             else{
-                featureMaxID++
+                featureMaxID++;
                 feature_id = featureMaxID
             }
             props['id'] = feature_id
@@ -145,7 +149,7 @@ async function importKML(layerID, dict, features){
                     loading.elementLoaded()
                   })       
             }
-        }, `Ошибка в импортируемом KML.`)
+        }, `Ошибка в импортируемом KML.`);
     }
 
     function convertToGeometryType(inp_string){
@@ -201,6 +205,7 @@ function convertFeatureToLayerGeometry(feature, layer){
 function filterProperties(values, dict, layer){
     let result = {};
     let is_error_in_kml = false;
+    let error_message = {};
     for(let key in values){
         if(typeof values[key] === 'undefined') continue;
         result[key.toLowerCase()] = values[key].toString();
@@ -223,6 +228,7 @@ function filterProperties(values, dict, layer){
             }
             if(!date instanceof Date && !isNaN(date.valueOf())){
                 date  = '';
+                error_message[dict[key]] = "Некорректная дата";
                 is_error_in_kml = true;
             }
             result[dict[key]] = date;
@@ -235,13 +241,15 @@ function filterProperties(values, dict, layer){
         }*/
         if(atrib.type == 'BOOLEAN'){
             if(['true', 'false'].indexOf(result[dict[key]]) == -1){
+                error_message[dict[key]] = "Неккоректное значение";
                 is_error_in_kml = true;
             }
         }
     }
     if(is_error_in_kml){
+        //throw "error";
         ons.notification.alert({title:"Внимание", message:`Ошибка в импортируемом KML.
-                 Возможно неккоректное отображение данных`})
+                 Возможно неккоректное отображение данных`});
     }
     return result;
 }

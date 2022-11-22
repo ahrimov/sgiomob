@@ -12,9 +12,9 @@ function initial(){
         });
     })
 
-    let path = root_directory + "config.xml"
-    checkIfFileExists(path, fileExist, warning)
-    openFile(path, configParser)
+    let path = root_directory + "config.xml";
+    checkIfFileExists(path, fileExist, warning);
+    openFile(path, configParser);
 
     
 }

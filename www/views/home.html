@@ -181,12 +181,6 @@
         drawBar.style["display"] = "grid"
         map.updateSize();
         document.querySelector('.crosshair').style['top'] = '45%';
-        /*let page = document.querySelector('#myNavigator').topPage;
-        page.onDeviceBackButton = function(event){
-            //event.preventDefault();
-            closeDrawBar();
-        }*/
-        //document.querySelector('#myNavigator').onDeviceBackButton.enable();
     }
 
     function closeDrawBar(){
@@ -196,7 +190,6 @@
         drawBar.style["display"] = "none"
         map.updateSize();
         document.querySelector('.crosshair').style['top'] = '50%';
-        //document.querySelector('#myNavigator').onDeviceBackButton.destroy();
     }
 
     function createDrawBar(){

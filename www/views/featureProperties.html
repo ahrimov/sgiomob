@@ -117,7 +117,6 @@
             document.querySelector('#cancelModification').addEventListener('click', cancel, false)
 
             if(!layer.enabled){
-                console.log('a')
                 document.querySelector('#feature-instrument-edit').setAttribute('disabled', false);
                 document.querySelector('#feature-instrument-edit-geometry').setAttribute('disabled', true);
                 document.querySelector('#feature-instrument-delete').setAttribute('disabled', true);
@@ -183,7 +182,7 @@
                         check = 'checked'
                     return `<ons-checkbox id='${atrib.name}' ${check}  class='input-content'></ons-checkbox>`
                 case 'ENUM':
-                    let select = `<ons-select id='${atrib.name}' class='input-content' value='${content}' onclick="callModalSelect('${layer.id}','${atrib.name}', '${atrib.name}')">`
+                    let select = `<ons-select id='${atrib.name}' class='input-content' value='${content}' onclick="callModalSelectWithLayerAtribs('${layer.id}','${atrib.name}', '${atrib.name}')">`
                     for(let code in atrib.options){
                         let selected = '';
                         if (code == content){

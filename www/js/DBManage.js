@@ -128,9 +128,10 @@ function requestToDB(query, callback, notification = 'Неизвестная о�
         callback(res)
     }
     var queryError = function(tx, err){
-        ons.notification.alert({title:"Внимание", message:notification})
-        console.log("Error with database transaction", err)
-        console.log("Query:", query)
+        //ons.notification.alert({title:"Внимание", message:notification})
+        console.log("Error with database transaction", err);
+        console.log("Query:", query);
+        //throw notification;
     }
     db.transaction(function (tx) {
         tx.executeSql(query, [], querySuccess, queryError);

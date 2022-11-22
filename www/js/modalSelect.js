@@ -34,9 +34,21 @@ function returnSelectedValue(key, element_id){
     hideDialog('modal-select');
 }
 
-function callModalSelect(layer_id, atribName, element_id){
+function callModalSelectWithLayerAtribs(layer_id, atribName, element_id){
     let layer = findLayer(layer_id);
     let selected = document.getElementById(element_id).value;
     let atrib = getAtribByName(layer.atribs, atribName);
     createModalSelect(atrib.options, element_id, selected);
+}
+
+function simpleCreateModalSelect(element_id){
+    let select = document.getElementById(element_id);
+    let selected_value = select.value;
+    let options = {};
+    for(let option of select.options){
+        let value = option.value;
+        let text = option.text;
+        options[value] = text;
+    }
+    createModalSelect(options, element_id, selected_value);
 }
