@@ -18,7 +18,7 @@
         "cordova-plugin-file": "^6.0.2",
         "cordova-plugin-geolocation": "^4.1.0",
         "cordova-spatialite-storage": "github:DisyInformationssysteme/Cordova-spatialite-storage#2.0.0",
-        "cordova-zip-plugin": "^2.0.0",
+
         "es6-promise-plugin": "^4.2.2"
     },
     "cordova": {
@@ -31,8 +31,7 @@
             "cordova-plugin-geolocation": {
                 "GPS_REQUIRED": "true"
             },
-            "cordova-plugin-file": {},
-            "com.jjdltc.cordova.plugin.zip": {}
+            "cordova-plugin-file": {}
         }
     }
 }

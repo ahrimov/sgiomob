@@ -12,9 +12,17 @@ function initial(){
         });
     })
 
-    let sourceName = cordova.file.applicationDirectory + 'www/resources/Project';
-    let targetDirName = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/";
+    let path = root_directory + "config.xml";
+    checkIfFileExists(path, fileExist, warning);
 
+    
+    
+    /*window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
+        console.log('file system open' + fs.name);
+        fs.CopyFolder(sourceName, targetDirName);
+    })*/
+
+    /*
     return Promise.all([
         new Promise(function (resolve, reject) {
             console.log('a')
@@ -37,7 +45,7 @@ function initial(){
             checkIfFileExists(path, fileExist, warning);
             openFile(path, configParser);
         })
-    })
+    })*/
         
 
     /*console.log(cordova.file.applicationDirectory)
@@ -53,17 +61,58 @@ function initial(){
     checkIfFileExists(path, fileExist, warning);
     openFile(path, configParser);*/
 
+    function fileExist(){
+        console.log('Config file exist!');
+        openFile(path, configParser);
+    }
+    
+    function warning(){
+        let sourceName = cordova.file.applicationDirectory + 'www/resources/Project';
+        console.log(sourceName);
+        let targetDirName = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/";
+        window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
+            function(resourcesDir) {
+                
+                // get the directory we want to get within the root directory
+                
+                resourcesDir.getDirectory('www/resources/Project', {create: false}, getDirectoryWin, getDirectoryFail);
+        });
+    
+        function getDirectoryWin(directory){
+            console.log('got the directory');
+    
+            window.resolveLocalFileSystemURL(targetDirName,
+                function(targetDir) {
+                    
+                    // get the directory we want to get within the root directory
+                   
+                    directory.copyTo(targetDir, "Project", copyWin, copyFail);
+            });
+        }
+    
+        function getDirectoryFail(){
+            console.log("I failed at getting a directory");
+        }
+        
+        function copyWin(){
+            console.log('Copying worked!');
+            
+                openFile(path, configParser);
+        }
+        
+        function copyFail(){
+            console.log('I failed copying');
+        }
+        /*
+        ons.notification.alert({title:"Внимание", message:`Не найден файл io.cordova.sgiomob/Project/ config.xml.
+        Пожалуйста, перенесите файлы проекта в папку Android/data /io.cordova.sgiomob .`});*/
+    }
+
     
 }
 
-function fileExist(){
-    console.log('Config file exist!')
-}
 
-function warning(){
-    ons.notification.alert({title:"Внимание", message:`Не найден файл io.cordova.sgiomob/Project/ config.xml.
-    Пожалуйста, перенесите файлы проекта в папку Android/data /io.cordova.sgiomob .`});
-}
+
 
 
 function completeLoad(){
