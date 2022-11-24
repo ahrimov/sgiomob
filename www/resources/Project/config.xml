@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<template>
+	<main>
+		<Title>Распредсети</Title>
+		<version>0.1.0</version>
+	</main>
+	<MapView>
+		<center>
+			<longitude>49.1199</longitude>
+			<latitude>55.7951</latitude>
+		</center>
+		<MinZoom>0</MinZoom>
+		<MaxZoom>25</MaxZoom>
+		<zoom>5</zoom>
+		<projection>0</projection>
+	</MapView>
+	<database>
+		<NameDB>sample</NameDB>
+		<FilenameDB>Распредсети_1.0.db</FilenameDB>
+		<PathToDB>db/</PathToDB>
+	</database>
+	<layers>
+		<VectorLayers>
+			<NumberOfLayers>19</NumberOfLayers>
+			<PathToLayers>VectorLayers/</PathToLayers>
+			<LayersName>РЕД_Газораспределительные пункты.xml|РЕД_Заглушки.xml|РЕД_Запорно-регулирующая арматура.xml|РЕД_Конденсатосборники.xml|РЕД_Контрольные трубки.xml|РЕД_Соединения разъёмные (фланцы).xml|РЕД_Точки вводов.xml|РЕД_Точки смен диаметров.xml|РЕД_Нитки трубопроводов.xml|БД_Газораспределительные пункты.xml|БД_Заглушки.xml|БД_Запорно-регулирующая арматура.xml|БД_Конденсатосборники.xml|БД_Контрольные трубки.xml|БД_Соединения разъёмные (фланцы).xml|БД_Точки вводов.xml|БД_Точки смен диаметров.xml|БД_Нитки трубопроводов.xml</LayersName>
+		</VectorLayers>
+		<RasterLayers>
+			<IsLocalTiles>0</IsLocalTiles>
+			<LocalTiles>
+				<TileLoaderOption></TileLoaderOption>
+				<PathToTiles></PathToTiles>
+			</LocalTiles>
+		</RasterLayers>
+	</layers>
+	<NumberNodesOnMap>100000</NumberNodesOnMap>
+	<storage>
+		<images>
+			<PathToImageStorage>images/</PathToImageStorage>
+		</images>
+		<KML>
+			<PathToKMLStorage>KML/</PathToKMLStorage>
+		</KML>
+	</storage>
+	<style>
+		<SelectedElements>
+			<color>#f7e516</color>
+		</SelectedElements>
+	</style>
+</template>

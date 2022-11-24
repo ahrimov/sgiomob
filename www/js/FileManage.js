@@ -9,7 +9,7 @@ function openFile(path, post_processing){
         })
     }, function(error){
         console.log("Error while open file:", path)
-        ons.notification.alert({title:"Внимание", message:`Ошибка при открытии файла: ` + path})
+        ons.notification.alert({title:"Внимание", messageHTML:`<p class="notification-alert">Ошибка при открытии файла: ${path} </p>`})
     })
 }
 
