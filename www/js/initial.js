@@ -13,53 +13,8 @@ function initial(){
     })
 
     let path = root_directory + "config.xml";
+    //openFile(path, configParser);
     checkIfFileExists(path, fileExist, warning);
-
-    
-    
-    /*window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs){
-        console.log('file system open' + fs.name);
-        fs.CopyFolder(sourceName, targetDirName);
-    })*/
-
-    /*
-    return Promise.all([
-        new Promise(function (resolve, reject) {
-            console.log('a')
-            resolveLocalFileSystemURL(sourceName, resolve, reject);
-        }),
-        new Promise(function (resolve, reject) {
-            console.log('b')
-            resolveLocalFileSystemURL(targetDirName, resolve, reject);
-        })
-    ]).then(function(files){
-        console.log('c')
-        let source = files[0];
-        let targetDir = files[1];
-        return new Promise(function(resolve, reject){
-            console.log('d')
-            source.copyTo(targetDir, "Project", resolve, reject)
-        }).then(function(){
-            console.log('e')
-            let path = root_directory + "config.xml";
-            checkIfFileExists(path, fileExist, warning);
-            openFile(path, configParser);
-        })
-    })*/
-        
-
-    /*console.log(cordova.file.applicationDirectory)
-
-    checkIfFileExists(cordova.file.applicationDirectory + 'www/resources/Project/config.xml', function(){
-        console.log('yes')
-    }, console.log('non'));
-    openFile(cordova.file.applicationDirectory + 'www/resources/Project/config.xml', function(data){
-        ons.notification.alert(data);
-    })
-
-    let path = root_directory + "config.xml";
-    checkIfFileExists(path, fileExist, warning);
-    openFile(path, configParser);*/
 
     function fileExist(){
         console.log('Config file exist!');

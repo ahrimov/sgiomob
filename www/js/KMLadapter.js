@@ -44,8 +44,6 @@ function exportKML(layerID){
         kml = kml.replace(/\/>/g, '$&\n')
         kml = kml.replace(/\\\\/g, '\\')
 
-        console.log('file export 3')
-
         saveFile(pathToKMLStorage, layer.id + formatDate(date) + '.kml', kml)
     })
 }
