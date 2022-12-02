@@ -77,6 +77,40 @@
     </ons-dialog>
 </template>
 
+<template id="choose_path_to_KML">
+  <ons-dialog id="choose-path-to-KML">
+    <ons-toolbar class="dialog-toolbar">
+      <div class="center dialog-toolbar-content">
+          Выберите путь к KML
+      </div>
+      <div class="right">
+          <ons-toolbar-button onclick="hideDialog('choose-path-to-KML')">
+              <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+          </ons-toolbar-button>
+      </div>
+    </ons-toolbar>
+    <ons-list id="path-chooser-KML">
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-radio name="pathToKML" input-id="media" id="media-path" checked></ons-radio>
+        </label>
+        <label for="media" class="center">
+          Android/media/io.cordova.sgiomob/KML
+        </label>
+      </ons-list-item>
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-radio name="pathToKML" input-id="iternal" id="iternal-path"></ons-radio>
+        </label>
+        <label for="iternal" class="center">
+          Android/data/io.cordova.sgiomob/Project/KML
+        </label>
+      </ons-list-item>
+    </ons-list>
+    <ons-button modifier="quiet" id="buttonFileChooser" style="float:right;">Далее</ons-button>
+  </ons-dialog>
+</template>
+
     <script>
       var app = {}
         ons.getScriptPage().onInit = function() {
@@ -151,6 +185,24 @@
           }
         }
 
+        function createFileChooserForKML(layerID, callback){
+          ons.createElement('choose_path_to_KML', {append: true})
+                  .then(function(dialog){
+                      document.querySelector('#buttonFileChooser').addEventListener('click', () => {
+                        const media_radio = document.querySelector('#media-path');
+                        const iternal_radio = document.querySelector('#iternal-path');
+                        if(media_radio.checked){
+                          callback(media_directory + "KML/", layerID);
+                        }
+                        else if (iternal_radio.checked){
+                          callback(root_directory + pathToKMLStorage, layerID);
+                        }
+                        hideDialog('choose-path-to-KML');
+                      }, false)
+                      dialog.show()
+                  })
+        }
+
 
         function showActionSheet(element, event){
           event.stopPropagation()
@@ -181,10 +233,10 @@
                 document.querySelector('#myNavigator').pushPage('./views/features.html', {data: {layerID: layerID}});
               }
               if(index == 1){
-                exportKML(layerID)
+                createFileChooserForKML(layerID, exportKML);
               }
               if(index == 2){
-                chooseFile(layerID)
+                createFileChooserForKML(layerID, chooseFile);
               }
               if(index == 3){
                 clearLayer(layerID)
@@ -192,11 +244,11 @@
             });
         }
 
-        function chooseFile(layerID){
+        function chooseFile(pathToKML, layerID){
           ons.createElement('file_chooser', {append: true})
             .then(function(dialog){
               let content = document.getElementById('dialog-file-chooser-content')
-              showAllFilesAtDir(root_directory + pathToKMLStorage, function(entries){
+              showAllFilesAtDir(pathToKML, function(entries){
                 let html = ''
                 for(let entry of entries){
                   if(entry.name.search(`.xml`)){

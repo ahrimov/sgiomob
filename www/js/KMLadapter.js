@@ -1,4 +1,4 @@
-function exportKML(layerID){
+function exportKML(pathToKML, layerID){
     let layer = findLayer(layerID)
     let format = new ol.format.KML({
         showPointNames: true,
@@ -44,7 +44,7 @@ function exportKML(layerID){
         kml = kml.replace(/\/>/g, '$&\n')
         kml = kml.replace(/\\\\/g, '\\')
 
-        saveFile(pathToKMLStorage, layer.id + formatDate(date) + '.kml', kml)
+        saveFile(pathToKML, layer.id + formatDate(date) + '.kml', kml)
     })
 }
 

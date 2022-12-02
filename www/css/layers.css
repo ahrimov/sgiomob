@@ -32,3 +32,11 @@
     bottom: 5%;
     color: black;
 }
+
+#path-chooser-KML{
+    margin-top: 10vh;
+    max-height: 70vh;
+    max-width: 60vh;
+    overflow: scroll;
+    font-size: 12px;
+}

@@ -34,7 +34,7 @@ function checkIfFileExists(path, fileExists, fileDoesNotExist){
 }
 
 function saveFile(pathDir, fileName, fileData){
-    getFolder(pathDir, function(dirEntry){
+    window.resolveLocalFileSystemURL(pathDir, function(dirEntry){
         dirEntry.getFile(fileName, {create: true}, function(fileEntry){
             writeFile(fileEntry,  fileData)
         }, function(error){
@@ -42,7 +42,6 @@ function saveFile(pathDir, fileName, fileData){
         })
     })
 }
-
 
 function writeFile(fileEntry, dataObj) {
     // Create a FileWriter object for our FileEntry (log.txt).

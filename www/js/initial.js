@@ -14,7 +14,21 @@ function initial(){
 
     let path = root_directory + "config.xml";
     //openFile(path, configParser);
+    createMediaDirectory();
     checkIfFileExists(path, fileExist, warning);
+
+
+    function createMediaDirectory(){
+        let dirName = "file:///storage/self/primary/Android/media/";
+        window.resolveLocalFileSystemURI(dirName, function(dirEntry){
+            dirEntry.getDirectory('io.cordova.sgiomob', {create: true}, function(appDirEntry){
+                appDirEntry.getDirectory('KML', {create: true});
+            });
+        })
+        window.resolveLocalFileSystemURI(root_directory, function(dirEntry){
+            dirEntry.getDirectory('KML', {create: true});
+        })
+    }
 
     function fileExist(){
         console.log('Config file exist!');
