@@ -87,6 +87,8 @@ async function importKML(layerID, dict, features){
             dict['id'] = 'id'
         }
 
+
+
         let query = `SELECT COUNT(1) as bool FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature_id};`
         await requestToDB(query, function(data){
             if(data.rows.item(0).bool == 1){
@@ -104,9 +106,10 @@ async function importKML(layerID, dict, features){
 
                 const format = new ol.format.WKT()
                 let feautureString = format.writeFeature(feature)
-                feautureString = convertToGeometryType(feautureString)
+                feautureString = convertToGeometryType(feautureString, layer.geometryType)
                 updates.push(`Geometry = GeomFromText('${feautureString}', 3857)`)
                 query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature_id} `
+                console.log(query);
                 requestToDB(query, function(res){
                     for(let old_feature of layer.getSource().getFeatures()){
                         if(old_feature.id == feature_id){
@@ -133,11 +136,12 @@ async function importKML(layerID, dict, features){
                 geom.transform('EPSG:4326', 'EPSG:3857')
                 const format = new ol.format.WKT()
                 let feautureString = format.writeFeature(feature)
-                feautureString = convertToGeometryType(feautureString)
+                feautureString = convertToGeometryType(feautureString, layer.geometryType)
                 let query = `
                     INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
                     VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
                 ;`
+                console.log(query);
                 requestToDB(query, function(res){
                     feature.id = feature_id
                     feature.layerID = layer.id
@@ -150,9 +154,17 @@ async function importKML(layerID, dict, features){
         }, `Ошибка в импортируемом KML.`);
     }
 
-    function convertToGeometryType(inp_string){
-        inp_string = inp_string.replace(/\(+/g, '((')
-        inp_string = inp_string.replace(/\)+/g, '))')
+    function convertToGeometryType(inp_string, type){
+        console.log(type)
+        let l_brackets = '((';
+        let r_brackets = '))';
+        if(type === "MULTIPOLYGON"){
+            console.log('a')
+            l_brackets = '(((';
+            r_brackets = ')))';
+        }
+        inp_string = inp_string.replace(/\(+/g, l_brackets)
+        inp_string = inp_string.replace(/\)+/g, r_brackets)
         if(inp_string.search('MULTI') == -1)
             return insert(inp_string, 'MULTI')
         return inp_string
@@ -173,6 +185,7 @@ function compareGeometryTypes(first, second){
 
 function convertFeatureToLayerGeometry(feature, layer){
     let new_geom;
+    console.log('convert')
     switch(layer.geometryType){
         case "MULTIPOINT":
             new_geom = new ol.geom.Point(feature.getGeometry().getFirstCoordinate())
@@ -182,7 +195,13 @@ function convertFeatureToLayerGeometry(feature, layer){
                 new_geom = ol.geom.Polygon.circular(feature.getGeometry().getFirstCoordinate(), 1)
             }
             else{
-                new_geom = new ol.geom.Polygon(feature.getGeometry().getCoordinates())
+                let geom = feature.getGeometry();
+                let first_coord = geom.getFirstCoordinate();
+                geom.appendCoordinate(first_coord);
+                let g = geom.getCoordinates().toString().split(',');
+                let a = g.map((v) => {return parseInt(v)})
+                console.log(a);
+                new_geom = new ol.geom.Polygon([54, 52, 0, 54, 53, 0, 54, 52, 0]);
             }
             break;
         case "MULTILINESTRING":
@@ -199,6 +218,13 @@ function convertFeatureToLayerGeometry(feature, layer){
     }
     feature.setGeometry(new_geom)
 }
+/*
+function completeLineToPolygon(feature){
+    let geom = feature.getGeometry();
+    let first_coord = geom.getFirstCoordinate();
+    geom.appendCoordinate(first_coord);
+
+}*/
 
 function filterProperties(values, dict, layer){
     let result = {};
@@ -212,7 +238,7 @@ function filterProperties(values, dict, layer){
         if(dict[key] === '' || typeof result[dict[key]] === 'undefined') continue;
         let atrib = getAtribByName(layer.atribs, key)
         if(atrib.type == 'DOUBLE'){
-            result[dict[key]] = result[dict[key]].replace(/\D/g, '')
+            result[dict[key]] = result[dict[key]].replace(/[^0-9.]/g, '')
         }
         if(atrib.type == 'DATE'){
             let date_string = result[dict[key]];

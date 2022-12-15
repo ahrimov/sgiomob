@@ -95,12 +95,15 @@ function getDataLayerFromBD(layer){
     try{  
         var querySuccess = function (tx, res) {
             const format = new ol.format.WKT();
+            
             for (let i = 0; i < res.rows.length; i++) {
-                var wkt = res.rows.item(i).geom
-                var feature = format.readFeature(wkt.replace(/nan/g, "0"))
-                feature.id = res.rows.item(i).id
-                feature.layerID = layer.id
-                source.addFeature(feature)
+                let wkt = res.rows.item(i).geom;
+                let feature = new ol.Feature();
+                if(typeof wkt !== 'undefined' && wkt !== '')
+                    feature = format.readFeature(wkt.replace(/nan/g, "0"));
+                feature.id = res.rows.item(i).id;
+                feature.layerID = layer.id;
+                source.addFeature(feature);
             }
             layer.setSource(source)
             completeLoad()

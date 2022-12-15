@@ -60,7 +60,10 @@
                     interactions: [],
                     layers: [clone_raster]
                 });
-            let feature = this.data.feature
+            let feature = this.data.feature;
+            if(typeof feature.getGeometry() === 'undefined'){
+                ons.notification.alert({title:"Внимание", message:`Ошибка в геометрии объекта.`});
+            }
             let layer = findLayer(feature.layerID)
             let atribs = []
             let values = []
@@ -201,7 +204,8 @@
 
             function displayLocalMap(){
                 let source = new ol.source.Vector()
-                source.addFeature(feature)
+                if(typeof feature.getGeometry() !== 'undefined')
+                    source.addFeature(feature)
                 let clonedLayer = new ol.layer.Vector({
                     style: layer.getStyle()
                 });
@@ -215,6 +219,9 @@
             }
 
             function addMetricCharacter(layer, geom){
+                if(typeof geom === 'undefined' || geom === ''){
+                    return ``;
+                }
                 const format = new ol.format.WKT();
                 let wkt = geom
                 let feature = format.readFeature(wkt.replace(/nan/g, "0"))
