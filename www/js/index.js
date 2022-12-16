@@ -21,8 +21,8 @@ raster.isLocal = false
 
 var localSource;
 
-var root_directory = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/Project/";
-const media_directory = "file:///storage/self/primary/Android/media/io.cordova.sgiomob/";
+var root_directory = "file:///storage/self/primary/Android/data/io.cordova.sgiomobmg/Project/";
+const media_directory = "file:///storage/self/primary/Android/media/io.cordova.sgiomobmg/";
 
 let numberNodesOnMap = 10000;
 

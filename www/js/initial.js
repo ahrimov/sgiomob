@@ -38,7 +38,7 @@ function initial(){
     function warning(){
         let sourceName = cordova.file.applicationDirectory + 'www/resources/Project';
         console.log(sourceName);
-        let targetDirName = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/";
+        let targetDirName = "file:///storage/self/primary/Android/data/io.cordova.sgiomobmg/";
         window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
             function(resourcesDir) {
                 
