@@ -1,6 +1,6 @@
 {
-    "name": "io.cordova.sgiomob",
-    "displayName": "sgiomob",
+    "name": "io.cordova.sgiomobmg",
+    "displayName": "sgiomobmg",
     "version": "0.9.6",
     "description": "Prtototype of maps application",
     "main": "index.js",

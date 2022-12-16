@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document id="root_doc">
+<Schema name="PODS_STRUCTURE" id="PODS_STRUCTURE">
+	<SimpleField name="ID" type="string"></SimpleField>
+	<SimpleField name="OFFLINE_ID" type="string"></SimpleField>
+	<SimpleField name="OFFLINE_GUID" type="string"></SimpleField>
+	<SimpleField name="TYPE_CL" type="string"></SimpleField>
+	<SimpleField name="OCCUPANT_COUNT" type="string"></SimpleField>
+	<SimpleField name="OCCUPANCY_CATEGORY_GCL" type="string"></SimpleField>
+	<SimpleField name="DETERMINATION_DATE" type="string"></SimpleField>
+	<SimpleField name="DETERMINATION_METHOD_GCL" type="string"></SimpleField>
+	<SimpleField name="SITE_ADDRESS_ID" type="string"></SimpleField>
+	<SimpleField name="SITE_ADDRESS_GUID" type="string"></SimpleField>
+	<SimpleField name="CONTACT_ID" type="string"></SimpleField>
+	<SimpleField name="CONTACT_GUID" type="string"></SimpleField>
+	<SimpleField name="SOURCE_GCL" type="string"></SimpleField>
+	<SimpleField name="P_ID" type="string"></SimpleField>
+	<SimpleField name="TYPE" type="string"></SimpleField>
+</Schema>
+<Folder><name>PODS_STRUCTURE</name>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_STRUCTURE">
+		<SimpleData name="ID">10000000</SimpleData>
+		<SimpleData name="OFFLINE_ID">10000000</SimpleData>
+		<SimpleData name="OFFLINE_GUID"></SimpleData>
+		<SimpleData name="TYPE_CL">STRUCT_TYPE_06</SimpleData>
+		<SimpleData name="OCCUPANT_COUNT"></SimpleData>
+		<SimpleData name="OCCUPANCY_CATEGORY_GCL">UNKNOWN</SimpleData>
+		<SimpleData name="DETERMINATION_DATE"></SimpleData>
+		<SimpleData name="DETERMINATION_METHOD_GCL">UNKNOWN</SimpleData>
+		<SimpleData name="SITE_ADDRESS_ID"></SimpleData>
+		<SimpleData name="SITE_ADDRESS_GUID"></SimpleData>
+		<SimpleData name="CONTACT_ID">0</SimpleData>
+		<SimpleData name="CONTACT_GUID"></SimpleData>
+		<SimpleData name="SOURCE_GCL">NGG</SimpleData>
+		<SimpleData name="P_ID">10001487</SimpleData>
+		<SimpleData name="TYPE">STRUCT_TYPE_06</SimpleData>
+	</SchemaData></ExtendedData>
+      <Polygon><outerBoundaryIs><LinearRing><coordinates>53.4842891944,53.8236119865 53.4843221946,53.8236249873 53.4843381957,53.8236089872 53.4843071955,53.8235969865 53.4842891944,53.8236119865</coordinates></LinearRing></outerBoundaryIs></Polygon>
+  </Placemark>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_STRUCTURE">
+		<SimpleData name="ID">10000001</SimpleData>
+		<SimpleData name="OFFLINE_ID">10000001</SimpleData>
+		<SimpleData name="OFFLINE_GUID"></SimpleData>
+		<SimpleData name="TYPE_CL">STRUCT_TYPE_06</SimpleData>
+		<SimpleData name="OCCUPANT_COUNT"></SimpleData>
+		<SimpleData name="OCCUPANCY_CATEGORY_GCL">UNKNOWN</SimpleData>
+		<SimpleData name="DETERMINATION_DATE"></SimpleData>
+		<SimpleData name="DETERMINATION_METHOD_GCL">UNKNOWN</SimpleData>
+		<SimpleData name="SITE_ADDRESS_ID"></SimpleData>
+		<SimpleData name="SITE_ADDRESS_GUID"></SimpleData>
+		<SimpleData name="CONTACT_ID">0</SimpleData>
+		<SimpleData name="CONTACT_GUID"></SimpleData>
+		<SimpleData name="SOURCE_GCL">NGG</SimpleData>
+		<SimpleData name="P_ID">10001492</SimpleData>
+		<SimpleData name="TYPE">STRUCT_TYPE_06</SimpleData>
+	</SchemaData></ExtendedData>
+      <Polygon><outerBoundaryIs><LinearRing><coordinates>53.3279902289,53.8768896085 53.3281692342,53.8768636107 53.3281632367,53.8768016095 53.3279792314,53.8768256072 53.3279902289,53.8768896085</coordinates></LinearRing></outerBoundaryIs></Polygon>
+  </Placemark>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_STRUCTURE">
+		<SimpleData name="ID">10000002</SimpleData>
+		<SimpleData name="OFFLINE_ID">10000002</SimpleData>
+		<SimpleData name="OFFLINE_GUID"></SimpleData>
+		<SimpleData name="TYPE_CL">STRUCT_TYPE_06</SimpleData>
+		<SimpleData name="OCCUPANT_COUNT"></SimpleData>
+		<SimpleData name="OCCUPANCY_CATEGORY_GCL">UNKNOWN</SimpleData>
+		<SimpleData name="DETERMINATION_DATE"></SimpleData>
+		<SimpleData name="DETERMINATION_METHOD_GCL">UNKNOWN</SimpleData>
+		<SimpleData name="SITE_ADDRESS_ID"></SimpleData>
+		<SimpleData name="SITE_ADDRESS_GUID"></SimpleData>
+		<SimpleData name="CONTACT_ID">0</SimpleData>
+		<SimpleData name="CONTACT_GUID"></SimpleData>
+		<SimpleData name="SOURCE_GCL">NGG</SimpleData>
+		<SimpleData name="P_ID">10001493</SimpleData>
+		<SimpleData name="TYPE">STRUCT_TYPE_06</SimpleData>
+	</SchemaData></ExtendedData>
+      <Polygon><outerBoundaryIs><LinearRing><coordinates>53.327284208,53.8769885998 53.3273362093,53.8769876005 53.3273332103,53.8769606 53.3272862091,53.8769625993 53.327284208,53.8769885998</coordinates></LinearRing></outerBoundaryIs></Polygon>
+  </Placemark>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_STRUCTURE">
+		<SimpleData name="ID">10000003</SimpleData>
+		<SimpleData name="OFFLINE_ID">10000003</SimpleData>
+		<SimpleData name="OFFLINE_GUID"></SimpleData>
+		<SimpleData name="TYPE_CL">STRUCT_TYPE_06</SimpleData>
+		<SimpleData name="OCCUPANT_COUNT"></SimpleData>
+		<SimpleData name="OCCUPANCY_CATEGORY_GCL">UNKNOWN</SimpleData>
+		<SimpleData name="DETERMINATION_DATE"></SimpleData>
+		<SimpleData name="DETERMINATION_METHOD_GCL">UNKNOWN</SimpleData>
+		<SimpleData name="SITE_ADDRESS_ID"></SimpleData>
+		<SimpleData name="SITE_ADDRESS_GUID"></SimpleData>
+		<SimpleData name="CONTACT_ID">0</SimpleData>
+		<SimpleData name="CONTACT_GUID"></SimpleData>
+		<SimpleData name="SOURCE_GCL">NGG</SimpleData>
+		<SimpleData name="P_ID">10001567</SimpleData>
+		<SimpleData name="TYPE">STRUCT_TYPE_06</SimpleData>
+	</SchemaData></ExtendedData>
+      <Polygon><outerBoundaryIs><LinearRing><coordinates>53.9710381672,53.3087409851 53.9709091612,53.3088129845 53.9708161614,53.3087539821 53.9709441674,53.3086809826 53.9710381672,53.3087409851</coordinates></LinearRing></outerBoundaryIs></Polygon>
+  </Placemark>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_STRUCTURE">
+		<SimpleData name="ID">10000004</SimpleData>
+		<SimpleData name="OFFLINE_ID">10000004</SimpleData>
+		<SimpleData name="OFFLINE_GUID"></SimpleData>
+		<SimpleData name="TYPE_CL">STRUCT_TYPE_06</SimpleData>
+		<SimpleData name="OCCUPANT_COUNT"></SimpleData>
+		<SimpleData name="OCCUPANCY_CATEGORY_GCL">UNKNOWN</SimpleData>
+		<SimpleData name="DETERMINATION_DATE"></SimpleData>
+		<SimpleData name="DETERMINATION_METHOD_GCL">UNKNOWN</SimpleData>
+		<SimpleData name="SITE_ADDRESS_ID"></SimpleData>
+		<SimpleData name="SITE_ADDRESS_GUID"></SimpleData>
+		<SimpleData name="CONTACT_ID">0</SimpleData>
+		<SimpleData name="CONTACT_GUID"></SimpleData>
+		<SimpleData name="SOURCE_GCL">NGG</SimpleData>
+		<SimpleData name="P_ID">10001568</SimpleData>
+		<SimpleData name="TYPE">STRUCT_TYPE_06</SimpleData>
+	</SchemaData></ExtendedData>
+      <Polygon><outerBoundaryIs><LinearRing><coordinates>53.9703131377,53.3090419798 53.9703461376,53.3090629807 53.9703801393,53.3090429808 53.9703471392,53.30902398 53.9703131377,53.3090419798</coordinates></LinearRing></outerBoundaryIs></Polygon>
+  </Placemark>
+</Folder>
+</Document></kml>

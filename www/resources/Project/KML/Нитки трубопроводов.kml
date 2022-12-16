@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document id="root_doc">
+<Schema name="PODS_ROUTE" id="PODS_ROUTE">
+	<SimpleField name="ID" type="string"></SimpleField>
+	<SimpleField name="ROUTE_ID" type="string"></SimpleField>
+	<SimpleField name="ROUTE_GUID" type="string"></SimpleField>
+	<SimpleField name="LINE_ID" type="string"></SimpleField>
+	<SimpleField name="LINE_GUID" type="string"></SimpleField>
+	<SimpleField name="EVENT_ID" type="string"></SimpleField>
+	<SimpleField name="EVENT_GUID" type="string"></SimpleField>
+	<SimpleField name="SEQUENCE" type="string"></SimpleField>
+	<SimpleField name="TYPE_CL" type="string"></SimpleField>
+	<SimpleField name="OPERATING_STATUS_GCL" type="string"></SimpleField>
+	<SimpleField name="CURRENT_INDICATOR_LF" type="string"></SimpleField>
+	<SimpleField name="PREVIOUS_ROUTE_ID" type="string"></SimpleField>
+	<SimpleField name="PREVIOUS_ROUTE_GUID" type="string"></SimpleField>
+	<SimpleField name="EFFECTIVE_FROM_DATE" type="string"></SimpleField>
+	<SimpleField name="EFFECTIVE_TO_DATE" type="string"></SimpleField>
+	<SimpleField name="ORIGINAL_ROUTE_ID" type="string"></SimpleField>
+	<SimpleField name="ORIGINAL_ROUTE_GUID" type="string"></SimpleField>
+	<SimpleField name="PODS_USER" type="string"></SimpleField>
+	<SimpleField name="CREATE_DATE" type="string"></SimpleField>
+	<SimpleField name="SERIES_ID" type="string"></SimpleField>
+	<SimpleField name="SERIES_DESCRIPTION" type="string"></SimpleField>
+	<SimpleField name="SERIES" type="string"></SimpleField>
+	<SimpleField name="STATION_BEGIN" type="string"></SimpleField>
+	<SimpleField name="STATION_END" type="string"></SimpleField>
+	<SimpleField name="ASCENDING" type="string"></SimpleField>
+	<SimpleField name="TYPE" type="string"></SimpleField>
+	<SimpleField name="MEASURE" type="string"></SimpleField>
+	<SimpleField name="CNT_DOC" type="string"></SimpleField>
+</Schema>
+<Folder><name>PODS_ROUTE</name>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_ROUTE">
+		<SimpleData name="ID">1000000</SimpleData>
+		<SimpleData name="ROUTE_ID">1000000</SimpleData>
+		<SimpleData name="ROUTE_GUID"></SimpleData>
+		<SimpleData name="LINE_ID">1000006</SimpleData>
+		<SimpleData name="LINE_GUID"></SimpleData>
+		<SimpleData name="EVENT_ID"></SimpleData>
+		<SimpleData name="EVENT_GUID"></SimpleData>
+		<SimpleData name="SEQUENCE">3</SimpleData>
+		<SimpleData name="TYPE_CL">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="OPERATING_STATUS_GCL">ACTIVE</SimpleData>
+		<SimpleData name="CURRENT_INDICATOR_LF">Y</SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_ID"></SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_GUID"></SimpleData>
+		<SimpleData name="EFFECTIVE_FROM_DATE">17.07.2007</SimpleData>
+		<SimpleData name="EFFECTIVE_TO_DATE"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_ID"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_GUID"></SimpleData>
+		<SimpleData name="PODS_USER">ADMIN</SimpleData>
+		<SimpleData name="CREATE_DATE">17.07.2007</SimpleData>
+		<SimpleData name="SERIES_ID">1000557</SimpleData>
+		<SimpleData name="SERIES_DESCRIPTION"></SimpleData>
+		<SimpleData name="SERIES">2063</SimpleData>
+		<SimpleData name="STATION_BEGIN">2063</SimpleData>
+		<SimpleData name="STATION_END">2063</SimpleData>
+		<SimpleData name="ASCENDING">1</SimpleData>
+		<SimpleData name="TYPE">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="MEASURE">0.00</SimpleData>
+		<SimpleData name="CNT_DOC"></SimpleData>
+	</SchemaData></ExtendedData>
+      <LineString><coordinates>53.5811093818,54.7250510253,0 53.5811144211,54.7250692057,2.05 53.5810964206,54.7250702855,3.22 53.5810809402,54.7250712753,4.22 53.581083461,54.725053005,6.27</coordinates></LineString>
+  </Placemark>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_ROUTE">
+		<SimpleData name="ID">1000001</SimpleData>
+		<SimpleData name="ROUTE_ID">1000001</SimpleData>
+		<SimpleData name="ROUTE_GUID"></SimpleData>
+		<SimpleData name="LINE_ID">1000006</SimpleData>
+		<SimpleData name="LINE_GUID"></SimpleData>
+		<SimpleData name="EVENT_ID"></SimpleData>
+		<SimpleData name="EVENT_GUID"></SimpleData>
+		<SimpleData name="SEQUENCE">4</SimpleData>
+		<SimpleData name="TYPE_CL">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="OPERATING_STATUS_GCL">ACTIVE</SimpleData>
+		<SimpleData name="CURRENT_INDICATOR_LF">Y</SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_ID"></SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_GUID"></SimpleData>
+		<SimpleData name="EFFECTIVE_FROM_DATE">17.07.2007</SimpleData>
+		<SimpleData name="EFFECTIVE_TO_DATE"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_ID"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_GUID"></SimpleData>
+		<SimpleData name="PODS_USER">ADMIN</SimpleData>
+		<SimpleData name="CREATE_DATE">17.07.2007</SimpleData>
+		<SimpleData name="SERIES_ID">1000568</SimpleData>
+		<SimpleData name="SERIES_DESCRIPTION"></SimpleData>
+		<SimpleData name="SERIES">2064</SimpleData>
+		<SimpleData name="STATION_BEGIN">2063.8</SimpleData>
+		<SimpleData name="STATION_END">2063.8</SimpleData>
+		<SimpleData name="ASCENDING">1</SimpleData>
+		<SimpleData name="TYPE">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="MEASURE">0.00</SimpleData>
+		<SimpleData name="CNT_DOC"></SimpleData>
+	</SchemaData></ExtendedData>
+      <LineString><coordinates>53.5745057116,54.7257209883,0 53.5744927529,54.7256842674,4.18 53.5744873533,54.7256727472,5.5 53.5744617928,54.7256695067,7.19 53.5743429893,54.7256840852,15.02 53.5742853876,54.7256902944,18.79 53.5738461746,54.7257432988,47.8</coordinates></LineString>
+  </Placemark>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_ROUTE">
+		<SimpleData name="ID">1000002</SimpleData>
+		<SimpleData name="ROUTE_ID">1000002</SimpleData>
+		<SimpleData name="ROUTE_GUID"></SimpleData>
+		<SimpleData name="LINE_ID">1000006</SimpleData>
+		<SimpleData name="LINE_GUID"></SimpleData>
+		<SimpleData name="EVENT_ID"></SimpleData>
+		<SimpleData name="EVENT_GUID"></SimpleData>
+		<SimpleData name="SEQUENCE">5</SimpleData>
+		<SimpleData name="TYPE_CL">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="OPERATING_STATUS_GCL">ACTIVE</SimpleData>
+		<SimpleData name="CURRENT_INDICATOR_LF">Y</SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_ID"></SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_GUID"></SimpleData>
+		<SimpleData name="EFFECTIVE_FROM_DATE">17.07.2007</SimpleData>
+		<SimpleData name="EFFECTIVE_TO_DATE"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_ID"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_GUID"></SimpleData>
+		<SimpleData name="PODS_USER">ADMIN</SimpleData>
+		<SimpleData name="CREATE_DATE">17.07.2007</SimpleData>
+		<SimpleData name="SERIES_ID">1000571</SimpleData>
+		<SimpleData name="SERIES_DESCRIPTION"></SimpleData>
+		<SimpleData name="SERIES">2064</SimpleData>
+		<SimpleData name="STATION_BEGIN">2063.8</SimpleData>
+		<SimpleData name="STATION_END">2063.8</SimpleData>
+		<SimpleData name="ASCENDING">1</SimpleData>
+		<SimpleData name="TYPE">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="MEASURE">0.00</SimpleData>
+		<SimpleData name="CNT_DOC"></SimpleData>
+	</SchemaData></ExtendedData>
+      <LineString><coordinates>53.5743678275,54.7257380865,0 53.5743512688,54.7257007356,4.29 53.5743429893,54.7256840852,6.22</coordinates></LineString>
+  </Placemark>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_ROUTE">
+		<SimpleData name="ID">1000003</SimpleData>
+		<SimpleData name="ROUTE_ID">1000003</SimpleData>
+		<SimpleData name="ROUTE_GUID"></SimpleData>
+		<SimpleData name="LINE_ID">1000006</SimpleData>
+		<SimpleData name="LINE_GUID"></SimpleData>
+		<SimpleData name="EVENT_ID"></SimpleData>
+		<SimpleData name="EVENT_GUID"></SimpleData>
+		<SimpleData name="SEQUENCE">6</SimpleData>
+		<SimpleData name="TYPE_CL">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="OPERATING_STATUS_GCL">ACTIVE</SimpleData>
+		<SimpleData name="CURRENT_INDICATOR_LF">Y</SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_ID"></SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_GUID"></SimpleData>
+		<SimpleData name="EFFECTIVE_FROM_DATE">17.07.2007</SimpleData>
+		<SimpleData name="EFFECTIVE_TO_DATE"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_ID"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_GUID"></SimpleData>
+		<SimpleData name="PODS_USER">ADMIN</SimpleData>
+		<SimpleData name="CREATE_DATE">17.07.2007</SimpleData>
+		<SimpleData name="SERIES_ID">1000593</SimpleData>
+		<SimpleData name="SERIES_DESCRIPTION"></SimpleData>
+		<SimpleData name="SERIES">2091</SimpleData>
+		<SimpleData name="STATION_BEGIN">2091.3</SimpleData>
+		<SimpleData name="STATION_END">2091.3</SimpleData>
+		<SimpleData name="ASCENDING">1</SimpleData>
+		<SimpleData name="TYPE">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="MEASURE">0.00</SimpleData>
+		<SimpleData name="CNT_DOC"></SimpleData>
+	</SchemaData></ExtendedData>
+      <LineString><coordinates>53.3407803258,54.5600922377,0 53.340764125,54.5601020476,1.52 53.3407482842,54.5601114976,2.99 53.340723803,54.5601254475,5.22</coordinates></LineString>
+  </Placemark>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_ROUTE">
+		<SimpleData name="ID">1000004</SimpleData>
+		<SimpleData name="ROUTE_ID">1000004</SimpleData>
+		<SimpleData name="ROUTE_GUID"></SimpleData>
+		<SimpleData name="LINE_ID">1000006</SimpleData>
+		<SimpleData name="LINE_GUID"></SimpleData>
+		<SimpleData name="EVENT_ID"></SimpleData>
+		<SimpleData name="EVENT_GUID"></SimpleData>
+		<SimpleData name="SEQUENCE">7</SimpleData>
+		<SimpleData name="TYPE_CL">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="OPERATING_STATUS_GCL">ACTIVE</SimpleData>
+		<SimpleData name="CURRENT_INDICATOR_LF">Y</SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_ID"></SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_GUID"></SimpleData>
+		<SimpleData name="EFFECTIVE_FROM_DATE">17.07.2007</SimpleData>
+		<SimpleData name="EFFECTIVE_TO_DATE"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_ID"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_GUID"></SimpleData>
+		<SimpleData name="PODS_USER">ADMIN</SimpleData>
+		<SimpleData name="CREATE_DATE">17.07.2007</SimpleData>
+		<SimpleData name="SERIES_ID">1000592</SimpleData>
+		<SimpleData name="SERIES_DESCRIPTION"></SimpleData>
+		<SimpleData name="SERIES">2091</SimpleData>
+		<SimpleData name="STATION_BEGIN">2091.3</SimpleData>
+		<SimpleData name="STATION_END">2091.3</SimpleData>
+		<SimpleData name="ASCENDING">1</SimpleData>
+		<SimpleData name="TYPE">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="MEASURE">0.00</SimpleData>
+		<SimpleData name="CNT_DOC"></SimpleData>
+	</SchemaData></ExtendedData>
+      <LineString><coordinates>53.3406874458,54.5600414754,0 53.3406726851,54.5600506554,1.4 53.3406572043,54.5600610053,2.93 53.3406374032,54.5600742353,4.88 53.3406388429,54.5600817954,5.73 53.340723803,54.5601254475,13.06 53.340745403,54.560136788,14.95 53.3411633623,54.5603800685,53.23</coordinates></LineString>
+  </Placemark>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_ROUTE">
+		<SimpleData name="ID">1000005</SimpleData>
+		<SimpleData name="ROUTE_ID">1000005</SimpleData>
+		<SimpleData name="ROUTE_GUID"></SimpleData>
+		<SimpleData name="LINE_ID">1000006</SimpleData>
+		<SimpleData name="LINE_GUID"></SimpleData>
+		<SimpleData name="EVENT_ID"></SimpleData>
+		<SimpleData name="EVENT_GUID"></SimpleData>
+		<SimpleData name="SEQUENCE">8</SimpleData>
+		<SimpleData name="TYPE_CL">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="OPERATING_STATUS_GCL">ACTIVE</SimpleData>
+		<SimpleData name="CURRENT_INDICATOR_LF">Y</SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_ID"></SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_GUID"></SimpleData>
+		<SimpleData name="EFFECTIVE_FROM_DATE">17.07.2007</SimpleData>
+		<SimpleData name="EFFECTIVE_TO_DATE"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_ID"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_GUID"></SimpleData>
+		<SimpleData name="PODS_USER">ADMIN</SimpleData>
+		<SimpleData name="CREATE_DATE">17.07.2007</SimpleData>
+		<SimpleData name="SERIES_ID">1000551</SimpleData>
+		<SimpleData name="SERIES_DESCRIPTION"></SimpleData>
+		<SimpleData name="SERIES">2119</SimpleData>
+		<SimpleData name="STATION_BEGIN">2119.3</SimpleData>
+		<SimpleData name="STATION_END">2119.3</SimpleData>
+		<SimpleData name="ASCENDING">1</SimpleData>
+		<SimpleData name="TYPE">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="MEASURE">0.00</SimpleData>
+		<SimpleData name="CNT_DOC"></SimpleData>
+	</SchemaData></ExtendedData>
+      <LineString><coordinates>53.0854731407,54.3701079214,0 53.0854533398,54.3701176413,1.68 53.0854382192,54.3701240311,2.9 53.0854032975,54.3701421209,5.93 53.085350738,54.3701041395,11.37 53.0853280581,54.3700894689,13.57 53.0849648207,54.3698335889,50.57</coordinates></LineString>
+  </Placemark>
+  <Placemark>
+	<name></name>
+	<description></description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_ROUTE">
+		<SimpleData name="ID">1000006</SimpleData>
+		<SimpleData name="ROUTE_ID">1000006</SimpleData>
+		<SimpleData name="ROUTE_GUID"></SimpleData>
+		<SimpleData name="LINE_ID">1000006</SimpleData>
+		<SimpleData name="LINE_GUID"></SimpleData>
+		<SimpleData name="EVENT_ID"></SimpleData>
+		<SimpleData name="EVENT_GUID"></SimpleData>
+		<SimpleData name="SEQUENCE">9</SimpleData>
+		<SimpleData name="TYPE_CL">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="OPERATING_STATUS_GCL">ACTIVE</SimpleData>
+		<SimpleData name="CURRENT_INDICATOR_LF">Y</SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_ID"></SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_GUID"></SimpleData>
+		<SimpleData name="EFFECTIVE_FROM_DATE">17.07.2007</SimpleData>
+		<SimpleData name="EFFECTIVE_TO_DATE"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_ID"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_GUID"></SimpleData>
+		<SimpleData name="PODS_USER">ADMIN</SimpleData>
+		<SimpleData name="CREATE_DATE">17.07.2007</SimpleData>
+		<SimpleData name="SERIES_ID">1000553</SimpleData>
+		<SimpleData name="SERIES_DESCRIPTION"></SimpleData>
+		<SimpleData name="SERIES">2119</SimpleData>
+		<SimpleData name="STATION_BEGIN">2119.3</SimpleData>
+		<SimpleData name="STATION_END">2119.3</SimpleData>
+		<SimpleData name="ASCENDING">1</SimpleData>
+		<SimpleData name="TYPE">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="MEASURE">0.00</SimpleData>
+		<SimpleData name="CNT_DOC"></SimpleData>
+	</SchemaData></ExtendedData>
+      <LineString><coordinates>53.0854209411,54.3700702099,0 53.0854025803,54.3700798398,1.6 53.0853885396,54.3700864997,2.78 53.085350738,54.3701041395,5.92</coordinates></LineString>
+  </Placemark>
+  <Placemark>
+	<name>ГКС-21-1</name>
+	<description>ГКС-21-1</description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_ROUTE">
+		<SimpleData name="ID">1000007</SimpleData>
+		<SimpleData name="ROUTE_ID">1000007</SimpleData>
+		<SimpleData name="ROUTE_GUID"></SimpleData>
+		<SimpleData name="LINE_ID">1000007</SimpleData>
+		<SimpleData name="LINE_GUID"></SimpleData>
+		<SimpleData name="EVENT_ID"></SimpleData>
+		<SimpleData name="EVENT_GUID"></SimpleData>
+		<SimpleData name="SEQUENCE">1</SimpleData>
+		<SimpleData name="TYPE_CL">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="OPERATING_STATUS_GCL">ACTIVE</SimpleData>
+		<SimpleData name="CURRENT_INDICATOR_LF">Y</SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_ID"></SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_GUID"></SimpleData>
+		<SimpleData name="EFFECTIVE_FROM_DATE">17.07.2007</SimpleData>
+		<SimpleData name="EFFECTIVE_TO_DATE"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_ID"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_GUID"></SimpleData>
+		<SimpleData name="PODS_USER">ADMIN</SimpleData>
+		<SimpleData name="CREATE_DATE">17.07.2007</SimpleData>
+		<SimpleData name="SERIES_ID">1000340</SimpleData>
+		<SimpleData name="SERIES_DESCRIPTION"></SimpleData>
+		<SimpleData name="SERIES">0</SimpleData>
+		<SimpleData name="STATION_BEGIN">0</SimpleData>
+		<SimpleData name="STATION_END">0.6</SimpleData>
+		<SimpleData name="ASCENDING">1</SimpleData>
+		<SimpleData name="TYPE">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="MEASURE">0.00</SimpleData>
+		<SimpleData name="CNT_DOC"></SimpleData>
+	</SchemaData></ExtendedData>
+      <LineString><coordinates>50.3769160932,56.144465381,0 50.376944887,56.1446019138,15.31 50.3769679241,56.1446690553,22.96 50.3770330784,56.1448114387,39.37 50.3770672784,56.1448263795,42.08 50.3773027254,56.1447974027,57.07 50.3773419657,56.1448094636,59.93 50.3774459918,56.1451310407,96.34 50.377588533,56.1455665604,145.63 50.3777213543,56.1459962298,194.18 50.3777807538,56.1460337614,199.76 50.3780086407,56.1460039745,214.31 50.3780878407,56.1460403363,220.7 50.3782012245,56.1464115944,262.63 50.3783937992,56.1469987675,329.1 50.3785658569,56.147516819,387.76</coordinates></LineString>
+  </Placemark>
+  <Placemark>
+	<name>ГКС-21-1</name>
+	<description>ГКС-21-1</description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_ROUTE">
+		<SimpleData name="ID">1000008</SimpleData>
+		<SimpleData name="ROUTE_ID">1000008</SimpleData>
+		<SimpleData name="ROUTE_GUID"></SimpleData>
+		<SimpleData name="LINE_ID">1000007</SimpleData>
+		<SimpleData name="LINE_GUID"></SimpleData>
+		<SimpleData name="EVENT_ID"></SimpleData>
+		<SimpleData name="EVENT_GUID"></SimpleData>
+		<SimpleData name="SEQUENCE">2</SimpleData>
+		<SimpleData name="TYPE_CL">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="OPERATING_STATUS_GCL">ACTIVE</SimpleData>
+		<SimpleData name="CURRENT_INDICATOR_LF">Y</SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_ID"></SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_GUID"></SimpleData>
+		<SimpleData name="EFFECTIVE_FROM_DATE">17.07.2007</SimpleData>
+		<SimpleData name="EFFECTIVE_TO_DATE"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_ID"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_GUID"></SimpleData>
+		<SimpleData name="PODS_USER">ADMIN</SimpleData>
+		<SimpleData name="CREATE_DATE">17.07.2007</SimpleData>
+		<SimpleData name="SERIES_ID">1000341</SimpleData>
+		<SimpleData name="SERIES_DESCRIPTION"></SimpleData>
+		<SimpleData name="SERIES">0</SimpleData>
+		<SimpleData name="STATION_BEGIN">0</SimpleData>
+		<SimpleData name="STATION_END">0.6</SimpleData>
+		<SimpleData name="ASCENDING">1</SimpleData>
+		<SimpleData name="TYPE">ROUTE_TYPE_03</SimpleData>
+		<SimpleData name="MEASURE">0.00</SimpleData>
+		<SimpleData name="CNT_DOC"></SimpleData>
+	</SchemaData></ExtendedData>
+      <LineString><coordinates>50.3789494318,56.1442475194,0 50.3789976661,56.1443815325,15.22 50.3790203432,56.144449214,22.9 50.3790689376,56.144580977,37.88 50.3790296955,56.1446049168,41.5 50.3788280897,56.1446257039,54.24 50.3787715653,56.1446861841,61.84 50.3788590348,56.1449352197,90.1 50.378933185,56.1451613047,115.7 50.3791646367,56.1458260597,191.12 50.3791138721,56.1458938301,199.32 50.378927387,56.1459071473,211.01 50.3788733828,56.1459658275,218.36 50.3790594796,56.1465079997,279.83 50.3792524136,56.1471097529,347.9 50.3794475097,56.1476699256,411.5</coordinates></LineString>
+  </Placemark>
+  <Placemark>
+	<name>Уренгой-Ужгород</name>
+	<description>Уренгой-Ужгород</description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_ROUTE">
+		<SimpleData name="ID">1000009</SimpleData>
+		<SimpleData name="ROUTE_ID">1000009</SimpleData>
+		<SimpleData name="ROUTE_GUID"></SimpleData>
+		<SimpleData name="LINE_ID">1000007</SimpleData>
+		<SimpleData name="LINE_GUID"></SimpleData>
+		<SimpleData name="EVENT_ID"></SimpleData>
+		<SimpleData name="EVENT_GUID"></SimpleData>
+		<SimpleData name="SEQUENCE">3</SimpleData>
+		<SimpleData name="TYPE_CL">ROUTE_TYPE_10</SimpleData>
+		<SimpleData name="OPERATING_STATUS_GCL">ACTIVE</SimpleData>
+		<SimpleData name="CURRENT_INDICATOR_LF">Y</SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_ID"></SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_GUID"></SimpleData>
+		<SimpleData name="EFFECTIVE_FROM_DATE">17.07.2007</SimpleData>
+		<SimpleData name="EFFECTIVE_TO_DATE"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_ID"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_GUID"></SimpleData>
+		<SimpleData name="PODS_USER">ADMIN</SimpleData>
+		<SimpleData name="CREATE_DATE">17.07.2007</SimpleData>
+		<SimpleData name="SERIES_ID">1000007</SimpleData>
+		<SimpleData name="SERIES_DESCRIPTION"></SimpleData>
+		<SimpleData name="SERIES">2027</SimpleData>
+		<SimpleData name="STATION_BEGIN">2027</SimpleData>
+		<SimpleData name="STATION_END">2027</SimpleData>
+		<SimpleData name="ASCENDING">1</SimpleData>
+		<SimpleData name="TYPE">ROUTE_TYPE_10</SimpleData>
+		<SimpleData name="MEASURE">0.00</SimpleData>
+		<SimpleData name="CNT_DOC"></SimpleData>
+	</SchemaData></ExtendedData>
+      <LineString><coordinates>51.1095937858,56.3446477253,0 51.1090109234,56.344813949,40.52 51.1088906788,56.3448485077,48.89 51.1083826987,56.3450035724,84.76 51.1082757737,56.3450528915,93.37 51.107940599,56.3451841085,118.77</coordinates></LineString>
+  </Placemark>
+  <Placemark>
+	<name>Уренгой-Ужгород</name>
+	<description>Уренгой-Ужгород</description>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#PODS_ROUTE">
+		<SimpleData name="ID">1000010</SimpleData>
+		<SimpleData name="ROUTE_ID">1000010</SimpleData>
+		<SimpleData name="ROUTE_GUID"></SimpleData>
+		<SimpleData name="LINE_ID">1000007</SimpleData>
+		<SimpleData name="LINE_GUID"></SimpleData>
+		<SimpleData name="EVENT_ID"></SimpleData>
+		<SimpleData name="EVENT_GUID"></SimpleData>
+		<SimpleData name="SEQUENCE">4</SimpleData>
+		<SimpleData name="TYPE_CL">ROUTE_TYPE_10</SimpleData>
+		<SimpleData name="OPERATING_STATUS_GCL">ACTIVE</SimpleData>
+		<SimpleData name="CURRENT_INDICATOR_LF">Y</SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_ID"></SimpleData>
+		<SimpleData name="PREVIOUS_ROUTE_GUID"></SimpleData>
+		<SimpleData name="EFFECTIVE_FROM_DATE">17.07.2007</SimpleData>
+		<SimpleData name="EFFECTIVE_TO_DATE"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_ID"></SimpleData>
+		<SimpleData name="ORIGINAL_ROUTE_GUID"></SimpleData>
+		<SimpleData name="PODS_USER">ADMIN</SimpleData>
+		<SimpleData name="CREATE_DATE">17.07.2007</SimpleData>
+		<SimpleData name="SERIES_ID">1000008</SimpleData>
+		<SimpleData name="SERIES_DESCRIPTION"></SimpleData>
+		<SimpleData name="SERIES">2027</SimpleData>
+		<SimpleData name="STATION_BEGIN">2027</SimpleData>
+		<SimpleData name="STATION_END">2029</SimpleData>
+		<SimpleData name="ASCENDING">1</SimpleData>
+		<SimpleData name="TYPE">ROUTE_TYPE_10</SimpleData>
+		<SimpleData name="MEASURE">0.00</SimpleData>
+		<SimpleData name="CNT_DOC"></SimpleData>
+	</SchemaData></ExtendedData>
+      <LineString><coordinates>51.1090109234,56.344813949,0 51.1092009979,56.3450115054,24.94 51.1090418718,56.3450553336,35.94 51.1084831306,56.3452104875,74.57 51.1078941484,56.345369601,115.07 51.1077195532,56.3451933752,137.46 51.1071406517,56.3453442087,177.19 51.1060307348,56.3455471447,251.91 51.105643362,56.3456184199,277.52 51.1052081071,56.3457067946,306.94 51.1046068868,56.3458234271,346.4 51.1046022467,56.345822627,348.49 51.104529244,56.3458416262,353.54 51.1043832385,56.3458806246,363.62 51.1042372331,56.3459186229,373.61 51.1040902276,56.3459576213,383.69 51.1039442221,56.3459966197,393.7 51.1037982167,56.346034618,403.68 51.1036522112,56.3460736164,413.69 51.1035062058,56.3461116148,423.67 51.1033602003,56.3461506131,433.7 51.1032141948,56.3461896115,443.73 51.1030681894,56.3462276099,453.7 51.1029221839,56.3462666082,463.72 51.1027761785,56.3463046066,473.7 51.102630173,56.346343605,483.73 51.1024841676,56.3463816033,493.69 51.1023381621,56.3464206017,503.72 51.1021921567,56.3464596001,513.74 51.1020451512,56.3464975984,523.77 51.1018991457,56.3465365968,533.79 51.1017531403,56.3465745951,543.77 51.1016071348,56.3466135935,553.79 51.1014611294,56.3466515919,563.75 51.1013151239,56.3466905903,573.77 51.1011691185,56.3467295886,583.8 51.101023113,56.346767587,593.76 51.1008771076,56.3468065854,603.79 51.1007311022,56.3468445837,613.76 51.1005850967,56.3468835821,623.77 51.1004390912,56.3469225805,633.79 51.1002930858,56.3469605788,643.76 51.1001470803,56.3469995772,653.78 51.1000000749,56.3470375755,663.8 51.0998540694,56.3470765739,673.83 51.099708064,56.3471145723,683.8 51.0995620585,56.3471535706,693.82 51.099416053,56.347192569,703.87 51.0993290498,56.347215568,709.84 51.0991970449,56.3472495666,718.87 51.0991090416,56.3472735656,724.97 51.0990510394,56.3472885649,728.95 51.0988990332,56.3473395634,739.96 51.0987973478,56.3473982728,750.39 51.0980787602,56.347601575,800.36 51.0976341432,56.3477274802,831.29 51.0969270761,56.3479276325,880.41 51.0963928155,56.3480817067,917.76 51.0958049124,56.3482592705,959.15 51.0952400504,56.3484254945,998.72 51.0941600087,56.3487392229,1074.08 51.092886279,56.3491172994,1163.42 51.091683113,56.3494564963,1246.9 51.0908709224,56.3496750073,1302.74 51.0899780888,56.3499172774,1364.18 51.0893102635,56.35010024,1410.23 51.0884419106,56.3503381905,1470.18 51.0878475278,56.350508374,1511.53 51.0872959867,56.350663618,1549.77 51.0866641623,56.3508448712,1593.76 51.0862047849,56.3509714962,1625.48 51.0855023977,56.3511760586,1674.51 51.0848075711,56.3513732411,1722.75 51.0838027729,56.3516519601,1792.21 51.0829106593,56.3518921602,1853.53 51.0822388736,56.3520818728,1900.12 51.0816016491,56.352264026,1944.44 51.0809403032,56.352462919,1991.11 51.0801911143,56.3526791809,2043.33 51.0797328166,56.3528106659,2075.23 51.0796935736,56.352852336,2080.46 51.0798447692,56.3530087611,2100.24 51.0798112864,56.3530473712,2105.01 51.0791323004,56.3532400539,2152.16 51.0787758864,56.3533480501,2177.26 51.0786246807,56.3533880984,2187.67 51.0784511672,56.3531801021,2213.19</coordinates></LineString>
+  </Placemark>
+</Folder>
+</Document></kml>

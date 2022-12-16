@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document id="root_doc">
+<Schema name="WEB50_POI_POINT" id="WEB50_POI_POINT">
+	<SimpleField name="ID" type="string"></SimpleField>
+	<SimpleField name="DESCR" type="string"></SimpleField>
+	<SimpleField name="TIME_STAMP" type="string"></SimpleField>
+	<SimpleField name="COMMENTS" type="string"></SimpleField>
+	<SimpleField name="SYMBOL" type="string"></SimpleField>
+	<SimpleField name="COORD_ID" type="string"></SimpleField>
+	<SimpleField name="STATUS_ID" type="string"></SimpleField>
+	<SimpleField name="CTIME" type="string"></SimpleField>
+	<SimpleField name="CUSER" type="string"></SimpleField>
+	<SimpleField name="MUSER" type="string"></SimpleField>
+	<SimpleField name="MTIME" type="string"></SimpleField>
+	<SimpleField name="POINT_ID" type="string"></SimpleField>
+	<SimpleField name="TYPE" type="string"></SimpleField>
+</Schema>
+<Folder><name>WEB50_POI_POINT</name>
+  <Placemark>
+	<name>2107.3км</name>
+	<description>2107.3км</description>
+	<ExtendedData><SchemaData schemaUrl="#WEB50_POI_POINT">
+		<SimpleData name="ID">2</SimpleData>
+		<SimpleData name="DESCR">2107.3км челябинск-петровск</SimpleData>
+		<SimpleData name="TIME_STAMP"></SimpleData>
+		<SimpleData name="COMMENTS">2107.3км челябинск-петровск</SimpleData>
+		<SimpleData name="SYMBOL">Waypoint</SimpleData>
+		<SimpleData name="COORD_ID">2</SimpleData>
+		<SimpleData name="STATUS_ID">1</SimpleData>
+		<SimpleData name="CTIME">25.09.2012 10:37:02</SimpleData>
+		<SimpleData name="CUSER">editor</SimpleData>
+		<SimpleData name="MUSER"></SimpleData>
+		<SimpleData name="MTIME"></SimpleData>
+		<SimpleData name="POINT_ID">2</SimpleData>
+		<SimpleData name="TYPE">Waypoint</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>53.1788331,54.4698502</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>2144-2 км</name>
+	<description>2144-2 км</description>
+	<ExtendedData><SchemaData schemaUrl="#WEB50_POI_POINT">
+		<SimpleData name="ID">3</SimpleData>
+		<SimpleData name="DESCR">2144-2 км</SimpleData>
+		<SimpleData name="TIME_STAMP"></SimpleData>
+		<SimpleData name="COMMENTS">2144-2 км</SimpleData>
+		<SimpleData name="SYMBOL">Waypoint</SimpleData>
+		<SimpleData name="COORD_ID">3</SimpleData>
+		<SimpleData name="STATUS_ID">1</SimpleData>
+		<SimpleData name="CTIME">25.09.2012 10:37:02</SimpleData>
+		<SimpleData name="CUSER">editor</SimpleData>
+		<SimpleData name="MUSER"></SimpleData>
+		<SimpleData name="MTIME"></SimpleData>
+		<SimpleData name="POINT_ID">3</SimpleData>
+		<SimpleData name="TYPE">Waypoint</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>52.8143531,54.2365838</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>33,6км гп азнакаево</name>
+	<description>33,6км гп азнакаево</description>
+	<ExtendedData><SchemaData schemaUrl="#WEB50_POI_POINT">
+		<SimpleData name="ID">4</SimpleData>
+		<SimpleData name="DESCR">33,6км гп азнакаево</SimpleData>
+		<SimpleData name="TIME_STAMP"></SimpleData>
+		<SimpleData name="COMMENTS">33,6км гп азнакаево</SimpleData>
+		<SimpleData name="SYMBOL">Waypoint</SimpleData>
+		<SimpleData name="COORD_ID">4</SimpleData>
+		<SimpleData name="STATUS_ID">1</SimpleData>
+		<SimpleData name="CTIME">25.09.2012 10:37:02</SimpleData>
+		<SimpleData name="CUSER">editor</SimpleData>
+		<SimpleData name="MUSER"></SimpleData>
+		<SimpleData name="MTIME"></SimpleData>
+		<SimpleData name="POINT_ID">4</SimpleData>
+		<SimpleData name="TYPE">Waypoint</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>53.1265998,54.8116171</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>35 км азнакаево</name>
+	<description>35 км азнакаево</description>
+	<ExtendedData><SchemaData schemaUrl="#WEB50_POI_POINT">
+		<SimpleData name="ID">5</SimpleData>
+		<SimpleData name="DESCR">35 км азнакаево</SimpleData>
+		<SimpleData name="TIME_STAMP"></SimpleData>
+		<SimpleData name="COMMENTS">35 км азнакаево</SimpleData>
+		<SimpleData name="SYMBOL">Waypoint</SimpleData>
+		<SimpleData name="COORD_ID">5</SimpleData>
+		<SimpleData name="STATUS_ID">1</SimpleData>
+		<SimpleData name="CTIME">25.09.2012 10:37:02</SimpleData>
+		<SimpleData name="CUSER">editor</SimpleData>
+		<SimpleData name="MUSER"></SimpleData>
+		<SimpleData name="MTIME"></SimpleData>
+		<SimpleData name="POINT_ID">5</SimpleData>
+		<SimpleData name="TYPE">Waypoint</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>53.1106997,54.8184676</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>367 км о-з</name>
+	<description>367 км о-з</description>
+	<ExtendedData><SchemaData schemaUrl="#WEB50_POI_POINT">
+		<SimpleData name="ID">6</SimpleData>
+		<SimpleData name="DESCR"></SimpleData>
+		<SimpleData name="TIME_STAMP"></SimpleData>
+		<SimpleData name="COMMENTS"></SimpleData>
+		<SimpleData name="SYMBOL">Waypoint</SimpleData>
+		<SimpleData name="COORD_ID">6</SimpleData>
+		<SimpleData name="STATUS_ID">1</SimpleData>
+		<SimpleData name="CTIME">25.09.2012 10:37:02</SimpleData>
+		<SimpleData name="CUSER">editor</SimpleData>
+		<SimpleData name="MUSER"></SimpleData>
+		<SimpleData name="MTIME"></SimpleData>
+		<SimpleData name="POINT_ID">6</SimpleData>
+		<SimpleData name="TYPE">Waypoint</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>52.2244871,54.4269186</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>78.4км Можга-Елабуга</name>
+	<description>78.4км Можга-Елабуга</description>
+	<ExtendedData><SchemaData schemaUrl="#WEB50_POI_POINT">
+		<SimpleData name="ID">7</SimpleData>
+		<SimpleData name="DESCR">78.4км Можга-Елабуга</SimpleData>
+		<SimpleData name="TIME_STAMP"></SimpleData>
+		<SimpleData name="COMMENTS">78.4км Можга-Елабуга</SimpleData>
+		<SimpleData name="SYMBOL">Waypoint</SimpleData>
+		<SimpleData name="COORD_ID">7</SimpleData>
+		<SimpleData name="STATUS_ID">1</SimpleData>
+		<SimpleData name="CTIME">25.09.2012 10:37:02</SimpleData>
+		<SimpleData name="CUSER">editor</SimpleData>
+		<SimpleData name="MUSER"></SimpleData>
+		<SimpleData name="MTIME"></SimpleData>
+		<SimpleData name="POINT_ID">7</SimpleData>
+		<SimpleData name="TYPE">Waypoint</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>51.9702029,55.8752525</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>82.9км Можга-Елабуга</name>
+	<description>82.9км Можга-Елабуга</description>
+	<ExtendedData><SchemaData schemaUrl="#WEB50_POI_POINT">
+		<SimpleData name="ID">8</SimpleData>
+		<SimpleData name="DESCR">82.9км Можга-Елабуга</SimpleData>
+		<SimpleData name="TIME_STAMP"></SimpleData>
+		<SimpleData name="COMMENTS">82.9км Можга-Елабуга</SimpleData>
+		<SimpleData name="SYMBOL">Waypoint</SimpleData>
+		<SimpleData name="COORD_ID">8</SimpleData>
+		<SimpleData name="STATUS_ID">1</SimpleData>
+		<SimpleData name="CTIME">25.09.2012 10:37:02</SimpleData>
+		<SimpleData name="CUSER">editor</SimpleData>
+		<SimpleData name="MUSER"></SimpleData>
+		<SimpleData name="MTIME"></SimpleData>
+		<SimpleData name="POINT_ID">8</SimpleData>
+		<SimpleData name="TYPE">Waypoint</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>51.9510359,55.8380503</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>абдулино</name>
+	<description>абдулино</description>
+	<ExtendedData><SchemaData schemaUrl="#WEB50_POI_POINT">
+		<SimpleData name="ID">9</SimpleData>
+		<SimpleData name="DESCR"></SimpleData>
+		<SimpleData name="TIME_STAMP"></SimpleData>
+		<SimpleData name="COMMENTS"></SimpleData>
+		<SimpleData name="SYMBOL">Waypoint</SimpleData>
+		<SimpleData name="COORD_ID">9</SimpleData>
+		<SimpleData name="STATUS_ID">1</SimpleData>
+		<SimpleData name="CTIME">25.09.2012 10:37:02</SimpleData>
+		<SimpleData name="CUSER">editor</SimpleData>
+		<SimpleData name="MUSER"></SimpleData>
+		<SimpleData name="MTIME"></SimpleData>
+		<SimpleData name="POINT_ID">9</SimpleData>
+		<SimpleData name="TYPE">Waypoint</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>53.6509663,53.68392</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>Абдулино ЛПУМГ</name>
+	<description>Абдулино ЛПУМГ</description>
+	<ExtendedData><SchemaData schemaUrl="#WEB50_POI_POINT">
+		<SimpleData name="ID">10</SimpleData>
+		<SimpleData name="DESCR">Абдулино ЛПУМГ</SimpleData>
+		<SimpleData name="TIME_STAMP"></SimpleData>
+		<SimpleData name="COMMENTS">Абдулино ЛПУМГ</SimpleData>
+		<SimpleData name="SYMBOL">Waypoint</SimpleData>
+		<SimpleData name="COORD_ID">10</SimpleData>
+		<SimpleData name="STATUS_ID">1</SimpleData>
+		<SimpleData name="CTIME">25.09.2012 10:37:02</SimpleData>
+		<SimpleData name="CUSER">editor</SimpleData>
+		<SimpleData name="MUSER"></SimpleData>
+		<SimpleData name="MTIME"></SimpleData>
+		<SimpleData name="POINT_ID">10</SimpleData>
+		<SimpleData name="TYPE">Waypoint</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>53.6532837,53.6601825</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>автодорога-202КП-Ур-Нпск</name>
+	<description>автодорога-202КП-Ур-Нпск</description>
+	<ExtendedData><SchemaData schemaUrl="#WEB50_POI_POINT">
+		<SimpleData name="ID">11</SimpleData>
+		<SimpleData name="DESCR">напротив кик-2066км-Ур-Нпск</SimpleData>
+		<SimpleData name="TIME_STAMP">09.07.2008 05:58:01</SimpleData>
+		<SimpleData name="COMMENTS">напротив кик-2066км-Ур-Нпск</SimpleData>
+		<SimpleData name="SYMBOL">Car Repair</SimpleData>
+		<SimpleData name="COORD_ID">11</SimpleData>
+		<SimpleData name="STATUS_ID">1</SimpleData>
+		<SimpleData name="CTIME">25.09.2012 10:37:02</SimpleData>
+		<SimpleData name="CUSER">editor</SimpleData>
+		<SimpleData name="MUSER"></SimpleData>
+		<SimpleData name="MTIME"></SimpleData>
+		<SimpleData name="POINT_ID">11</SimpleData>
+		<SimpleData name="TYPE">Car Repair</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>53.5703175,54.7263498</coordinates></Point>
+  </Placemark>
+</Folder>
+</Document></kml>
