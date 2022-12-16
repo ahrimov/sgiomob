@@ -49,24 +49,41 @@ function exportKML(pathToKML, layerID){
 }
 
 async function importKML(layerID, dict, features){
-    
+    let layer = findLayer(layerID);
+
     features = features.filter(feature => {
         if(typeof feature.getGeometry() == 'undefined' || feature.getGeometry() == null || feature.getGeometry().getCoordinates() == ''){
             return false;
         }
+        if(layer.geometryType === "MULTIPOLYGON"){
+            let geom = feature.getGeometry();
+            let string_coords = geom.getCoordinates().toString().split(',');
+            let int_coords = string_coords.map((v) => {return parseFloat(v)});
+            const number_of_points = int_coords.length / 3;
+            if(number_of_points < 3){
+                return false;
+            }
+        }
         return true;
     
     })
-    let layer = findLayer(layerID);
+    
 
     let loading = new LoadScreen(features.length, 'Импорт KML завершён')
     loading.startLoad()
 
     let featureMaxID;
    
-    for(let feature of features){
+    for(let i = 0; i < features.length; i++){
+        let feature = features[i];
         if(compareGeometryTypes(layer.geometryType, feature.getGeometry().getType()) == 0){
-            convertFeatureToLayerGeometry(feature, layer)
+            
+            convertFeatureToLayerGeometry(feature, layer);
+            /*}
+            catch(error){
+                console.log('b');
+                flag = false;
+            }*/
         }
 
         let props;
@@ -108,8 +125,7 @@ async function importKML(layerID, dict, features){
                 let feautureString = format.writeFeature(feature)
                 feautureString = convertToGeometryType(feautureString, layer.geometryType)
                 updates.push(`Geometry = GeomFromText('${feautureString}', 3857)`)
-                query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature_id} `
-                console.log(query);
+                query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature_id} `;
                 requestToDB(query, function(res){
                     for(let old_feature of layer.getSource().getFeatures()){
                         if(old_feature.id == feature_id){
@@ -141,7 +157,6 @@ async function importKML(layerID, dict, features){
                     INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
                     VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
                 ;`
-                console.log(query);
                 requestToDB(query, function(res){
                     feature.id = feature_id
                     feature.layerID = layer.id
@@ -155,11 +170,9 @@ async function importKML(layerID, dict, features){
     }
 
     function convertToGeometryType(inp_string, type){
-        console.log(type)
         let l_brackets = '((';
         let r_brackets = '))';
         if(type === "MULTIPOLYGON"){
-            console.log('a')
             l_brackets = '(((';
             r_brackets = ')))';
         }
@@ -185,7 +198,6 @@ function compareGeometryTypes(first, second){
 
 function convertFeatureToLayerGeometry(feature, layer){
     let new_geom;
-    console.log('convert')
     switch(layer.geometryType){
         case "MULTIPOINT":
             new_geom = new ol.geom.Point(feature.getGeometry().getFirstCoordinate())
@@ -198,10 +210,24 @@ function convertFeatureToLayerGeometry(feature, layer){
                 let geom = feature.getGeometry();
                 let first_coord = geom.getFirstCoordinate();
                 geom.appendCoordinate(first_coord);
-                let g = geom.getCoordinates().toString().split(',');
-                let a = g.map((v) => {return parseInt(v)})
-                console.log(a);
-                new_geom = new ol.geom.Polygon([54, 52, 0, 54, 53, 0, 54, 52, 0]);
+                let string_coords = geom.getCoordinates().toString().split(',');
+                let int_coords = string_coords.map((v) => {return parseFloat(v)});
+                let main_array = [];
+                let outer_contour = [];
+                const number_of_points = int_coords.length / 3;
+                console.log(number_of_points)
+                /*if(number_of_points < 4){
+                    console.log('aaa')
+                    throw "Incorrect polygon";  
+                }*/
+                for(let i = 0; i < number_of_points; i++){
+                    let point = [];
+                    for(let j = 0; j < 3; j++)
+                        point.push(int_coords[i*3 + j]);
+                    outer_contour.push(point);
+                }
+                main_array.push(outer_contour);
+                new_geom = new ol.geom.Polygon(main_array);
             }
             break;
         case "MULTILINESTRING":
@@ -254,6 +280,9 @@ function filterProperties(values, dict, layer){
                 date  = '';
                 error_message[dict[key]] = "Некорректная дата";
                 is_error_in_kml = true;
+            }
+            if(date.toString() === 'Invalid Date'){
+                date = '';
             }
             result[dict[key]] = date;
         }

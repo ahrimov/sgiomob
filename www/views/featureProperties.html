@@ -178,6 +178,12 @@
                 case 'DATE':
                     if(typeof content === 'undefined' || content === '')
                         return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="date" float></ons-input>`
+                    let date = new Date(content).toLocaleString('ru-RU',  {year: 'numeric',month: 'numeric',day: 'numeric'});
+                    let date_string = date.toString();
+                    let pattern = /(\d{1,2})\.(\d{1,2})\.(\d{2,4})/;
+                    if(date_string.search(pattern) === 0){
+                        content = date_string.replace(pattern,'$3-$2-$1');
+                    }
                     return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" type="date" float  ></ons-input>`
                 case 'BOOLEAN':
                     let check = ''
@@ -279,7 +285,7 @@
                         })
                     }, function(error){
                         console.log(`Image didn't create`);
-                        ons.notification.alert({title:"Внимание", message: 'Ошибка камеры'})
+                        //ons.notification.alert({title:"Внимание", message: 'Ошибка камеры'})
                     })
                 }
                 catch(err){
