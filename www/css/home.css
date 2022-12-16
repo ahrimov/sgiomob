@@ -3,60 +3,74 @@
   height: 100%;
   width: 100%;
   font-family: sans-serif;
+  z-index: 1;
 }
 
-.zoom-plus{
-  position: relative;
-  top: 78%;
-  left: 8700%;
-
-}
-
-.zoom-minus{
-  position: relative;
-  top: 80%;
-  left: 8700%;
-}
-
-.buttons{
-  z-index: 1000;
-  width: 1%;
-  height: 100%;
-}
-
-.gps-button{
-  position: relative;
-  top: 64.5%;
-  left: 200%;
-}
-
-
-.dot {
-  height: 12px;
-  width: 12px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  background-color: green;
-}
-
-.att {
-  border-radius: 25px;
-  padding: 3px;
-  border: 1px solid black;
-  width: 2700%;
-  height: 5%;
+#downbar-wrapper {
+  width: 100%;
+  height: 10%;
+      
+  display: none;
+  grid-template-columns: 15% 70% 15%;
   background-color: white;
-  opacity: .7;
-  position: relative;
-  top: 65.5%;
-  left: 200%
 }
 
-.crosshair{
-  width: 50px;
-  height: 50px;
+.downbar {
+  width: 100%;
+  height: 10%;
+      
+  display: none;
+  background-color: white;
+}
+
+.carousel-item-content{
+  text-align: center; 
+  padding: 5%;
+  color: black;
+  height: 100%;
+  width: 180px;
+  white-space: pre-line;
+  font-size: 80%;
+}
+
+.button-icon{
   position: absolute;
-  left: 43.6%;
-  top: 46.3%;
+  left: 50%;
+  top: 50%;
+  text-align: center;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.button-signature{
+  position: relative;
+  bottom: 70%;
+}
+
+.dialog-toolbar{
+  background-color: #2375fa;
+}
+.dialog-toolbar-content{
+  font-size: 12pt;
+  color: white;
+}
+.dialog-close{
+  color: white;
+}
+#dialog-features-content{
+  margin-top: 10vh;
+  max-height: 70vh;
+  overflow: scroll;
+}
+
+.dialog-draw-instrument-coordinate-content{
+  margin-top: 10vh;
+  max-height: 70vh;
+  overflow: scroll;
+  margin-left: 1vh;
+  margin-right: 1vh;
+  margin-bottom: 1vh;
 }

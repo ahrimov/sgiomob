@@ -4,40 +4,55 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!--  CSS Libs -->
         <link rel="stylesheet" href="./libs/v6.14.1-dist/ol.css" type="text/css">
         <link rel="stylesheet" href="./libs/OnsenUI-OnsenUI-dist-956b022/css/onsenui.css">
         <link rel="stylesheet" href="./libs/OnsenUI-OnsenUI-dist-956b022/css/onsen-css-components.min.css">
         <link rel="stylesheet" href="./libs/bootstrap/bootstrap.min.css">
+
+        <!--  CSS Pages -->
         <link rel="stylesheet" href="./css/home.css" type="text/css">
         <link rel="stylesheet" href="./css/features.css" type="text/css">
+        <link rel="stylesheet" href="./css/newFeature.css" type="text/css">
+        <link rel="stylesheet" href="./css/featureProperties.css" type="text/css">
+        <link rel="stylesheet" href="./css/layers.css" type="text/css">
+        <link rel="stylesheet" href="./css/about.css" type="text/css">
+        <link rel="stylesheet" href="./css/modalSelect.css" type="text/css">
+        <link rel="stylesheet" href="./css/notification.css" type="text/css">
 
+        <!--  CSS Buttons -->
+        <link rel="stylesheet" href="./css/Buttons/Crosshair.css" type="text/css">
+        <link rel="stylesheet" href="./css/Buttons/UndoButton.css" type="text/css">
+        <link rel="stylesheet" href="./css/Buttons/CustomControls.css" type="text/css">
+
+        <!--  JS Libs -->
         <script src="./libs/OnsenUI-OnsenUI-dist-956b022/js/onsenui.min.js"></script>
         <script src="./libs/v6.14.1-dist/ol.js"></script>
         <script src="./libs/Sortable/Sortable.js"></script>
     </head>
 
     <body>
-
         <ons-splitter ng-app="myApp">
             <ons-splitter-side collapse id="menu" side="left">
               <ons-page>
-                <ons-toolbar><div class="center">sgiomob</div></ons-toolbar>
+                <ons-toolbar><div class="center">СГИОМОБ</div></ons-toolbar>
                 <ons-list>
                     <ons-list-item tappable onclick="fn.load('./views/layers.html')">
                       Слои
                     </ons-list-item>
                     <ons-list-item tappable onclick="fn.load('./views/about.html')">
-                      About
+                      О приложении
                     </ons-list-item>
                   </ons-list>
               </ons-page>
             </ons-splitter-side>
             <ons-splitter-content>
-                <ons-navigator id="myNavigator" var="myNavigator" page="./views/home.html">
+                <ons-navigator id="myNavigator" var="myNavigator">
             </ons-navigator>
             </ons-splitter-content>
           </ons-splitter>
 
+        <!--  JS Main functionality -->
         <script src="./js/index.js"></script>
         <script src="./js/initial.js"></script>
         <script src="./js/FileManage.js"></script>
@@ -45,6 +60,48 @@
         <script src="./js/XMLStringify.js"></script>
         <script src="./js/DBManage.js"></script>
         <script src="./js/Map.js"></script>
+        <script src="./js/Camera.js"></script>
+        <script src="./js/Geolocation.js"></script>
+        <script src="./js/KMLadapter.js"></script>
+        <script src="./js/LoadScreen.js"></script>
+        <script src="./js/modalSelect.js"></script>
+
+        <!--  JS Utils -->
+        <script src="./js/utilities/stringManipulation.js"></script>
+        <script src="./js/utilities/generators.js"></script>
+
+        <!--  JS Buttons -->
+        <script src="./js/Buttons/Crosshair.js"></script>
+        <script src="./js/Buttons/UndoButton.js"></script>
+        <script src="./js/Buttons/AcceptDrawButton.js"></script>
+        <script src="./js/Buttons/AcceptModifyButton.js"></script>
+        <script src="./js/Buttons/CustomControls.js"></script>
+
         <script src="cordova.js"></script>
+
+        <!-- Select template -->
+        <template id="modalSelect.html">
+          <ons-dialog id="modal-select">
+                  <ons-toolbar class="dialog-toolbar">
+                      <div class="center dialog-toolbar-content">
+                          Значение
+                      </div>
+                      <div class="right">
+                          <ons-toolbar-button onclick="hideDialog('modal-select')">
+                              <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                          </ons-toolbar-button>
+                      </div>
+                  </ons-toolbar>
+                  <div class="modal-select">
+                    <ons-list-item class="select-search">
+                      <ons-input id="select-search" placeholder="Поиск"></ons-input>
+                    </ons-list-item>
+                      <ons-list id="select-list">
+                        
+                      </ons-list>
+                  </div>
+          </ons-dialog>
+      </template>
+
     </body>
 </html>

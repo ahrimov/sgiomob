@@ -3,7 +3,7 @@
     <ons-toolbar>
     <div class="left">
         
-        <ons-toolbar-button onclick="fn.openMenu()"> <!-- use onclick="fn.openMenu()" --> 
+        <ons-toolbar-button id='side-menu-button' onclick="fn.openMenu()"> 
         <ons-icon icon="md-menu"></ons-icon>
         </ons-toolbar-button>
         
@@ -13,13 +13,45 @@
     </div>
 
     <div class="right">
-        <ons-toolbar-button id="push">
+        <ons-toolbar-button id="layers-button">
             <ons-icon icon="md-layers"></ons-icon>
         </ons-toolbar-button>
     </div>
     </ons-toolbar>
 
+    <img class='crosshair' src='../resources/crosshair.png'>
     <div id="map-container"></div>
+
+    <div id="downbar-wrapper">
+        <ons-button modifier="quiet" onclick="carousel_prev()"><ons-icon icon="md-arrow-left" class="button-icon"></ons-icon></ons-button>
+        <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="180px" swipeable id="draw-bar"></ons-carousel>
+        <ons-button modifier="quiet" onclick="carousel_next()"><ons-icon icon="md-arrow-right" class="button-icon"></ons-icon></ons-button>
+    </div>
+
+    <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="180px" swipeable id="draw-instrument-bar" class="downbar">
+        <ons-carousel-item>
+            <ons-button modifier="quiet" class="carousel-item-content" id="instrument-draw-center" onclick="drawInstrumentCenter()">
+                <p class="button-signature">Центр карты</p>
+            </ons-button>
+        </ons-carousel-item>
+        <ons-carousel-item>
+            <ons-button modifier="quiet" class="carousel-item-content" id="intrument-draw-gps" onclick="drawInstrumentGPS()">
+                <p class="button-signature">Местонахождение устройства</p>
+            </ons-button>
+        </ons-carousel-item>
+        <ons-carousel-item>
+            <ons-button modifier="quiet" class="carousel-item-content" id="instrument-draw-coordinate" onclick="showDrawInstrumentDialog()">
+                <p class="button-signature">Координаты</p>
+            </ons-button>
+        </ons-carousel-item>
+    </ons-carousel>
+
+    <template id="carousel-item">
+        <ons-carousel-item>
+            <ons-button class="carousel-item-content" modifier="quiet">
+            </ons-button>
+          </ons-carousel-item>
+    </template>
 
     <template id="dialog_features">
         <ons-dialog id="dialog-features">
@@ -40,33 +72,75 @@
         </ons-dialog>
     </template>
 
+    <template id="dialog_draw_instrument_coordinate">
+        <ons-dialog id="dialog-draw-instrument-coordinate">
+            <ons-toolbar class="dialog-toolbar">
+                <div class="center dialog-toolbar-content">
+                    Координаты
+                </div>
+                <div class="right">
+                    <ons-toolbar-button onclick="hideDialog('dialog-draw-instrument-coordinate')">
+                        <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div class="dialog-draw-instrument-coordinate-content">
+                <p>Введите координаты</p>
+                <div>
+                    <span>Y:</span>
+                    <ons-input id="Y-value" modifier="underbar" type="number" float value="0"></ons-input>
+                </div>
+                <div>
+                    <span>X:</span>
+                    <ons-input id="X-value" modifier="underbar" type="number" float value="0"></ons-input>
+                </div>
+                <ons-button modifier="quiet" onclick="drawInstrumentCoordinate()" style="float:right;">Установить</ons-button>
+                <ons-button modifier="quiet" onclick="hideDialog('dialog-draw-instrument-coordinate')" style="float:right;">Отмена</ons-button>
+            </div>
+        </ons-dialog>
+    </template>
+
     <script>
     ons.getScriptPage().onInit = function() {
         showMap()
-        this.querySelector('#push').onclick = function() {
+        createDrawBar()
+
+        this.querySelector('#layers-button').onclick = function() {
             document.querySelector('#myNavigator').pushPage('./views/layers.html');
         };
+
         this.onShow = function() { 
             map.updateSize();
-            
         };
-        this.onDestroy = function(){
-            console.log('destroy')
-            
-        }
     };
 
+    function homeDisableButtons(){
+        document.querySelector('#layers-button').disabled = true
+        document.querySelector('#side-menu-button').disabled = true
+    }
+
+    function homeEnableButton(){
+        document.querySelector('#layers-button').disabled = false
+        document.querySelector('#side-menu-button').disabled = false
+    }
+
+    function carousel_prev(){
+        let carousel = document.getElementById('draw-bar');
+        carousel.prev();
+    }
+
+    function carousel_next(){
+        let carousel = document.getElementById('draw-bar');
+        carousel.next();
+    }
+
     function openFeatureProperties(feature){
-        var dialog = document.getElementById('dialog-features')
-        if(dialog){
-            dialog.remove()
-        }
-        document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: feature.layerID, featureID: feature.id}});
+        hideDialog('dialog-features')
+        document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {feature: feature}});
     }
 
     function showDialogFeatures(evt){
-        let features = map.getFeaturesAtPixel(evt.pixel)
-        console.log(features.length)
+        let features = map.getFeaturesAtPixel(evt.pixel, {hitTolerance: globalHitTolerance})
         if(features.length == 0){
             return
         }
@@ -100,27 +174,92 @@
             })
     }
 
+    function openDrawBar(){
+        let mapContainer = document.querySelector('#map-container')
+        let drawBar = document.querySelector('#downbar-wrapper')
+        mapContainer.style['height'] = "90%"
+        drawBar.style["display"] = "grid"
+        map.updateSize();
+        document.querySelector('.crosshair').style['top'] = '45%';
+    }
+
+    function closeDrawBar(){
+        let mapContainer = document.querySelector('#map-container')
+        let drawBar = document.querySelector('#downbar-wrapper')
+        mapContainer.style['height'] = "100%"
+        drawBar.style["display"] = "none"
+        map.updateSize();
+        document.querySelector('.crosshair').style['top'] = '50%';
+    }
+
+    function createDrawBar(){
+        let drawBar = document.querySelector('#downbar-wrapper')
+        let drawCarousel = document.querySelector('#draw-bar')
+        layers.sort(function(a, b){
+            return b.getZIndex() - a.getZIndex()
+          })
+        for(let layer of layers){
+            if(!layer.enabled) continue;
+            let template = document.querySelector('#carousel-item')
+            let carouselItem = template.content.cloneNode(true)
+            carouselItem.querySelector('.carousel-item-content').innerHTML = layer.label
+            carouselItem.querySelector('.carousel-item-content').addEventListener('click', function(){
+
+                let drawButton = document.querySelector('.draw-button')
+                drawButton.style['display'] = 'none'
+                let acceptDrawButton = document.querySelector('.accept-draw-button')
+                acceptDrawButton.style['display'] = 'block'
+
+                let fabAcceptDrawButton = document.querySelector('.accept-draw-button-fab')
+                fabAcceptDrawButton.setAttribute('disabled', 'true')
+                
+
+                drawBar.style['display'] = 'none'
+                let drawInstrumentBar = document.querySelector('#draw-instrument-bar')
+                drawInstrumentBar.style['display'] = 'block'
+
+                addDrawInteraction(layer)
+            })
+            drawCarousel.appendChild(carouselItem)
+        }
+    }
+
+    function drawInstrumentCenter(){
+        appendCoordinate(map.getView().getCenter())
+    }
+
+    function drawInstrumentGPS(){
+        let coordinate = ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude])
+        map.getView().setCenter(coordinate)
+        
+        appendCoordinate(coordinate)
+    }
+
+    function showDrawInstrumentDialog(){
+        ons.createElement('dialog_draw_instrument_coordinate', {append: true})
+            .then(function(dialog){
+                dialog.show()
+            })
+    }
+
+    function drawInstrumentCoordinate(){
+        let y = document.querySelector('#Y-value').value
+        let x = document.querySelector('#X-value').value
+        if(y < -90 || y > 90 || x > 180 || x < -180){
+            ons.notification.alert({title:"Внимание", message:'Недопустимые значения координат'})
+            return
+        }
+        hideDialog('dialog-draw-instrument-coordinate')
+        appendCoordinate(ol.proj.fromLonLat([x, y]))
+        map.getView().setCenter(ol.proj.fromLonLat([x, y]))
+    }
+
     function hideDialog(id){
-        document.getElementById(id).remove()
+        let dialog = document.getElementById(id)
+        if(dialog){
+            dialog.remove()
+        }
     }
 
     </script>
-
-    <style>
-        .dialog-toolbar{
-            background-color: #2375fa;
-        }
-        .dialog-toolbar-content{
-            font-size: 12pt;
-            color: white;
-        }
-        .dialog-close{
-            color: white;
-        }
-        #dialog-features-content{
-            margin-top: 10vh;
-            max-height: 70vh;
-            overflow: scroll;
-        }
-    </style>
 </ons-page>

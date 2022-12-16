@@ -1,9 +1,9 @@
-function configParser(data){
+function configParser(data, title){
     var parser = new DOMParser()
     var dom = parser.parseFromString(data, "application/xml")
     var pathToLayers = dom.getElementsByTagName("PathToLayers").item(0).textContent
     var layersName = dom.getElementsByTagName("LayersName").item(0).textContent.split("|")
-    for(layerName of layersName){
+    for(let layerName of layersName){
         openFile(root_directory + pathToLayers + layerName, layerParser)
     }
     var nameDB = dom.getElementsByTagName("NameDB").item(0).textContent
@@ -19,9 +19,9 @@ function configParser(data){
         center: ol.proj.fromLonLat([centerLong, centerLat]),
         zoom: zoom,
         minZoom: minZoom,
-        maxZoom: maxZoom
+        maxZoom: maxZoom,
+        projectin: `EPSG:4326`
     })
-    map.setView(currentMapView)
     if(dom.getElementsByTagName("IsLocalTiles").item(0).textContent === '1'){
         raster.isLocal = true
         const pathToTiles = dom.getElementsByTagName("PathToTiles").item(0).textContent
@@ -62,60 +62,116 @@ function configParser(data){
         }
         updateInfo()
     }
-}
 
-function layerParser(data){
-    if(typeof layerParser.counter == 'undefined'){
-        layerParser.counter = 0
-    }
+    pathToImageStorage = dom.getElementsByTagName("PathToImageStorage").item(0).textContent
+    pathToKMLStorage = dom.getElementsByTagName("PathToKMLStorage").item(0).textContent
+    if(typeof dom.getElementsByTagName("NumberNodesOnMap").item(0).textContent != "undefined"){
+        numberNodesOnMap = dom.getElementsByTagName("NumberNodesOnMap").item(0).textContent;
+    }   
 
-    var parser = new DOMParser()
-    var dom = parser.parseFromString(data, "application/xml")
-    var geometryStyle = dom.getElementsByTagName("geometryStyle").item(0)
-    var geometryType = dom.getElementsByTagName("geometry").item(0).textContent
-    var style;
-    switch(geometryType){
-        case "MULTIPOINT":
-            style = pointStyleParse(geometryStyle)
-            break;
-        case "MULTIPOLYGON":
-            style = polygonStyleParse(geometryStyle)
-            break;
-        case "MULTILINESTRING":
-            style = lineStyleParse(geometryStyle)
-            break;
-        default:
-            style = new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({color: "#305cc9"}),
-                    radius: 3
+
+    function layerParser(data,title){
+        if(typeof layerParser.counter == 'undefined'){
+            layerParser.counter = 0
+        }
+
+        var parser = new DOMParser()
+        var dom = parser.parseFromString(data, "application/xml")
+        var geometryStyle = dom.getElementsByTagName("geometryStyle").item(0)
+        var geometryType = dom.getElementsByTagName("geometry").item(0).textContent
+        var style;
+        switch(geometryType){
+            case "MULTIPOINT":
+                try{
+                    style = pointStyleParse(geometryStyle);
+                } catch(e) {
+                    style = new ol.style.Style({
+                        image: new ol.style.Circle({
+                            fill: new ol.style.Fill({color: generateColor()}),
+                            radius: 3
+                        })
+                    })
+                }
+                break;
+            case "MULTIPOLYGON":
+                try{
+                    style = polygonStyleParse(geometryStyle);
+                }
+                catch(e){
+                    style = new ol.style.Style({
+                        fill: new ol.style.Fill({
+                            color: generateColor()
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: 'rgb(0,0,0)',
+                            width: 1
+                        })
+                    })
+                }
+                break;
+            case "MULTILINESTRING":
+                try{
+                    style = lineStyleParse(geometryStyle);
+                } catch(e){
+                    style = new ol.style.Style({
+                        stroke: new ol.style.Stroke({
+                            color: generateColor(),
+                            width: 2
+                        })
+                    })
+                }
+                break;
+            default:
+                style = new ol.style.Style({
+                    image: new ol.style.Circle({
+                        fill: new ol.style.Fill({color: generateColor()}),
+                        radius: 3
+                    })
                 })
-            })
-    }
-    var layer = new ol.layer.Vector({
-        style: style,
-        renderMode: 'image'
-    }) 
-    layer.id = dom.getElementsByTagName("id").item(0).textContent
-    layer.label = dom.getElementsByTagName("label").item(0).textContent
-    layer.geometryType = geometryType
-    layer.atribs = []
-    var atribs = dom.getElementsByTagName("attribute")
-    for(atrib of atribs){
-            let atribName = atrib.getElementsByTagName('id').item(0).textContent
-            let label = atrib.getElementsByTagName('label').item(0).textContent
-            let type = atrib.getAttribute('type')
-            layer.atribs.push(new LayerAtribs(atribName, label, type))
-    }
+        }
+        var layer = new ol.layer.Vector({
+            style: style,
+            renderMode: 'image'
+        }) 
+        layer.id = dom.getElementsByTagName("id").item(0).textContent
+        layer.label = dom.getElementsByTagName("label").item(0).textContent
+        layer.geometryType = geometryType
+        layer.atribs = []
+        var atribs = dom.getElementsByTagName("attribute")
+        for(atrib of atribs){
+                let atribName = atrib.getElementsByTagName('id').item(0).textContent
+                let label = atrib.getElementsByTagName('label').item(0).textContent
+                let type = atrib.getAttribute('type')
+                if(type == 'ENUM'){
+                    let options = parseEnum(atrib.getElementsByTagName('options').item(0).textContent)
+                    layer.atribs.push(new LayerAtribs(atribName, label, type, options))
+                }
+                else
+                    layer.atribs.push(new LayerAtribs(atribName, label, type))
+        }
 
-    
-    layerParser.counter++
-    layer.setZIndex(layerParser.counter)
+        let enabled = true;
+        if(typeof dom.getElementsByTagName("layerDb").item(0) != "undefined"){
+            let enabled_string = dom.getElementsByTagName("layerDb").item(0).getAttribute('enabled');
+            if(enabled_string === "false"){
+                enabled = false;
+            }
+        }
+        layer.enabled = enabled;
+        
+        layerParser.counter++;
 
-    layers.push(layer)
-    getDataLayerFromBD(layer)
-    map.addLayer(layer)
-    layer.visible = true
+        for(let i in layersName){
+            if(layersName[i] === title){
+                layer.setZIndex(layersName.length - i);
+            }
+        }
+
+        layers.push(layer)
+        getDataLayerFromBD(layer)
+        map.addLayer(layer)
+        layer.visible = true
+    }
 }
 
 
@@ -179,5 +235,25 @@ function lineStyleParse(dom){
             width: parseInt(dom.getElementsByTagName("CssParameter").item(1).textContent)
         })
     })
+}
+
+function parseEnum(options_string){
+    let options_array = options_string.split('|');
+    let options = {}
+    for(let option_string of options_array){
+  	    if(option_string === "") continue;
+	    let key, value;
+  	    if(option_string.search(/[^#]#[^#]/) != -1){
+    	    let found = option_string.split('#');
+      	    key = found[0];
+      	    value = found[1];
+        }
+	    else{
+    	    key = option_string;
+      	    value = option_string;
+        }
+  	    options[key] = value;
+    }
+    return options;
 }
 

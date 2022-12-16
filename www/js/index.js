@@ -3,7 +3,11 @@ document.addEventListener('deviceready', onDeviceReady, false);
 var layers = []
 var features = []
 
-var db, currentMapView;
+var db, dbMetaData, currentMapView;
+
+var pathToImageStorage;
+
+var pathToKMLStorage;
 
 var gps_position;
 
@@ -17,7 +21,14 @@ raster.isLocal = false
 
 var localSource;
 
-var root_directory = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/"
+var root_directory = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/Project/";
+const media_directory = "file:///storage/self/primary/Android/media/io.cordova.sgiomob/";
+
+let numberNodesOnMap = 10000;
+
+const globalHitTolerance = 20;
+
+const selectedColor = "rgb(255, 153, 0)";
 
 function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
@@ -36,6 +47,7 @@ window.fn.load = function(page) {
   var menu = document.getElementById('menu');
   menu.close()
 };
+
 
 
 

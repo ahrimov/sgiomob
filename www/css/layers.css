@@ -1,0 +1,42 @@
+#dialog-file-chooser-content{
+  margin-top: 10vh;
+  max-height: 70vh;
+  max-width: 60vh;
+  overflow: scroll;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+#dialog-comparison-KML-content{
+    margin-top: 10vh;
+    max-height: 70vh;
+    overflow: scroll;
+    margin-left: 2vh;
+    margin-right: 2vh;
+    margin-bottom: 1vh;
+}
+
+#dialog-comparison-KML-content p{
+    font-size: 12px;
+}
+
+.left_property{
+    width: 50%;
+    word-break: break-all;
+}
+
+.layers-more-button{
+    position: absolute;
+    left: 85%;
+    bottom: 5%;
+    color: black;
+}
+
+#path-chooser-KML{
+    margin-top: 10vh;
+    max-height: 70vh;
+    max-width: 60vh;
+    overflow: scroll;
+    font-size: 12px;
+}

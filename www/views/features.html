@@ -40,7 +40,7 @@
                         </ons-select>
                     <div id="select-value-dialog-search"></div>
                     <ons-button modifier="quiet" onclick="acceptFilter()" style="float:right;">Установить</ons-button>
-                    <ons-button modifier="quiet" onclick="clearFilter()" style="float:right;">Отмена</ons-button>
+                    <ons-button modifier="quiet" onclick="clearFilter()" style="float:right;">Очистить фильтр</ons-button>
                 </div>
         </ons-dialog>
     </template>
@@ -57,7 +57,7 @@
         ons.getScriptPage().onInit = function() {
             layerID = this.data.layerID
 
-            getDataFromDB(`SELECT COUNT(*) as count FROM ${layerID}`, function(data){
+            requestToDB(`SELECT COUNT(*) as count FROM ${layerID}`, function(data){
                 count_row = data.rows.item(0).count
             })
             
@@ -104,7 +104,9 @@
         };
 
         function getPropertyPage(featureID){
-            document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {layerID: layerID, featureID: featureID}});
+            let layer = findLayer(layerID)
+            let feature = findFeatureByID(layer, featureID)
+            document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {feature: feature}});
         }
 
         function editFeaturesTable(event){
@@ -143,7 +145,7 @@
             const query = `SELECT  ${layer.atribs[0].name} as id, ${left_row} as left, ${right_row} as right from ${layerID}
                 WHERE ${filter_atrib_name} LIKE '${filter_atrib_value}%' 
                 LIMIT ${limit} OFFSET ${offset}`
-            getDataFromDB(query, function(data){
+             requestToDB(query, function(data){
                 let table = document.querySelector('#features-tbody')
                 for(let i = 0; i < data.rows.length; i++){
                     let line = document.createElement("tr")
@@ -163,13 +165,16 @@
                 let layer = findLayer(layerID)
                 let select = document.querySelector('#select-dialog-search')
                 let options = ''
-                for(atrib of layer.atribs){
+                for(let atrib of layer.atribs){
+                    if(checkServiceField(atrib.name)){
+                        continue;
+                    }
                     options += `<option value="${atrib.name}">${atrib.label}</option>`
                 }
                 select.innerHTML = options
                 select.value = filter_atrib_name
 
-                let typeAtrib = getTypeByAtribName(layer.atribs, filter_atrib_name)
+                let typeAtrib = getAtribByName(layer.atribs, filter_atrib_name)
                 addInputForFilter(typeAtrib)
                 if(filter_atrib_value != '%'){
                     inputSetValue(filter_atrib_value, typeAtrib)
@@ -181,12 +186,12 @@
         function selectingSearch(event){
             let atribName = event.target.value
             let layer = findLayer(layerID)
-            addInputForFilter(getTypeByAtribName(layer.atribs, atribName))
+            addInputForFilter(getAtribByName(layer.atribs, atribName))
         }
 
-        function addInputForFilter(type){
+        function addInputForFilter(atrib){
             let dialog_search_values = document.querySelector('#select-value-dialog-search')
-            switch(type){
+            switch(atrib.type){
                 case 'DOUBLE':
                     let number_input = `<ons-input id="filter-value" modifier="underbar" type="number" float></ons-input>`
                     dialog_search_values.innerHTML = number_input
@@ -202,6 +207,17 @@
                                          <label for="radio-0">Нет</label>`
                     dialog_search_values.innerHTML = boolean_input
                     break
+                case 'ENUM':
+                    let select = `<ons-select id="filter-value">`;
+                    for(let key in atrib.options){
+                        select += `<option value='${key}'>${atrib.options[key]}</option>`;
+                    }
+                    select += `</ons-select>`;
+                    dialog_search_values.innerHTML = select;
+                    break;
+                case 'DATE':
+                    dialog_search_values.innerHTML = `<ons-input id="filter-value" modifier="underbar" type="date" float></ons-input>`
+                    break;
                 default:
                     dialog_search_values.innerHTML = ''
                     break
