@@ -17,6 +17,7 @@
         "cordova-plugin-camera": "^6.0.0",
         "cordova-plugin-file": "^7.0.0",
         "cordova-plugin-geolocation": "^4.1.0",
+        "cordova-plugin-screen-orientation": "^3.0.3",
         "cordova-spatialite-storage": "github:DisyInformationssysteme/Cordova-spatialite-storage#2.0.0",
         "es6-promise-plugin": "^4.2.2"
     },
@@ -34,7 +35,8 @@
             },
             "cordova-plugin-file": {
                 "ANDROIDX_WEBKIT_VERSION": "1.4.0"
-            }
+            },
+            "cordova-plugin-screen-orientation": {}
         }
     }
 }

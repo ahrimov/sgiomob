@@ -113,7 +113,7 @@ function getAtribByName(atribs, atribName){
 }
 
 function getValueFromLayerAtrib(layerID, atribName, value){
-    if(typeof value == 'undefined'){
+    if(typeof value == 'undefined' || value === "undefined"){
         return " "
     }
     let layer = findLayer(layerID)
@@ -130,8 +130,13 @@ function getValueFromLayerAtrib(layerID, atribName, value){
                 case "DATE":
                     return new Date(value).toLocaleString()
                 case "ENUM":
+                    const visible_value = atrib.options[value];
+                    if(typeof visible_value === "undefined")
+                        return "";
                     return atrib.options[value];
                 default:
+                    if(typeof value === "undefined")
+                        return "";
                     return value
             }
         }

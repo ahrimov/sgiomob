@@ -207,6 +207,7 @@
         function showActionSheet(element, event){
           event.stopPropagation()
           var layerID = element.getAttribute("layer_id")
+          const layer = findLayer(layerID);
           ons.openActionSheet({
             cancelable: true,
             buttons: [
@@ -216,6 +217,7 @@
               },
               {
                 label: 'Экспорт kml',
+
               },
               {
                 label: 'Импорт kml',
@@ -233,7 +235,12 @@
                 document.querySelector('#myNavigator').pushPage('./views/features.html', {data: {layerID: layerID}});
               }
               if(index == 1){
-                createFileChooserForKML(layerID, exportKML);
+                if(!layer.enabled){
+                  ons.notification.alert({title:"Внимание", message: "Этот слой нельзя экспортировать"});
+                }
+                else{
+                  createFileChooserForKML(layerID, exportKML);
+                }
               }
               if(index == 2){
                 createFileChooserForKML(layerID, chooseFile);

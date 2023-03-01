@@ -55,15 +55,6 @@ async function importKML(layerID, dict, features){
         if(typeof feature.getGeometry() == 'undefined' || feature.getGeometry() == null || feature.getGeometry().getCoordinates() == ''){
             return false;
         }
-        if(layer.geometryType === "MULTIPOLYGON"){
-            let geom = feature.getGeometry();
-            let string_coords = geom.getCoordinates().toString().split(',');
-            let int_coords = string_coords.map((v) => {return parseFloat(v)});
-            const number_of_points = int_coords.length / 3;
-            if(number_of_points < 3){
-                return false;
-            }
-        }
         return true;
     
     })
@@ -77,13 +68,7 @@ async function importKML(layerID, dict, features){
     for(let i = 0; i < features.length; i++){
         let feature = features[i];
         if(compareGeometryTypes(layer.geometryType, feature.getGeometry().getType()) == 0){
-            
             convertFeatureToLayerGeometry(feature, layer);
-            /*}
-            catch(error){
-                console.log('b');
-                flag = false;
-            }*/
         }
 
         let props;
@@ -189,8 +174,8 @@ async function importKML(layerID, dict, features){
 function compareGeometryTypes(first, second){
     first = first.toLowerCase()
     second = second.toLowerCase()
-    first = first.replace('Multi', '')
-    second = second.replace('Multi', '')
+    first = first.replace('multi', '')
+    second = second.replace('multi', '')
     if(first == second)
         return 1
     return 0
@@ -231,6 +216,7 @@ function convertFeatureToLayerGeometry(feature, layer){
             }
             break;
         case "MULTILINESTRING":
+            console.log(feature.getGeometry().getType());
             if(feature.getGeometry().getType().search('Point') > -1){
                 let first = feature.getGeometry().getFirstCoordinate()
                 let second = feature.getGeometry().getFirstCoordinate()
@@ -238,7 +224,9 @@ function convertFeatureToLayerGeometry(feature, layer){
                 new_geom = new ol.geom.LineString([first, second])
             }
             else{
-                new_geom = new ol.geom.LineString(feature.getGeometry().getCoordinates())
+                const linearRing = feature.getGeometry().getLinearRing();
+                console.log(linearRing.getCoordinates())
+                new_geom = new ol.geom.LineString(linearRing.getCoordinates()) //feature.getGeometry().getCoordinates())
             }
             break;
     }

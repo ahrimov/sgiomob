@@ -48,6 +48,40 @@ window.fn.load = function(page) {
   menu.close()
 };
 
+window.addEventListener("orientationchange", function(){
+  switch(screen.orientation.type){
+    case 'portrait-primary':
+    case 'portrait-secondary':
+      portraitMode();
+      break;
+    case 'landscape-primary':
+    case 'landscape-secondary':
+      landscapeMode();
+      break;
+    default:
+      break;
+  }
+});
+
+function portraitMode(){
+  document.getElementById('zoom-plus').style.top = '75%';
+  document.getElementById('zoom-minus').style.top = '82%';
+  document.getElementById('draw-button').style.top = '90%';
+  document.getElementById('accept-draw-button').style.top = '90%';
+  document.getElementById('gps-button').style.top = '83%';
+  document.getElementById('tile-status-bar').style.top = '90%';
+  document.getElementById('draw-button').style.top = '90%';
+}
+
+function landscapeMode(){
+  document.getElementById('zoom-plus').style.top = '46%';
+  document.getElementById('zoom-minus').style.top = '62%';
+  document.getElementById('draw-button').style.top = '78%';
+  document.getElementById('accept-draw-button').style.top = '78%';
+  document.getElementById('gps-button').style.top = '63%';
+  document.getElementById('tile-status-bar').style.top = '78%';
+}
+
 
 
 
