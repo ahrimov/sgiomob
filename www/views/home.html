@@ -177,7 +177,7 @@
     function openDrawBar(){
         let mapContainer = document.querySelector('#map-container')
         let drawBar = document.querySelector('#downbar-wrapper')
-        mapContainer.style['height'] = "90%"
+        mapContainer.style['height'] = mapContainerSecondSize
         drawBar.style["display"] = "grid"
         map.updateSize();
         document.querySelector('.crosshair').style['top'] = '45%';

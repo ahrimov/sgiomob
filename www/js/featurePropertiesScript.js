@@ -1,4 +1,5 @@
 function featurePropertiesScript(featureFromPage){
+    transformUIToOrientation();
     let clone_raster = new ol.layer.Tile({source: raster.getSource()})
     var local_map = new ol.Map({
             target: 'local-map',

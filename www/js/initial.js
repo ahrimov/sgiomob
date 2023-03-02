@@ -77,7 +77,11 @@ function initial(){
         Пожалуйста, перенесите файлы проекта в папку Android/data /io.cordova.sgiomob .`});*/
     }
 
-    
+    document.addEventListener('resume', function() {
+        setTimeout(() => {
+            transformUIToOrientation();
+        }, 100);
+      }) 
 }
 
 

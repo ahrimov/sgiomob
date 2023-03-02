@@ -2,7 +2,7 @@ class AcceptModifyButton extends ol.control.Control {
     constructor(opt_options) {
       const options = opt_options || {};
   
-      const acceptModifyButton = ons.createElement(`<div class='accept-modify-button'><ons-fab class='accept-modify-button-fab'>
+      const acceptModifyButton = ons.createElement(`<div class='accept-modify-button' id="accept-modify-button"><ons-fab class='accept-modify-button-fab'>
                                                     <ons-icon class='icon' icon='md-check'></ons-icon>
                                                 </ons-fab></div>`)
   
