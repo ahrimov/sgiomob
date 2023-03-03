@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <template version="2">
   <layers>
-    <layerDb enabled="false">
+    <layerDb enabled="true">
       <id>бд_нитки_трубопроводов</id>
       <label>БД_Нитки трубопроводов</label>
       <encoding>UTF-8</encoding>
@@ -211,12 +211,12 @@
       <attrSecondary></attrSecondary>
       <labelsOnMap />
       <geometryStyle>
-        <colorFill>#FFFF0000</colorFill>
+        <colorFill>#FFA80000</colorFill>
         <widthLine>1</widthLine>
         <Rule>
           <LineSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
             <Stroke>
-              <CssParameter name="stroke">#FF0000</CssParameter>
+              <CssParameter name="stroke">#A80000</CssParameter>
               <CssParameter name="stroke-width">1.00</CssParameter>
             </Stroke>
           </LineSymbolizer>

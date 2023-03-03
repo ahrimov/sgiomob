@@ -53,15 +53,15 @@
       <attrSecondary></attrSecondary>
       <labelsOnMap />
       <geometryStyle>
-        <colorFill>#FFFF00FF</colorFill>
+        <colorFill>#FFAF00AF</colorFill>
         <colorBorder>#FF000000</colorBorder>
-        <sizePoint>3</sizePoint>
+        <sizePoint>4</sizePoint>
         <Rule>
           <PointSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
             <Graphic>
               <Mark>
                 <Fill>
-                  <CssParameter name="fill">#FF00FF</CssParameter>
+                  <CssParameter name="fill">#AF00AF</CssParameter>
                 </Fill>
                 <Stroke>
                   <CssParameter name="stroke">#000000</CssParameter>
@@ -69,7 +69,7 @@
                 </Stroke>
                 <WellKnownName>square</WellKnownName>
               </Mark>
-              <Size>3.00</Size>
+              <Size>4.00</Size>
               <Opacity>1.00</Opacity>
               <Rotation>0.00</Rotation>
             </Graphic>
