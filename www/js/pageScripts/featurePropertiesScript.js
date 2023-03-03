@@ -121,7 +121,7 @@ function featurePropertiesScript(featureFromPage){
         case 'DOUBLE':
             if(typeof content === 'undefined' || content === '')
                 return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="number" placeholder="Числовые данные" float></ons-input>`
-            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" float  ></ons-input>`
+            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' type="number" modifier="underbar" float  ></ons-input>`
         case 'DATE':
             if(typeof content === 'undefined' || content === '')
                 return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="date" float></ons-input>`
@@ -167,7 +167,8 @@ function featurePropertiesScript(featureFromPage){
         local_map.getView().fit(source.getExtent())
 
         local_map.on('click', function(evt){
-            centerOnCurrentFeature()
+            //centerOnCurrentFeature()
+            navigator.popPage({times: navigator.pages.length - 1});
         })
     }
 

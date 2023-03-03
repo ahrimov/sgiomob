@@ -103,6 +103,15 @@
             
         };
 
+        function defaultShowFeatureList(){
+            offset = 0
+            let table = document.querySelector('#features-tbody')
+            table.innerHTML = ""
+            if(layerID !== void 0){
+                showFeaturesList(layerID, left_row, right_row, filter_atrib_name, filter_atrib_value, limit, offset);
+            }
+        }
+
         function getPropertyPage(featureID){
             let layer = findLayer(layerID)
             let feature = findFeatureByID(layer, featureID)

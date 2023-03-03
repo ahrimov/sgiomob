@@ -57,6 +57,9 @@ function portraitMode(){
       document.getElementById('accept-modify-button').style.top = acceptModifyButtonPortraitTop;
       document.getElementById('accept-modify-button').style.left = acceptModifyuttonPortraitLeft;
     }
+    if(document.querySelector('#featureProperties .title') !== null){
+        document.querySelector('#featureProperties .title').style.width = "40%"
+    }
   }
   
   function landscapeMode(){
@@ -98,5 +101,8 @@ function portraitMode(){
     if(document.getElementById('accept-modify-button') !== null){   
       document.getElementById('accept-modify-button').style.top = acceptModifyButtonLandscapeTop;
       document.getElementById('accept-modify-button').style.left = acceptModifyButtonLandscapetLeft;
+    }
+    if(document.querySelector('#featureProperties .title') !== null){
+        document.querySelector('#featureProperties .title').style.width = "40%"
     }
   }

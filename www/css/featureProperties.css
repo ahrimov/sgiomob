@@ -16,16 +16,19 @@
     color: dimgrey;
     text-align: right;
     font-size: small;
-    width: 20%;
+    width: 40%;
+    padding-left: 5%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #featureProperties .content{
-    text-align: center;
+    text-align: left;
     padding: 3%;
 }
 
 .metric{
-    text-align: center;
+    text-align: left;
     padding: 3%;
 }
 

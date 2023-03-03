@@ -78,6 +78,7 @@ function saveDB(){
                     internalDB.copyTo(dirExternalDB, dbName, resolve, reject)
                 }).then(function(){
                     console.log('database save succesfully')
+                    defaultShowFeatureList();
                 })
             })
         })
