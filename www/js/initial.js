@@ -95,7 +95,6 @@ function completeLoad(){
     completeLoad.counter++;
     document.querySelector('#load_stage').textContent = `${completeLoad.counter}/${layers.length}`;
     if(completeLoad.counter == layers.length){
-        document.querySelector('#myNavigator').resetToPage('./views/home.html')
-        
+        document.querySelector('#myNavigator').resetToPage('./views/home.html');
     }
 }

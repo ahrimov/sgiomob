@@ -252,7 +252,7 @@ function filterProperties(values, dict, layer){
         if(dict[key] === '' || typeof result[dict[key]] === 'undefined') continue;
         let atrib = getAtribByName(layer.atribs, key)
         if(atrib.type == 'DOUBLE'){
-            result[dict[key]] = result[dict[key]].replace(/[^0-9.]/g, '')
+            result[dict[key]] = result[dict[key]].replace(/[^-0-9.]/g, '')
         }
         if(atrib.type == 'DATE'){
             let date_string = result[dict[key]];

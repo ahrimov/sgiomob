@@ -7,7 +7,9 @@ function showMap(){
         target: 'map-container',
         layers: [raster],
         view: currentMapView,
-        controls: [scaleLine, new CustomControls, new UndoButton, new AcceptDrawButton, new AcceptModifyButton]
+        controls: [scaleLine, new CancelButton, new DrawButton, new GPSButton,
+            new TileStatusBar, new ZoomMinusButton, new ZoomPlusButton, 
+            new UndoButton, new AcceptDrawButton, new AcceptModifyButton]
     });
     for(layer of layers){
         map.addLayer(layer)
