@@ -19,9 +19,9 @@ function initial(){
 
 
     function createMediaDirectory(){
-        let dirName = "file:///storage/self/primary/Android/media/";
+        let dirName = common_media_directory;
         window.resolveLocalFileSystemURI(dirName, function(dirEntry){
-            dirEntry.getDirectory('io.cordova.sgiomob', {create: true}, function(appDirEntry){
+            dirEntry.getDirectory(app_directory_name, {create: true}, function(appDirEntry){
                 appDirEntry.getDirectory('KML', {create: true});
             });
         })
@@ -41,36 +41,26 @@ function initial(){
         let targetDirName = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/";
         window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
             function(resourcesDir) {
-                
-                // get the directory we want to get within the root directory
-                
                 resourcesDir.getDirectory('www/resources/Project', {create: false}, getDirectoryWin, getDirectoryFail);
         });
     
         function getDirectoryWin(directory){
-            console.log('got the directory');
-    
             window.resolveLocalFileSystemURL(targetDirName,
                 function(targetDir) {
-                    
-                    // get the directory we want to get within the root directory
-                   
                     directory.copyTo(targetDir, "Project", copyWin, copyFail);
             });
         }
     
         function getDirectoryFail(){
-            console.log("I failed at getting a directory");
+            ons.notification.alert({title:"Внимание", message:`Ошибка в файлах проекта`});
         }
         
         function copyWin(){
-            console.log('Copying worked!');
-            
-                openFile(path, configParser);
+            openFile(path, configParser);
         }
         
         function copyFail(){
-            console.log('I failed copying');
+            ons.notification.alert({title:"Внимание", message:`Ошибка в файлах проекта`});
         }
         /*
         ons.notification.alert({title:"Внимание", message:`Не найден файл io.cordova.sgiomob/Project/ config.xml.
