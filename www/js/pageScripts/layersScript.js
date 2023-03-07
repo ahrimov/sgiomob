@@ -22,6 +22,8 @@ function changeVisible(element){
   function createFileChooserForKML(layerID, callback){
     ons.createElement('choose_path_to_KML', {append: true})
             .then(function(dialog){
+              document.querySelector('#mediaLabel').innerHTML = visible_media_directory + "KML";
+              document.querySelector('#rootLabel').innerHTML = visible_root_directory + "KML";
                 document.querySelector('#buttonFileChooser').addEventListener('click', () => {
                   const media_radio = document.querySelector('#media-path');
                   const iternal_radio = document.querySelector('#iternal-path');

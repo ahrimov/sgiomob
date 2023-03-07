@@ -21,7 +21,7 @@ function initial(){
     function createMediaDirectory(){
         let dirName = "file:///storage/self/primary/Android/media/";
         window.resolveLocalFileSystemURI(dirName, function(dirEntry){
-            dirEntry.getDirectory('io.cordova.sgiomob', {create: true}, function(appDirEntry){
+            dirEntry.getDirectory('io.cordova.sgiomobmg', {create: true}, function(appDirEntry){
                 appDirEntry.getDirectory('KML', {create: true});
             });
         })
@@ -38,7 +38,7 @@ function initial(){
     function warning(){
         let sourceName = cordova.file.applicationDirectory + 'www/resources/Project';
         console.log(sourceName);
-        let targetDirName = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/";
+        let targetDirName = parent_root_directory;
         window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
             function(resourcesDir) {
                 
