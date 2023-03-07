@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <template version="2">
   <layers>
-    <layerDb enabled="true">
+    <layerDb enabled="false">
       <id>бд_нитки_трубопроводов</id>
       <label>БД_Нитки трубопроводов</label>
       <encoding>UTF-8</encoding>
