@@ -14,24 +14,30 @@ function initial(){
 
     let path = root_directory + "config.xml";
     //openFile(path, configParser);
-    createMediaDirectory();
+    //createMediaDirectory();
     checkIfFileExists(path, fileExist, warning);
 
 
     function createMediaDirectory(){
         let dirName = common_media_directory;
-        window.resolveLocalFileSystemURI(dirName, function(dirEntry){
+        window.resolveLocalFileSystemURL(dirName, function(dirEntry){
             dirEntry.getDirectory(app_directory_name, {create: true}, function(appDirEntry){
                 appDirEntry.getDirectory('KML', {create: true});
             });
         })
         window.resolveLocalFileSystemURL(root_directory, function(dirEntry){
-            dirEntry.getDirectory('KML', {create: true});
+            dirEntry.getDirectory('KML', {create: true}, function(){
+            }, function(err){
+                console.log(err)
+            });
+        }, function(err){
+            console.log(err)
         })
     }
 
     function fileExist(file){
         console.log('Config file exist!');
+        createMediaDirectory();
         updateConfigFile(file, () => {
             openFile(path, configParser);
         });
@@ -78,6 +84,7 @@ function initial(){
         }
         
         function copyWin(){
+            createMediaDirectory();
             openFile(path, configParser);
         }
         
