@@ -3,9 +3,13 @@ function configParser(data, title){
     var dom = parser.parseFromString(data, "application/xml")
     var pathToLayers = dom.getElementsByTagName("PathToLayers").item(0).textContent
     var layersName = dom.getElementsByTagName("LayersName").item(0).textContent.split("|")
-    for(let layerName of layersName){
-        openFile(root_directory + pathToLayers + layerName, layerParser)
-    }
+    
+    updateVectorLayers(pathToLayers, function(){
+        for(let layerName of layersName){
+            openFile(root_directory + pathToLayers + layerName, layerParser)
+        }
+    });
+
     var nameDB = dom.getElementsByTagName("NameDB").item(0).textContent
     var filenameDB = dom.getElementsByTagName("FilenameDB").item(0).textContent
     var pathToDB = dom.getElementsByTagName("PathToDB").item(0).textContent
@@ -255,5 +259,52 @@ function parseEnum(options_string){
   	    options[key] = value;
     }
     return options;
+}
+
+function updateVectorLayers(pathToLayers, callback){
+    let targetDirName = root_directory + pathToLayers;
+    window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
+        function(resourcesDir){
+            resourcesDir.getDirectory('www/resources/Project/VectorLayers', {create: false}, getDirectoryWin, getDirectoryFail)
+        }
+    );
+
+    function getDirectoryWin(directory){
+        window.resolveLocalFileSystemURL(targetDirName,
+            function(targetDir) {
+                console.log('get vector file e')
+                targetDir.removeRecursively(() => {
+                    window.resolveLocalFileSystemURL(root_directory, function(root){
+                        directory.copyTo(root, pathToLayers, copyWin, copyFail);
+                    }, () => {
+                        copyFail();
+                    })
+                }, () => { copyFail(); });
+        }, function(){
+            console.log('get vector fail')
+            window.resolveLocalFileSystemURL(root_directory, function(root){
+                directory.copyTo(root, pathToLayers, copyWin, copyFail);
+            }, () => {
+                ons.notification.alert({title:"Внимание", message:`Ошибка при обновлении файлов описания слоёв.
+                Будут использоваться старые файлы описания.`});
+                copyFail();
+            })
+        });
+    }
+
+    function getDirectoryFail(){
+        ons.notification.alert({title:"Внимание", message:`Ошибка при обновлении файлов описания слоёв.
+         Будут использоваться старые файлы описания.`});
+         callback();
+    }
+
+    function copyWin(){
+        callback();
+    }
+
+    function copyFail(){
+        console.log('copy fail')    
+         callback();
+    }
 }
 

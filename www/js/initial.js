@@ -19,20 +19,42 @@ function initial(){
 
 
     function createMediaDirectory(){
-        let dirName = "file:///storage/self/primary/Android/media/";
+        let dirName = common_media_directory;
         window.resolveLocalFileSystemURI(dirName, function(dirEntry){
-            dirEntry.getDirectory('io.cordova.sgiomobmg', {create: true}, function(appDirEntry){
+            dirEntry.getDirectory(app_directory_name, {create: true}, function(appDirEntry){
                 appDirEntry.getDirectory('KML', {create: true});
             });
         })
-        window.resolveLocalFileSystemURI(root_directory, function(dirEntry){
+        window.resolveLocalFileSystemURL(root_directory, function(dirEntry){
             dirEntry.getDirectory('KML', {create: true});
         })
     }
 
-    function fileExist(){
+    function fileExist(file){
         console.log('Config file exist!');
-        openFile(path, configParser);
+        updateConfigFile(file, () => {
+            openFile(path, configParser);
+        });
+    }
+
+    function updateConfigFile(file, callback){
+        const path_resources_config = cordova.file.applicationDirectory + "www/resources/Project/config.xml";
+        window.resolveLocalFileSystemURL(path_resources_config, function(resource_config){
+            window.resolveLocalFileSystemURL(root_directory, function(root){
+                file.remove(() => {
+                    resource_config.copyTo(root, 'config.xml', function(){
+                        callback();
+                    }, function(){
+                        ons.notification.alert({title:"Внимание", message:`Критическая ошибка. Не удалось обновить конфигурационный файл.`})
+                    })
+                }, function () { callback(); })
+            }, function(){
+                ons.notification.alert({title:"Внимание", message:`не удалось обновить конфигурационный файл.`})
+                callback();
+            })
+        }, function (){
+            callback();
+        })
     }
     
     function warning(){
@@ -41,36 +63,26 @@ function initial(){
         let targetDirName = parent_root_directory;
         window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
             function(resourcesDir) {
-                
-                // get the directory we want to get within the root directory
-                
                 resourcesDir.getDirectory('www/resources/Project', {create: false}, getDirectoryWin, getDirectoryFail);
         });
     
         function getDirectoryWin(directory){
-            console.log('got the directory');
-    
             window.resolveLocalFileSystemURL(targetDirName,
                 function(targetDir) {
-                    
-                    // get the directory we want to get within the root directory
-                   
                     directory.copyTo(targetDir, "Project", copyWin, copyFail);
             });
         }
     
         function getDirectoryFail(){
-            console.log("I failed at getting a directory");
+            ons.notification.alert({title:"Внимание", message:`Ошибка в файлах проекта`});
         }
         
         function copyWin(){
-            console.log('Copying worked!');
-            
-                openFile(path, configParser);
+            openFile(path, configParser);
         }
         
         function copyFail(){
-            console.log('I failed copying');
+            ons.notification.alert({title:"Внимание", message:`Ошибка в файлах проекта`});
         }
         /*
         ons.notification.alert({title:"Внимание", message:`Не найден файл io.cordova.sgiomob/Project/ config.xml.
