@@ -20,19 +20,41 @@ function initial(){
 
     function createMediaDirectory(){
         let dirName = common_media_directory;
-        window.resolveLocalFileSystemURI(dirName, function(dirEntry){
+        window.resolveLocalFileSystemURL(dirName, function(dirEntry){
             dirEntry.getDirectory(app_directory_name, {create: true}, function(appDirEntry){
                 appDirEntry.getDirectory('KML', {create: true});
             });
         })
-        window.resolveLocalFileSystemURI(root_directory, function(dirEntry){
+        window.resolveLocalFileSystemURL(root_directory, function(dirEntry){
             dirEntry.getDirectory('KML', {create: true});
         })
     }
 
-    function fileExist(){
+    function fileExist(file){
         console.log('Config file exist!');
-        openFile(path, configParser);
+        updateConfigFile(file, () => {
+            openFile(path, configParser);
+        });
+    }
+
+    function updateConfigFile(file, callback){
+        const path_resources_config = cordova.file.applicationDirectory + "www/resources/Project/config.xml";
+        window.resolveLocalFileSystemURL(path_resources_config, function(resource_config){
+            window.resolveLocalFileSystemURL(root_directory, function(root){
+                file.remove(() => {
+                    resource_config.copyTo(root, 'config.xml', function(){
+                        callback();
+                    }, function(){
+                        ons.notification.alert({title:"Внимание", message:`Критическая ошибка. Не удалось обновить конфигурационный файл.`})
+                    })
+                }, function () { callback(); })
+            }, function(){
+                ons.notification.alert({title:"Внимание", message:`не удалось обновить конфигурационный файл.`})
+                callback();
+            })
+        }, function (){
+            callback();
+        })
     }
     
     function warning(){

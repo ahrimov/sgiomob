@@ -14,7 +14,7 @@
     </div>
 
     <ons-list-item expandable>
-      <span class="layers-label">Карта OSM</span>
+      <span class="layer-label">Карта OSM</span>
       <div class="expandable-content">
         <ons-switch id="raster-layer-switch"></ons-switch>
           Использовать локальные тайлы
@@ -26,13 +26,13 @@
 
     <template id="layerListItem">
       <div class="list-group-item" onclick="changeVisible(this)">
-        <ons-icon icon="md-reorder" class="reorder-move" size="150%"></ons-icon>
-            <span class="layers-label"></span>
-            <ons-icon class='block-icon' icon='md-block'></ons-icon>
-            <ons-button modifier="quiet" class="layers-more-button" onclick="showActionSheet(this, event)">
-              <ons-icon icon='md-more-vert'></ons-icon>
-            </ons-button>
-        </div>
+          <ons-icon icon="md-reorder" class="reorder-move" size="150%"></ons-icon>
+          <span class="layer-label"></span>
+          <ons-icon class='block-icon' icon='md-block'></ons-icon>
+          <ons-button modifier="quiet" class="layers-more-button" onclick="showActionSheet(this, event)">
+            <ons-icon icon='md-more-vert'></ons-icon>
+          </ons-button>
+      </div>
     </template>
 
     <template id="file_chooser">
@@ -120,10 +120,10 @@
             return b.getZIndex() - a.getZIndex()
           })
           for(layer of layers){
-            let label = clipping(layer.label, 30)
+            //let label = clipping(layer.label, 30)
             
             var item = template.content.cloneNode(true)
-            item.querySelector('.layers-label').textContent = label
+            item.querySelector('.layer-label').textContent = layer.label
             item.querySelector('.list-group-item').setAttribute("data-id", layer.id)
             item.querySelector('.layers-more-button').setAttribute("layer_id", layer.id)
             if(layer.enabled){

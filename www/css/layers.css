@@ -28,9 +28,27 @@
 
 .layers-more-button{
     position: absolute;
-    left: 85%;
-    bottom: 5%;
+    left: 87%;
+    bottom: 14%;
     color: black;
+}
+
+.layer-label{
+    display: inline-block;
+    width: 75%;
+    position: absolute;
+    top: 31%;
+    left: 8%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.block-icon{
+    position: absolute;
+    left: 83%;
+    top: 31%;
+
 }
 
 #path-chooser-KML{

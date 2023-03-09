@@ -262,28 +262,33 @@ function parseEnum(options_string){
 }
 
 function updateVectorLayers(pathToLayers, callback){
-    console.log('get in update')
     let targetDirName = root_directory + pathToLayers;
     window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
         function(resourcesDir){
-            console.log('get in application directory')
             resourcesDir.getDirectory('www/resources/Project/VectorLayers', {create: false}, getDirectoryWin, getDirectoryFail)
         }
     );
 
     function getDirectoryWin(directory){
-        console.log('get in directory win')
         window.resolveLocalFileSystemURL(targetDirName,
             function(targetDir) {
-                console.log('before copy')
-                console.log(targetDirName)
-                console.log(targetDir)
+                console.log('get vector file e')
                 targetDir.removeRecursively(() => {
-                    console.log('suc remove');
-                    directory.copyTo(root_directory, "VectorLayers", copyWin, copyFail);
-                },  () => {
-                    copyFail();
-                });
+                    window.resolveLocalFileSystemURL(root_directory, function(root){
+                        directory.copyTo(root, pathToLayers, copyWin, copyFail);
+                    }, () => {
+                        copyFail();
+                    })
+                }, () => { copyFail(); });
+        }, function(){
+            console.log('get vector fail')
+            window.resolveLocalFileSystemURL(root_directory, function(root){
+                directory.copyTo(root, pathToLayers, copyWin, copyFail);
+            }, () => {
+                ons.notification.alert({title:"Внимание", message:`Ошибка при обновлении файлов описания слоёв.
+                Будут использоваться старые файлы описания.`});
+                copyFail();
+            })
         });
     }
 
@@ -294,14 +299,11 @@ function updateVectorLayers(pathToLayers, callback){
     }
 
     function copyWin(){
-        console.log('almost win')
         callback();
     }
 
     function copyFail(){
-        console.log('copy fail')
-        /*ons.notification.alert({title:"Внимание", message:`Ошибка при обновлении файлов описания слоёв.
-         Будут использоваться старые файлы описания.`});*/
+        console.log('copy fail')    
          callback();
     }
 }
