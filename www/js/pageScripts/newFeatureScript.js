@@ -2,7 +2,7 @@ function newFeatureScipt(pageLayer, pageFeature){
     let layer = pageLayer;
     let feature = pageFeature;   
     let featureImages = []
-    let content  = '<table>'
+    let content  = '<table class="new-feature-content-table">'
     for(let atrib of layer.atribs){
         if(checkServiceField(atrib.name))
         continue
@@ -78,89 +78,89 @@ function newFeatureScipt(pageLayer, pageFeature){
     }
 
     async function saveImageToNewFeature(){
-    let i = 0;
-    saveImageInDB(i, layer, feature);
+        let i = 0;
+        saveImageInDB(i, layer, feature);
     }
 
     function saveImageInDB(i, layer, feature){
-    saveImage(featureImages[i].imageEntry, featureImages[i].imageName, featureImages[i].image_options, layer, feature, function(imgUri){
-        i++;
-        if(i < featureImages.length){
-        saveImageInDB(i, layer, feature)
-        }
-    })
+        saveImage(featureImages[i].imageEntry, featureImages[i].imageName, featureImages[i].image_options, layer, feature, function(imgUri){
+            i++;
+            if(i < featureImages.length){
+            saveImageInDB(i, layer, feature)
+            }
+        })
     }
 
     function inputByType(atrib){
-    switch(atrib.type){
-        case 'DOUBLE':
-        return `<ons-input id='${atrib.name}' modifier="underbar" type="number" placeholder="Числовые данные" float></ons-input>`
-        case 'DATE':
-        return `<ons-input id='${atrib.name}' modifier="underbar" type="date" float></ons-input>`
-        case 'BOOLEAN':
-        return `<ons-checkbox id='${atrib.name}'></ons-checkbox>`
-        case 'ENUM':
-        let select = `<ons-select id='${atrib.name}' onclick="callModalSelectWithLayerAtribs('${layer.id}', '${atrib.name}', '${atrib.name}')">`
-        for(let code in atrib.options){
-            select += `<option value='${code}'>${atrib.options[code]}</option>`
+        switch(atrib.type){
+            case 'DOUBLE':
+                return `<ons-input id='${atrib.name}' modifier="underbar" type="number" placeholder="Числовые данные" float></ons-input>`
+            case 'DATE':
+                return `<ons-input id='${atrib.name}' modifier="underbar" type="date" float></ons-input>`
+            case 'BOOLEAN':
+                return `<ons-checkbox id='${atrib.name}'></ons-checkbox>`
+            case 'ENUM':
+                let select = `<ons-select id='${atrib.name}' onclick="callModalSelectWithLayerAtribs('${layer.id}', '${atrib.name}', '${atrib.name}')">`
+                for(let code in atrib.options){
+                    select += `<option value='${code}'>${atrib.options[code]}</option>`
+                }   
+                select += `</ons-select>`
+                return select
+            default:
+                return `<ons-input id='${atrib.name}' modifier="underbar" placeholder="Текстовые данные" float></ons-input>`
         }
-        select += `</ons-select>`
-        return select
-        default:
-        return `<ons-input id='${atrib.name}' modifier="underbar" placeholder="Текстовые данные" float></ons-input>`
-    }
     }
 
     function convertToGeometryType(inp_string){
-    let string = insert(inp_string, ' Z', inp_string.search(/\(\(/))
-    let res = string.matchAll(/,/g)
-    let offset = 0
-    for(let r of res){
-        string = insert(string, ' 0', r.index + offset)
-        offset += 2
-    }
-    return insert(string, ' 0', string.search(/\)\)/))
+        let string = insert(inp_string, ' Z', inp_string.search(/\(\(/))
+        let res = string.matchAll(/,/g)
+        let offset = 0
+        for(let r of res){
+            string = insert(string, ' 0', r.index + offset)
+            offset += 2
+        }
+        return insert(string, ' 0', string.search(/\)\)/))
     }
 
 
     //camera function (dublicate) 
 
     function clickOpenCamera(){
-    try{
-        openCamera(function(imgUri){
-            getFileEntry(imgUri, function(fileEntry){
+        try{
+            openCamera(function(imgUri){
+                getFileEntry(imgUri, function(fileEntry){
 
-                firstImage();
+                    firstImage();
 
-                let date = new Date()  
-                let imageName = `${layer.id}${formatDate(date)}.jpg`
-                let pathToImage = './' + pathToImageStorage + imageName
-                pathToImage = pathToImage.replace(/\//g, String.raw`\/`)
-                let image_options = {
-                    path: pathToImage,
-                    created: date.toISOString(),
-                    mimeType:"image" + String.raw`\/` + "jpeg",
-                    desc:""
-                }
+                    let date = new Date()  
+                    let imageName = `${layer.id}${formatDate(date)}.jpg`
+                    let pathToImage = './' + pathToImageStorage + imageName
+                    pathToImage = pathToImage.replace(/\//g, String.raw`\/`)
+                    let image_options = {
+                        path: pathToImage,
+                        created: date.toISOString(),
+                        mimeType:"image" + String.raw`\/` + "jpeg",
+                        desc:""
+                    }
 
-                let image = {imageEntry: fileEntry, imageName: imageName, image_options : image_options};
-                featureImages.push(image);
+                    let image = {imageEntry: fileEntry, imageName: imageName, image_options : image_options};
+                    featureImages.push(image);
 
-                let gallery = document.querySelector('.gallery');
-                displayImage(fileEntry.toInternalURL(), gallery);
+                    let gallery = document.querySelector('.gallery');
+                    displayImage(fileEntry.toInternalURL(), gallery);
 
+                }, function(error){
+                    console.log(`Cann't save image: ` + error)
+                    ons.notification.alert({title:"Внимание", message: 'Невозможно сохранить изображение'});
+                })
             }, function(error){
-                console.log(`Cann't save image: ` + error)
-                ons.notification.alert({title:"Внимание", message: 'Невозможно сохранить изображение'});
+                console.log(`Image didn't create`);
+                //ons.notification.alert({title:"Внимание", message: 'Ошибка камеры'});
             })
-        }, function(error){
-            console.log(`Image didn't create`);
-            //ons.notification.alert({title:"Внимание", message: 'Ошибка камеры'});
-        })
-    }
-    catch(err){
-        ons.notification.alert({title:"Внимание", message: 'Что-то пошло не так'})
-    }
+        }
+        catch(err){
+            ons.notification.alert({title:"Внимание", message: 'Что-то пошло не так'})
+        }
     }
 
 

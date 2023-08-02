@@ -10,6 +10,11 @@
     padding: 4%;
 }
 
+.new-feature-content-table{
+    border-spacing: 2vw 0;
+    border-collapse: separate;
+}
+
 .page-content .title{
     color: dimgrey;
     text-align: right;
@@ -18,7 +23,7 @@
 }
 
 .page-content .input{
-    text-align: center;
+    text-align: left;
     padding: 3%;
 }
 
