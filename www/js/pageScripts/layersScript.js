@@ -126,7 +126,7 @@ function changeVisible(element){
         let properties = features[0].getProperties()
         ons.createElement('comparison_KML', {append: true})
             .then(function(dialog){
-                let html = '<table>'
+                let html = '<table class="dialog-comparison-KML-table">'
                 for(let atrib of layer.atribs){
                     html += `<tr class='property'>
                         <td class='left_property title'>${atrib.name}</td>`

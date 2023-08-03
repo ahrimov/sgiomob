@@ -37,6 +37,11 @@
     font-size: 12px;
 }
 
+.dialog-comparison-KML-table{
+    border-spacing: 2vw 1vh;
+    border-collapse: separate;
+}
+
 .left_property{
     width: 50%;
     word-break: break-all;
