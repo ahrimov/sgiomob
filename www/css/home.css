@@ -28,9 +28,19 @@
   padding: 5%;
   color: black;
   height: 100%;
-  width: 180px;
+  width: 100%;
   white-space: pre-line;
-  font-size: 80%;
+  font-size: 1.05rem;
+  line-height: 1.75rem;
+  word-break: break-all;
+  display: table;
+}
+
+.carousel-button-text{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
 }
 
 .button-icon{
@@ -43,11 +53,6 @@
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
-
-.button-signature{
-  position: relative;
-  bottom: 70%;
 }
 
 .dialog-toolbar{

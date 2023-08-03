@@ -86,7 +86,7 @@ function createDrawBar(){
         if(!layer.enabled) continue;
         let template = document.querySelector('#carousel-item')
         let carouselItem = template.content.cloneNode(true)
-        carouselItem.querySelector('.carousel-item-content').innerHTML = layer.label
+        carouselItem.querySelector('.carousel-item-content').innerHTML = `<p class='carousel-button-text'>${layer.label}</p>`
         carouselItem.querySelector('.carousel-item-content').addEventListener('click', function(){
 
             let drawButton = document.querySelector('.draw-button')
