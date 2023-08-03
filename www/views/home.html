@@ -74,29 +74,31 @@
 
     <template id="dialog_draw_instrument_coordinate">
         <ons-dialog id="dialog-draw-instrument-coordinate">
-            <ons-toolbar class="dialog-toolbar">
-                <div class="center dialog-toolbar-content">
-                    Координаты
+                <ons-toolbar class="dialog-toolbar">
+                    <div class="center dialog-toolbar-content">
+                        Координаты
+                    </div>
+                    <div class="right">
+                        <ons-toolbar-button onclick="hideDialog('dialog-draw-instrument-coordinate')">
+                            <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                        </ons-toolbar-button>
+                    </div>
+                </ons-toolbar>
+                <div class="dialog-draw-instrument-coordinate-content">
+                    <p>Введите координаты:</p>
+                    <div class="dialog-draw-instrument-coordinate-block">
+                        <div class="coordinate-block">
+                            <span class="coordinate-label">Y:</span>
+                            <ons-input id="Y-value" class="coordinate-input" modifier="underbar" type="number" float value="0"></ons-input>
+                        </div>
+                        <div class="coordinate-block">
+                            <span class="coordinate-label">X:</span>
+                            <ons-input id="X-value" class="coordinate-input" modifier="underbar" type="number" float value="0"></ons-input>
+                        </div>
+                    </div>
+                    <ons-button modifier="quiet" onclick="drawInstrumentCoordinate()" style="float:right;">Установить</ons-button>
+                    <ons-button modifier="quiet" onclick="hideDialog('dialog-draw-instrument-coordinate')" style="float:right;">Отмена</ons-button>
                 </div>
-                <div class="right">
-                    <ons-toolbar-button onclick="hideDialog('dialog-draw-instrument-coordinate')">
-                        <ons-icon icon="md-close" class="dialog-close"></ons-icon>
-                    </ons-toolbar-button>
-                </div>
-            </ons-toolbar>
-            <div class="dialog-draw-instrument-coordinate-content">
-                <p>Введите координаты</p>
-                <div>
-                    <span>Y:</span>
-                    <ons-input id="Y-value" modifier="underbar" type="number" float value="0"></ons-input>
-                </div>
-                <div>
-                    <span>X:</span>
-                    <ons-input id="X-value" modifier="underbar" type="number" float value="0"></ons-input>
-                </div>
-                <ons-button modifier="quiet" onclick="drawInstrumentCoordinate()" style="float:right;">Установить</ons-button>
-                <ons-button modifier="quiet" onclick="hideDialog('dialog-draw-instrument-coordinate')" style="float:right;">Отмена</ons-button>
-            </div>
         </ons-dialog>
     </template>
 

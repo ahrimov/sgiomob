@@ -1,5 +1,5 @@
 .modal-select{
-    margin-top: 10vh;
+    margin-top: 2vh;
     max-height: 70vh;
     overflow: scroll;
 }
@@ -12,4 +12,8 @@
 
 .select-search{
     position: sticky;
+}
+
+.list-item--material__left{
+    min-width: 30px;
 }

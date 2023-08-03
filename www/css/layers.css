@@ -1,5 +1,5 @@
 #dialog-file-chooser-content{
-  margin-top: 10vh;
+  margin-top: 2vh;
   max-height: 70vh;
   max-width: 60vh;
   overflow: scroll;
@@ -9,7 +9,7 @@
 }
 
 #dialog-comparison-KML-content{
-    margin-top: 10vh;
+    margin-top: 2vh;
     max-height: 70vh;
     overflow: scroll;
     margin-left: 2vh;
@@ -52,9 +52,20 @@
 }
 
 #path-chooser-KML{
-    margin-top: 10vh;
     max-height: 70vh;
     max-width: 60vh;
     overflow: scroll;
     font-size: 12px;
+    padding-top: 1vh;
+    padding-bottom: 0.3vh;
+}
+
+
+.list-item--material__center{
+    padding-right: 4vw;
+}
+
+#buttonFileChooser{
+    margin-right: 1vw;
+    margin-bottom: 0.3vh;
 }

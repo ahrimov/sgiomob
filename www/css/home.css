@@ -57,7 +57,9 @@
 
 .dialog-toolbar{
   background-color: #2375fa;
+  position: relative !important;
 }
+
 .dialog-toolbar-content{
   font-size: 12pt;
   color: white;
@@ -66,16 +68,42 @@
   color: white;
 }
 #dialog-features-content{
-  margin-top: 10vh;
+  margin-top: 2vh;
   max-height: 70vh;
   overflow: scroll;
 }
 
+.dialog{
+  border-radius: 10px;
+}
+
 .dialog-draw-instrument-coordinate-content{
-  margin-top: 10vh;
   max-height: 70vh;
   overflow: scroll;
-  margin-left: 1vh;
-  margin-right: 1vh;
+  margin: 2vh 2vh 1vh 2vh;
+}
+
+.dialog-draw-instrument-coordinate-block{
+  display: flex;
+  flex-direction: column;
+  grid-gap: 1.2vh;
   margin-bottom: 1vh;
+}
+
+.coordinate-block{
+  display: flex;
+  justify-content: center;
+}
+
+.coordinate-label{
+  transform: translateY(15%);
+}
+
+.coordinate-input{
+  width: 23vw;
+  margin-left: 1vw;
+}
+
+input[type=radio]:focus{
+  outline: none;
 }
