@@ -330,12 +330,16 @@ function turnGPS(){
     }));
     gpsSource.addFeature(lineFeature);
 
-
-
     navigator.geolocation.watchPosition(function(geoposition){
         if(listener){
             geoMarker.setGeometry(null);
         }
+
+        // const heading = geoposition.coords.heading;
+        // const view = map.getView();
+        // view.animate({
+        //     rotation: heading * (Math.PI/180)
+        // });
 
         const coords = [geoposition.coords.longitude, geoposition.coords.latitude];
 
@@ -397,9 +401,6 @@ function turnGPS(){
             map.render();
         }
 
-        // if(listener){
-        //     ol.Observable.unByKey(listener);
-        // }
         listener = gpsLayer.on('postrender', moveFeature);
 
         if(distance >= 1){
@@ -412,7 +413,7 @@ function turnGPS(){
     }, function(error){
         console.log(`ERROR: ${error.message}`);
     }, {
-        maximumAge: 1000,
+        maximumAge: 50,
         enableHighAccuracy: true,
         timeout: 600000,
     });
