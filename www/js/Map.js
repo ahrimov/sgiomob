@@ -58,7 +58,7 @@ function showMap(){
     });
 
     updateInfo()
-    turnGPS()
+    turnGPS();
 }
 
 function findLayer(layerID){

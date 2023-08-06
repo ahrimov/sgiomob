@@ -151,18 +151,43 @@
 // //     }
 // }
 
-function turnGPS(){
-    var gpsSource = new ol.source.Vector();
-    var gpsLayer = new ol.layer.Vector({source: gpsSource});
+function turnGPS_old(){
+    const currentPosition = new ol.geom.Point(map.getView().getCenter());
+
+    const geoMarker = new ol.Feature({
+        geometry: currentPosition,
+        style: new ol.style.Style({
+            image: new ol.style.Circle({
+              radius: 7,
+              fill: new ol.style.Fill({color: 'black'}),
+              stroke: new ol.style.Stroke({
+                color: 'white',
+                width: 2,
+              }),
+            }),
+      }),
+    });
+
+    const gpsSource = new ol.source.Vector();
+    const gpsLayer = new ol.layer.Vector({source: gpsSource});
+    gpsSource.addFeature(geoMarker);
+
     map.addLayer(gpsLayer);
-    const coordinates = [];
+    const positions = new ol.geom.LineString([]);
+    const influenceOfAccuracy = 0.01;
+    let speed = 0;
+    let distance = 0;
+
+    let lastTime;
+
+    let postrenderListener = null;
+
     navigator.geolocation.watchPosition(function(position){
         
         let coords = [position.coords.longitude, position.coords.latitude];
-        coordinates.push(coords);
-        coordinates.slice(-20);
         let accuracy = ol.geom.Polygon.circular(coords, position.coords.accuracy);
 
+        const coordinates = positions.getCoordinates();
         const len = coordinates.length;
         if(len > 1){
 
@@ -170,18 +195,31 @@ function turnGPS(){
             const distance = measure(coords[0], coords[1], prevCoord[0], prevCoord[1]);
             // const vector = [coords[0] - prevCoord[0], coords[1] - prevCoord[1]];
             // const length = Math.sqrt(vector[0]**2 + vector[1]**2);
-            if(distance < position.coords.accuracy){
+            if(distance < position.coords.accuracy * influenceOfAccuracy){
                 return;
             } 
         }
-        gpsSource.clear(true);
+
+        positions.appendCoordinate(coords);
+        positions.setCoordinates(positions.getCoordinates().slice(-20));
+
+        spped = position.coords.speed;
+
         gps_position = position;
-        gpsSource.addFeatures([
-            new ol.Feature(
-                accuracy.transform('EPSG:4326', map.getView().getProjection())
-            ),
-            new ol.Feature(new ol.geom.Point(ol.proj.fromLonLat(coords)))
-        ]);
+
+        lastTime = Date.now();
+
+        postrenderListener = gpsLayer.on('postrender', moveFeature);
+
+        geoMarker.setGeometry(null);
+
+        // gpsSource.clear(true);
+        // gpsSource.addFeatures([
+        //     new ol.Feature(
+        //         accuracy.transform('EPSG:4326', map.getView().getProjection())
+        //     ),
+        //     new ol.Feature(new ol.geom.Point(ol.proj.fromLonLat(coords)))
+        // ]);
         
     }, function(error){
         console.log(`ERROR: ${error.message}`);
@@ -194,6 +232,193 @@ function turnGPS(){
 
 
     function measure(lat1, lon1, lat2, lon2){  // generally used geo measurement function
+        var R = 6378.137; // Radius of earth in KM
+        var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+        var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c;
+        return d * 1000; // meters
+    }
+
+    function moveFeature(event){
+        const time = event.frameState.time;
+        const elapsedTime = time - lastTime;
+        distance = (distance + (speed * elapsedTime) / 1e6) % 2;
+        lastTime = time;
+
+        const currentCoordinate = positions.getCoordinateAt(
+            distance > 1 ? 1 : distance
+        );
+
+        if(distance === 1){
+            ol.Observable.unByKey(postrenderListener);
+        }
+
+        currentPosition.setCoordinates(currentCoordinate);
+        const vectorContext = getVectorContext(event);
+        vectorContext.setStyle(styles.geoMarker);
+        vectorContext.drawGeometry(position);
+        // tell OpenLayers to continue the postrender animation
+         map.render();
+    }
+
+    const styles = {
+      'route': new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          width: 6,
+          color: [237, 212, 0, 0.8],
+        }),
+      }),
+      'geoMarker': new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 7,
+          fill: new ol.style.Fill({color: 'black'}),
+          stroke: new ol.style.Stroke({
+            color: 'white',
+            width: 2,
+          }),
+        }),
+      }),
+    };
+}
+
+
+
+function turnGPS(){
+    const influenceOfAccuracy = 0.01;
+    let listener = null;
+    const center = map.getView().getCenter();
+
+    const currentPosition = new ol.geom.Point(center);
+
+    const geoMarker = new ol.Feature({
+        geometry: currentPosition,
+    });
+
+    geoMarker.setStyle(new ol.style.Style({
+                image: new ol.style.Circle({
+                  radius: 7,
+                  fill: new ol.style.Fill({color: 'black'}),
+                  stroke: new ol.style.Stroke({
+                    color: 'white',
+                    width: 2,
+                  }),
+                }),
+            }));
+
+    const gpsSource = new ol.source.Vector();
+    const gpsLayer = new ol.layer.Vector({source: gpsSource});
+    gpsSource.addFeature(geoMarker);
+
+    map.addLayer(gpsLayer); 
+
+    //const linestringCoords = [center, [center[0] + 100000, center[1] + 100000]];
+
+    const positions = new ol.geom.LineString([]);
+
+    const lineFeature = new ol.Feature({
+        geometry: positions,
+    });
+    lineFeature.setStyle(new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: 'black',
+            width: 1,
+        }),
+    }));
+    gpsSource.addFeature(lineFeature);
+
+
+
+    navigator.geolocation.watchPosition(function(geoposition){
+        if(listener){
+            geoMarker.setGeometry(null);
+        }
+
+        const coords = [geoposition.coords.longitude, geoposition.coords.latitude];
+
+        const coordinates = positions.getCoordinates();
+        const len = coordinates.length;
+        if(len > 1){
+            const prevCoord = coordinates[len - 1];
+            const distance = measure(coords[0], coords[1], prevCoord[0], prevCoord[1]);
+            if(distance < geoposition.coords.accuracy * influenceOfAccuracy || listener){
+                return;
+            } 
+        }
+
+        positions.appendCoordinate(coords);
+        positions.setCoordinates(positions.getCoordinates().slice(-2));
+
+        gps_position = geoposition;
+
+        let lastTime;
+        let distance = 0;
+        // start animation
+
+        lastTime = Date.now();
+
+        function moveFeature(event){
+            console.log('move feature')
+            const speed = 700;
+            const time = event.frameState.time;
+            const elapsedTime = time - lastTime;
+            distance = (distance + (speed * elapsedTime) / 1e6) % 2;
+            lastTime = time;
+
+            const currentCoordinate = positions.getCoordinateAt(
+                distance > 1 ? 1 : distance
+            );
+
+            if(distance >= 1){
+                distance = 0;
+                ol.Observable.unByKey(listener);
+                geoMarker.setGeometry(currentPosition);
+                listener = null;
+                return;
+            }
+
+            currentPosition.setCoordinates(ol.proj.fromLonLat(currentCoordinate, map.getView().getProjection()));
+            const vectorContext = ol.render.getVectorContext(event);
+            vectorContext.setStyle( new ol.style.Style({
+                image: new ol.style.Circle({
+                  radius: 7,
+                  fill: new ol.style.Fill({color: 'black'}),
+                  stroke: new ol.style.Stroke({
+                    color: 'white',
+                    width: 2,
+                  }),
+                }),
+            }));
+            vectorContext.drawGeometry(currentPosition);
+            // tell OpenLayers to continue the postrender animation
+            map.render();
+        }
+
+        // if(listener){
+        //     ol.Observable.unByKey(listener);
+        // }
+        listener = gpsLayer.on('postrender', moveFeature);
+
+        if(distance >= 1){
+            distance = 0;
+            ol.Observable.unByKey(listener);
+            geoMarker.setGeometry(currentPosition);
+            return;
+        }
+
+    }, function(error){
+        console.log(`ERROR: ${error.message}`);
+    }, {
+        maximumAge: 1000,
+        enableHighAccuracy: true,
+        timeout: 600000,
+    });
+}
+
+function measure(lat1, lon1, lat2, lon2){  // generally used geo measurement function
     var R = 6378.137; // Radius of earth in KM
     var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
     var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
@@ -203,5 +428,4 @@ function turnGPS(){
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
     return d * 1000; // meters
-}
 }

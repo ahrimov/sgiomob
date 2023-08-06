@@ -15,13 +15,13 @@ class GPSButton extends ol.control.Control {
     }
 
     centerGPS(){
-        var view = new ol.View({
+        const view = new ol.View({
             center: ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude]),
-            zoom: currentMapView.getMaxZoom(),
             minZoom: currentMapView.getMinZoom(),
             maxZoom: currentMapView.getMaxZoom()
         })
-        currentMapView = view
-        map.setView(currentMapView)
+        currentMapView = view;
+        map.setView(currentMapView);
+
     }
 }
