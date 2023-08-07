@@ -33,11 +33,9 @@ class NavigationButton extends ol.control.Control {
         document.getElementById('navigation-button-icon').style.color = '#2375fa';
         window.addEventListener("deviceorientationabsolute", getorientation, true);
         navigationIsActive = true;
-        if(!gps_position) return;
-        map.getView().animate({
-            center: ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude])
-        });
         map.getInteractions().forEach(inter => inter.setActive(false));
+        if(!gps_position) return;
+        map.getView().setCenter(ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude])); 
     }
 }
 
