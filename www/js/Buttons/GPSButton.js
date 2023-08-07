@@ -40,9 +40,17 @@ class GPSButton extends ol.control.Control {
     }
 }
 
-        function getorientation(event) {
-            const compassbearing = Number(360 - event.alpha).toFixed(1);
-            console.log(compassbearing);
-            const view = map.getView();
-            view.setRotation(-compassbearing * (Math.PI/180));
-        }
+let prevRadians;
+
+function getorientation(event) {
+    const accuracy = 0.025;
+    const compassbearing = Number(360 - event.alpha).toFixed();
+    const view = map.getView();
+    let radians = (-compassbearing * (Math.PI/180)).toFixed(2);
+    if(!prevRadians)
+        prevRadians = radians;
+    if(Math.abs(prevRadians - parseFloat(radians)) > accuracy){
+        prevRadians = parseFloat(radians);
+        view.setRotation(radians);
+    }
+}

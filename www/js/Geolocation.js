@@ -286,6 +286,31 @@ function turnGPS_old(){
 }
 
 
+const gpsMarkerStyle = [
+    new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 7,
+          fill: new ol.style.Fill({color: 'rgba(0, 0, 0, 1)'}),
+          stroke: new ol.style.Stroke({
+            color: 'white',
+            width: 2,
+          }),
+        }),
+    }),
+    new ol.style.Style({
+        image: new ol.style.RegularShape({
+            fill: new ol.style.Fill({color: 'rgba(23, 23, 219, 0.54)'}),
+            // stroke: stroke,
+            points: 3,
+            radius: 10,
+            // rotation: Math.PI / 4,
+            angle: 0,
+            displacement: [0, 12],
+        })
+    })
+];
+
+
 
 function turnGPS(){
     const influenceOfAccuracy = 0.01;
@@ -298,16 +323,7 @@ function turnGPS(){
         geometry: currentPosition,
     });
 
-    geoMarker.setStyle(new ol.style.Style({
-                image: new ol.style.Circle({
-                  radius: 7,
-                  fill: new ol.style.Fill({color: 'black'}),
-                  stroke: new ol.style.Stroke({
-                    color: 'white',
-                    width: 2,
-                  }),
-                }),
-            }));
+    geoMarker.setStyle(gpsMarkerStyle);
 
     const gpsSource = new ol.source.Vector();
     const gpsLayer = new ol.layer.Vector({source: gpsSource});
@@ -322,24 +338,13 @@ function turnGPS(){
     const lineFeature = new ol.Feature({
         geometry: positions,
     });
-    lineFeature.setStyle(new ol.style.Style({
-        stroke: new ol.style.Stroke({
-            color: 'black',
-            width: 1,
-        }),
-    }));
+    
     gpsSource.addFeature(lineFeature);
 
     navigator.geolocation.watchPosition(function(geoposition){
         if(listener){
             geoMarker.setGeometry(null);
         }
-
-        // const heading = geoposition.coords.heading;
-        // const view = map.getView();
-        // view.animate({
-        //     rotation: heading * (Math.PI/180)
-        // });
 
         const coords = [geoposition.coords.longitude, geoposition.coords.latitude];
 
@@ -386,16 +391,7 @@ function turnGPS(){
 
             currentPosition.setCoordinates(ol.proj.fromLonLat(currentCoordinate, map.getView().getProjection()));
             const vectorContext = ol.render.getVectorContext(event);
-            vectorContext.setStyle( new ol.style.Style({
-                image: new ol.style.Circle({
-                  radius: 7,
-                  fill: new ol.style.Fill({color: 'black'}),
-                  stroke: new ol.style.Stroke({
-                    color: 'white',
-                    width: 2,
-                  }),
-                }),
-            }));
+            vectorContext.setStyle(gpsMarkerStyle);
             vectorContext.drawGeometry(currentPosition);
             // tell OpenLayers to continue the postrender animation
             map.render();
