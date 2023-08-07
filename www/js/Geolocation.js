@@ -287,26 +287,25 @@ function turnGPS_old(){
 
 
 const gpsMarkerStyle = [
-    new ol.style.Style({
-        image: new ol.style.Circle({
-          radius: 7,
-          fill: new ol.style.Fill({color: 'rgba(0, 0, 0, 1)'}),
-          stroke: new ol.style.Stroke({
-            color: 'white',
-            width: 2,
-          }),
-        }),
+        new ol.style.Style({
+        image: new ol.style.RegularShape({
+            fill: new ol.style.Fill({color: 'rgba(35, 117, 250, 0.65)'}),
+            points: 3,
+            angle: 0,
+            displacement: [0, 8],
+            radius: 11,
+            radius2: 6
+        })
     }),
     new ol.style.Style({
-        image: new ol.style.RegularShape({
-            fill: new ol.style.Fill({color: 'rgba(23, 23, 219, 0.54)'}),
-            // stroke: stroke,
-            points: 3,
-            radius: 10,
-            // rotation: Math.PI / 4,
-            angle: 0,
-            displacement: [0, 12],
-        })
+        image: new ol.style.Circle({
+          radius: 8,
+          fill: new ol.style.Fill({color: '#2375fa'}),
+          stroke: new ol.style.Stroke({
+            color: 'white',
+            width: 3,
+          }),
+        }),
     })
 ];
 
