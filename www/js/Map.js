@@ -9,7 +9,7 @@ function showMap(){
         view: currentMapView,
         controls: [scaleLine, new CancelButton, new DrawButton, new GPSButton,
             new TileStatusBar, new ZoomMinusButton, new ZoomPlusButton, 
-            new UndoButton, new AcceptDrawButton, new AcceptModifyButton]
+            new UndoButton, new AcceptDrawButton, new AcceptModifyButton, new NavigationButton]
     });
     for(layer of layers){
         map.addLayer(layer)

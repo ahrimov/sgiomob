@@ -11,6 +11,8 @@ var pathToKMLStorage;
 
 var gps_position;
 
+let navigationIsActive = false;
+
 var map = new ol.Map();
 
 var raster = new ol.layer.Tile({
