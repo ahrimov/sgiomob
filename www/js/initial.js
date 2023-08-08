@@ -94,6 +94,12 @@ function initial(){
             transformUIToOrientation();
         }, 100);
       }) 
+
+    myNavigator.addEventListener('prepop', function(event) {
+      if (needsCancelNavigator) {
+         event.cancel(); 
+      }
+    });
 }
 
 

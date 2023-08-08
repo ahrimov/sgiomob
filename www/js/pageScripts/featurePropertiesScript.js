@@ -64,7 +64,13 @@ function featurePropertiesScript(featureFromPage){
     document.querySelector('#feature-instrument-delete').addEventListener('click', clickDeleteFeature, false)
 
     document.querySelector('#saveModificationFeature').addEventListener('click', updateFeature, false)
-    document.querySelector('#cancelModification').addEventListener('click', cancel, false)
+    document.querySelector('#cancelModification').addEventListener('click', safetyCancel, false)
+
+    document.querySelector('#feature-properties-back-button').addEventListener('click', () => {
+        if(is_editing_feature){
+            safetyCancel();
+        }
+    }, false);
 
     if(!layer.enabled){
         document.querySelector('#feature-instrument-edit').setAttribute('disabled', false);
@@ -76,15 +82,25 @@ function featurePropertiesScript(featureFromPage){
     let page = navigator.topPage;
     page.onDeviceBackButton = function(event){
         if(is_editing_feature){
-            ons.notification.confirm({title: 'Потверждение', message: 'Отменить изменения?', buttonLabels: ["Нет", "Да"]}) 
+            safetyCancel();
+        }
+        else{
+            navigator.popPage({times: navigator.pages.length - 1});
+        }
+    }
+
+    function safetyCancel(event){
+        if(is_editing_feature){
+            ons.notification.confirm({
+                title: 'Потверждение', 
+                message: 'Отменить изменения?', 
+                buttonLabels: ["Нет", "Да"]
+            }) 
             .then(function(index) {
                 if (index === 1) { 
                     cancel();
                 }
             });
-        }
-        else{
-            navigator.popPage({times: navigator.pages.length - 1});
         }
     }
 
@@ -305,6 +321,7 @@ function featurePropertiesScript(featureFromPage){
 
     function clickEditFeature(){
         is_editing_feature = true;
+        needsCancelNavigator = true;
         let content = document.querySelectorAll('.content')
         for(let index in values){
             content[index].innerHTML = inputByType(layer.atribs[index], values[index])
@@ -371,6 +388,7 @@ function featurePropertiesScript(featureFromPage){
 
     function cancel(){
         is_editing_feature = false;
+        needsCancelNavigator = false;
         let input_content = document.querySelectorAll('.input-content')
         for(let index in values){
             input_content[index].remove()

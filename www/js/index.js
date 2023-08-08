@@ -13,6 +13,8 @@ var gps_position;
 
 let navigationMode = NAVIGATION_MODE.DISABLED;
 
+let needsCancelNavigator = false;
+
 var map = new ol.Map();
 
 var raster = new ol.layer.Tile({
