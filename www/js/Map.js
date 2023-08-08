@@ -9,7 +9,8 @@ function showMap(){
         view: currentMapView,
         controls: [scaleLine, new CancelButton, new DrawButton, new GPSButton,
             new TileStatusBar, new ZoomMinusButton, new ZoomPlusButton, 
-            new UndoButton, new AcceptDrawButton, new AcceptModifyButton, new NavigationButton]
+            new UndoButton, new AcceptDrawButton, new AcceptModifyButton, new NavigationButton],
+        interaction: ol.interaction.defaults({altShiftDragRotate: false, pinchRotate: false})
     });
     for(layer of layers){
         map.addLayer(layer)
@@ -515,7 +516,25 @@ function convertGeometryType(type){
     }
 }
 
+/**
+ * Функцция поиска слоя карты по имени  
+**/
+function getLayerById(id = ''){
+    const layers = map.getLayers().getArray();
+    for(let layer of layers){
+        if(layer.get('id') === id){
+            return layer;
+        }
+    }
+}
 
 
-
-
+function getFeatureByName(name = '' , layer){
+    if(!layer) return;
+    const features = layer.getSource().getFeatures();
+    for(let feature of features){
+        if(feature.get('name') === name){
+            return feature;
+        }
+    }
+}

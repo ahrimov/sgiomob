@@ -295,7 +295,7 @@ const gpsMarkerStyle = [
             displacement: [0, 8],
             radius: 11,
             radius2: 6,
-            rotateWithView: true
+            rotateWithView: false
         })
     }),
     new ol.style.Style({
@@ -318,7 +318,15 @@ const gpsAccuracyStyle = new ol.style.Style({
     })
 })
 
-
+const navigationArrowStyle = new ol.style.Style({
+    image: new ol.style.Icon({
+        src: '../resources/navigation-arrow-white.png',
+        color: '#2375fa',
+        crossOrigin: 'anonymous',
+        scale: 0.3,
+        rotateWithView: false
+    })
+});
 
 function turnGPS(){
     const influenceOfAccuracy = 0.01;
@@ -327,15 +335,23 @@ function turnGPS(){
 
     const currentPosition = new ol.geom.Point(center);
 
-    const geoMarker = new ol.Feature();
+    const geoMarker = new ol.Feature({name: GEO_MARKER_NAME});
 
     geoMarker.setStyle(gpsMarkerStyle);
 
-    const gpsAccuracy = new ol.Feature();
+    const gpsAccuracy = new ol.Feature({
+        name: GPS_ACCURACY_NAME
+    });
     gpsAccuracy.setStyle(gpsAccuracyStyle);
 
     const gpsSource = new ol.source.Vector();
-    const gpsLayer = new ol.layer.Vector({source: gpsSource});
+    const gpsLayer = new ol.layer.Vector({
+        id: GPS_LAYER_ID,
+        source: gpsSource,
+        //updateWhileAnimating: true,
+        updateWhileInteracting: true
+    });
+
     gpsSource.addFeatures([geoMarker, gpsAccuracy]);
 
 
@@ -352,9 +368,18 @@ function turnGPS(){
     gpsSource.addFeature(lineFeature);
 
     navigator.geolocation.watchPosition(function(geoposition){
-        if(listener){
-            geoMarker.setGeometry(null);
-        }
+        // if(listener){
+        //     geoMarker.setGeometry(null);
+        // }
+
+        // if(navigationMode === NAVIGATION_MODE.DISABLED){
+        //     const heading = geoposition.coords.heading;
+        //     const radians = (heading * (Math.PI/180)).toFixed(2);
+        //     gpsMarkerStyle[0].getImage().setRotation(radians);
+        //     geoMarker.setStyle(gpsMarkerStyle);
+            
+        //     //geoMarker.getStyle().getImage().setRotation(radians);
+        // }
 
         const coords = [
             parseFloat(geoposition.coords.longitude.toFixed(5)), 
@@ -383,9 +408,26 @@ function turnGPS(){
         let accuracy = ol.geom.Polygon.circular(coords, geoposition.coords.accuracy);
         gpsAccuracy.setGeometry(accuracy.transform('EPSG:4326', map.getView().getProjection()));
 
-        if(navigationIsActive){
+        if(navigationMode === NAVIGATION_MODE.HOLD_CENTER_MAP){
             map.getView().setCenter(ol.proj.fromLonLat(coords, map.getView().getProjection()));
         }
+
+
+        // switch(navigationMode){
+        //     case NAVIGATION_MODE.DISABLED:
+        //         break;
+        //     case NAVIGATION_MODE.TURN_NAVIGATION_ARROW:
+        //         break;
+        //     case NAVIGATION_MODE.HOLD_CENTER_MAP:
+        //         map.getView().setCenter(ol.proj.fromLonLat(coords, map.getView().getProjection()));
+        //         break;
+        //     default: break;
+        // }
+
+        // if(navigationIsActive){
+        //     map.getView().setCenter(ol.proj.fromLonLat(coords, map.getView().getProjection()));
+        //     geoMarker.setStyle(navigationArrowStyle);
+        // }
 
         // let lastTime;
         // let distance = 0;
@@ -438,16 +480,31 @@ function turnGPS(){
         timeout: 600000,
     });
 
+    let localPrevRadians;
+
+    let viewRotation = 0;
+
      window.addEventListener("deviceorientationabsolute", function(event){
-        const accuracy = 0.025;
+        const accuracy = 0.001;
         const compassbearing = Number(360 - event.alpha).toFixed();
         let radians = (compassbearing * (Math.PI/180)).toFixed(2);
-        if(gpsMarkerStyle[0].getImage());
-        if(!navigationIsActive){
-            gpsMarkerStyle[0].getImage().setRotation(radians);
+        if(!localPrevRadians){
+            localPrevRadians = radians;
+        }
+        if(Math.abs(localPrevRadians - radians) < accuracy) return;
+        if(navigationMode === NAVIGATION_MODE.DISABLED){
+            gpsMarkerStyle[0].getImage().setRotation(viewRotation + parseFloat(radians));
             geoMarker.setStyle(gpsMarkerStyle);
+            localPrevRadians = radians;
+        }
+        if(navigationMode === NAVIGATION_MODE.TURN_NAVIGATION_ARROW){
+            geoMarker.getStyle().getImage().setRotation(viewRotation + parseFloat(radians));
         }
      }, true);
+
+     map.getView().on('change:rotation', function(event){
+        viewRotation = map.getView().getRotation();
+     })
 }
 
 function measure(lat1, lon1, lat2, lon2){  // generally used geo measurement function
@@ -460,4 +517,24 @@ function measure(lat1, lon1, lat2, lon2){  // generally used geo measurement fun
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
     return d * 1000; // meters
+}
+
+function turnOnNavigation(){
+    const layer = getLayerById(GPS_LAYER_ID);
+    if(!layer) return;
+
+    const geoMarker = getFeatureByName(GEO_MARKER_NAME, layer);
+    geoMarker.setStyle(navigationArrowStyle);
+    const gpsAccuracy = getFeatureByName(GPS_ACCURACY_NAME, layer);
+    gpsAccuracy.setStyle(new ol.style.Style({}));
+}
+
+function turnOffNavigation(){
+    const layer = getLayerById(GPS_LAYER_ID);
+    if(!layer) return;
+
+    const geoMarker = getFeatureByName(GEO_MARKER_NAME, layer);
+    geoMarker.setStyle(gpsMarkerStyle);
+    const gpsAccuracy = getFeatureByName(GPS_ACCURACY_NAME, layer);
+    gpsAccuracy.setStyle(gpsAccuracyStyle);
 }

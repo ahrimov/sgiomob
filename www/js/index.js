@@ -11,7 +11,7 @@ var pathToKMLStorage;
 
 var gps_position;
 
-let navigationIsActive = false;
+let navigationMode = NAVIGATION_MODE.DISABLED;
 
 var map = new ol.Map();
 
