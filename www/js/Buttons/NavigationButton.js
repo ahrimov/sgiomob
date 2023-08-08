@@ -18,7 +18,10 @@ class NavigationButton extends ol.control.Control {
 
     trackDevice(){
 
-        if(!gps_position) return;
+        if(!gps_position) {
+            ons.notification.toast('Ожидание gps-сигнала', {timeout: 1000, animation: "ascend"}); 
+            return;
+        }
 
         switch(navigationMode){
             case NAVIGATION_MODE.DISABLED:
