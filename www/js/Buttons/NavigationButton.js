@@ -37,6 +37,9 @@ class NavigationButton extends ol.control.Control {
                 window.addEventListener("deviceorientationabsolute", getorientation, true);
                 map.getView().setCenter(ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude]));
                 map.getInteractions().forEach(x => x.setActive(false));
+                const gpsLayer = getLayerById(GPS_LAYER_ID);
+                const geoMarker = getFeatureByName(GEO_MARKER_NAME, gpsLayer);
+                geoMarker.getStyle().getImage().setRotation(0);
                 // map.once('pointermove',  function(){
                 //     if(navigationMode !== NAVIGATION_MODE.HOLD_CENTER_MAP) return;
                 //     navigationMode = NAVIGATION_MODE.TURN_NAVIGATION_ARROW;
@@ -72,9 +75,5 @@ function getorientation(event) {
     if(Math.abs(prevRadians - parseFloat(radians)) > accuracy){
         prevRadians = parseFloat(radians);
         view.setRotation(radians);
-
-        const gpsLayer = getLayerById(GPS_LAYER_ID);
-        const geoMarker = getFeatureByName(GEO_MARKER_NAME, gpsLayer);
-        geoMarker.getStyle().getImage().setRotation(-radians);
     }
 }

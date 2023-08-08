@@ -9,7 +9,8 @@ function showMap(){
         view: currentMapView,
         controls: [scaleLine, new CancelButton, new DrawButton, new GPSButton,
             new TileStatusBar, new ZoomMinusButton, new ZoomPlusButton, 
-            new UndoButton, new AcceptDrawButton, new AcceptModifyButton, new NavigationButton],
+            new UndoButton, new AcceptDrawButton, new AcceptModifyButton, new NavigationButton,
+            new CompassArrow],
         interaction: ol.interaction.defaults({altShiftDragRotate: false, pinchRotate: false})
     });
     for(layer of layers){

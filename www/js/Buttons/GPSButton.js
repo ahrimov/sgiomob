@@ -14,19 +14,10 @@ class GPSButton extends ol.control.Control {
         gpsButton.addEventListener('click', this.centerGPS.bind(this), false);
     }
 
-
     centerGPS(){
         if(!gps_position) return;
         map.getView().animate({
             center: ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude])
         });
-        // const view = new ol.View({
-        //     center: ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude]),
-        //     zoom: map.getView().getZoom(),
-        //     minZoom: currentMapView.getMinZoom(),
-        //     maxZoom: currentMapView.getMaxZoom()
-        // })
-        // currentMapView = view;
-        // map.setView(currentMapView);
     }
 }

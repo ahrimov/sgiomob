@@ -498,12 +498,19 @@ function turnGPS(){
             localPrevRadians = radians;
         }
         if(navigationMode === NAVIGATION_MODE.TURN_NAVIGATION_ARROW){
-            geoMarker.getStyle().getImage().setRotation(viewRotation + parseFloat(radians));
+            const style = geoMarker.getStyle();
+            style.getImage().setRotation(viewRotation + parseFloat(radians));
+            geoMarker.setStyle(style);
+            localPrevRadians = radians;
         }
      }, true);
 
      map.getView().on('change:rotation', function(event){
         viewRotation = map.getView().getRotation();
+        if(navigationMode === NAVIGATION_MODE.TURN_NAVIGATION_ARROW || 
+            navigationMode === NAVIGATION_MODE.HOLD_CENTER_MAP){
+            document.getElementById('compass-arrow').style.transform = `rotate(${viewRotation}rad)`;
+        }
      })
 }
 
@@ -523,6 +530,10 @@ function turnOnNavigation(){
     const layer = getLayerById(GPS_LAYER_ID);
     if(!layer) return;
 
+    document.getElementById('compass-arrow').style.display = 'block';
+    const viewRotation = map.getView().getRotation();
+    document.getElementById('compass-arrow').style.transform = `rotate(${viewRotation}rad)`;
+
     const geoMarker = getFeatureByName(GEO_MARKER_NAME, layer);
     geoMarker.setStyle(navigationArrowStyle);
     const gpsAccuracy = getFeatureByName(GPS_ACCURACY_NAME, layer);
@@ -532,6 +543,8 @@ function turnOnNavigation(){
 function turnOffNavigation(){
     const layer = getLayerById(GPS_LAYER_ID);
     if(!layer) return;
+
+    document.getElementById('compass-arrow').style.display = 'none';
 
     const geoMarker = getFeatureByName(GEO_MARKER_NAME, layer);
     geoMarker.setStyle(gpsMarkerStyle);
