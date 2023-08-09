@@ -24,6 +24,21 @@
         </div>
     </ons-list-item>
 
+    <ons-list id="base-raster-layers-list"></ons-list>
+
+    <template id="baseRasterLayerListItem">
+      <ons-list-item expandable>
+        <span class="label-base-raster-layer"></span>
+        <div class="expandable-content">
+          <ons-switch class="base-raster-local-switch"></ons-switch>
+          Использовать локальные тайлы
+          </br>
+          <ons-switch class="base-raster-switch-visible"></ons-switch>
+          <span>Показывать слой</span>
+        </div>
+      </ons-list-item>
+    </template>
+
     <template id="layerListItem">
       <div class="list-group-item" onclick="changeVisible(this)">
           <ons-icon icon="md-reorder" class="reorder-move" size="150%"></ons-icon>
@@ -110,7 +125,6 @@
 </template>
 
     <script>
-      var app = {}
         ons.getScriptPage().onInit = function() {
           var list = document.querySelector("#layerListWithHandle")
           var template = document.querySelector('#layerListItem')
@@ -160,6 +174,8 @@
             raster.visible = !raster.visible
             raster.setVisible(raster.visible)
           })
+
+          createBaseRasterList();
         }
 
       Sortable.create(layerListWithHandle, {

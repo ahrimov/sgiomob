@@ -5,7 +5,7 @@ function showMap(){
 
     map = new ol.Map({
         target: 'map-container',
-        layers: [raster],
+        layers: [raster, ...baseRasterLayers],
         view: currentMapView,
         controls: [scaleLine, new CancelButton, new DrawButton, new GPSButton,
             new TileStatusBar, new ZoomMinusButton, new ZoomPlusButton, 

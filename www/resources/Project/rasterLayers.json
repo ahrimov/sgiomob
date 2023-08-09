@@ -7,9 +7,9 @@
 		"icon": "",
 		"projection": "EPSG:4326",
 		"remote_url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-		"local_path": "Android/media/io.corodova.sgiomob/TileTrees/OSM",
+		"local_path": "Android/media/io.corodova.sgiomob/TileTrees/OSM/{z}/{x}/{y}.png",
 		"zoomLevel": 22,
-		"caching": false
+		"useLocalTiles": false
 	}, {
 		"id": "Yandex.Map (Satelite)",
 		"descr": "Яндекс.Карта (Спутник)",
@@ -18,9 +18,9 @@
 		"icon": "",
 		"projection": "EPSG:4326",
 		"remote_url": "https://core-sat.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
-		"local_path": "Android/media/io.corodova.sgiomob/TileTrees/YandexSatelite",
+		"local_path": "Android/media/io.corodova.sgiomob/TileTrees/YandexSatelite/{z}/{x}/{y}.jpg",
 		"zoomLevel": 22,
-		"chaching": false
+		"useLocalTiles": false
 	}, {
 		"id": "Yandex.Map",
 		"descr": "Яндекс.Карта",
@@ -29,8 +29,8 @@
 		"icon": "",
 		"projection": "EPSG:4326",
 		"remote_url": "https://core-renderer-tiles.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
-		"local_path": "Android/media/io.corodova.sgiomob/TileTrees/YandexMap",
+		"local_path": "Android/media/io.corodova.sgiomob/TileTrees/YandexMap/{z}/{x}/{y}.png",
 		"zoomLevel": 22,
-		"chaching": false
+		"useLocalTiles": false
 	}
 ]

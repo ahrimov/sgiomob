@@ -70,7 +70,15 @@ function configParser(data, title){
     const pathToBaseRasterLayers = dom.getElementsByTagName("PathToBaseRasterLayers")?.item(0)?.textContent;
     if(typeof pathToBaseRasterLayers !== "undefined"){
         openFileFromProject(pathToBaseRasterLayers, function(text){
-            console.log(text);
+            try{
+                const jsonArray = JSON.parse(text);
+                baseRasterLayers = parseBaseRasterLayers(jsonArray);
+            } catch(e){
+                ons.notification.alert({
+                    title:"Внимание", 
+                    messageHTML:`<p class="notification-alert">Некорректный json-файл: ${pathToBaseRasterLayers} </p>`
+                });
+            }
         }, true);
     }
 
@@ -314,3 +322,22 @@ function updateVectorLayers(pathToLayers, callback){
     }
 }
 
+function parseBaseRasterLayers(jsonArray){
+    return jsonArray.map((json) => {
+        return new ol.layer.Tile({
+            id: json.id,
+            descr: json.descr,
+            visible: json.visible,
+            order: parseInt(json.order),
+            icon: json.icon,
+            maxZoom: json.zoomLevel,
+            useLocalTiles: json.useLocalTiles,
+            local_path: json.local_path,
+            remote_url: json.remote_url,
+            source: new ol.source.XYZ({
+                //projection: json.projection,
+                url: json.useLocalTiles ? json.local_path : json.remote_url
+            })
+        });
+    });
+}

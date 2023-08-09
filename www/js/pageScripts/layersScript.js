@@ -186,3 +186,20 @@ function changeVisible(element){
     event.stopPropagation()
     showRasterSheet()
   }
+
+function createBaseRasterList(){
+  const template = document.querySelector('#baseRasterLayerListItem');
+  const list = document.querySelector('#base-raster-layers-list');
+  console.log(map.getLayers());
+  baseRasterLayers.forEach((layer) => {
+    const listItem = template.content.cloneNode(true);
+    listItem.querySelector('.label-base-raster-layer').innerHTML = layer.get('descr');
+    if(layer.getVisible())
+      listItem.querySelector('.base-raster-switch-visible').setAttribute('checked');
+    listItem.querySelector('.base-raster-switch-visible').addEventListener('change',  () => {
+      const visibility = layer.getVisible();
+      layer.setVisible(!visibility);
+    });
+    list.appendChild(listItem);
+  });
+}
