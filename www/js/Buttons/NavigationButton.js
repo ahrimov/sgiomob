@@ -14,9 +14,12 @@ class NavigationButton extends ol.control.Control {
         navButton.addEventListener('click', this.trackDevice.bind(this), false);
     }
 
-    //isActive = false;
-
     trackDevice(){
+
+        if(!hasGeolocationPermission){
+            ons.notification.toast('Доступ к геолокации заблокирован', {timeout: 1000, animation: "ascend"}); 
+            return;
+        }
 
         if(!gps_position) {
             ons.notification.toast('Ожидание gps-сигнала', {timeout: 1000, animation: "ascend"}); 

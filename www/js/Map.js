@@ -58,9 +58,23 @@ function showMap(){
             }
         })
     });
+    
+    let deniedCount = 0;
 
-    updateInfo()
-    turnGPS();
+    function requestNavigation(){
+        navigator.geolocation.getCurrentPosition(() => {
+            hasGeolocationPermission = true;
+            turnGPS();
+        }, (error) => {
+            deniedCount++;
+            if(deniedCount < 5){
+                setTimeout(requestNavigation, 1000);
+            }
+        });
+    }
+    
+    updateInfo();
+    requestNavigation();
 }
 
 function findLayer(layerID){

@@ -15,7 +15,15 @@ class GPSButton extends ol.control.Control {
     }
 
     centerGPS(){
-        if(!gps_position) return;
+        if(!hasGeolocationPermission){
+            ons.notification.toast('Доступ к геолокации заблокирован', {timeout: 1000, animation: "ascend"}); 
+            return;
+        }
+
+        if(!gps_position) {
+            ons.notification.toast('Ожидание gps-сигнала', {timeout: 1000, animation: "ascend"}); 
+            return;
+        }
         map.getView().animate({
             center: ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude])
         });

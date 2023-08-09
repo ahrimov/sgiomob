@@ -15,6 +15,8 @@ let navigationMode = NAVIGATION_MODE.DISABLED;
 
 let needsCancelNavigator = false;
 
+let hasGeolocationPermission = false;
+
 var map = new ol.Map();
 
 var raster = new ol.layer.Tile({
