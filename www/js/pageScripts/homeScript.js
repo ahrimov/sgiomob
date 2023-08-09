@@ -25,6 +25,7 @@ function openFeatureProperties(feature){
 
 function showDialogFeatures(evt){
     let features = map.getFeaturesAtPixel(evt.pixel, {hitTolerance: globalHitTolerance})
+    features = features.filter(feature => !isServiceFeature(feature));
     if(features.length == 0){
         return
     }
