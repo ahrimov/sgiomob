@@ -32,7 +32,7 @@ const gpsAccuracyStyle = new ol.style.Style({
 
 const navigationArrowStyle = new ol.style.Style({
     image: new ol.style.Icon({
-        src: '../resources/navigation-arrow-white.png',
+        src: '../resources/navigation-arrow-white-empty.png',
         color: '#2375fa',
         crossOrigin: 'anonymous',
         scale: 0.3,
@@ -187,4 +187,19 @@ function turnOffNavigation(){
     geoMarker.setStyle(gpsMarkerStyle);
     const gpsAccuracy = getFeatureByName(GPS_ACCURACY_NAME, layer);
     gpsAccuracy.setStyle(gpsAccuracyStyle);
+}
+
+let prevRadians;
+
+function getOrientation(event) {
+    const accuracy = 0.025;
+    const compassbearing = Number(360 - event.alpha).toFixed();
+    const view = map.getView();
+    let radians = (-compassbearing * (Math.PI/180)).toFixed(2);
+    if(!prevRadians)
+        prevRadians = radians;
+    if(Math.abs(prevRadians - parseFloat(radians)) > accuracy){
+        prevRadians = parseFloat(radians);
+        view.setRotation(radians);
+    }
 }

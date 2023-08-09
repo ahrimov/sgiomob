@@ -26,6 +26,10 @@ function portraitMode(){
     document.getElementById('accept-draw-button').style.left = acceptDrawButtonPortraitLeft;
     document.getElementById('gps-button').style.top = gpsButtonPortraitTop;
     document.getElementById('gps-button').style.left = gpsButtonPortraitLeft;
+    document.getElementById('nav-button').style.top = navigatorPortraitTop;
+    document.getElementById('nav-button').style.left = navigatorPortraitLeft;
+    document.getElementById('hold-center-button').style.top = holdCenterPortraitTop;
+    document.getElementById('hold-center-button').style.left = holdCenterPortraitLeft;
     document.getElementById('tile-status-bar').style.top = tileStatusBarPortraitTop;
     document.getElementById('tile-status-bar').style.left = tileStatusBarPortraitLeft;
     mapContainerDownBarHeight = pageContentDownBarPortraitHeight;
@@ -73,6 +77,10 @@ function portraitMode(){
     document.getElementById('tile-status-bar').style.top = tileStatusBarLandscapeTop;
     document.getElementById('gps-button').style.left = gpsButtonLandscapeLeft;
     document.getElementById('tile-status-bar').style.left = tileStatusBarLandscapeLeft;
+    document.getElementById('nav-button').style.top = navigatorLandscapeTop;
+    document.getElementById('nav-button').style.left = navigatorLandscapeLeft;
+    document.getElementById('hold-center-button').style.top = holdCenterLandscapeTop;
+    document.getElementById('hold-center-button').style.left = holdCenterLandscapeLeft;
     mapContainerDownBarHeight = pageContentDownBarLandscapeHeight;
     crosshairDownbarTop = crosshairDownBarLandscapeTop ;
     let drawBar = document.querySelector('#downbar-wrapper');

@@ -9,6 +9,10 @@ const acceptModifyButtonPortraitTop = "90%";
 const acceptModifyuttonPortraitLeft = "83%";
 const gpsButtonPortraitTop = "83%";
 const gpsButtonPortraitLeft = "2%";
+const navigatorPortraitTop = "76%";
+const navigatorPortraitLeft = "2%";
+const holdCenterPortraitTop = "69%";
+const holdCenterPortraitLeft = "2%";
 const tileStatusBarPortraitTop = "90%";
 const tileStatusBarPortraitLeft = "2%";
 
@@ -29,6 +33,10 @@ const acceptModifyButtonLandscapeTop = "78%";
 const acceptModifyButtonLandscapetLeft = "84%";
 const gpsButtonLandscapeTop = "60%";
 const gpsButtonLandscapeLeft = "1%";
+const navigatorLandscapeTop = "44%";
+const navigatorLandscapeLeft = "1%";
+const holdCenterLandscapeTop = "28%";
+const holdCenterLandscapeLeft = "1%";
 const tileStatusBarLandscapeTop = "78%";
 const tileStatusBarLandscapeLeft = "1%";
 

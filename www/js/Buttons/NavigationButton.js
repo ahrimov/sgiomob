@@ -35,51 +35,39 @@ class NavigationButton extends ol.control.Control {
                 map.getView().animate({
                     center: ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude])
                 });
+                document.getElementById('hold-center-button').style.display = 'block';
                 break;
+            // case NAVIGATION_MODE.TURN_NAVIGATION_ARROW:
+            //     navigationMode = NAVIGATION_MODE.HOLD_CENTER_MAP;
+            //     document.getElementById('navigation-button-icon').style.color = '#ffffff';
+            //     document.getElementById('ons-nav-button').style.backgroundColor = '#2375fa';
+            //     window.addEventListener("deviceorientationabsolute", getorientation, true);
+            //     map.getView().setCenter(ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude]));
+            //     map.getInteractions().forEach(x => x.setActive(false));
+            //     const gpsLayer = getLayerById(GPS_LAYER_ID);
+            //     const geoMarker = getFeatureByName(GEO_MARKER_NAME, gpsLayer);
+            //     geoMarker.getStyle().getImage().setRotation(0);
+            //     break;
             case NAVIGATION_MODE.TURN_NAVIGATION_ARROW:
-                navigationMode = NAVIGATION_MODE.HOLD_CENTER_MAP;
-                document.getElementById('navigation-button-icon').style.color = '#ffffff';
-                document.getElementById('ons-nav-button').style.backgroundColor = '#2375fa';
-                window.addEventListener("deviceorientationabsolute", getorientation, true);
-                map.getView().setCenter(ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude]));
-                map.getInteractions().forEach(x => x.setActive(false));
-                const gpsLayer = getLayerById(GPS_LAYER_ID);
-                const geoMarker = getFeatureByName(GEO_MARKER_NAME, gpsLayer);
-                geoMarker.getStyle().getImage().setRotation(0);
-                // map.once('pointermove',  function(){
-                //     if(navigationMode !== NAVIGATION_MODE.HOLD_CENTER_MAP) return;
-                //     navigationMode = NAVIGATION_MODE.TURN_NAVIGATION_ARROW;
-                //     document.getElementById('navigation-button-icon').style.color = '#2375fa';
-                //     document.getElementById('ons-nav-button').style.backgroundColor = '#ffffff';
-                //     window.removeEventListener("deviceorientationabsolute", getorientation, true);
-                // });
-                break;
-            case NAVIGATION_MODE.HOLD_CENTER_MAP:
                 navigationMode =  NAVIGATION_MODE.DISABLED;
                 document.getElementById('navigation-button-icon').style.color = '#000000';
                 document.getElementById('ons-nav-button').style.backgroundColor = '#ffffff';
-                window.removeEventListener("deviceorientationabsolute", getorientation, true);
+                document.getElementById('hold-center-button').style.display = 'none';
+                turnOffNavigation();
+                break;
+            case NAVIGATION_MODE.HOLD_CENTER_MAP:
+                navigationMode = NAVIGATION_MODE.DISABLED;
+                document.getElementById('hold-center-button-icon').style.color = '#000000';
+                document.getElementById('ons-hold-center-button').style.backgroundColor = '#ffffff';
+                document.getElementById('navigation-button-icon').style.color = '#000000';
+                document.getElementById('ons-nav-button').style.backgroundColor = '#ffffff';
+                document.getElementById('hold-center-button').style.display = 'none';
+                window.removeEventListener('deviceorientationabsolute', getOrientation, true);
+                map.getInteractions().forEach(x => x.setActive(true));
                 const view = map.getView();
                 view.setRotation(0);
                 turnOffNavigation();
-                map.getInteractions().forEach(x => x.setActive(true));
-                break;
             default: break;
         }
-    }
-}
-
-let prevRadians;
-
-function getorientation(event) {
-    const accuracy = 0.025;
-    const compassbearing = Number(360 - event.alpha).toFixed();
-    const view = map.getView();
-    let radians = (-compassbearing * (Math.PI/180)).toFixed(2);
-    if(!prevRadians)
-        prevRadians = radians;
-    if(Math.abs(prevRadians - parseFloat(radians)) > accuracy){
-        prevRadians = parseFloat(radians);
-        view.setRotation(radians);
     }
 }
