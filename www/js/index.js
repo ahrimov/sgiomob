@@ -29,6 +29,9 @@ var localSource;
 
 let numberNodesOnMap = defaultNumberNodesOnMap;
 
+// Растровая подложка
+const baseRasterLayer = [];
+
 function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     initial()

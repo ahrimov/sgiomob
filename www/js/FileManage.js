@@ -75,3 +75,33 @@ function showAllFilesAtDir(pathToDir, succes){
         })
     })
 }
+
+function openFileFromProject(relativePath,  callback, checkApplicationDirectory = true){
+    window.resolveLocalFileSystemURL(root_directory + relativePath, readFile, function(error){
+        if(checkApplicationDirectory){
+            const applicationProjectDirectory = cordova.file.applicationDirectory + 'www/resources/Project/';
+            window.resolveLocalFileSystemURL(applicationProjectDirectory + relativePath, readFile, onError); 
+        }
+        else{
+            onError(error);
+        }
+    });
+
+    function readFile(file){
+        file.file(function (file) {
+            var reader = new FileReader();
+            reader.onloadend = function(evt){
+                callback(this.result, file.name);
+            }
+            reader.readAsText(file, 'utf-8');
+        });
+    }
+
+    function onError(error){
+        console.log("Error while open file:", relativePath);
+        ons.notification.alert({
+            title:"Внимание", 
+            messageHTML:`<p class="notification-alert">Ошибка при открытии файла: ${relativePath} </p>`
+        });
+    }
+}

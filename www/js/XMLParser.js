@@ -67,12 +67,18 @@ function configParser(data, title){
         updateInfo()
     }
 
+    const pathToBaseRasterLayers = dom.getElementsByTagName("PathToBaseRasterLayers")?.item(0)?.textContent;
+    if(typeof pathToBaseRasterLayers !== "undefined"){
+        openFileFromProject(pathToBaseRasterLayers, function(text){
+            console.log(text);
+        }, true);
+    }
+
     pathToImageStorage = dom.getElementsByTagName("PathToImageStorage").item(0).textContent
     pathToKMLStorage = dom.getElementsByTagName("PathToKMLStorage").item(0).textContent
     if(typeof dom.getElementsByTagName("NumberNodesOnMap").item(0).textContent != "undefined"){
         numberNodesOnMap = dom.getElementsByTagName("NumberNodesOnMap").item(0).textContent;
-    }   
-
+    } 
 
     function layerParser(data,title){
         if(typeof layerParser.counter == 'undefined'){

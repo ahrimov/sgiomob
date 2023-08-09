@@ -32,6 +32,7 @@
 				<PathToTiles></PathToTiles>
 			</LocalTiles>
 		</RasterLayers>
+		<PathToBaseRasterLayers>rasterLayers.json</PathToBaseRasterLayers>
 	</layers>
 	<NumberNodesOnMap>100000</NumberNodesOnMap>
 	<storage>
