@@ -40,7 +40,7 @@ function configParser(data, title){
                         window.resolveLocalFileSystemURL(root_directory + pathToTiles + 'empty_tile.png', function(fileEntry){
                             imageTile.getImage().src = fileEntry.toInternalURL();
                         }, function(error){
-                            console.log('Not find a tile')
+                            console.log("Tile wasn't found")
                         })
                       })
                     }
@@ -57,7 +57,7 @@ function configParser(data, title){
                         window.resolveLocalFileSystemURL(root_directory + pathToTiles + 'empty_tile.png', function(fileEntry){
                             imageTile.getImage().src = fileEntry.toInternalURL();
                         }, function(error){
-                            console.log('Not find a tile')
+                            console.log("Tile wasn't found")
                         })
                       })
                     }
