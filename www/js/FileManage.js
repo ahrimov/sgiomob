@@ -77,10 +77,10 @@ function showAllFilesAtDir(pathToDir, succes){
 }
 
 function openFileFromProject(relativePath,  callback, checkApplicationDirectory = true){
-    window.resolveLocalFileSystemURL(root_directory + relativePath, readFile, function(error){
+    const applicationProjectDirectory = cordova.file.applicationDirectory + 'www/resources/Project/';
+    window.resolveLocalFileSystemURL(applicationProjectDirectory + relativePath, readFile, function(error){
         if(checkApplicationDirectory){
-            const applicationProjectDirectory = cordova.file.applicationDirectory + 'www/resources/Project/';
-            window.resolveLocalFileSystemURL(applicationProjectDirectory + relativePath, readFile, onError); 
+            window.resolveLocalFileSystemURL(root_directory + relativePath, readFile, onError); 
         }
         else{
             onError(error);

@@ -324,20 +324,33 @@ function updateVectorLayers(pathToLayers, callback){
 
 function parseBaseRasterLayers(jsonArray){
     return jsonArray.map((json) => {
+        let source;
+        if(json.projection === 'EPSG:3395'){
+            source = new ol.source.XYZ({
+                projection: json.projection,
+                url: json.useLocalTiles ? json.local_path : json.remote_url,
+                tileGrid: ol.tilegrid.createXYZ({
+                    extent: [-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244]
+                })
+            });
+        }
+        else{
+            source = new ol.source.XYZ({
+                projection: json.projection,
+                url: json.useLocalTiles ? json.local_path : json.remote_url
+            });
+        }
         return new ol.layer.Tile({
             id: json.id,
             descr: json.descr,
             visible: json.visible,
             order: parseInt(json.order),
             icon: json.icon,
-            maxZoom: json.zoomLevel,
+            maxZoom: 24,
             useLocalTiles: json.useLocalTiles,
             local_path: json.local_path,
             remote_url: json.remote_url,
-            source: new ol.source.XYZ({
-                //projection: json.projection,
-                url: json.useLocalTiles ? json.local_path : json.remote_url
-            })
+            source: source
         });
     });
 }

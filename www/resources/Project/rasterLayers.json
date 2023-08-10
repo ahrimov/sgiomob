@@ -5,10 +5,9 @@
 		"visible": true,
 		"order": 1,
 		"icon": "",
-		"projection": "EPSG:4326",
+		"projection": "EPSG:3857",
 		"remote_url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
 		"local_path": "Android/media/io.corodova.sgiomob/TileTrees/OSM/{z}/{x}/{y}.png",
-		"zoomLevel": 22,
 		"useLocalTiles": false
 	}, {
 		"id": "Yandex.Map (Satelite)",
@@ -16,10 +15,9 @@
 		"visible": false,
 		"order": 2,
 		"icon": "",
-		"projection": "EPSG:4326",
+		"projection": "EPSG:3395",
 		"remote_url": "https://core-sat.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
 		"local_path": "Android/media/io.corodova.sgiomob/TileTrees/YandexSatelite/{z}/{x}/{y}.jpg",
-		"zoomLevel": 22,
 		"useLocalTiles": false
 	}, {
 		"id": "Yandex.Map",
@@ -27,10 +25,9 @@
 		"visible": false,
 		"order": 3,
 		"icon": "",
-		"projection": "EPSG:4326",
+		"projection": "EPSG:3395",
 		"remote_url": "https://core-renderer-tiles.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
 		"local_path": "Android/media/io.corodova.sgiomob/TileTrees/YandexMap/{z}/{x}/{y}.png",
-		"zoomLevel": 22,
 		"useLocalTiles": false
 	}
 ]
