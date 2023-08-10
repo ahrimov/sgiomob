@@ -190,7 +190,8 @@ function changeVisible(element){
 function createBaseRasterList(){
   const template = document.querySelector('#baseRasterLayerListItem');
   const list = document.querySelector('#base-raster-layers-list');
-  baseRasterLayers.forEach((layer) => {
+  const sortBaseLayers = baseRasterLayers.sort((a, b) => b.getZIndex() - a.getZIndex());
+  sortBaseLayers.forEach((layer) => {
     const listItem = template.content.cloneNode(true);
     listItem.querySelector('.label-base-raster-layer').innerHTML = layer.get('descr');
     if(layer.getVisible())
