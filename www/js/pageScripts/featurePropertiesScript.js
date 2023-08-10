@@ -1,6 +1,12 @@
 function featurePropertiesScript(featureFromPage){
     transformUIToOrientation();
-    let clone_raster = new ol.layer.Tile({source: raster.getSource()})
+    const visibleBaseLayer = baseRasterLayers.filter(layer => layer.get('visible'));
+    const currentBaseLayer = visibleBaseLayer.sort((a, b) => b.getZIndex() - a.getZIndex())[0];
+    let clone_raster;
+    if(typeof currentBaseLayer === 'undefined')
+        clone_raster = new ol.layer.Tile({source: new ol.source.OSM({})});
+    else 
+        clone_raster = new ol.layer.Tile({source: currentBaseLayer.getSource()});
     var local_map = new ol.Map({
             target: 'local-map',
             controls: [],

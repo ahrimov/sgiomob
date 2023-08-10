@@ -5,7 +5,7 @@ function showMap(){
 
     map = new ol.Map({
         target: 'map-container',
-        layers: [raster, ...baseRasterLayers],
+        layers: [...baseRasterLayers],
         view: currentMapView,
         controls: [scaleLine, new CancelButton, new DrawButton, new GPSButton,
             new TileStatusBar, new ZoomMinusButton, new ZoomPlusButton, 
@@ -165,13 +165,20 @@ function getValueFromLayerAtrib(layerID, atribName, value){
 
 
  function updateInfo(){
-    if(raster.isLocal){
-        document.querySelector('#info-label').innerHTML = "Оффлайн"
-        document.querySelector('.dot').setAttribute('style', 'background-color: #bbb;')
+    const visibleBaseLayer = baseRasterLayers.filter(layer => layer.get('visible'));
+    let isOnline = false; 
+    visibleBaseLayer.forEach(layer => {
+        if(!layer.get('useLocalTiles')){
+            isOnline = true;
+        }
+    });
+    if(isOnline){
+        document.querySelector('#info-label').innerHTML = "Онлайн";
+        document.querySelector('.dot').setAttribute('style', 'background-color: green;');   
     }
     else{
-        document.querySelector('#info-label').innerHTML = "Онлайн"
-        document.querySelector('.dot').setAttribute('style', 'background-color: green;')
+        document.querySelector('#info-label').innerHTML = "Оффлайн";
+        document.querySelector('.dot').setAttribute('style', 'background-color: #bbb;');
     }
  }
 

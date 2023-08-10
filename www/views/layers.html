@@ -13,17 +13,7 @@
     <div id="layerListWithHandle" class="list-group">
     </div>
 
-    <ons-list-item expandable>
-      <span>Карта OSM</span>
-      <div class="expandable-content">
-        <ons-switch id="raster-layer-switch"></ons-switch>
-          Использовать локальные тайлы
-          </br>
-          <ons-switch id="raster-layer-switch-visible"></ons-switch>
-          <span>Показывать подложку</span>
-        </div>
-    </ons-list-item>
-
+    <div>Растровые подложки</div>
     <ons-list id="base-raster-layers-list"></ons-list>
 
     <template id="baseRasterLayerListItem">
@@ -132,7 +122,6 @@
             return b.getZIndex() - a.getZIndex()
           })
           for(layer of layers){
-            //let label = clipping(layer.label, 30)
             
             var item = template.content.cloneNode(true)
             item.querySelector('.layer-label').textContent = layer.label
@@ -146,34 +135,6 @@
             }
             list.appendChild(item)
           }
-
-          if(typeof localSource == 'undefined'){
-            document.querySelector('#raster-layer-switch').setAttribute('disabled', 'true')
-          }
-
-          if(raster.isLocal){
-            document.querySelector('#raster-layer-switch').setAttribute('checked', 'true')
-          }
-              
-          document.querySelector('#raster-layer-switch').addEventListener('change', function(){
-            raster.isLocal = !raster.isLocal
-            if(raster.isLocal){
-              raster.setSource(localSource)
-            }
-            else{
-              raster.setSource(new ol.source.OSM({}))
-            }
-            updateInfo()
-          })
-
-          if(raster.visible){
-            document.querySelector('#raster-layer-switch-visible').setAttribute('checked', 'true')
-          }
-
-          document.querySelector('#raster-layer-switch-visible').addEventListener('change', function(){
-            raster.visible = !raster.visible
-            raster.setVisible(raster.visible)
-          })
 
           createBaseRasterList();
         }

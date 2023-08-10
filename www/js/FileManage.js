@@ -76,11 +76,16 @@ function showAllFilesAtDir(pathToDir, succes){
     })
 }
 
-function openFileFromProject(relativePath,  callback, checkApplicationDirectory = true){
-    const applicationProjectDirectory = cordova.file.applicationDirectory + 'www/resources/Project/';
-    window.resolveLocalFileSystemURL(applicationProjectDirectory + relativePath, readFile, function(error){
+function openFileFromProject(relativePath,  callback, firstCheckApplicationDirectory = true){
+    let firstDirectory = root_directory + relativePath;
+    let secondDirectory = cordova.file.applicationDirectory + 'www/resources/Project/';
+    if(firstCheckApplicationDirectory){
+        firstDirectory = cordova.file.applicationDirectory + 'www/resources/Project/';
+        secondDirectory = root_directory + relativePath;
+    }
+    window.resolveLocalFileSystemURL(firstDirectory + relativePath, readFile, function(error){
         if(checkApplicationDirectory){
-            window.resolveLocalFileSystemURL(root_directory + relativePath, readFile, onError); 
+            window.resolveLocalFileSystemURL(secondDirectory + relativePath, readFile, onError); 
         }
         else{
             onError(error);
@@ -104,4 +109,21 @@ function openFileFromProject(relativePath,  callback, checkApplicationDirectory 
             messageHTML:`<p class="notification-alert">Ошибка при открытии файла: ${relativePath} </p>`
         });
     }
+}
+
+function tileLoadFunctionLocal(imageTile, src){
+    window.resolveLocalFileSystemURL(src, function success(fileEntry){
+        imageTile.getImage().src = fileEntry.toInternalURL();
+    }, function(error){
+        window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + 'www/resources/images/empty_tile.png', function(fileEntry){
+            imageTile.getImage().src = fileEntry.toInternalURL();
+            }, function(error){
+                console.log("Tile wasn't found")
+            }
+        );
+    });
+}
+
+function tileLoadFunctionDefault(imageTile, src){
+    imageTile.getImage().src = src;
 }

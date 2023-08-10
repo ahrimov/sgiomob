@@ -19,14 +19,6 @@ let hasGeolocationPermission = false;
 
 var map = new ol.Map();
 
-var raster = new ol.layer.Tile({
-  source: new ol.source.OSM({})
-});
-raster.visible = true
-raster.isLocal = false
-
-var localSource;
-
 let numberNodesOnMap = defaultNumberNodesOnMap;
 
 // Растровая подложка

@@ -25,47 +25,7 @@ function configParser(data, title){
         minZoom: minZoom,
         maxZoom: maxZoom,
         projectin: `EPSG:4326`
-    })
-    if(dom.getElementsByTagName("IsLocalTiles").item(0).textContent === '1'){
-        raster.isLocal = true
-        const pathToTiles = dom.getElementsByTagName("PathToTiles").item(0).textContent
-        switch(dom.getElementsByTagName("TileLoaderOption").item(0).textContent){
-            case "Invert":
-                localSource = new ol.source.OSM({
-                    url: root_directory + pathToTiles + '{z}/{x}/{-y}.png',
-                    tileLoadFunction: function(imageTile, src){
-                    window.resolveLocalFileSystemURL(src, function success(fileEntry){
-                        imageTile.getImage().src = fileEntry.toInternalURL();
-                      }, function(error){
-                        window.resolveLocalFileSystemURL(root_directory + pathToTiles + 'empty_tile.png', function(fileEntry){
-                            imageTile.getImage().src = fileEntry.toInternalURL();
-                        }, function(error){
-                            console.log("Tile wasn't found")
-                        })
-                      })
-                    }
-                })
-                raster.setSource(localSource)
-                break;
-            default:
-                localSource = new ol.source.OSM({
-                    url: root_directory + pathToTiles + '{z}/{x}/{y}.png',
-                    tileLoadFunction: function(imageTile, src){
-                    window.resolveLocalFileSystemURL(src, function success(fileEntry){
-                        imageTile.getImage().src = fileEntry.toInternalURL();
-                      }, function(error){
-                        window.resolveLocalFileSystemURL(root_directory + pathToTiles + 'empty_tile.png', function(fileEntry){
-                            imageTile.getImage().src = fileEntry.toInternalURL();
-                        }, function(error){
-                            console.log("Tile wasn't found")
-                        })
-                      })
-                    }
-                })
-                raster.setSource(localSource)
-        }
-        updateInfo()
-    }
+    });
 
     const pathToBaseRasterLayers = dom.getElementsByTagName("PathToBaseRasterLayers")?.item(0)?.textContent;
     if(typeof pathToBaseRasterLayers !== "undefined"){
@@ -286,7 +246,6 @@ function updateVectorLayers(pathToLayers, callback){
     function getDirectoryWin(directory){
         window.resolveLocalFileSystemURL(targetDirName,
             function(targetDir) {
-                console.log('get vector file e')
                 targetDir.removeRecursively(() => {
                     window.resolveLocalFileSystemURL(root_directory, function(root){
                         directory.copyTo(root, pathToLayers, copyWin, copyFail);
@@ -328,7 +287,7 @@ function parseBaseRasterLayers(jsonArray){
         if(json.projection === 'EPSG:3395'){
             source = new ol.source.XYZ({
                 projection: json.projection,
-                url: json.useLocalTiles ? json.local_path : json.remote_url,
+                url: json.useLocalTiles ? main_directory + json.local_path : json.remote_url,
                 tileGrid: ol.tilegrid.createXYZ({
                     extent: [-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244]
                 })
@@ -337,14 +296,17 @@ function parseBaseRasterLayers(jsonArray){
         else{
             source = new ol.source.XYZ({
                 projection: json.projection,
-                url: json.useLocalTiles ? json.local_path : json.remote_url
+                url: json.useLocalTiles ? main_directory + json.local_path : json.remote_url
             });
+        }
+        if(json.useLocalTiles){
+            source.setTileLoadFunction(tileLoadFunctionLocal);
         }
         return new ol.layer.Tile({
             id: json.id,
             descr: json.descr,
             visible: json.visible,
-            order: parseInt(json.order),
+            zIndex: parseInt(json.order),
             icon: json.icon,
             maxZoom: 24,
             useLocalTiles: json.useLocalTiles,

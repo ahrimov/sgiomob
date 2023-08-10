@@ -61,7 +61,8 @@ function turnGPS(){
         id: GPS_LAYER_ID,
         source: gpsSource,
         //updateWhileAnimating: true,
-        updateWhileInteracting: true
+        updateWhileInteracting: true,
+        zIndex: Infinity
     });
 
     gpsSource.addFeatures([geoMarker, gpsAccuracy]);

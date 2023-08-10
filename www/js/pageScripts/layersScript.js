@@ -190,15 +190,32 @@ function changeVisible(element){
 function createBaseRasterList(){
   const template = document.querySelector('#baseRasterLayerListItem');
   const list = document.querySelector('#base-raster-layers-list');
-  console.log(map.getLayers());
   baseRasterLayers.forEach((layer) => {
     const listItem = template.content.cloneNode(true);
     listItem.querySelector('.label-base-raster-layer').innerHTML = layer.get('descr');
     if(layer.getVisible())
       listItem.querySelector('.base-raster-switch-visible').setAttribute('checked');
+    if(layer.get('useLocalTiles'))
+      listItem.querySelector('.base-raster-local-switch').setAttribute('checked')
     listItem.querySelector('.base-raster-switch-visible').addEventListener('change',  () => {
       const visibility = layer.getVisible();
       layer.setVisible(!visibility);
+      updateInfo();
+    });
+    listItem.querySelector('.base-raster-local-switch').addEventListener('change', () => {
+      const useLocalTiles = !layer.get('useLocalTiles');
+      layer.set('useLocalTiles', useLocalTiles);
+      if(useLocalTiles){
+        const local_path = layer.get('local_path');
+        layer.getSource().setUrl(main_directory + local_path);
+        layer.getSource().setTileLoadFunction(tileLoadFunctionLocal);
+      }
+      else{
+        const remote_url = layer.get('remote_url');
+        layer.getSource().setUrl(remote_url);
+        layer.getSource().setTileLoadFunction(tileLoadFunctionDefault);
+      }
+      updateInfo();
     });
     list.appendChild(listItem);
   });
