@@ -13,18 +13,27 @@
     <div id="layerListWithHandle" class="list-group">
     </div>
 
-    <div>Растровые подложки</div>
-    <ons-list id="base-raster-layers-list"></ons-list>
+    <ons-list id="base-raster-layers-list">
+      <ons-list-header class="layer-list-header">
+        <span class="layer-list-header-label">Растровые подложки</span>
+      </ons-list-header>
+    </ons-list>
 
     <template id="baseRasterLayerListItem">
       <ons-list-item expandable>
+        <image class="icon-base-raster-layers"></image>
         <span class="label-base-raster-layer"></span>
         <div class="expandable-content">
-          <ons-switch class="base-raster-local-switch"></ons-switch>
-          Использовать локальные тайлы
-          </br>
-          <ons-switch class="base-raster-switch-visible"></ons-switch>
-          <span>Показывать слой</span>
+          <div class="base-layer-expandable">
+            <div class="base-layer-switch">
+              <ons-switch class="base-raster-local-switch"></ons-switch>
+              <span class="base-raster-switch-label">Использовать локальные тайлы</span>
+            </div>
+            <div class="base-layer-switch">
+              <ons-switch class="base-raster-switch-visible"></ons-switch>
+              <span class="base-raster-switch-label">Показывать слой</span>
+            </div>
+          </div>
         </div>
       </ons-list-item>
     </template>

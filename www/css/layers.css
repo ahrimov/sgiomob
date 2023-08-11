@@ -1,3 +1,45 @@
+#base-raster-layers-list{
+    margin-bottom: 50px;
+}
+
+.list-group {
+    padding-left: 0;
+    margin-bottom: 7px;
+}
+
+.icon-base-raster-layers{
+    width: 50px;
+    height: 50px;
+}
+
+.label-base-raster-layer{
+    margin-left: 2vw;
+    font-size: 1.4rem;
+}
+
+.layer-list-header{
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.base-layer-expandable{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.base-layer-switch{
+    display: flex;
+    gap: 10px;
+    margin-left: 4vw;
+}
+
+.base-raster-switch-label{
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
 #dialog-file-chooser-content{
   word-break: break-all;
   max-height: 70vh;

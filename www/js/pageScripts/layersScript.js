@@ -194,6 +194,16 @@ function createBaseRasterList(){
   sortBaseLayers.forEach((layer) => {
     const listItem = template.content.cloneNode(true);
     listItem.querySelector('.label-base-raster-layer').innerHTML = layer.get('descr');
+    
+    const iconUrl = cordova.file.applicationDirectory + 'www/resources/images/logos/' + layer.get('icon');
+    const iconElement = listItem.querySelector('.icon-base-raster-layers');
+    loadImageFromFile(iconUrl, iconElement, () => {
+      console.log('Icon not found');
+      loadImageFromFile(cordova.file.applicationDirectory + 'www/resources/images/logos/map_24x24.png', iconElement, () => {
+        console.log('Default icon not found');
+      })
+    });
+    
     if(layer.getVisible())
       listItem.querySelector('.base-raster-switch-visible').setAttribute('checked');
     if(layer.get('useLocalTiles'))
@@ -220,4 +230,21 @@ function createBaseRasterList(){
     });
     list.appendChild(listItem);
   });
+}
+
+function loadImageFromFile(filename, element, onError) {
+    window.resolveLocalFileSystemURL(filename, addIconToElement, onError);
+
+    function addIconToElement(fileEntry){
+        fileEntry.file(function (file) {
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                if (this.result) {
+                    const blob = new Blob([new Uint8Array(this.result)], { type: "image/png" });
+                    element.src = window.URL.createObjectURL(blob);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        });
+    }
 }
