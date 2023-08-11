@@ -127,3 +127,11 @@ function tileLoadFunctionLocal(imageTile, src){
 function tileLoadFunctionDefault(imageTile, src){
     imageTile.getImage().src = src;
 }
+
+function rosreetrUrlFunction(tileCoord, number, projection){
+    const maxY = 2**tileCoord[0];
+    const tile = [tileCoord[1], tileCoord[2], tileCoord[0]];
+    const bbox = tileToBBOX(tile);
+    const bboxM = ol.proj.transformExtent(bbox, 'EPSG:4326', projection);
+    return rosreestr_url + '&bbox=' + bboxM.join(','); 
+}

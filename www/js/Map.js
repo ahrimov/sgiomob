@@ -550,7 +550,6 @@ function getLayerById(id = ''){
     }
 }
 
-
 function getFeatureByName(name = '' , layer){
     if(!layer) return;
     const features = layer.getSource().getFeatures();

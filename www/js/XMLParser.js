@@ -290,17 +290,23 @@ function parseBaseRasterLayers(jsonArray){
                 url: json.useLocalTiles ? main_directory + json.local_path : json.remote_url,
                 tileGrid: ol.tilegrid.createXYZ({
                     extent: [-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244]
-                })
+                }),
+                tileSize: json.tileSize
             });
         }
         else{
             source = new ol.source.XYZ({
                 projection: json.projection,
-                url: json.useLocalTiles ? main_directory + json.local_path : json.remote_url
+                url: json.useLocalTiles ? main_directory + json.local_path : json.remote_url,
+                tileSize: json.tileSize
             });
         }
         if(json.useLocalTiles){
             source.setTileLoadFunction(tileLoadFunctionLocal);
+        }
+        if(json.id === 'Rosreestr'){
+            rosreestr_url = json.remote_url;
+            source.setTileUrlFunction(rosreetrUrlFunction);
         }
         return new ol.layer.Tile({
             id: json.id,

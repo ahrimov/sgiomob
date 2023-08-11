@@ -223,9 +223,14 @@ function createBaseRasterList(){
       }
       else{
         const remote_url = layer.get('remote_url');
-        layer.getSource().setUrl(remote_url);
         layer.getSource().setTileLoadFunction(tileLoadFunctionDefault);
-      }
+        if(layer.get("id") === 'Rosreestr'){
+          layer.getSource().setTileUrlFunction(rosreetrUrlFunction);
+        }
+        else{
+          layer.getSource().setUrl(remote_url);
+        }
+      } 
       updateInfo();
     });
     list.appendChild(listItem);
