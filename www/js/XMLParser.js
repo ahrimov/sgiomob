@@ -107,11 +107,13 @@ function configParser(data, title){
                     })
                 })
         }
-        var layer = new ol.layer.Vector({
+        const layer = new ol.layer.Vector({
             style: style,
             renderMode: 'image'
-        }) 
-        layer.id = dom.getElementsByTagName("id").item(0).textContent
+        }); 
+        layer.set("id", dom.getElementsByTagName("id").item(0).textContent);
+        layer.set("descr", dom.getElementsByTagName("label").item(0).textContent);
+        layer.id = dom.getElementsByTagName("id").item(0).textContent;
         layer.label = dom.getElementsByTagName("label").item(0).textContent
         layer.geometryType = geometryType
         layer.atribs = []
@@ -145,10 +147,10 @@ function configParser(data, title){
             }
         }
 
-        layers.push(layer)
-        getDataLayerFromBD(layer)
-        map.addLayer(layer)
-        layer.visible = true
+        layers.push(layer);
+        getDataLayerFromBD(layer);
+        map.addLayer(layer);
+        layer.visible = true;
     }
 }
 

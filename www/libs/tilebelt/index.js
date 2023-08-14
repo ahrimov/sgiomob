@@ -288,18 +288,18 @@ function pointToTileFraction(lon, lat, z) {
     return [x, y, z];
 }
 
-module.exports = {
-    tileToGeoJSON: tileToGeoJSON,
-    tileToBBOX: tileToBBOX,
-    getChildren: getChildren,
-    getParent: getParent,
-    getSiblings: getSiblings,
-    hasTile: hasTile,
-    hasSiblings: hasSiblings,
-    tilesEqual: tilesEqual,
-    tileToQuadkey: tileToQuadkey,
-    quadkeyToTile: quadkeyToTile,
-    pointToTile: pointToTile,
-    bboxToTile: bboxToTile,
-    pointToTileFraction: pointToTileFraction
-};
+// module.exports = {
+//     tileToGeoJSON: tileToGeoJSON,
+//     tileToBBOX: tileToBBOX,
+//     getChildren: getChildren,
+//     getParent: getParent,
+//     getSiblings: getSiblings,
+//     hasTile: hasTile,
+//     hasSiblings: hasSiblings,
+//     tilesEqual: tilesEqual,
+//     tileToQuadkey: tileToQuadkey,
+//     quadkeyToTile: quadkeyToTile,
+//     pointToTile: pointToTile,
+//     bboxToTile: bboxToTile,
+//     pointToTileFraction: pointToTileFraction
+// };

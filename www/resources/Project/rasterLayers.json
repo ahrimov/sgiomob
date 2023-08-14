@@ -2,7 +2,7 @@
 	{
 		"id": "OpenStreetMap",
 		"descr": "Карта OpenStreetMap",
-		"visible": false,
+		"visible": true,
 		"order": 1,
 		"icon": "OSMLogo.png",
 		"projection": "EPSG:3857",
@@ -15,7 +15,7 @@
 		"descr": "Яндекс.Карта (Спутник)",
 		"visible": false,
 		"order": 2,
-		"icon": "Satelite.jpg",
+		"icon": "Satelite.png",
 		"projection": "EPSG:3395",
 		"tileSize": [256, 256],
 		"remote_url": "https://core-sat.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
@@ -24,9 +24,9 @@
 	}, {
 		"id": "Yandex.Map",
 		"descr": "Яндекс.Карта",
-		"visible": true,
+		"visible": false,
 		"order": 3,
-		"icon": "YandexMapLogo.jpg",
+		"icon": "YandexMapLogo.png",
 		"projection": "EPSG:3395",
 		"tileSize": [256, 256],
 		"remote_url": "https://core-renderer-tiles.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
@@ -35,7 +35,7 @@
 	},{
 		"id": "Rosreestr",
 		"descr": "Росреестр (Кадастр)",
-		"visible": true,
+		"visible": false,
 		"order": 6,
 		"icon": "RosreestrLogo.png",
 		"projection": "EPSG:3857",

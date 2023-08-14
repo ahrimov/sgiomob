@@ -7,6 +7,21 @@
     margin-bottom: 7px;
 }
 
+.list-group-item{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.icon-layer{
+    width: 30px;
+    height: 30px;
+}
+
+.icon-layer[src=""]{
+    visibility: hidden;
+}
+
 .icon-base-raster-layers{
     width: 50px;
     height: 50px;
@@ -19,7 +34,8 @@
 
 .layer-list-header{
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    font-weight: 700;
 }
 
 .base-layer-expandable{
@@ -90,27 +106,30 @@
 }
 
 .layers-more-button{
-    position: absolute;
-    left: 87%;
-    bottom: 14%;
     color: black;
 }
 
 .layer-label{
-    display: inline-block;
-    width: 75%;
-    position: absolute;
-    top: 31%;
-    left: 8%;
-    overflow: hidden;
+    display: inline-flex;
+    justify-content: center;
     white-space: nowrap;
     text-overflow: ellipsis;
+    flex-direction: column;
+    overflow: hidden;
+    max-width: 80%;
+}
+
+.layer-list-right{
+    display: flex;
+    position: absolute;
+    right: 1%;
 }
 
 .block-icon{
-    position: absolute;
-    left: 83%;
-    top: 31%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    float: right;
 
 }
 

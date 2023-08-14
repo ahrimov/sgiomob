@@ -1,22 +1,20 @@
 function changeVisible(element){
-    var layerID = element.getAttribute("data-id");
-    for(layer of layers){
-      if(layer.id == layerID){
-        if(layer.visible == layer.getVisible()){
-          layer.visible = !layer.visible;
-          layer.setVisible(layer.visible);
-        }
-        else{
-          ons.notification.alert({title:"Внимание", meassage:'Слой невозможно отобразить.'})
-        }
-        if(layer.getVisible()){
-          element.style.backgroundColor = '#2375fa';
-        }
-        else{
-          element.style.backgroundColor = '#FFFFFF';
-        }
-      }
+    const layerID = element.getAttribute("data-id");
+    const layer = getLayerById(layerID);
+    if(layer){
+      layer.visible = !layer.visible;
+      layer.setVisible(!layer.getVisible());
     }
+    else{
+      ons.notification.alert({title:"Внимание", meassage:'Слой невозможно отобразить.'})
+    }
+    if(layer.getVisible()){
+      element.style.backgroundColor = 'rgb(99 156 249)';
+    }
+    else{
+      element.style.backgroundColor = '#FFFFFF';
+    }
+    updateInfo();
   }
 
   function createFileChooserForKML(layerID, callback){
@@ -188,15 +186,15 @@ function changeVisible(element){
   }
 
 function createBaseRasterList(){
-  const template = document.querySelector('#baseRasterLayerListItem');
-  const list = document.querySelector('#base-raster-layers-list');
+  const template = document.querySelector('#layerListItem');
+  const list = document.querySelector('#base-raster-layers-list-content');
   const sortBaseLayers = baseRasterLayers.sort((a, b) => b.getZIndex() - a.getZIndex());
   sortBaseLayers.forEach((layer) => {
     const listItem = template.content.cloneNode(true);
-    listItem.querySelector('.label-base-raster-layer').innerHTML = layer.get('descr');
+    listItem.querySelector('.layer-label').textContent = layer.get('descr');
     
     const iconUrl = cordova.file.applicationDirectory + 'www/resources/images/logos/' + layer.get('icon');
-    const iconElement = listItem.querySelector('.icon-base-raster-layers');
+    const iconElement = listItem.querySelector('.icon-layer');
     loadImageFromFile(iconUrl, iconElement, () => {
       console.log('Icon not found');
       loadImageFromFile(cordova.file.applicationDirectory + 'www/resources/images/logos/map_24x24.png', iconElement, () => {
@@ -205,36 +203,86 @@ function createBaseRasterList(){
     });
     
     if(layer.getVisible())
-      listItem.querySelector('.base-raster-switch-visible').setAttribute('checked');
-    if(layer.get('useLocalTiles'))
-      listItem.querySelector('.base-raster-local-switch').setAttribute('checked')
-    listItem.querySelector('.base-raster-switch-visible').addEventListener('change',  () => {
-      const visibility = layer.getVisible();
-      layer.setVisible(!visibility);
-      updateInfo();
-    });
-    listItem.querySelector('.base-raster-local-switch').addEventListener('change', () => {
-      const useLocalTiles = !layer.get('useLocalTiles');
-      layer.set('useLocalTiles', useLocalTiles);
-      if(useLocalTiles){
-        const local_path = layer.get('local_path');
-        layer.getSource().setUrl(main_directory + local_path);
-        layer.getSource().setTileLoadFunction(tileLoadFunctionLocal);
-      }
-      else{
-        const remote_url = layer.get('remote_url');
-        layer.getSource().setTileLoadFunction(tileLoadFunctionDefault);
-        if(layer.get("id") === 'Rosreestr'){
-          layer.getSource().setTileUrlFunction(rosreetrUrlFunction);
-        }
-        else{
-          layer.getSource().setUrl(remote_url);
-        }
-      } 
-      updateInfo();
-    });
+      listItem.querySelector('.list-group-item').style.backgroundColor = 'rgb(99 156 249)';
+    listItem.querySelector('.block-icon').style['display'] = 'none';
+    listItem.querySelector('.list-group-item').setAttribute("data-id", layer.get("id"));
+    listItem.querySelector('.layers-more-button').setAttribute("layer_id", layer.get("id"));
+    listItem.querySelector('.layers-more-button').addEventListener('click', function(event){baseLayersShowActionSheet(this, event)});
     list.appendChild(listItem);
   });
+
+  Sortable.create(list, {
+    handle: '.reorder-move',
+    animation: 150,
+    onUpdate: function(event){
+      const layersList = this.toArray()
+      let count = layersList.length;
+      for(layerID of this.toArray()){
+        let layer = getLayerById(layerID);
+        layer.setZIndex(count);
+        count--;
+      }
+      updateInfo();
+    }
+  });
+}
+
+function baseLayersShowActionSheet(element, event){
+  event.stopPropagation();
+  const layerID = element.getAttribute('layer_id');
+  const layer = getLayerById(layerID);
+  if(layer){
+    const useLocalTiles = layer.get('useLocalTiles');
+    if(useLocalTiles){
+      ons.openActionSheet({
+        cancelable: true,
+        buttons: [
+          {
+            label: 'Использовать тайлы с интернета',
+            modifier: 'destructive'
+          },
+          {
+            label: 'Назад',
+            icon: 'md-close'
+          }
+        ]
+      }).then(function (index) {
+        if(index === 0){
+          const remote_url = layer.get('remote_url');
+          layer.getSource().setTileLoadFunction(tileLoadFunctionDefault);
+          if(layer.get("id") === 'Rosreestr')
+            layer.getSource().setTileUrlFunction(rosreetrUrlFunction);
+          else
+            layer.getSource().setUrl(remote_url);
+          layer.set('useLocalTiles', false);
+          updateInfo();
+        }
+      });
+    }
+    else{
+      ons.openActionSheet({
+        cancelable: true,
+        buttons: [
+          {
+            label: 'Использовать тайлы на устройстве',
+            modifier: 'destructive'
+          },
+          {
+            label: 'Назад',
+            icon: 'md-close'
+          }
+        ]
+      }).then(function (index) {
+        if(index === 0){
+          const local_path = layer.get('local_path');
+          layer.getSource().setUrl(main_directory + local_path);
+          layer.getSource().setTileLoadFunction(tileLoadFunctionLocal);
+          layer.set('useLocalTiles', true);
+          updateInfo();
+        }
+      });
+    }
+  }
 }
 
 function loadImageFromFile(filename, element, onError) {
