@@ -50,6 +50,72 @@
         <ons-button id="cancelModification" style="float:right; margin: 1%;">Отмена</ons-button>
     </div>
 
+    <template id="chooseTypeEditGeometry">
+        <ons-dialog id="choose-type-edit-geometry">
+            <ons-toolbar class="dialog-toolbar">
+                <div class="center dialog-toolbar-content">
+                    Выбор режима редактирования
+                </div>
+                <div class="right">
+                      <ons-toolbar-button onclick="hideDialog('choose-type-edit-geometry')">
+                          <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                      </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <ons-list class="choose-type-edit-geometry-list">
+              <ons-list-item tappable class="choose-type-edit-geometry-list-item">
+                <label class="left">
+                  <ons-radio name="type-editing" input-id="map" checked></ons-radio>
+                </label>
+                <label for="map" class="center">
+                  Редактировать на карте
+                </label>
+              </ons-list-item>
+              <ons-list-item tappable class="choose-type-edit-geometry-list-item">
+                <label class="left">
+                  <ons-radio name="type-editing" input-id="manual"></ons-radio>
+                </label>
+                <label for="manual" class="center">
+                  Редактировать координаты вручную
+                </label>
+              </ons-list-item>
+            </ons-list>
+            <ons-button modifier="quiet" id="choose-type-edit-geometry-button" style="float:right;">Далее</ons-button>  
+        </ons-dialog>
+    </template>
+
+    <template id="manualInputCoordinates">
+        <ons-dialog id="manual-input-coordinates">
+            <ons-toolbar class="dialog-toolbar">
+                <div class="center dialog-toolbar-content">
+                    Ручной ввод координат
+                </div>
+                <div class="right">
+                      <ons-toolbar-button onclick="hideDialog('manual-input-coordinates')">
+                          <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                      </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div class="manual-input-coordinates-content">
+                <div class="type-coordinatees-switcher">
+                    <span class="type-coordinatees-switcher-label">
+                        Форма ввода координат
+                    </span>
+                    <div class="type-coordinatees-switcher-buttons">
+                        <ons-radio name="type-coordinatees-switcher" input-id="meters"></ons-radio>
+                        <label for="meters">
+                            ГГ°ГГГГГ
+                        </label>
+                        <ons-radio name="type-coordinatees-switcher" input-id="degrees"></ons-radio>
+                        <label for="degrees">
+                            ГГ°ММ'СС.СС"
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </ons-dialog>
+    </template>
+
     <script>
 
         ons.getScriptPage().onInit = function() {

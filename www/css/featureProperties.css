@@ -85,6 +85,7 @@
 #feature-instruments .instruments-item-content{
     text-align: center; 
     width: 100%;
+    height: 100%;
 }
 
 
@@ -97,4 +98,19 @@
     background-color: white;
     border-top: 1px solid grey;
     padding: 1%;
+}
+
+.type-coordinatees-switcher{
+    display: flex;
+    flex-direction: column;
+}
+
+.type-coordinatees-switcher-label{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.type-coordinatees-switcher-buttons{
+    display: flex;
 }

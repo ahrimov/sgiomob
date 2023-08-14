@@ -340,6 +340,11 @@ function featurePropertiesScript(featureFromPage){
     }
 
     function clickEditGeometry(){
+        ons.createElement('chooseTypeEditGeometry', {append: true})
+            .then(function(dialog){
+                
+                dialog.show()
+            })
         addModify(layer, feature);
         let navigator = document.querySelector('#myNavigator')
         navigator.popPage({times: navigator.pages.length - 1})
