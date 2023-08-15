@@ -342,12 +342,41 @@ function featurePropertiesScript(featureFromPage){
     function clickEditGeometry(){
         ons.createElement('chooseTypeEditGeometry', {append: true})
             .then(function(dialog){
-                
+                document.querySelector('#choose-type-edit-geometry-button').addEventListener('click', () => {
+                  const mapRadio = document.querySelector('#choose-type-edit-geometry-map');
+                  const manualRadio = document.querySelector('#choose-type-edit-geometry-manual');
+                  if(mapRadio.checked){
+                    addModify(layer, feature);
+                    const navigator = document.querySelector('#myNavigator')
+                    navigator.popPage({times: navigator.pages.length - 1})
+                  }
+                  else if (manualRadio){
+                    createDialogManualEditGeometry();
+                  }
+                  hideDialog('choose-type-edit-geometry');
+                }, false)
                 dialog.show()
             });
-        addModify(layer, feature);
-        let navigator = document.querySelector('#myNavigator')
-        navigator.popPage({times: navigator.pages.length - 1})
+    }
+
+    function createDialogManualEditGeometry(){
+        const coordinates = feature.getGeometry().getCoordinates();
+        ons.createElement('manualInputCoordinates', {append: true})
+            .then(function(dialog){
+                const tableTbody = document.querySelector('.table-coordinates-tbody');
+                const template = document.querySelector('#manualInputCoordinatesTable');
+                let count = 1;
+                coordinates.forEach((coordinate) => {
+                    const tableElement = template.content.cloneNode(true);
+                    const lonLatCoordinate = ol.proj.toLonLat(coordinate);
+                    tableElement.querySelector('.numberOfCoordinate').textContent = count;
+                    tableElement.querySelector('.longtitude').textContent = lonLatCoordinate[0].toFixed(7);
+                    tableElement.querySelector('.latitude').textContent = lonLatCoordinate[1].toFixed(7);
+                    tableTbody.appendChild(tableElement);
+                    count++;
+                });
+                dialog.show();
+            });
     }
 
     function clickDeleteFeature(){

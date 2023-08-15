@@ -103,14 +103,57 @@
 .type-coordinatees-switcher{
     display: flex;
     flex-direction: column;
+    margin-bottom: 1.5vh;
+    gap: 1vh;
+    margin-top: 1vh;
+}
 }
 
 .type-coordinatees-switcher-label{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: center;
+    margin-top: 0.5vh;
+    font-size: 1.6rem;
+}
+
+.type-coordinatees-switcher-radio-label{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 0px;
+    margin-left: 1vw;
 }
 
 .type-coordinatees-switcher-buttons{
+    justify-content: center;
     display: flex;
+    gap: 7vw;
+    margin-top: 0.6vh;
+}
+
+.edit-geometry-bottom-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1vw;
+}
+
+.manual-edit-geometry-add-coordinate-button-container{
+    padding-right: 2vw;
+    margin-bottom: 8vh;
+}
+
+.table-coordinates{
+    margin: 2vw;
+    border: 1px solid #646363;
+    overflow: hidden;
+    margin-left: 2vw;
+    width: 94%;
+}
+
+.manual-input-coordinates-td{
+    padding: 1vw;
+    border: 1px solid #a5a5a5;
 }

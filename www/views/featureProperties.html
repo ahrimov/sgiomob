@@ -65,7 +65,7 @@
             <ons-list class="choose-type-edit-geometry-list">
               <ons-list-item tappable class="choose-type-edit-geometry-list-item">
                 <label class="left">
-                  <ons-radio name="type-editing" input-id="map" checked></ons-radio>
+                  <ons-radio name="type-editing" input-id="map" id="choose-type-edit-geometry-map"  checked></ons-radio>
                 </label>
                 <label for="map" class="center">
                   Редактировать на карте
@@ -73,7 +73,7 @@
               </ons-list-item>
               <ons-list-item tappable class="choose-type-edit-geometry-list-item">
                 <label class="left">
-                  <ons-radio name="type-editing" input-id="manual"></ons-radio>
+                  <ons-radio name="type-editing" input-id="manual" id="choose-type-edit-geometry-manual"></ons-radio>
                 </label>
                 <label for="manual" class="center">
                   Редактировать координаты вручную
@@ -102,18 +102,52 @@
                         Форма ввода координат
                     </span>
                     <div class="type-coordinatees-switcher-buttons">
-                        <ons-radio name="type-coordinatees-switcher" input-id="meters"></ons-radio>
-                        <label for="meters">
+                        <div style="display: flex;">
+                            <ons-radio name="type-coordinatees-switcher" input-id="meters" checked></ons-radio>
+                            <label for="meters" class="type-coordinatees-switcher-radio-label">
                             ГГ°ГГГГГ
-                        </label>
-                        <ons-radio name="type-coordinatees-switcher" input-id="degrees"></ons-radio>
-                        <label for="degrees">
+                            </label>
+                        </div>
+                        <div style="display: flex;">
+                            <ons-radio name="type-coordinatees-switcher" input-id="degrees"></ons-radio>
+                            <label for="degrees" class="type-coordinatees-switcher-radio-label">
                             ГГ°ММ'СС.СС"
-                        </label>
+                            </label>
+                        </div>
                     </div>
+                </div>
+                <div class="manual-edit-geometry-add-coordinate-button-container">
+                    <ons-button id="manual-edit-geometry-add-coordinate-button" style="float:right;">
+                        Добавить координату
+                    </ons-button>
+                </div>
+                <table class="table-coordinates">
+                    <thead>
+                        <tr>
+                            <td class="manual-input-coordinates-td"></td>
+                            <td class="manual-input-coordinates-td">Широта (L)</td>
+                            <td class="manual-input-coordinates-td">Долгота (B)</td>
+                            <td class="manual-input-coordinates-td"></td>  
+                        </tr>
+                    </thead>
+                    <tbody class="table-coordinates-tbody"></tbody>
+                </table>
+                <div class="edit-geometry-bottom-buttons">
+                    <ons-button id="edit-geometry-save-changes">Сохранить</ons-button>
+                    <ons-button id="edit-geometry-cancel-changes">Отмена</ons-button>
+                </div>
                 </div>
             </div>
         </ons-dialog>
+    </template>
+
+    <template id="manualInputCoordinatesTable">
+        <tr>
+            <td class="manual-input-coordinates-td numberOfCoordinate"></td>
+            <td class="manual-input-coordinates-td latitude"></td>
+            <td class="manual-input-coordinates-td longtitude"></td>
+            <td class="manual-input-coordinates-td delete-button"></td>
+        </tr>
     </template>
 
     <script>
