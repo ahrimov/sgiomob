@@ -375,7 +375,7 @@ function featurePropertiesScript(featureFromPage){
                 document.querySelector('#manual-edit-geometry-add-coordinate-button').addEventListener('click', () => {
                     createDialogEditCoordinate([], typeOfCoordinates, (coordinate) => {
                         const newCoord = ol.proj.fromLonLat(coordinate, map.getView().getProjection());
-                        if(typeof newCoord === 'undefined' || newCoord === null) return;
+                        if(isNaN(newCoord[0]) || isNaN(newCoord[1])) return;
                         coordinates.push(newCoord);
                         updateTableCoordinates();
                     })
@@ -415,7 +415,7 @@ function featurePropertiesScript(featureFromPage){
                 tableElement.querySelector('.manual-input-coordinates-tr').addEventListener('click', () => {
                     createDialogEditCoordinate(lonLatCoordinate, typeOfCoordinates, (coordinate) => {
                         const newCoord = ol.proj.fromLonLat(coordinate, map.getView().getProjection());
-                        if(typeof newCoord === 'undefined' || newCoord === null) return;
+                        if(isNaN(newCoord[0]) || isNaN(newCoord[1])) return;
                         coordinates[i] = newCoord;
                         updateTableCoordinates();
                     });
