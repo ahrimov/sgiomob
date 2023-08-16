@@ -360,20 +360,126 @@ function featurePropertiesScript(featureFromPage){
     }
 
     function createDialogManualEditGeometry(){
-        const coordinates = feature.getGeometry().getCoordinates();
+        const geometry = feature.getGeometry();
+        let coordinates = geometry.getCoordinates();
+        let typeOfCoordinates = 'decimal';
+        if(geometry.getType() === 'MultiLineString' || geometry.getType() === 'MultiPolygon'){
+            coordinates = coordinates[0];
+        }
         ons.createElement('manualInputCoordinates', {append: true})
             .then(function(dialog){
-                const tableTbody = document.querySelector('.table-coordinates-tbody');
-                const template = document.querySelector('#manualInputCoordinatesTable');
-                let count = 1;
-                coordinates.forEach((coordinate) => {
-                    const tableElement = template.content.cloneNode(true);
-                    const lonLatCoordinate = ol.proj.toLonLat(coordinate);
-                    tableElement.querySelector('.numberOfCoordinate').textContent = count;
-                    tableElement.querySelector('.longtitude').textContent = lonLatCoordinate[0].toFixed(7);
-                    tableElement.querySelector('.latitude').textContent = lonLatCoordinate[1].toFixed(7);
-                    tableTbody.appendChild(tableElement);
-                    count++;
+                updateTableCoordinates();
+                if(geometry.getType() === 'Point' || geometry.getType() === 'MultiPoint'){
+                    document.querySelector('#manual-edit-geometry-add-coordinate-button').style.display = 'none';
+                } 
+                document.querySelector('#manual-edit-geometry-add-coordinate-button').addEventListener('click', () => {
+                    createDialogEditCoordinate([], typeOfCoordinates, (coordinate) => {
+                        const newCoord = ol.proj.fromLonLat(coordinate, map.getView().getProjection());
+                        if(typeof newCoord === 'undefined' || newCoord === null) return;
+                        coordinates.push(newCoord);
+                        updateTableCoordinates();
+                    })
+                });
+                document.querySelector('#type-coordinatees-switcher-meters').addEventListener('change', () => {
+                    typeOfCoordinates = 'decimal';
+                    updateTableCoordinates();
+                });
+                document.querySelector('#type-coordinatees-switcher-degrees').addEventListener('change', () => {
+                    typeOfCoordinates = 'degrees';
+                    updateTableCoordinates();
+                });
+                document.querySelector('#edit-geometry-save-changes').addEventListener('click', () => {
+                    updateFeatureGeometry(coordinates);
+                    hideDialog('manual-input-coordinates');
+                });
+                document.querySelector('#edit-geometry-cancel-changes').addEventListener('click', () => {
+                    hideDialog('manual-input-coordinates');
+                });
+                dialog.show();
+            });
+
+        function updateTableCoordinates(){
+            const tableTbody = document.querySelector('.table-coordinates-tbody');
+            tableTbody.innerHTML = '';
+            const template = document.querySelector('#manualInputCoordinatesTable');
+            for(let i in coordinates){ 
+                const tableElement = template.content.cloneNode(true);
+                const lonLatCoordinate = ol.proj.toLonLat(coordinates[i]);
+                tableElement.querySelector('.numberOfCoordinate').textContent = parseInt(i) + 1;
+                const lon = typeOfCoordinates === 'degrees' ? 
+                    transformDecimalToMinutesAndSeconds(lonLatCoordinate[0].toFixed(7)) : lonLatCoordinate[0].toFixed(7);
+                const lat = typeOfCoordinates === 'degrees' ? 
+                    transformDecimalToMinutesAndSeconds(lonLatCoordinate[1].toFixed(7)) : lonLatCoordinate[1].toFixed(7);
+                tableElement.querySelector('.longtitude').textContent = lon;
+                tableElement.querySelector('.latitude').textContent = lat;
+                tableElement.querySelector('.manual-input-coordinates-tr').addEventListener('click', () => {
+                    createDialogEditCoordinate(lonLatCoordinate, typeOfCoordinates, (coordinate) => {
+                        const newCoord = ol.proj.fromLonLat(coordinate, map.getView().getProjection());
+                        if(typeof newCoord === 'undefined' || newCoord === null) return;
+                        coordinates[i] = newCoord;
+                        updateTableCoordinates();
+                    });
+                });
+                tableElement.querySelector('.delete-button').addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    coordinates.splice(i, 1);
+                    updateTableCoordinates();
+                });
+                tableTbody.appendChild(tableElement);
+            }
+            if(coordinates.length === 0){
+                document.querySelector('#manual-edit-geometry-add-coordinate-button').style.display = 'block';
+            }
+            else if(geometry.getType() === 'Point' || geometry.getType() === 'MultiPoint'){
+                document.querySelector('#manual-edit-geometry-add-coordinate-button').style.display = 'none';
+            }
+        }
+    }
+
+    function createDialogEditCoordinate(coordinate = [], typeOfCoordinates, callback){
+        ons.createElement('dialogEditCoordinate', {append: true})
+            .then(function(dialog){
+                const dialogContent = document.querySelector('#dialog-edit-coordinate');
+                const lonInputElement = dialogContent.querySelector('#longtitude');
+                const latInputElement = dialogContent.querySelector('#latitude');
+                let mask;
+                if(typeOfCoordinates === 'decimal'){
+                    mask = {mask: /^\d+(\.\d{0,7}){0,1}$/};
+                } else {
+                    mask = {
+                        mask: `XX°XX'XX.XX"`,
+                        definitions: {
+                            X: {
+                                mask: '0',
+                                placeholderChar: '0'
+                            },
+                        },
+                        lazy: false,
+                        overwrite: false
+                    };
+                }
+                IMask(lonInputElement, mask);
+                IMask(latInputElement, mask);
+                if(coordinate.length > 0){
+                    const lon = typeOfCoordinates === 'degrees' ? 
+                        transformDecimalToMinutesAndSeconds(coordinate[0].toFixed(7)) : coordinate[0].toFixed(7);
+                    const lat = typeOfCoordinates === 'degrees' ? 
+                        transformDecimalToMinutesAndSeconds(coordinate[1].toFixed(7)) : coordinate[1].toFixed(7);
+                    dialogContent.querySelector('#longtitude').value = lon;
+                    dialogContent.querySelector('#latitude').value = lat;
+                }
+                dialogContent.querySelector('#edit-coordinate-save-changes').addEventListener('click', () => {
+                    let lon = dialogContent.querySelector('#longtitude').value;
+                    let lat = dialogContent.querySelector('#latitude').value;
+                    if(typeOfCoordinates === 'degrees'){
+                        lon = transformToDecimal(lon);
+                        lat = transformToDecimal(lat);
+                    }
+                    callback([lon, lat]);
+                    hideDialog('dialog-edit-coordinate');
+                });
+                dialogContent.querySelector('#edit-coordinate-cancel-changes').addEventListener('click', () => {
+                    hideDialog('dialog-edit-coordinate');
                 });
                 dialog.show();
             });
@@ -397,6 +503,35 @@ function featurePropertiesScript(featureFromPage){
             let navigator = document.querySelector('#myNavigator')
             navigator.popPage({times: navigator.pages.length - 1})
         })
+    }
+
+    function updateFeatureGeometry(coordinates){
+        const geometry = feature.getGeometry();
+        if(geometry.getType() === 'MultiLineString' || geometry.getType() === 'MultiPolygon'){
+            feature.getGeometry().setCoordinates([coordinates]);
+        }
+        else{
+            feature.getGeometry().setCoordinates(coordinates);
+        }
+        local_map.getView().fit(geometry.getExtent());
+        const format = new ol.format.WKT();
+        let feautureString = format.writeFeature(feature);
+        feautureString = convertToGeometryType(feautureString);
+        const query = `UPDATE ${layer.id } SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`
+        requestToDB(query, function(res){
+            saveDB()
+        });
+    }
+
+    function convertToGeometryType(inp_string){
+        let string = insert(inp_string, ' Z', inp_string.search(/\(\(/))
+        let res = string.matchAll(/,/g)
+        let offset = 0
+        for(let r of res){
+            string = insert(string, ' 0', r.index + offset)
+            offset += 2
+        }
+        return insert(string, ' 0', string.search(/\)\)/))
     }
 
     function updateFeature(){

@@ -80,7 +80,7 @@
                 </label>
               </ons-list-item>
             </ons-list>
-            <ons-button modifier="quiet" id="choose-type-edit-geometry-button" style="float:right;">Далее</ons-button>  
+            <ons-button modifier="quiet" id="choose-type-edit-geometry-button" style="float:right; margin-right: 2vw; margin-bottom: 1vh;">Далее</ons-button>  
         </ons-dialog>
     </template>
 
@@ -98,20 +98,20 @@
             </ons-toolbar>
             <div class="manual-input-coordinates-content">
                 <div class="type-coordinatees-switcher">
-                    <span class="type-coordinatees-switcher-label">
+                    <span class="type-coordinatees-switcher-label" style="display: flex; justify-content: center; font-size: 1.6rem;">
                         Форма ввода координат
                     </span>
                     <div class="type-coordinatees-switcher-buttons">
                         <div style="display: flex;">
-                            <ons-radio name="type-coordinatees-switcher" input-id="meters" checked></ons-radio>
+                            <ons-radio name="type-coordinatees-switcher" input-id="meters" id="type-coordinatees-switcher-meters" checked></ons-radio>
                             <label for="meters" class="type-coordinatees-switcher-radio-label">
-                            ГГ°ГГГГГ
+                                ГГ°ГГГГГ
                             </label>
                         </div>
                         <div style="display: flex;">
-                            <ons-radio name="type-coordinatees-switcher" input-id="degrees"></ons-radio>
+                            <ons-radio name="type-coordinatees-switcher" input-id="degrees" id="type-coordinatees-switcher-degrees"></ons-radio>
                             <label for="degrees" class="type-coordinatees-switcher-radio-label">
-                            ГГ°ММ'СС.СС"
+                                ГГ°ММ'СС.СС"
                             </label>
                         </div>
                     </div>
@@ -121,17 +121,19 @@
                         Добавить координату
                     </ons-button>
                 </div>
-                <table class="table-coordinates">
-                    <thead>
-                        <tr>
-                            <td class="manual-input-coordinates-td"></td>
-                            <td class="manual-input-coordinates-td">Широта (L)</td>
-                            <td class="manual-input-coordinates-td">Долгота (B)</td>
-                            <td class="manual-input-coordinates-td"></td>  
-                        </tr>
-                    </thead>
-                    <tbody class="table-coordinates-tbody"></tbody>
-                </table>
+                <div class="table-coordinates-container">
+                    <table class="table-coordinates">
+                        <thead>
+                            <tr class="manual-input-coordinates-tr">
+                                <td class="manual-input-coordinates-td"></td>
+                                <td class="manual-input-coordinates-td">Широта (L)</td>
+                                <td class="manual-input-coordinates-td">Долгота (B)</td>
+                                <td class="manual-input-coordinates-td"></td>  
+                            </tr>
+                        </thead>
+                        <tbody class="table-coordinates-tbody"></tbody>
+                    </table>
+                </div>
                 <div class="edit-geometry-bottom-buttons">
                     <ons-button id="edit-geometry-save-changes">Сохранить</ons-button>
                     <ons-button id="edit-geometry-cancel-changes">Отмена</ons-button>
@@ -142,12 +144,40 @@
     </template>
 
     <template id="manualInputCoordinatesTable">
-        <tr>
+        <tr class="manual-input-coordinates-tr">
             <td class="manual-input-coordinates-td numberOfCoordinate"></td>
             <td class="manual-input-coordinates-td latitude"></td>
             <td class="manual-input-coordinates-td longtitude"></td>
-            <td class="manual-input-coordinates-td delete-button"></td>
+            <td class="manual-input-coordinates-td delete-button">
+                <ons-icon icon="md-close"></ons-icon>
+            </td>
         </tr>
+    </template>
+
+    <template id="dialogEditCoordinate">
+        <ons-dialog id="dialog-edit-coordinate">
+            <ons-toolbar class="dialog-toolbar">
+                <div class="center dialog-toolbar-content">
+                    Ввод
+                </div>
+                <div class="right">
+                      <ons-toolbar-button onclick="hideDialog('dialog-edit-coordinate')">
+                          <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                      </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div class="dialog-edit-coordinate-content">
+                <div class="dialog-edit-coordinate-inputs">
+                    <!-- <span>Широта:</span> -->
+                    <input id="latitude" class="mask-input-coordinate" placeholder="Широта" ></input>
+                    <input id="longtitude" class="mask-input-coordinate" placeholder="Долгота" ></input>
+                </div>
+                <div class="edit-geometry-bottom-buttons">
+                    <ons-button id="edit-coordinate-save-changes">Сохранить</ons-button>
+                    <ons-button id="edit-coordinate-cancel-changes">Отмена</ons-button>
+                </div>
+            </div>
+        </ons-dialog>
     </template>
 
     <script>
