@@ -97,11 +97,12 @@ function findFeatureByID(layer, id){
 }
 
 class LayerAtribs{
-    constructor(name, label, type, options = null){
-        this.name = name
-        this.label = label
-        this.type = type
-        this.options = options
+    constructor(name, label, type, visible = true, options = null){
+        this.name = name;
+        this.label = label;
+        this.type = type;
+        this.options = options;
+        this.visible = visible;
     }
 }
 

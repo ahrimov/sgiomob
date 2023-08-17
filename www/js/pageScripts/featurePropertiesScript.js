@@ -36,7 +36,6 @@ function featurePropertiesScript(featureFromPage){
             if(checkServiceField(atrib.name)){
                 continue;
             }
-
             let tr = document.createElement("tr");
             tr.className = "property";
             let td_title = document.createElement("td");
@@ -51,6 +50,9 @@ function featurePropertiesScript(featureFromPage){
             }
             td_content.innerHTML = content;
             tr.append(td_content);
+            if(!atrib.visible){
+                tr.style.visibility = 'collapse';
+            }
             table.append(tr);
 
             values.push(data.rows.item(0)[atrib.name]);
@@ -189,7 +191,6 @@ function featurePropertiesScript(featureFromPage){
         local_map.getView().fit(source.getExtent())
 
         local_map.on('click', function(evt){
-            //centerOnCurrentFeature()
             navigator.popPage({times: navigator.pages.length - 1});
         })
     }
@@ -359,7 +360,7 @@ function featurePropertiesScript(featureFromPage){
         needsCancelNavigator = true;
         let content = document.querySelectorAll('.content')
         for(let index in values){
-            content[index].innerHTML = inputByType(layer.atribs[index], values[index])
+            content[index].innerHTML = inputByType(layer.atribs[index], values[index]);
         }
 
         renderProperties(true)
@@ -622,6 +623,9 @@ function featurePropertiesScript(featureFromPage){
             }
             if(property_lines[index].querySelector('.content').textContent === ''){
                 property_lines[index].style['visibility'] = visibility;
+                if(!layer.atribs[index].visible){
+                    property_lines[index].style['visibility'] = 'collapse';
+                }
             } 
         }
     }

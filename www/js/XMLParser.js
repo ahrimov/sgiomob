@@ -114,20 +114,22 @@ function configParser(data, title){
         layer.set("id", dom.getElementsByTagName("id").item(0).textContent);
         layer.set("descr", dom.getElementsByTagName("label").item(0).textContent);
         layer.id = dom.getElementsByTagName("id").item(0).textContent;
-        layer.label = dom.getElementsByTagName("label").item(0).textContent
+        layer.label = dom.getElementsByTagName("label").item(0).textContent;
         layer.geometryType = geometryType
         layer.atribs = []
         var atribs = dom.getElementsByTagName("attribute")
         for(atrib of atribs){
-                let atribName = atrib.getElementsByTagName('id').item(0).textContent
-                let label = atrib.getElementsByTagName('label').item(0).textContent
+                let atribName = atrib.getElementsByTagName('id').item(0).textContent;
+                let label = atrib.getElementsByTagName('label').item(0).textContent;
+                const tagVisible = atrib.getElementsByTagName('visible').item(0);
+                const visible = tagVisible ? (tagVisible.textContent === 'true') : true;
                 let type = atrib.getAttribute('type')
                 if(type == 'ENUM'){
                     let options = parseEnum(atrib.getElementsByTagName('options').item(0).textContent)
-                    layer.atribs.push(new LayerAtribs(atribName, label, type, options))
+                    layer.atribs.push(new LayerAtribs(atribName, label, type, visible, options))
                 }
                 else
-                    layer.atribs.push(new LayerAtribs(atribName, label, type))
+                    layer.atribs.push(new LayerAtribs(atribName, label, type, visible))
         }
 
         let enabled = true;

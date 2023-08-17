@@ -2,20 +2,21 @@ function newFeatureScipt(pageLayer, pageFeature){
     let layer = pageLayer;
     let feature = pageFeature;   
     let featureImages = []
-    let content  = '<table class="new-feature-content-table">'
+    const content  =  document.createElement('table');
+    content.className = 'new-feature-content-table';
     for(let atrib of layer.atribs){
         if(checkServiceField(atrib.name))
-        continue
-        let line = `<tr>
+            continue;
+        let line = document.createElement('tr');
+        line.innerHTML += `
                 <td class='title'>${atrib.label}</td>
                 <td class='input'>
-                ${inputByType(atrib)}
-                </td>
-            </tr>`
-        content += line
+                    ${inputByType(atrib)}
+                </td>`;
+        if(!atrib.visible) line.style.visibility = 'collapse';
+        content.appendChild(line);
     }
-    content += `</table>`;
-    document.querySelector('#add-feature-content').innerHTML = content;
+    document.querySelector('#add-feature-content').appendChild(content);
 
     let template_gallery = document.querySelector('#photogallery');
     let clone_gallery = template_gallery.content.cloneNode(true);
