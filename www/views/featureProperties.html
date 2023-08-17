@@ -167,11 +167,25 @@
                 </div>
             </ons-toolbar>
             <div class="dialog-edit-coordinate-content">
-                <div class="dialog-edit-coordinate-inputs">
-                    <!-- <span>Широта:</span> -->
-                    <input id="latitude" class="mask-input-coordinate" placeholder="Широта" ></input>
-                    <input id="longtitude" class="mask-input-coordinate" placeholder="Долгота" ></input>
-                </div>
+                <div class="dialog-edit-coordinate-inputs"></div>
+                <template id="dialog-edit-coordinate-inputs-meters">
+                        <ons-input id="latitude" type="number" modifier="underbar" placeholder="Широта" float></ons-input>
+                        <ons-input id="longtitude" type="number" modifier="underbar" placeholder="Долгота" float></ons-input>
+                </template>
+                <template id="dialog-edit-coordinate-inputs-degrees">
+                    <div class="dialog-edit-coordinate-inputs">
+                        <template id="input-degrees">
+                            <div class="input-degrees-container">
+                                <ons-input type="number" class="input-degrees idegree"></ons-input>
+                                °
+                                <ons-input type="number" class="input-degrees iminute"></ons-input>
+                                '
+                                <ons-input type="number" class="input-degrees isec"></ons-input>
+                                "
+                            </div>
+                        </template>
+                    </div>
+                </template>
                 <div class="edit-geometry-bottom-buttons">
                     <ons-button id="edit-coordinate-save-changes">Сохранить</ons-button>
                     <ons-button id="edit-coordinate-cancel-changes">Отмена</ons-button>

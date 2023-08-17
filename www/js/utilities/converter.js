@@ -14,8 +14,8 @@ function getDecimalPortion(float){
 
 function transformToDecimal(value){
 	const degrees = parseFloat(value.slice(0, value.indexOf('°')));
-	const minutes = parseFloat(value.slice(value.indexOf('°') + 1, value.indexOf('\''))) / 60;
-	const seconds = parseFloat(value.slice(value.indexOf('\'') + 1, value.indexOf('\'\''))) / 3600;
+	const minutes = (parseFloat(value.slice(value.indexOf('°') + 1, value.indexOf('\''))) / 60) || 0;
+	const seconds = (parseFloat(value.slice(value.indexOf('\'') + 1, value.indexOf('\'\''))) / 3600) || 0;
 	const res = degrees + minutes + seconds;
 	return res.toFixed(7);
 }

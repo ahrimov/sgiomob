@@ -206,24 +206,6 @@ function featurePropertiesScript(featureFromPage){
         let tr = document.createElement("tr");
         tr.className = 'geometry-property';
         fillGeometryProperty(tr, geometry, layer.geometryType);
-        // switch(layer.geometryType){
-        //     case "MULTIPOINT":
-        //         tr.innerHTML += `<td class='title'>Координаты точки</td>`
-        //         let coords = geometry.getCoordinates()
-        //         let str = coords.toString()
-        //         let arr = str.split(',')
-        //         let lonlat = ol.proj.toLonLat([parseInt(arr[0]), parseInt(arr[1])]);
-        //         tr.innerHTML += `<td class='metric'>${ol.coordinate.toStringXY(lonlat, 7)}</td>`
-        //         break
-        //     case 'MULTILINESTRING':
-        //         tr.innerHTML += `<td class='title'>Длина линии</td>`
-        //         tr.innerHTML += `<td class='metric'>${ol.sphere.getLength(geometry).toFixed(7)}</td>`
-        //         break
-        //     case 'MULTIPOLYGON':
-        //         tr.innerHTML += `<td class='title'>Площадь</td>`
-        //         tr.innerHTML += `<td class='metric'>${ol.sphere.getArea(geometry).toFixed(7)}</td>`
-        //         break
-        // }
         return tr;
     }
 
@@ -345,14 +327,13 @@ function featurePropertiesScript(featureFromPage){
 
 
     function centerOnCurrentFeature(){
-        centerOnFeature(feature.getGeometry().getClosestPoint([0,0]))
+        centerOnFeature(feature.getGeometry().getClosestPoint([0,0]));
     }
 
     function centerOnFeature(center){
-        let navigator = document.querySelector('#myNavigator')
-        map.getView().setCenter(center)
-        /*map.getView().setZoom(map.getView().getMaxZoom())*/
-        navigator.popPage({times: navigator.pages.length - 1})
+        let navigator = document.querySelector('#myNavigator');
+        map.getView().setCenter(center);
+        navigator.popPage({times: navigator.pages.length - 1});
     }
 
     function clickEditFeature(){
@@ -405,7 +386,10 @@ function featurePropertiesScript(featureFromPage){
                 document.querySelector('#manual-edit-geometry-add-coordinate-button').addEventListener('click', () => {
                     createDialogEditCoordinate([], typeOfCoordinates, (coordinate) => {
                         const newCoord = ol.proj.fromLonLat(coordinate, map.getView().getProjection());
-                        if(isNaN(newCoord[0]) || isNaN(newCoord[1])) return;
+                        if(isNaN(newCoord[0]) || isNaN(newCoord[1])) {
+                            ons.notification.toast('Некорректный ввод. Отмена операции', {timeout: 1000, animation: "ascend"});
+                            return;
+                        }
                         coordinates.push(newCoord);
                         updateTableCoordinates();
                     })
@@ -445,7 +429,10 @@ function featurePropertiesScript(featureFromPage){
                 tableElement.querySelector('.manual-input-coordinates-tr').addEventListener('click', () => {
                     createDialogEditCoordinate(lonLatCoordinate, typeOfCoordinates, (coordinate) => {
                         const newCoord = ol.proj.fromLonLat(coordinate, map.getView().getProjection());
-                        if(isNaN(newCoord[0]) || isNaN(newCoord[1])) return;
+                        if(isNaN(newCoord[0]) || isNaN(newCoord[1])){
+                            ons.notification.toast('Некорректный ввод. Отмена операции', {timeout: 1000, animation: "ascend"});
+                            return;
+                        }
                         coordinates[i] = newCoord;
                         updateTableCoordinates();
                     });
@@ -469,43 +456,55 @@ function featurePropertiesScript(featureFromPage){
     function createDialogEditCoordinate(coordinate = [], typeOfCoordinates, callback){
         ons.createElement('dialogEditCoordinate', {append: true})
             .then(function(dialog){
-                const dialogContent = document.querySelector('#dialog-edit-coordinate');
-                const lonInputElement = dialogContent.querySelector('#longtitude');
-                const latInputElement = dialogContent.querySelector('#latitude');
-                let mask;
+                //const dialogContainer = document.querySelector('#dialog-edit-coordinate-content');
+                const dialogContent = document.querySelector('.dialog-edit-coordinate-content');
+                const inputContainer = document.querySelector('.dialog-edit-coordinate-inputs');
+                //const lonInputElement = dialogContent.querySelector('#longtitude');
+                //const latInputElement = dialogContent.querySelector('#latitude');
+                //let mask; 
+                // let lon = 0, lat = 0;
                 if(typeOfCoordinates === 'decimal'){
-                    mask = {mask: /^\d+(\.\d{0,7}){0,1}$/};
+                    const template = dialogContent.querySelector('#dialog-edit-coordinate-inputs-meters');
+                    const inputs = template.content.cloneNode(true);
+                    inputContainer.appendChild(inputs);
+                    if(coordinate.length > 0){
+                        dialogContent.querySelector('#longtitude').value = coordinate[0].toFixed(7);
+                        dialogContent.querySelector('#latitude').value = coordinate[1].toFixed(7);
+                    }
                 } else {
-                    mask = {
-                        mask: `XX°XX'XX.XX"`,
-                        definitions: {
-                            X: {
-                                mask: '0',
-                                placeholderChar: '0'
-                            },
-                        },
-                        lazy: false,
-                        overwrite: false
-                    };
-                }
-                IMask(lonInputElement, mask);
-                IMask(latInputElement, mask);
-                if(coordinate.length > 0){
-                    const lon = typeOfCoordinates === 'degrees' ? 
-                        transformDecimalToMinutesAndSeconds(coordinate[0].toFixed(7)) : coordinate[0].toFixed(7);
-                    const lat = typeOfCoordinates === 'degrees' ? 
-                        transformDecimalToMinutesAndSeconds(coordinate[1].toFixed(7)) : coordinate[1].toFixed(7);
-                    dialogContent.querySelector('#longtitude').value = lon;
-                    dialogContent.querySelector('#latitude').value = lat;
+                    const template = dialogContent.querySelector('#dialog-edit-coordinate-inputs-degrees');
+                    const inputs = template.content.cloneNode(true);
+                    const templateDegreeInput = inputs.querySelector('#input-degrees');
+                    for(let i in [0, 1]){
+                        const degreeInput = templateDegreeInput.content.cloneNode(true);
+                        inputContainer.appendChild(degreeInput);
+                    }
+                    if(coordinate.length > 0){
+                        for(let i in [0, 1]){
+                            const c = transformDecimalToMinutesAndSeconds(coordinate[1-i].toFixed(7));
+                            dialogContent.getElementsByClassName('idegree')[i].value = c.slice(0, c.indexOf('°'));
+                            dialogContent.getElementsByClassName('iminute')[i].value = c.slice(c.indexOf('°') + 1, c.indexOf('\''));
+                            dialogContent.getElementsByClassName('isec')[i].value = c.slice(c.indexOf('\'') + 1, c.indexOf('\"'));
+                        }
+                    }
                 }
                 dialogContent.querySelector('#edit-coordinate-save-changes').addEventListener('click', () => {
-                    let lon = dialogContent.querySelector('#longtitude').value;
-                    let lat = dialogContent.querySelector('#latitude').value;
+                    let newCoord = [];
                     if(typeOfCoordinates === 'degrees'){
-                        lon = transformToDecimal(lon);
-                        lat = transformToDecimal(lat);
+                        const inputs =  document.getElementsByClassName('input-degrees-container'); 
+                        for(let input of inputs){
+                            let degree = input.querySelector('.idegree').value + '°' + input.querySelector('.iminute').value +
+                                '\'' + input.querySelector('.isec').value + '\"';
+                            let decimal = transformToDecimal(degree);
+                            newCoord.push(decimal);
+                        }
+                        newCoord = newCoord.reverse();
+                    } else {
+                        let lon = dialogContent.querySelector('#longtitude').value;
+                        let lat = dialogContent.querySelector('#latitude').value;
+                        newCoord = [lon, lat];
                     }
-                    callback([lon, lat]);
+                    callback(newCoord);
                     hideDialog('dialog-edit-coordinate');
                 });
                 dialogContent.querySelector('#edit-coordinate-cancel-changes').addEventListener('click', () => {
