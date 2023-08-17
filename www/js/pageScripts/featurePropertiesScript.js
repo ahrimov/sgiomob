@@ -199,29 +199,58 @@ function featurePropertiesScript(featureFromPage){
             return ``;
         }
         const format = new ol.format.WKT();
-        let wkt = geom
+        let wkt = geom;
         let feature = format.readFeature(wkt.replace(/nan/g, "0"))
         let geometry = feature.getGeometry()
         let tr = document.createElement("tr");
-        switch(layer.geometryType){
+        tr.className = 'geometry-property';
+        fillGeometryProperty(tr, geometry, layer.geometryType);
+        // switch(layer.geometryType){
+        //     case "MULTIPOINT":
+        //         tr.innerHTML += `<td class='title'>Координаты точки</td>`
+        //         let coords = geometry.getCoordinates()
+        //         let str = coords.toString()
+        //         let arr = str.split(',')
+        //         let lonlat = ol.proj.toLonLat([parseInt(arr[0]), parseInt(arr[1])]);
+        //         tr.innerHTML += `<td class='metric'>${ol.coordinate.toStringXY(lonlat, 7)}</td>`
+        //         break
+        //     case 'MULTILINESTRING':
+        //         tr.innerHTML += `<td class='title'>Длина линии</td>`
+        //         tr.innerHTML += `<td class='metric'>${ol.sphere.getLength(geometry).toFixed(7)}</td>`
+        //         break
+        //     case 'MULTIPOLYGON':
+        //         tr.innerHTML += `<td class='title'>Площадь</td>`
+        //         tr.innerHTML += `<td class='metric'>${ol.sphere.getArea(geometry).toFixed(7)}</td>`
+        //         break
+        // }
+        return tr;
+    }
+
+    function fillGeometryProperty(element, geometry, geometryType){
+        switch(geometryType){
             case "MULTIPOINT":
-                tr.innerHTML += `<td class='title'>Координаты точки</td>`
+                element.innerHTML += `<td class='title'>Координаты точки</td>`
                 let coords = geometry.getCoordinates()
                 let str = coords.toString()
                 let arr = str.split(',')
                 let lonlat = ol.proj.toLonLat([parseInt(arr[0]), parseInt(arr[1])]);
-                tr.innerHTML += `<td class='metric'>${ol.coordinate.toStringXY(lonlat, 5)}</td>`
+                element.innerHTML += `<td class='metric'>${ol.coordinate.toStringXY(lonlat, 7)}</td>`
                 break
             case 'MULTILINESTRING':
-                tr.innerHTML += `<td class='title'>Длина линии</td>`
-                tr.innerHTML += `<td class='metric'>${ol.sphere.getLength(geometry).toFixed(5)}</td>`
+                element.innerHTML += `<td class='title'>Длина линии</td>`
+                element.innerHTML += `<td class='metric'>${ol.sphere.getLength(geometry).toFixed(7)}</td>`
                 break
             case 'MULTIPOLYGON':
-                tr.innerHTML += `<td class='title'>Площадь</td>`
-                tr.innerHTML += `<td class='metric'>${ol.sphere.getArea(geometry).toFixed(5)}</td>`
+                element.innerHTML += `<td class='title'>Площадь</td>`
+                element.innerHTML += `<td class='metric'>${ol.sphere.getArea(geometry).toFixed(7)}</td>`
                 break
         }
-        return tr;
+    }
+
+    function updateGeometryProperty(geometry, geometryType){
+        const element = document.querySelector('.geometry-property');
+        element.innerHTML = '';
+        fillGeometryProperty(element, geometry, geometryType);
     }
 
     //camera function
@@ -519,7 +548,8 @@ function featurePropertiesScript(featureFromPage){
         feautureString = convertToGeometryType(feautureString);
         const query = `UPDATE ${layer.id } SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`
         requestToDB(query, function(res){
-            saveDB()
+            saveDB();
+            updateGeometryProperty(geometry, layer.geometryType);
         });
     }
 
