@@ -545,7 +545,7 @@ function featurePropertiesScript(featureFromPage){
         local_map.getView().fit(geometry.getExtent());
         const format = new ol.format.WKT();
         let feautureString = format.writeFeature(feature);
-        //feautureString = convertToGeometryType(feautureString);
+        // feautureString = convertToGeometryType(feautureString);
         const query = `UPDATE ${layer.id } SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`
         console.log(query);
         requestToDB(query, function(res){
