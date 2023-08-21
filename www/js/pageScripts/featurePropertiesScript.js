@@ -546,18 +546,9 @@ function featurePropertiesScript(featureFromPage){
         const format = new ol.format.WKT();
         let feautureString = format.writeFeature(feature);
         // feautureString = convertToGeometryType(feautureString);
-        const query = `UPDATE ${layer.id } SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`
-        console.log(query);
+        const query = `UPDATE ${layer.id } SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`;
         requestToDB(query, function(res){
             saveDB();
-
-            const q = `SELECT ${layer.atribs[0].name} as id, type_cl as type_cl, AsText(Geometry) as geom from ` + layer.id;
-            requestToDB(q, function(res){
-                console.log(res);
-                for(let i = 0; i < res.rows.length; i++){
-                    console.log(res.rows.item(i));
-                }
-            });
             updateGeometryProperty(geometry, layer.geometryType);
         });
     }

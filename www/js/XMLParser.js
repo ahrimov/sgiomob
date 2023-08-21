@@ -63,7 +63,6 @@ function configParser(data, title){
                 try{
                     styles = await pointStyleParse(geometryStyles);
                 } catch(e) {
-                    console.log(e)
                     styles = { 
                         'default': new ol.style.Style({
                             image: new ol.style.Circle({
@@ -175,22 +174,6 @@ function configParser(data, title){
 
 async function pointStyleParse(domStyles){
     const styles = {};
-
-    // const icon = await new Promise((resolve, reject) => {
-    //     const fileName = cordova.file.applicationDirectory + "www/resources/images/assets/VALVE.png";
-    //     window.resolveLocalFileSystemURL(fileName, (fileEntry) => {
-    //         console.log('suc ', fileEntry.toInternalURL())
-    //         resolve(new ol.style.Style({
-    //             image: new ol.style.Icon({
-    //                 src: fileEntry.toInternalURL(),
-    //             })
-    //         }))
-    //     }, (error) => {
-    //         console.log('error while opening: ', fileName);
-    //     });
-    // });
-    // styles['default'] = icon;
-    // return styles;
 
     for(let dom of domStyles){
         const type = dom.getAttribute('type') || 'default';

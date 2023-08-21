@@ -298,14 +298,7 @@ function addModify(layer, feature){
 
     const modify = new ol.interaction.Modify({
         features: new ol.Collection([feature]),
-        condition: ol.events.condition.always, /*function(olBrowserEvent){
-            console.log(olBrowserEvent.type)
-            console.log(olBrowserEvent.target.type)
-            for(let key in olBrowserEvent.target){
-                console.log(key)
-            }
-            return this.getPointerCount() !== 2;
-        },*/
+        condition: ol.events.condition.always,
         pixelTolerance: 30,
         style: function (feature) {
             var point = feature.getGeometry().getCoordinates();

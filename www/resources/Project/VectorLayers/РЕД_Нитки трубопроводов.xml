@@ -222,6 +222,20 @@
           </LineSymbolizer>
         </Rule>
       </geometryStyle>
+      <extendedStyles>
+        <geometryStyle type="ROUTE_TYPE_01">
+        <colorFill>#24fc03</colorFill>
+        <widthLine>3</widthLine>
+        <Rule>
+          <LineSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
+            <Stroke>
+              <CssParameter name="stroke">#24fc03</CssParameter>
+              <CssParameter name="stroke-width">3.00</CssParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+      </geometryStyle>
+      </extendedStyles>
     </layerDb>
   </layers>
 </template>
