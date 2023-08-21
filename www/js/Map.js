@@ -331,10 +331,10 @@ function addModify(layer, feature){
     map.modify = modify
 
     map.modify.modifyFeature = feature;
-    map.modify.featureStyle = layer.getStyle().clone();
+    map.modify.featureStyle = layer.getStyle();
     map.modify.oldGeometry = old_geometry;
 
-    let style = layer.getStyle().clone();
+    let style = layer.getStyle();
     switch(layer.geometryType){
         case 'MULTIPOINT':
             style = new ol.style.Style({
@@ -345,14 +345,14 @@ function addModify(layer, feature){
                 })
             })
             break;
-        case 'MULTIPOLYGON':
-            style.getStroke().setWidth(3);
-            style.getStroke().setColor(selectedColor);
-            break;
-        case 'MULTILINESTRING':
-            style.getStroke().setWidth(3);
-            style.getStroke().setColor(selectedColor);
-            break;
+        // case 'MULTIPOLYGON':
+        //     style.getStroke().setWidth(3);
+        //     style.getStroke().setColor(selectedColor);
+        //     break;
+        // case 'MULTILINESTRING':
+        //     style.getStroke().setWidth(3);
+        //     style.getStroke().setColor(selectedColor);
+        //     break;
     }
     feature.setStyle(style);
     createFeatureNodes(feature);

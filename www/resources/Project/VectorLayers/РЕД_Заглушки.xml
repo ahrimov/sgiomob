@@ -106,6 +106,42 @@
           </PointSymbolizer>
         </Rule>
       </geometryStyle>
+      <extendedStyles>
+        <geometryStyle type="CLOSURE_TYPE_01">
+          <Rule>
+            <PointSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
+            <Graphic>
+              <Mark>
+                <Fill>
+                  <CssParameter name="fill">#F7E707</CssParameter>
+                </Fill>
+                <Stroke>
+                  <CssParameter name="stroke">#000000</CssParameter>
+                  <CssParameter name="stroke-width">1.00</CssParameter>
+                </Stroke>
+                <WellKnownName>square</WellKnownName>
+              </Mark>
+              <Size>3.00</Size>
+              <Opacity>1.00</Opacity>
+              <Rotation>0.00</Rotation>
+            </Graphic>
+          </PointSymbolizer>
+          </Rule>
+        </geometryStyle>
+        <geometryStyle type="CLOSURE_TYPE_02">
+          <Rule>
+            <PointSymbolizer>
+              <Graphic>
+                <ExternalGraphic>
+                  <Resource>/assets/VALVE_ST_GREEN.png</Resource>
+                  <Format>image/png</Format>
+                </ExternalGraphic>
+                <Size>32</Size>
+              </Graphic>
+            </PointSymbolizer>
+          </Rule>
+        </geometryStyle>
+      </extendedStyles>
     </layerDb>
   </layers>
 </template>

@@ -125,12 +125,14 @@ async function importKML(layerID, dict, features){
             else{
                 let atribNames = []
                 let atribValues = []
+                const values = []
                 for(let key in dict){
                     if(typeof dict[key] == 'undefined' || dict[key] === '' ||
                         typeof props[dict[key]] == 'undefined')
                         continue;
                     atribNames.push(key)
                     atribValues.push(`'${props[dict[key]]}'`)
+                    values.push(props[dict[key]]);
                 }
 
                 let geom = feature.getGeometry()
@@ -145,7 +147,12 @@ async function importKML(layerID, dict, features){
                 requestToDB(query, function(res){
                     feature.id = feature_id
                     feature.layerID = layer.id
-                    feature.setStyle(layer.getStyle())
+                    const typeIndex = atribNames.indexOf('type_cl');
+                    if(typeIndex >= 0)
+                        feature.type = values[typeIndex];
+                    else 
+                        feature.type = 'default';
+                    // feature.setStyle(layer.getStyle())
                     layer.getSource().addFeature(feature)
                     saveDB()
                     loading.elementLoaded()

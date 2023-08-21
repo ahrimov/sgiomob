@@ -153,6 +153,60 @@
           </PointSymbolizer>
         </Rule>
       </geometryStyle>
+      <extendedStyles>
+        <geometryStyle type="DP_TYPE_01">
+          <Rule>
+            <PointSymbolizer>
+              <Graphic>
+                <ExternalGraphic>
+                  <Resource>/assets/DISTR_PLANT.png</Resource>
+                  <Format>image/png</Format>
+                </ExternalGraphic>
+                <Size>16</Size>
+              </Graphic>
+            </PointSymbolizer>
+          </Rule>
+        </geometryStyle>
+        <geometryStyle type="DP_TYPE_02">
+          <Rule>
+            <PointSymbolizer>
+              <Graphic>
+                <ExternalGraphic>
+                  <Resource>/assets/VALVE.png</Resource>
+                  <Format>image/png</Format>
+                </ExternalGraphic>
+                <Size>32</Size>
+              </Graphic>
+            </PointSymbolizer>
+          </Rule>
+        </geometryStyle>
+        <geometryStyle type="DP_TYPE_03">
+          <Rule>
+            <PointSymbolizer>
+              <Graphic>
+                <ExternalGraphic>
+                  <Resource>/assets/RRS.png</Resource>
+                  <Format>image/png</Format>
+                </ExternalGraphic>
+                <Size>32</Size>
+              </Graphic>
+            </PointSymbolizer>
+          </Rule>
+        </geometryStyle>
+        <geometryStyle type="DP_TYPE_04">
+          <Rule>
+            <PointSymbolizer>
+              <Graphic>
+                <ExternalGraphic>
+                  <Resource>/assets/METER_STATION.png</Resource>
+                  <Format>image/png</Format>
+                </ExternalGraphic>
+                <Size>32</Size>
+              </Graphic>
+            </PointSymbolizer>
+          </Rule>
+        </geometryStyle>
+      </extendedStyles>
     </layerDb>
   </layers>
 </template>

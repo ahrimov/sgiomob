@@ -92,8 +92,12 @@ function getDataLayerFromBD(layer){
         setTimeout(getDataLayerFromBD, 50, layer)
         return
     }
-    var source = new ol.source.Vector()
-    const query =  `SELECT ${layer.atribs[0].name} as id, AsText(Geometry) as geom from ` + layer.id
+    let query =  `SELECT ${layer.atribs[0].name} as id, AsText(Geometry) as geom from ` + layer.id;
+    const source = new ol.source.Vector();
+    const atribType = layer.atribs.filter((atrib) => atrib.name === 'type_cl');
+    if(atribType.length > 0){
+        query =  `SELECT ${layer.atribs[0].name} as id, type_cl as type_cl, AsText(Geometry) as geom from ` + layer.id;
+    }
     try{  
         var querySuccess = function (tx, res) {
             const format = new ol.format.WKT();
@@ -105,6 +109,7 @@ function getDataLayerFromBD(layer){
                     feature = format.readFeature(wkt.replace(/nan/g, "0"));
                 feature.id = res.rows.item(i).id;
                 feature.layerID = layer.id;
+                feature.type = res.rows.item(i).type_cl;
                 source.addFeature(feature);
             }
             layer.setSource(source)

@@ -36,25 +36,32 @@ function newFeatureScipt(pageLayer, pageFeature){
     }
 
     function saveFeature(){
-        let atribNames = []
-        let atribValues = []
+        let atribNames = [];
+        let atribValues = [];
+        const values = [];
         for(let atrib of layer.atribs){
-        if(checkServiceField(atrib.name))
-            continue
-        if(atrib.type == 'BOOLEAN'){
-            atribNames.push(atrib.name)
-            if(document.querySelector(`#${atrib.name}`).checked == true)
-            atribValues.push(1)
-            else
-            atribValues.push(0)
-        }
-        else{
-            let value = document.querySelector(`#${atrib.name}`).value
-            if(value != ''){
-            atribNames.push(atrib.name)
-            atribValues.push(`'${value}'`)
+            if(checkServiceField(atrib.name))
+                continue
+            if(atrib.type == 'BOOLEAN'){
+                atribNames.push(atrib.name);
+                if(document.querySelector(`#${atrib.name}`).checked == true){
+                    atribValues.push(1);
+                    values.push(1);
+                }
+                else{
+                    atribValues.push(0);
+                    values.push(1);
+                }
             }
-        }
+            else{
+                let value = document.querySelector(`#${atrib.name}`).value
+                if(value != ''){
+                    atribNames.push(atrib.name)
+                    atribValues.push(`'${value}'`)
+                    values.push(value);
+                }
+            }
+
         }
         const format = new ol.format.WKT()
         let feautureString = format.writeFeature(feature)
@@ -65,16 +72,22 @@ function newFeatureScipt(pageLayer, pageFeature){
                     ;`
         console.log(query)
         requestToDB(query, function(res){
-        let id = document.querySelector(`#${layer.atribs[0].name}`).value
-        feature.id = id
-        feature.layerID = layer.id
-        finishDraw()
-        document.querySelector('#myNavigator').popPage();
+            let id = document.querySelector(`#${layer.atribs[0].name}`).value
+            feature.id = id
+            feature.layerID = layer.id
+            const typeIndex = atribNames.indexOf('type_cl');
+            if(typeIndex >= 0)
+                feature.type = values[typeIndex];
+            else 
+                feature.type = 'default';
+            finishDraw();
+            document.querySelector('#myNavigator').popPage();
 
-        if(featureImages.length > 0)
-            saveImageToNewFeature();
+            if(featureImages.length > 0)
+                saveImageToNewFeature();
 
-        saveDB();
+            feature.changed();
+            saveDB();
         }) 
     }
 
