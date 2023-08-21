@@ -585,10 +585,17 @@ function featurePropertiesScript(featureFromPage){
         const query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature.id}`
         requestToDB(query, function(res){
             feature.id = values[0];
+
             const typeIndex = atribs.indexOf('type_cl');
             if(typeIndex >= 0){
                 feature.type = values[typeIndex];
             }
+
+            const labelIndex = atribs.indexOf('description');
+            if(labelIndex >= 0){
+                feature.label = values[labelIndex];
+            }
+
             feature.changed();
             saveDB();
         })

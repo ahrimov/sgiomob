@@ -558,3 +558,7 @@ function isServiceFeature(feature){
     const name = feature.get('name');
     return (name === GEO_MARKER_NAME || name === GPS_ACCURACY_NAME);
 }
+
+// function createOlFeature(id, geometry, type = 'default', label = null){
+    
+// }

@@ -94,13 +94,17 @@ async function importKML(layerID, dict, features){
         let query = `SELECT COUNT(1) as bool FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature_id};`
         await requestToDB(query, function(data){
             if(data.rows.item(0).bool == 1){
-                let updates = []
+                let updates = [];
+                const atribNames = [];
+                const values = [];
                 for(let key in dict){
                     if(typeof dict[key] == 'undefined' ||
-                     dict[key] == '' || typeof props[dict[key]] == 'undefined' ||
-                     key == 'ID')
-                        continue
-                    updates.push(`${key} = '${props[dict[key]]}'`)
+                        dict[key] == '' || typeof props[dict[key]] == 'undefined' ||
+                        key == 'ID')
+                        continue;
+                    updates.push(`${key} = '${props[dict[key]]}'`);
+                    atribNames.push(key);
+                    values.push(props[dict[key]]);
                 }
 
                 let geom = feature.getGeometry()
@@ -114,10 +118,19 @@ async function importKML(layerID, dict, features){
                 requestToDB(query, function(res){
                     for(let old_feature of layer.getSource().getFeatures()){
                         if(old_feature.id == feature_id){
-                            old_feature.setGeometry(feature.getGeometry())
-                            saveDB()
-                            loading.elementLoaded()
-                            break
+                            old_feature.setGeometry(feature.getGeometry());
+                            saveDB();
+
+                            const typeIndex = atribNames.indexOf('type_cl');
+                            if(typeIndex >= 0)
+                                old_feature.type = values[typeIndex];
+                            
+                            const labelIndex = atribNames.indexOf('description');
+                            if(labelIndex >= 0)
+                                old_feature.label = values[labelIndex];
+
+                            loading.elementLoaded();
+                            break;
                         }
                     }
                 })
@@ -145,17 +158,22 @@ async function importKML(layerID, dict, features){
                     VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
                 ;`
                 requestToDB(query, function(res){
-                    feature.id = feature_id
-                    feature.layerID = layer.id
+                    feature.id = feature_id;
+                    feature.layerID = layer.id;
+
                     const typeIndex = atribNames.indexOf('type_cl');
                     if(typeIndex >= 0)
                         feature.type = values[typeIndex];
                     else 
                         feature.type = 'default';
                     // feature.setStyle(layer.getStyle())
-                    layer.getSource().addFeature(feature)
-                    saveDB()
-                    loading.elementLoaded()
+                    const labelIndex = atribNames.indexOf('description');
+                    if(labelIndex >= 0)
+                        feature.label = values[labelIndex];
+
+                    layer.getSource().addFeature(feature);
+                    saveDB();
+                    loading.elementLoaded();
                   })       
             }
         }, `Ошибка в импортируемом KML.`);

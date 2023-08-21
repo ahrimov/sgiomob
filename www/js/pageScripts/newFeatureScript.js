@@ -72,14 +72,20 @@ function newFeatureScipt(pageLayer, pageFeature){
                     ;`
         console.log(query)
         requestToDB(query, function(res){
-            let id = document.querySelector(`#${layer.atribs[0].name}`).value
-            feature.id = id
-            feature.layerID = layer.id
+            let id = document.querySelector(`#${layer.atribs[0].name}`).value;
+            feature.id = id;
+            feature.layerID = layer.id;
+
             const typeIndex = atribNames.indexOf('type_cl');
             if(typeIndex >= 0)
                 feature.type = values[typeIndex];
             else 
                 feature.type = 'default';
+
+            const labelIndex = atribNames.indexOf('description');
+            if(labelIndex >= 0)
+                feature.label = values[labelIndex];
+
             finishDraw();
             document.querySelector('#myNavigator').popPage();
 

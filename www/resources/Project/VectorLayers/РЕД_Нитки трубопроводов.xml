@@ -236,6 +236,17 @@
         </Rule>
       </geometryStyle>
       </extendedStyles>
+      <LabelStyle>
+        <color>#f2930f</color>
+        <fontSize>12</fontSize>
+        <bold>0</bold>
+        <italic>1</italic>
+        <fontFamily>sans-serif</fontFamily>
+        <StrokeStyle>
+          <Width>3</Width>
+          <Color>#ffffff</Color>
+        </StrokeStyle>
+      </LabelStyle>
     </layerDb>
   </layers>
 </template>

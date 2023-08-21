@@ -115,13 +115,22 @@ function configParser(data, title){
                     })
                 };
         }
+
+        const labelStyle = labelStyleParse(dom);
+
         const layer = new ol.layer.Vector({
             style: function(feature){
+                let featureStyle = styles['default'].clone();
                 const atribs = layer.atribs;
                 const type = feature.type || 'default';
-                if(type === 'UNKNOWN' || !styles[type])
-                    return styles['default'];
-                return styles[type];
+                if(type !== 'UNKNOWN' || styles[type])
+                    featureStyle = styles[type].clone();
+                if(feature.label){
+                    const featureLabelStyle = labelStyle.clone();
+                    featureLabelStyle.setText(feature.label);
+                    featureStyle.setText(featureLabelStyle);
+                }
+                return featureStyle;
             },
             renderMode: 'image'
         }); 
@@ -273,6 +282,39 @@ function lineStyleParse(domStyles){
     }
     return styles;
 }
+
+function labelStyleParse(dom){
+    const defaultStyle = new ol.style.Text({
+        fill: new ol.style.Fill({color: '#000000'})
+    });
+    const labelStyleDom = dom.getElementsByTagName('LabelStyle')?.item(0);
+    if(!labelStyleDom)
+        return defaultStyle; 
+    const color = labelStyleDom.getElementsByTagName('color')?.item(0)?.textContent;
+    const fontSize = labelStyleDom.getElementsByTagName('fontSize')?.item(0)?.textContent;
+    const bold = labelStyleDom.getElementsByTagName('bold')?.item(0)?.textContent === '1';
+    const italic = labelStyleDom.getElementsByTagName('italic')?.item(0)?.textContent === '1';
+    const underline = labelStyleDom.getElementsByTagName('underline')?.item(0)?.textContent === '1';
+    const fontFamily = labelStyleDom.getElementsByTagName('fontFamily')?.item(0)?.textContent;
+    const strokeStyleDom = labelStyleDom.getElementsByTagName('StrokeStyle')?.item(0);
+    const strokeWidth = strokeStyleDom.getElementsByTagName('Width')?.item(0)?.textContent || 1;
+    const strokeColor = strokeStyleDom.getElementsByTagName('Color')?.item(0)?.textContent || '#ffffff';
+    // const placement = labelStyleDom.getElementsByTagName('Placement')?.item(0)?.textContent || 'point';
+    // const repeat = labelStyleDom.getElementsByTagName('Repeat')?.item(0)?.textContent || 10000;
+    const font = (bold ? 'bold ' : '') + (italic ? 'italic ' : '') + fontSize + 'px ' + fontFamily;
+    return new ol.style.Text({
+        fill: new ol.style.Fill({color: color}),
+        font: font,
+        offsetY: (parseInt(strokeWidth) - 1) * (-50),
+        stroke: new ol.style.Stroke({
+            color: strokeColor,
+            width: strokeWidth
+        }),
+        // placement: placement,
+        // repeat: repeat
+    });
+}
+
 
 function parseEnum(options_string){
     let options_array = options_string.split('|');
