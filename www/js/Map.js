@@ -225,7 +225,7 @@ function appendCoordinate(coordinate){
         })
         drawNextPoint(map.activeLayer, feature)
         let source = map.activeLayer.getSource()
-        source.addFeature(feature)
+        source.addFeature(feature);
         
         let acceptDrawButton = document.querySelector('.accept-draw-button-fab')
         acceptDrawButton.disabled = false

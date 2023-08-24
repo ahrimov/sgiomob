@@ -47,3 +47,11 @@ function getZoomForExtent(extent, map){
 	const resolution = Math.max(ol.extent.getWidth(extent) / viewSize[0], ol.extent.getHeight(extent) / viewSize[1]);
 	return view.getZoomForResolution(resolution);
 }
+
+function convertColorToHEX(color){
+	if(color.length === 8){
+		console.log('#' + color.slice(2, 8))
+		return '#' + color.slice(2, 8);
+	}
+	return color;
+}

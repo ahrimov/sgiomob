@@ -162,6 +162,12 @@ function configParser(data, title){
                 featureLabelStyle.setText(feature.label);
                 featureStyle.setText(featureLabelStyle);
             }
+            // return new ol.style.Style({
+            //     stroke: new ol.style.Stroke({
+            //         color: '#000000',
+            //         width: 1
+            //     })
+            // });
             return featureStyle;
         });
 
@@ -244,8 +250,8 @@ async function pointStyleParse(dom){
         
         const style = new ol.style.Style({});
 
-        style.zoomMin = parseFloat(dom.getElementsByTagName('zoomMax').item(0)?.textContent);
-        style.zoomMax = parseFloat(dom.getElementsByTagName('zoomMin').item(0)?.textContent);
+        style.zoomMin = parseFloat(domStyle.getElementsByTagName('zoomMax').item(0)?.textContent);
+        style.zoomMax = parseFloat(domStyle.getElementsByTagName('zoomMin').item(0)?.textContent);
 
         const iconStyle = domStyle.getElementsByTagName('IconStyle').item(0);
         if(iconStyle){
@@ -275,6 +281,7 @@ async function pointStyleParse(dom){
 
         const labelStyle = labelStyleParse(domStyle);
         style.setText(labelStyle);
+
         return style;
     }
 
@@ -324,76 +331,6 @@ async function pointStyleParse(dom){
         style.setText(labelStyle);
         return style;
     } 
-
-
-
-
-    // for(let dom of domStyles){
-    //     const type = dom.getAttribute('type') || 'default';
-    //     const externalGraphic = dom.getElementsByTagName("ExternalGraphic")[0];
-    //     if(externalGraphic){
-    //         const linkToImage = dom.getElementsByTagName("Resource")[0].textContent;
-    //         const imageSize = parseInt(dom.getElementsByTagName('Size')[0].textContent);
-    //         const icon = await new Promise((resolve, reject) => {
-    //             window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + "www/resources/images" + linkToImage, (fileEntry) => {
-    //                 resolve(
-    //                     new ol.style.Style({
-    //                         image: new ol.style.Icon({
-    //                             src: fileEntry.toInternalURL(),
-    //                             size: [imageSize, imageSize]
-    //                         })
-    //                     })
-    //                 );
-    //             }, (e) => {
-    //                 console.log('Error while opening: ', linkToImage);
-    //             });
-    //         });
-    //         styles[type] = icon;
-    //     } else {
-    //         var fill = new ol.style.Fill({color: dom.getElementsByTagName("Fill").item(0).getElementsByTagName("CssParameter").item(0).textContent})
-    //         var xmlStroke = dom.getElementsByTagName("Stroke").item(0)
-    //         var stroke = new ol.style.Stroke({color:xmlStroke.getElementsByTagName("CssParameter").item(0).textContent, width:parseInt(xmlStroke.getElementsByTagName("CssParameter").item(1).textContent)})
-    //         var size = parseInt(dom.getElementsByTagName("Size").item(0).textContent)
-    //         var rotation = parseInt(dom.getElementsByTagName("Rotation").item(0).textContent)
-    //         switch(dom.getElementsByTagName("WellKnownName").item(0).textContent){
-    //             case "square":
-    //                 styles[type] = new ol.style.Style({
-    //                     image: new ol.style.RegularShape({
-    //                         fill: fill,
-    //                         stroke: stroke,
-    //                         points: 4,
-    //                         radius: size,
-    //                         rotation: rotation,
-    //                         angle: Math.PI / 4,
-    //                     })
-    //                 })
-    //                 break;
-    //             case "triangle":
-    //                 styles[type] = new ol.style.Style({
-    //                     image: new ol.style.RegularShape({
-    //                         fill: fill,
-    //                         stroke: stroke,
-    //                         points: 3,
-    //                         radius: size,
-    //                         rotation: rotation,
-    //                         angle: 0,
-    //                     })
-    //                 })
-    //                 break;
-    //             default:
-    //                 styles[type] = new ol.style.Style({
-    //                     image: new ol.style.Circle({
-    //                         fill: fill,
-    //                         stroke: stroke,
-    //                         radius: size,
-    //                         rotation: rotation,
-    //                     })
-    //                 })
-    //         }
-    //     }
-
-    // }
-    // return styles;
 }
 
 function polygonStyleParse(domStyles){
@@ -413,18 +350,62 @@ function polygonStyleParse(domStyles){
     return styles;
 }
 
-function lineStyleParse(domStyles){
+function lineStyleParse(dom){
     const styles = {};
-    for(let dom of domStyles){
-        const type = dom.getAttribute('type') || 'default';
-        styles[type] = new ol.style.Style({
+
+    const geometryStyle = dom.getElementsByTagName('geometryStyle').item(0);
+    if(geometryStyle){
+        styles['default_old'] = parseLineStyleOld(geometryStyle);
+    }
+
+    const domStylesContainer = dom.getElementsByTagName('styles').item(0);
+    if(!domStylesContainer)
+        return styles;
+
+    const domStyles = domStylesContainer.getElementsByTagName('Style');
+
+    for(let i = 0; i < domStyles.length; i++){
+        const domStyle = domStyles.item(i);
+        const value = domStyle.getElementsByTagName('value').item(0)?.textContent || 'default';
+        styles[value] = parseLineDekstopStyle(domStyle);
+    }
+
+    return styles;
+
+    function parseLineDekstopStyle(domStyle){
+        const style = new ol.style.Style({});
+
+        style.zoomMin = parseFloat(domStyle.getElementsByTagName('zoomMax').item(0)?.textContent);
+        style.zoomMax = parseFloat(domStyle.getElementsByTagName('zoomMin').item(0)?.textContent);
+
+        const lineStyle = domStyle.getElementsByTagName('LineStyle').item(0);
+        const color = lineStyle.getElementsByTagName('color').item(0).textContent;
+        const width = lineStyle.getElementsByTagName('width').item(0).textContent;
+
+        style.setStroke(new ol.style.Stroke({
+            color: convertColorToHEX(color),
+            width: width,
+        }));
+
+        const labelStyle = labelStyleParse(domStyle);
+        style.setText(labelStyle);
+
+        return style;
+    }
+
+    function parseLineStyleOld(dom){
+        const style = new ol.style.Style({
             stroke: new ol.style.Stroke({
                 color: dom.getElementsByTagName("CssParameter").item(0).textContent,
                 width: parseInt(dom.getElementsByTagName("CssParameter").item(1).textContent)
             })
-        })
+        });
+
+        const labelStyle = labelStyleParse(dom);
+        style.setText(labelStyle);
+
+        return style;
     }
-    return styles;
 }
 
 function parseZoomLevel(dom){
@@ -441,13 +422,18 @@ function parseZoomLevel(dom){
 
 function labelStyleParse(dom){
     const defaultStyle = new ol.style.Text({
-        fill: new ol.style.Fill({color: '#000000'})
+        fill: new ol.style.Fill({color: '#000000'}),
+        offsetY: -12,
+        stroke: new ol.style.Stroke({
+            color: '#ffffff',
+            width: 3
+        }),
     });
     const labelStyleDom = dom.getElementsByTagName('LabelStyle')?.item(0);
     if(!labelStyleDom)
         return defaultStyle; 
-    const color = labelStyleDom.getElementsByTagName('color')?.item(0)?.textContent;
-    const fontSize = labelStyleDom.getElementsByTagName('fontSize')?.item(0)?.textContent;
+    const color = labelStyleDom.getElementsByTagName('color')?.item(0)?.textContent || '#000000';
+    const fontSize = labelStyleDom.getElementsByTagName('fontSize')?.item(0)?.textContent || '10';
     const bold = labelStyleDom.getElementsByTagName('bold')?.item(0)?.textContent === '1';
     const italic = labelStyleDom.getElementsByTagName('italic')?.item(0)?.textContent === '1';
     // const underline = labelStyleDom.getElementsByTagName('underline')?.item(0)?.textContent === '1';
@@ -460,9 +446,9 @@ function labelStyleParse(dom){
 
     const font = (bold ? 'bold ' : '') + (italic ? 'italic ' : '') + fontSize + 'px ' + fontFamily;
     const labelStyle = new ol.style.Text({
-        fill: new ol.style.Fill({color: color}),
+        fill: new ol.style.Fill({color: convertColorToHEX(color)}),
         font: font,
-        offsetY: (parseInt(strokeWidth) - 1) * (-50),
+        offsetY: -12, // (parseInt(strokeWidth) - 1) * (-50),
         stroke: new ol.style.Stroke({
             color: strokeColor,
             width: strokeWidth
@@ -470,7 +456,7 @@ function labelStyleParse(dom){
         // placement: placement,
         // repeat: repeat
     });
-    
+
     labelStyle.zoomMin = parseFloat(labelStyleDom.getElementsByTagName('zoomMax').item(0)?.textContent);
     labelStyle.zoomMax = parseFloat(labelStyleDom.getElementsByTagName('zoomMin').item(0)?.textContent);;
 
