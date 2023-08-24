@@ -94,6 +94,8 @@ function featurePropertiesScript(featureFromPage){
         }
         else{
             navigator.popPage({times: navigator.pages.length - 1});
+            map.localMap = false;
+            layer.changed();
         }
     }
 
@@ -190,9 +192,15 @@ function featurePropertiesScript(featureFromPage){
         local_map.addLayer(clonedLayer)
         local_map.getView().fit(source.getExtent())
 
+        map.localMap = true;
+
         local_map.on('click', function(evt){
             navigator.popPage({times: navigator.pages.length - 1});
+            map.localMap = false;
+            layer.changed();
         })
+
+        feature.changed();
     }
 
     function addMetricCharacter(layer, geom){
@@ -334,6 +342,8 @@ function featurePropertiesScript(featureFromPage){
         let navigator = document.querySelector('#myNavigator');
         map.getView().setCenter(center);
         navigator.popPage({times: navigator.pages.length - 1});
+        map.localMap = false;
+        layer.changed();
     }
 
     function clickEditFeature(){
@@ -360,6 +370,8 @@ function featurePropertiesScript(featureFromPage){
                     addModify(layer, feature);
                     const navigator = document.querySelector('#myNavigator')
                     navigator.popPage({times: navigator.pages.length - 1})
+                    map.localMap = false;
+                    layer.changed();
                   }
                   else if (manualRadio){
                     createDialogManualEditGeometry();
@@ -531,6 +543,8 @@ function featurePropertiesScript(featureFromPage){
 
             let navigator = document.querySelector('#myNavigator')
             navigator.popPage({times: navigator.pages.length - 1})
+            map.localMap = false;
+            layer.changed();
         })
     }
 
@@ -586,12 +600,12 @@ function featurePropertiesScript(featureFromPage){
         requestToDB(query, function(res){
             feature.id = values[0];
 
-            const typeIndex = atribs.indexOf('type_cl');
+            const typeIndex = atribs.indexOf(layer.styleTypeColumn);
             if(typeIndex >= 0){
                 feature.type = values[typeIndex];
             }
 
-            const labelIndex = atribs.indexOf('description');
+            const labelIndex = atribs.indexOf(layer.labelColumn);
             if(labelIndex >= 0){
                 feature.label = values[labelIndex];
             }

@@ -76,13 +76,13 @@ function newFeatureScipt(pageLayer, pageFeature){
             feature.id = id;
             feature.layerID = layer.id;
 
-            const typeIndex = atribNames.indexOf('type_cl');
+            const typeIndex = atribNames.indexOf(layer.styleTypeColumn);
             if(typeIndex >= 0)
                 feature.type = values[typeIndex];
             else 
                 feature.type = 'default';
 
-            const labelIndex = atribNames.indexOf('description');
+            const labelIndex = atribNames.indexOf(layer.labelColumn);
             if(labelIndex >= 0)
                 feature.label = values[labelIndex];
 

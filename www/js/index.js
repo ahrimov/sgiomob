@@ -3,7 +3,7 @@ document.addEventListener('deviceready', onDeviceReady, false);
 var layers = []
 var features = []
 
-var db, dbMetaData, currentMapView;
+let db, dbMetaData, currentMapView;
 
 var pathToImageStorage;
 
@@ -17,7 +17,7 @@ let needsCancelNavigator = false;
 
 let hasGeolocationPermission = false;
 
-var map = new ol.Map();
+let map = new ol.Map();
 
 let numberNodesOnMap = defaultNumberNodesOnMap;
 

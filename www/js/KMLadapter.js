@@ -121,11 +121,11 @@ async function importKML(layerID, dict, features){
                             old_feature.setGeometry(feature.getGeometry());
                             saveDB();
 
-                            const typeIndex = atribNames.indexOf('type_cl');
+                            const typeIndex = atribNames.indexOf(layer.styleTypeColumn);
                             if(typeIndex >= 0)
                                 old_feature.type = values[typeIndex];
                             
-                            const labelIndex = atribNames.indexOf('description');
+                            const labelIndex = atribNames.indexOf(layer.labelColumn);
                             if(labelIndex >= 0)
                                 old_feature.label = values[labelIndex];
 
@@ -161,13 +161,13 @@ async function importKML(layerID, dict, features){
                     feature.id = feature_id;
                     feature.layerID = layer.id;
 
-                    const typeIndex = atribNames.indexOf('type_cl');
+                    const typeIndex = atribNames.indexOf(layer.styleTypeColumn);
                     if(typeIndex >= 0)
                         feature.type = values[typeIndex];
                     else 
                         feature.type = 'default';
                     // feature.setStyle(layer.getStyle())
-                    const labelIndex = atribNames.indexOf('description');
+                    const labelIndex = atribNames.indexOf(layer.labelColumn);
                     if(labelIndex >= 0)
                         feature.label = values[labelIndex];
 

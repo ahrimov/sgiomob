@@ -96,14 +96,14 @@ function getDataLayerFromBD(layer){
     let selectTypeQuery = '';
     let selectLabelQuery = '';
 
-    const atribType = layer.atribs.filter((atrib) => atrib.name === 'type_cl');
+    const atribType = layer.atribs.filter((atrib) => atrib.name === layer.styleTypeColumn);
     if(atribType.length > 0){
-        selectTypeQuery = ' type_cl as type_cl, ';
+        selectTypeQuery = ` ${layer.styleTypeColumn} as type, `;
     }
 
-    const atribDescription = layer.atribs.filter((atrib) => atrib.name === 'description');
+    const atribDescription = layer.atribs.filter((atrib) => atrib.name === layer.labelColumn);
     if(atribDescription.length > 0){
-        selectLabelQuery = ' description as description, ';
+        selectLabelQuery = ` ${layer.labelColumn} as description, `;
     }
 
     const query = `SELECT ${layer.atribs[0].name} as id,${selectTypeQuery} ${selectLabelQuery} AsText(Geometry) as geom from ` + layer.id;
@@ -118,7 +118,7 @@ function getDataLayerFromBD(layer){
                     feature = format.readFeature(wkt.replace(/nan/g, "0"));
                 feature.id = res.rows.item(i).id;
                 feature.layerID = layer.id;
-                feature.type = res.rows.item(i).type_cl;
+                feature.type = res.rows.item(i).type;
                 feature.label = res.rows.item(i).description;
                 source.addFeature(feature);
             }

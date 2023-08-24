@@ -19,3 +19,31 @@ function transformToDecimal(value){
 	const res = degrees + minutes + seconds;
 	return res.toFixed(7);
 }
+
+/**
+ * Получение соотвествующего зума для карты
+ * @param dist в метрах или номерах масштаба
+*/
+
+function getZoomFromMeters(dist, map){
+	try{
+		if(typeof dist === 'number' && !isNaN(dist)) {
+			if(dist <= 0) return NaN;
+			if(dist <= 50)
+				return dist;
+			const extent = [0,1, dist, 0];
+			return getZoomForExtent(extent, map);
+		}
+	} catch(ex) {
+		console.log('Error while parsing zoom');
+		return NaN;
+	}
+	return NaN;
+}
+
+function getZoomForExtent(extent, map){
+	const viewSize = map.getSize();
+	const view = map.getView();
+	const resolution = Math.max(ol.extent.getWidth(extent) / viewSize[0], ol.extent.getHeight(extent) / viewSize[1]);
+	return view.getZoomForResolution(resolution);
+}

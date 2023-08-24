@@ -5,7 +5,7 @@ function showMap(){
 
     map = new ol.Map({
         target: 'map-container',
-        layers: [...baseRasterLayers],
+        layers: [...baseRasterLayers, ...layers],
         view: currentMapView,
         controls: [scaleLine, new CancelButton, new DrawButton, new GPSButton,
             new TileStatusBar, new ZoomMinusButton, new ZoomPlusButton, 
@@ -13,9 +13,6 @@ function showMap(){
             new CompassArrow, new HoldCenterButton],
         interaction: ol.interaction.defaults({altShiftDragRotate: false, pinchRotate: false})
     });
-    for(layer of layers){
-        map.addLayer(layer)
-    }
 
     map.on('click', function(evt){
         if(typeof map.modify == 'undefined' || map.modify == null)
@@ -240,8 +237,10 @@ function appendCoordinate(coordinate){
 
 
 function finishDraw(){
-    if(typeof map.draw != 'undefined')
+    if(typeof map.draw != 'undefined'){
         map.removeInteraction(map.draw);
+        map.draw = null;
+    }
 
     removeCancelButton()
     homeEnableButton()

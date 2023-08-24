@@ -53,21 +53,24 @@ function configParser(data, title){
             layerParser.counter = 0
         }
 
-        var parser = new DOMParser()
-        var dom = parser.parseFromString(data, "application/xml")
-        const geometryStyles = dom.getElementsByTagName("geometryStyle");
-        var geometryType = dom.getElementsByTagName("geometry").item(0).textContent
-        let styles;
+        const parser = new DOMParser();
+        const dom = parser.parseFromString(data, "application/xml");
+        // const geometryStyles = dom.getElementsByTagName("geometryStyle");
+        const geometryType = dom.getElementsByTagName("geometry").item(0).textContent;
+        let styles = {};
         switch(geometryType){
             case "MULTIPOINT":
                 try{
-                    styles = await pointStyleParse(geometryStyles);
+                    styles = await pointStyleParse(dom);
                 } catch(e) {
                     styles = { 
                         'default': new ol.style.Style({
                             image: new ol.style.Circle({
                                 fill: new ol.style.Fill({color: generateColor()}),
                                 radius: 3
+                            }),
+                            text: new ol.style.Text({
+                                fill: new ol.style.Fill({color: '#000000'})
                             })
                         })
                     };
@@ -75,7 +78,7 @@ function configParser(data, title){
                 break;
             case "MULTIPOLYGON":
                 try{
-                    styles = polygonStyleParse(geometryStyles);
+                    styles = polygonStyleParse(dom);
                 }
                 catch(e){
                     styles = {
@@ -86,6 +89,9 @@ function configParser(data, title){
                             stroke: new ol.style.Stroke({
                                 color: 'rgb(0,0,0)',
                                 width: 1
+                            }),
+                            text: new ol.style.Text({
+                                fill: new ol.style.Fill({color: '#000000'})
                             })
                         })
                     };
@@ -93,13 +99,16 @@ function configParser(data, title){
                 break;
             case "MULTILINESTRING":
                 try{
-                    styles = lineStyleParse(geometryStyles);
+                    styles = lineStyleParse(dom);
                 } catch(e){
                     styles = {
                         'default': new ol.style.Style({
                             stroke: new ol.style.Stroke({
                                 color: generateColor(),
                                 width: 2
+                            }),
+                            text: new ol.style.Text({
+                                fill: new ol.style.Fill({color: '#000000'})
                             })
                         })
                     };
@@ -111,29 +120,50 @@ function configParser(data, title){
                         image: new ol.style.Circle({
                             fill: new ol.style.Fill({color: generateColor()}),
                             radius: 3
+                        }),
+                        text: new ol.style.Text({
+                            fill: new ol.style.Fill({color: '#000000'})
                         })
                     })
                 };
         }
 
-        const labelStyle = labelStyleParse(dom);
-
         const layer = new ol.layer.Vector({
-            style: function(feature){
-                let featureStyle = styles['default'].clone();
-                const atribs = layer.atribs;
-                const type = feature.type || 'default';
-                if(type !== 'UNKNOWN' || styles[type])
-                    featureStyle = styles[type].clone();
-                if(feature.label){
-                    const featureLabelStyle = labelStyle.clone();
-                    featureLabelStyle.setText(feature.label);
-                    featureStyle.setText(featureLabelStyle);
-                }
-                return featureStyle;
-            },
             renderMode: 'image'
         }); 
+
+        layer.setStyle(function(feature){
+
+            let featureStyle;
+            const atribs = layer.atribs;
+            const type = feature.type || 'default';
+            if(type !== 'UNKNOWN' && styles[type] !== void 0){
+                featureStyle = styles[type];
+            }
+            else {
+                if(styles['default'] === void 0)
+                    featureStyle = styles['default_old'];
+                else
+                    featureStyle = styles['default'];
+            }
+            if(!map.localMap && ((!map.draw && !map.modify) || (map.draw?.currentFeature !== feature && map.modify?.modifyFeature !== feature))){
+                let zoomMin = getZoomFromMeters(featureStyle.zoomMin, map);
+                if(isNaN(zoomMin)) zoomMin = 0;
+                let zoomMax = getZoomFromMeters(featureStyle.zoomMax, map);
+                if(isNaN(zoomMax)) zoomMax = Infinity;
+                const mapZoom = map.getView().getZoom();
+                if(mapZoom < zoomMin || mapZoom > zoomMax){
+                    return new ol.style.Style({});
+                }
+            }
+            featureStyle = featureStyle.clone();
+            if(feature.label){
+                const featureLabelStyle = featureStyle.getText();
+                featureLabelStyle.setText(feature.label);
+                featureStyle.setText(featureLabelStyle);
+            }
+            return featureStyle;
+        });
 
         layer.set("id", dom.getElementsByTagName("id").item(0).textContent);
         layer.set("descr", dom.getElementsByTagName("label").item(0).textContent);
@@ -156,6 +186,14 @@ function configParser(data, title){
                     layer.atribs.push(new LayerAtribs(atribName, label, type, visible));
         }
 
+        const styleTypeColumn = dom.getElementsByTagName('StyleTypeColumn').item(0)?.textContent || 'type_cl';
+        const labelColumn = dom.getElementsByTagName('LabelColumn').item(0)?.textContent || 'description';
+        layer.styleTypeColumn = styleTypeColumn;
+        layer.labelColumn = labelColumn;
+
+        layer.minZoom = parseFloat(dom.getElementsByTagName('zoomMax').item(0)?.textContent);
+        layer.maxZoom = parseFloat(dom.getElementsByTagName('zoomMin').item(0)?.textContent);
+
         let enabled = true;
         if(typeof dom.getElementsByTagName("layerDb").item(0) != "undefined"){
             let enabled_string = dom.getElementsByTagName("layerDb").item(0).getAttribute('enabled');
@@ -175,81 +213,187 @@ function configParser(data, title){
 
         layers.push(layer);
         getDataLayerFromBD(layer);
-        map.addLayer(layer);
         layer.visible = true;
     }
 }
 
 
-async function pointStyleParse(domStyles){
+async function pointStyleParse(dom){
     const styles = {};
 
-    for(let dom of domStyles){
-        const type = dom.getAttribute('type') || 'default';
-        const externalGraphic = dom.getElementsByTagName("ExternalGraphic")[0];
-        if(externalGraphic){
-            const linkToImage = dom.getElementsByTagName("Resource")[0].textContent;
-            const imageSize = parseInt(dom.getElementsByTagName('Size')[0].textContent);
+    const geometryStyle = dom.getElementsByTagName('geometryStyle').item(0);
+    if(geometryStyle){
+        styles['default_old'] = parsePointStyleOld(geometryStyle);
+    }
+
+    const domStylesContainer = dom.getElementsByTagName('styles').item(0);
+    if(!domStylesContainer)
+        return styles;
+
+    const domStyles = domStylesContainer.getElementsByTagName('Style');
+
+    for(let i = 0; i < domStyles.length; i++){
+        const domStyle = domStyles.item(i);
+        const value = domStyle.getElementsByTagName('value').item(0)?.textContent || 'default';
+        styles[value] = await parsePointDekstopStyle(domStyle);
+    }
+
+    return styles;
+
+    async function parsePointDekstopStyle(domStyle){
+        
+        const style = new ol.style.Style({});
+
+        style.zoomMin = parseFloat(dom.getElementsByTagName('zoomMax').item(0)?.textContent);
+        style.zoomMax = parseFloat(dom.getElementsByTagName('zoomMin').item(0)?.textContent);
+
+        const iconStyle = domStyle.getElementsByTagName('IconStyle').item(0);
+        if(iconStyle){
+            let href = iconStyle.getElementsByTagName('href').item(0)?.textContent;
+            const imageSize = iconStyle.getElementsByTagName('size').item(0)?.textContent || 16;
+            href = href.replace('Public', '');
             const icon = await new Promise((resolve, reject) => {
-                window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + "www/resources/images" + linkToImage, (fileEntry) => {
-                    resolve(
-                        new ol.style.Style({
-                            image: new ol.style.Icon({
+                window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + "www/resources/images/" + href, (fileEntry) => {
+                    resolve(new ol.style.Icon({
                                 src: fileEntry.toInternalURL(),
                                 size: [imageSize, imageSize]
                             })
-                        })
                     );
                 }, (e) => {
-                    console.log('Error while opening: ', linkToImage);
+                    console.log('Error while opening: ', href);
                 });
             });
-            styles[type] = icon;
+            style.setImage(icon);
         } else {
-            var fill = new ol.style.Fill({color: dom.getElementsByTagName("Fill").item(0).getElementsByTagName("CssParameter").item(0).textContent})
-            var xmlStroke = dom.getElementsByTagName("Stroke").item(0)
-            var stroke = new ol.style.Stroke({color:xmlStroke.getElementsByTagName("CssParameter").item(0).textContent, width:parseInt(xmlStroke.getElementsByTagName("CssParameter").item(1).textContent)})
-            var size = parseInt(dom.getElementsByTagName("Size").item(0).textContent)
-            var rotation = parseInt(dom.getElementsByTagName("Rotation").item(0).textContent)
-            switch(dom.getElementsByTagName("WellKnownName").item(0).textContent){
-                case "square":
-                    styles[type] = new ol.style.Style({
-                        image: new ol.style.RegularShape({
-                            fill: fill,
-                            stroke: stroke,
-                            points: 4,
-                            radius: size,
-                            rotation: rotation,
-                            angle: Math.PI / 4,
-                        })
-                    })
-                    break;
-                case "triangle":
-                    styles[type] = new ol.style.Style({
-                        image: new ol.style.RegularShape({
-                            fill: fill,
-                            stroke: stroke,
-                            points: 3,
-                            radius: size,
-                            rotation: rotation,
-                            angle: 0,
-                        })
-                    })
-                    break;
-                default:
-                    styles[type] = new ol.style.Style({
-                        image: new ol.style.Circle({
-                            fill: fill,
-                            stroke: stroke,
-                            radius: size,
-                            rotation: rotation,
-                        })
-                    })
-            }
+            // parse point style
+            const defaultImage = new ol.style.Circle({
+                fill: new ol.style.Fill({color: generateColor()}),
+                radius: 3
+            });
+            style.setImage(defaultImage);
         }
 
+        const labelStyle = labelStyleParse(domStyle);
+        style.setText(labelStyle);
+        return style;
     }
-    return styles;
+
+    function parsePointStyleOld(dom) {
+        const fill = new ol.style.Fill({color: dom.getElementsByTagName("Fill").item(0).getElementsByTagName("CssParameter").item(0).textContent});
+        const xmlStroke = dom.getElementsByTagName("Stroke").item(0);
+        const stroke = new ol.style.Stroke({color:xmlStroke.getElementsByTagName("CssParameter").item(0).textContent, width:parseInt(xmlStroke.getElementsByTagName("CssParameter").item(1).textContent)});
+        const size = parseInt(dom.getElementsByTagName("Size").item(0).textContent);
+        const rotation = parseInt(dom.getElementsByTagName("Rotation").item(0).textContent);
+        let style;
+        switch(dom.getElementsByTagName("WellKnownName").item(0).textContent){
+            case "square":
+                style = new ol.style.Style({
+                    image: new ol.style.RegularShape({
+                        fill: fill,
+                        stroke: stroke,
+                        points: 4,
+                        radius: size,
+                        rotation: rotation,
+                        angle: Math.PI / 4,
+                    })
+                })
+                break;
+            case "triangle":
+                style = new ol.style.Style({
+                    image: new ol.style.RegularShape({
+                        fill: fill,
+                        stroke: stroke,
+                        points: 3,
+                        radius: size,
+                        rotation: rotation,
+                        angle: 0,
+                    })
+                })
+                break;
+            default:
+                style = new ol.style.Style({
+                    image: new ol.style.Circle({
+                        fill: fill,
+                        stroke: stroke,
+                        radius: size,
+                        rotation: rotation,
+                    })
+                })
+        }
+        const labelStyle = labelStyleParse(dom);
+        style.setText(labelStyle);
+        return style;
+    } 
+
+
+
+
+    // for(let dom of domStyles){
+    //     const type = dom.getAttribute('type') || 'default';
+    //     const externalGraphic = dom.getElementsByTagName("ExternalGraphic")[0];
+    //     if(externalGraphic){
+    //         const linkToImage = dom.getElementsByTagName("Resource")[0].textContent;
+    //         const imageSize = parseInt(dom.getElementsByTagName('Size')[0].textContent);
+    //         const icon = await new Promise((resolve, reject) => {
+    //             window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + "www/resources/images" + linkToImage, (fileEntry) => {
+    //                 resolve(
+    //                     new ol.style.Style({
+    //                         image: new ol.style.Icon({
+    //                             src: fileEntry.toInternalURL(),
+    //                             size: [imageSize, imageSize]
+    //                         })
+    //                     })
+    //                 );
+    //             }, (e) => {
+    //                 console.log('Error while opening: ', linkToImage);
+    //             });
+    //         });
+    //         styles[type] = icon;
+    //     } else {
+    //         var fill = new ol.style.Fill({color: dom.getElementsByTagName("Fill").item(0).getElementsByTagName("CssParameter").item(0).textContent})
+    //         var xmlStroke = dom.getElementsByTagName("Stroke").item(0)
+    //         var stroke = new ol.style.Stroke({color:xmlStroke.getElementsByTagName("CssParameter").item(0).textContent, width:parseInt(xmlStroke.getElementsByTagName("CssParameter").item(1).textContent)})
+    //         var size = parseInt(dom.getElementsByTagName("Size").item(0).textContent)
+    //         var rotation = parseInt(dom.getElementsByTagName("Rotation").item(0).textContent)
+    //         switch(dom.getElementsByTagName("WellKnownName").item(0).textContent){
+    //             case "square":
+    //                 styles[type] = new ol.style.Style({
+    //                     image: new ol.style.RegularShape({
+    //                         fill: fill,
+    //                         stroke: stroke,
+    //                         points: 4,
+    //                         radius: size,
+    //                         rotation: rotation,
+    //                         angle: Math.PI / 4,
+    //                     })
+    //                 })
+    //                 break;
+    //             case "triangle":
+    //                 styles[type] = new ol.style.Style({
+    //                     image: new ol.style.RegularShape({
+    //                         fill: fill,
+    //                         stroke: stroke,
+    //                         points: 3,
+    //                         radius: size,
+    //                         rotation: rotation,
+    //                         angle: 0,
+    //                     })
+    //                 })
+    //                 break;
+    //             default:
+    //                 styles[type] = new ol.style.Style({
+    //                     image: new ol.style.Circle({
+    //                         fill: fill,
+    //                         stroke: stroke,
+    //                         radius: size,
+    //                         rotation: rotation,
+    //                     })
+    //                 })
+    //         }
+    //     }
+
+    // }
+    // return styles;
 }
 
 function polygonStyleParse(domStyles){
@@ -283,6 +427,18 @@ function lineStyleParse(domStyles){
     return styles;
 }
 
+function parseZoomLevel(dom){
+    let zoomMax = parseFloat(dom.getElementsByTagName('zoomMin').item(0)?.textContent);
+    zoomMax = getZoomFromMeters(zoomMax, map);
+    if(isNaN(zoomMax)) 
+        zoomMax = Infinity;
+    let zoomMin = parseFloat(dom.getElementsByTagName('zoomMax').item(0)?.textContent);
+    zoomMin = getZoomFromMeters(zoomMin, map);
+    if(isNaN(zoomMin)) 
+        zoomMin = 0;
+    return [zoomMin, zoomMax];
+}
+
 function labelStyleParse(dom){
     const defaultStyle = new ol.style.Text({
         fill: new ol.style.Fill({color: '#000000'})
@@ -294,15 +450,16 @@ function labelStyleParse(dom){
     const fontSize = labelStyleDom.getElementsByTagName('fontSize')?.item(0)?.textContent;
     const bold = labelStyleDom.getElementsByTagName('bold')?.item(0)?.textContent === '1';
     const italic = labelStyleDom.getElementsByTagName('italic')?.item(0)?.textContent === '1';
-    const underline = labelStyleDom.getElementsByTagName('underline')?.item(0)?.textContent === '1';
-    const fontFamily = labelStyleDom.getElementsByTagName('fontFamily')?.item(0)?.textContent;
-    const strokeStyleDom = labelStyleDom.getElementsByTagName('StrokeStyle')?.item(0);
-    const strokeWidth = strokeStyleDom.getElementsByTagName('Width')?.item(0)?.textContent || 1;
-    const strokeColor = strokeStyleDom.getElementsByTagName('Color')?.item(0)?.textContent || '#ffffff';
+    // const underline = labelStyleDom.getElementsByTagName('underline')?.item(0)?.textContent === '1';
+    const fontFamily =  'sans-serif'; // labelStyleDom.getElementsByTagName('fontFamily')?.item(0)?.textContent;
+    // const strokeStyleDom = labelStyleDom.getElementsByTagName('StrokeStyle')?.item(0);
+    const strokeWidth = 3; // strokeStyleDom.getElementsByTagName('Width')?.item(0)?.textContent || 1;
+    const strokeColor = '#ffffff'; // strokeStyleDom.getElementsByTagName('Color')?.item(0)?.textContent || '#ffffff';
     // const placement = labelStyleDom.getElementsByTagName('Placement')?.item(0)?.textContent || 'point';
     // const repeat = labelStyleDom.getElementsByTagName('Repeat')?.item(0)?.textContent || 10000;
+
     const font = (bold ? 'bold ' : '') + (italic ? 'italic ' : '') + fontSize + 'px ' + fontFamily;
-    return new ol.style.Text({
+    const labelStyle = new ol.style.Text({
         fill: new ol.style.Fill({color: color}),
         font: font,
         offsetY: (parseInt(strokeWidth) - 1) * (-50),
@@ -313,6 +470,11 @@ function labelStyleParse(dom){
         // placement: placement,
         // repeat: repeat
     });
+    
+    labelStyle.zoomMin = parseFloat(labelStyleDom.getElementsByTagName('zoomMax').item(0)?.textContent);
+    labelStyle.zoomMax = parseFloat(labelStyleDom.getElementsByTagName('zoomMin').item(0)?.textContent);;
+
+    return labelStyle;
 }
 
 
