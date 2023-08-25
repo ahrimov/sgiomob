@@ -197,7 +197,6 @@ async function importKML(layerID, dict, features){
                     feature.type = values[typeIndex];
                 else 
                     feature.type = 'default';
-                // feature.setStyle(layer.getStyle())
                 const labelIndex = atribNames.indexOf(layer.labelColumn);
                 if(labelIndex >= 0)
                     feature.label = values[labelIndex];
@@ -256,11 +255,6 @@ function convertFeatureToLayerGeometry(feature, layer){
                 let main_array = [];
                 let outer_contour = [];
                 const number_of_points = int_coords.length / 3;
-                console.log(number_of_points)
-                /*if(number_of_points < 4){
-                    console.log('aaa')
-                    throw "Incorrect polygon";  
-                }*/
                 for(let i = 0; i < number_of_points; i++){
                     let point = [];
                     for(let j = 0; j < 3; j++)
@@ -288,13 +282,6 @@ function convertFeatureToLayerGeometry(feature, layer){
     }
     feature.setGeometry(new_geom)
 }
-/*
-function completeLineToPolygon(feature){
-    let geom = feature.getGeometry();
-    let first_coord = geom.getFirstCoordinate();
-    geom.appendCoordinate(first_coord);
-
-}*/
 
 function filterProperties(values, dict, layer){
     let result = {};
@@ -344,7 +331,6 @@ function filterProperties(values, dict, layer){
         }
     }
     if(is_error_in_kml){
-        //throw "error";
         ons.notification.alert({title:"Внимание", message:`Ошибка в импортируемом KML.
                  Возможно неккоректное отображение данных`});
     }

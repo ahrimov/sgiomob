@@ -50,7 +50,6 @@ function getZoomForExtent(extent, map){
 
 function convertColorToHEX(color){
 	if(color.length === 8){
-		console.log('#' + color.slice(2, 8))
 		return '#' + color.slice(2, 8);
 	}
 	return color;
