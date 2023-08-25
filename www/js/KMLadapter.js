@@ -202,6 +202,7 @@ async function importKML(layerID, dict, features){
                 if(labelIndex >= 0)
                     feature.label = values[labelIndex];
 
+                feature.setStyle(layer.getStyle());
                 layer.getSource().addFeature(feature);
                 saveDB();
                 loading.elementLoaded();
