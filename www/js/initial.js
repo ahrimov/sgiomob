@@ -60,7 +60,7 @@ function initial(){
     function warning(){
         let sourceName = cordova.file.applicationDirectory + 'www/resources/Project';
         console.log(sourceName);
-        let targetDirName = "file:///storage/self/primary/Android/data/io.cordova.sgiomob/";
+        let targetDirName = app_device_directory ;
         window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
             function(resourcesDir) {
                 resourcesDir.getDirectory('www/resources/Project', {create: false}, getDirectoryWin, getDirectoryFail);
