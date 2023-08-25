@@ -64,6 +64,8 @@ async function importKML(layerID, dict, features){
     loading.startLoad()
 
     let featureMaxID;
+
+    let permissionToUpdateFeatures = -1;
    
     for(let i = 0; i < features.length; i++){
         let feature = features[i];
@@ -89,11 +91,39 @@ async function importKML(layerID, dict, features){
             dict['id'] = 'id'
         }
 
-
-
         let query = `SELECT COUNT(1) as bool FROM ${layer.id} WHERE ${layer.atribs[0].name} = ${feature_id};`
-        await requestToDB(query, function(data){
-            if(data.rows.item(0).bool == 1){
+        const intersection = await new Promise((resolve, reject) => { 
+            requestToDB(query, (data) => {
+                resolve(data.rows.item(0).bool);
+            }, (er) => {
+                reject(er);
+                ons.notification.alert({title:"Ошибка", message: 'Нет доступа к базе данных.'});
+            });
+        });
+
+        if(intersection == 1){
+            if(permissionToUpdateFeatures === -1){
+                const userAnswer = await ons.notification.confirm({
+                    title: 'Обновление объектов',
+                    message: permissionToUpdateFeaturesMessage,
+                    buttonLabels: ["Нет", "Да"]
+                });
+                if(userAnswer){
+                    permissionToUpdateFeatures = 1;
+                    updateFeaturesFromKML();
+                } else {
+                    permissionToUpdateFeatures = 0;
+                    loading.elementLoaded();
+                    continue;  
+                }
+            } else if(permissionToUpdateFeatures) {
+                updateFeaturesFromKML();
+            } else {
+                loading.elementLoaded();
+                continue; 
+            }
+
+            function updateFeaturesFromKML(){
                 let updates = [];
                 const atribNames = [];
                 const values = [];
@@ -135,48 +165,48 @@ async function importKML(layerID, dict, features){
                     }
                 })
             }
-            else{
-                let atribNames = []
-                let atribValues = []
-                const values = []
-                for(let key in dict){
-                    if(typeof dict[key] == 'undefined' || dict[key] === '' ||
-                        typeof props[dict[key]] == 'undefined')
-                        continue;
-                    atribNames.push(key)
-                    atribValues.push(`'${props[dict[key]]}'`)
-                    values.push(props[dict[key]]);
-                }
-
-                let geom = feature.getGeometry()
-                geom.transform('EPSG:4326', 'EPSG:3857')
-                const format = new ol.format.WKT()
-                let feautureString = format.writeFeature(feature)
-                feautureString = convertToGeometryType(feautureString, layer.geometryType)
-                let query = `
-                    INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
-                    VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
-                ;`
-                requestToDB(query, function(res){
-                    feature.id = feature_id;
-                    feature.layerID = layer.id;
-
-                    const typeIndex = atribNames.indexOf(layer.styleTypeColumn);
-                    if(typeIndex >= 0)
-                        feature.type = values[typeIndex];
-                    else 
-                        feature.type = 'default';
-                    // feature.setStyle(layer.getStyle())
-                    const labelIndex = atribNames.indexOf(layer.labelColumn);
-                    if(labelIndex >= 0)
-                        feature.label = values[labelIndex];
-
-                    layer.getSource().addFeature(feature);
-                    saveDB();
-                    loading.elementLoaded();
-                  })       
+        }
+        else{
+            let atribNames = []
+            let atribValues = []
+            const values = []
+            for(let key in dict){
+                if(typeof dict[key] == 'undefined' || dict[key] === '' ||
+                    typeof props[dict[key]] == 'undefined')
+                    continue;
+                atribNames.push(key)
+                atribValues.push(`'${props[dict[key]]}'`)
+                values.push(props[dict[key]]);
             }
-        }, `Ошибка в импортируемом KML.`);
+
+            let geom = feature.getGeometry()
+            geom.transform('EPSG:4326', 'EPSG:3857')
+            const format = new ol.format.WKT()
+            let feautureString = format.writeFeature(feature)
+            feautureString = convertToGeometryType(feautureString, layer.geometryType)
+            let query = `
+                INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
+                VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
+            ;`
+            requestToDB(query, function(res){
+                feature.id = feature_id;
+                feature.layerID = layer.id;
+
+                const typeIndex = atribNames.indexOf(layer.styleTypeColumn);
+                if(typeIndex >= 0)
+                    feature.type = values[typeIndex];
+                else 
+                    feature.type = 'default';
+                // feature.setStyle(layer.getStyle())
+                const labelIndex = atribNames.indexOf(layer.labelColumn);
+                if(labelIndex >= 0)
+                    feature.label = values[labelIndex];
+
+                layer.getSource().addFeature(feature);
+                saveDB();
+                loading.elementLoaded();
+              })       
+        }
     }
 
     function convertToGeometryType(inp_string, type){
