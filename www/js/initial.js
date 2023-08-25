@@ -98,6 +98,16 @@ function initial(){
     myNavigator.addEventListener('prepop', function(event) {
       if (needsCancelNavigator) {
          event.cancel(); 
+      } else {
+        if(map.localMap){
+            map.localMap = false;
+            for(let layer of layers){
+                const features  = layer.getSource().getFeatures();
+                features.forEach((feature) => {
+                    feature.changed();
+                })
+            }
+        }
       }
     });
 
