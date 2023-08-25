@@ -333,11 +333,63 @@ async function pointStyleParse(dom){
     } 
 }
 
-function polygonStyleParse(domStyles){
+function polygonStyleParse(dom){
     const styles = {};
-    for(let dom of domStyles){
-        const type = dom.getAttribute('type') || 'default';
-        styles[type] = new ol.style.Style({
+
+    const geometryStyle = dom.getElementsByTagName('geometryStyle').item(0);
+    if(geometryStyle){
+        styles['default_old'] = parseLPolygonStyleOld(geometryStyle);
+    }
+
+    const domStylesContainer = dom.getElementsByTagName('styles').item(0);
+    if(!domStylesContainer)
+        return styles;
+
+    const domStyles = domStylesContainer.getElementsByTagName('Style');
+
+    for(let i = 0; i < domStyles.length; i++){
+        const domStyle = domStyles.item(i);
+        const value = domStyle.getElementsByTagName('value').item(0)?.textContent || 'default';
+        styles[value] = parsePolygonDekstopStyle(domStyle);
+    }    
+
+    return styles;
+
+    function parsePolygonDekstopStyle(domStyle){
+        const style = new ol.style.Style({});
+
+        style.zoomMin = parseFloat(domStyle.getElementsByTagName('zoomMax').item(0)?.textContent);
+        style.zoomMax = parseFloat(domStyle.getElementsByTagName('zoomMin').item(0)?.textContent);
+
+        const polyStyle = domStyle.getElementsByTagName('PolyStyle').item(0);
+        const color = polyStyle.getElementsByTagName('color').item(0)?.textContent || '#000000';
+        const fill = polyStyle.getElementsByTagName('fill').item(0)?.textContent || '0';
+        const outline = polyStyle.getElementsByTagName('outline').item(0)?.textContent || '0';
+
+        if(parseInt(outline)){
+            const lineStyle = domStyle.getElementsByTagName('LineStyle').item(0);
+            if(lineStyle){
+                const lineColor = lineStyle.getElementsByTagName('color').item(0)?.textContent || '#000000';
+                const width = lineStyle.getElementsByTagName('width').item(0)?.textContent || 1;
+                style.setStroke(new ol.style.Stroke({
+                    color: convertColorToHEX(lineColor),
+                    width: width,
+                }));
+            }
+        }
+
+        if(parseInt(fill)){
+            style.setFill(new ol.style.Fill({color: convertColorToHEX(color)}));
+        }
+
+        const labelStyle = labelStyleParse(domStyle);
+        style.setText(labelStyle);
+
+        return style;
+    }
+
+    function parseLPolygonStyleOld(dom){
+        const style = new ol.style.Style({
             fill: new ol.style.Fill({
                 color: dom.getElementsByTagName("CssParameter").item(0).textContent
             }),
@@ -346,8 +398,12 @@ function polygonStyleParse(domStyles){
                 width: parseInt(dom.getElementsByTagName("CssParameter").item(2).textContent)
             })
         });
+
+        const labelStyle = labelStyleParse(dom);
+        style.setText(labelStyle);
+
+        return style;
     }
-    return styles;
 }
 
 function lineStyleParse(dom){
