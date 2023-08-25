@@ -28,6 +28,29 @@ function featurePropertiesScript(featureFromPage){
         }
         atribs.push(atrib.name);
     }
+
+    document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false)
+
+    document.querySelector('#feature-instrument-map').addEventListener('click', centerOnCurrentFeature, false)
+    document.querySelector('#feature-instrument-edit').addEventListener('click', clickEditFeature, false)
+    document.querySelector('#feature-instrument-edit-geometry').addEventListener('click', clickEditGeometry, false)
+    document.querySelector('#feature-instrument-delete').addEventListener('click', clickDeleteFeature, false)
+
+    document.querySelector('#saveModificationFeature').addEventListener('click', updateFeature, false)
+    document.querySelector('#cancelModification').addEventListener('click', safetyCancel, false)
+
+    document.querySelector('#feature-properties-back-button').addEventListener('click', () => {
+        if(is_editing_feature){
+            safetyCancel();
+        }
+    }, false);
+
+    if(!layer.enabled){
+        document.querySelector('#feature-instrument-edit').setAttribute('disabled', false);
+        document.querySelector('#feature-instrument-edit-geometry').setAttribute('disabled', true);
+        document.querySelector('#feature-instrument-delete').setAttribute('disabled', true);
+    }
+
     let query = "SELECT AsText(Geometry) as geom, " + atribs.join(', ') + " from " + layer.id + 
     " WHERE id = " + feature.id;
     requestToDB(query, function(data){
@@ -63,28 +86,6 @@ function featurePropertiesScript(featureFromPage){
 
     displayLocalMap()
     displayImagesFromStorage()
-
-    document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false)
-
-    document.querySelector('#feature-instrument-map').addEventListener('click', centerOnCurrentFeature, false)
-    document.querySelector('#feature-instrument-edit').addEventListener('click', clickEditFeature, false)
-    document.querySelector('#feature-instrument-edit-geometry').addEventListener('click', clickEditGeometry, false)
-    document.querySelector('#feature-instrument-delete').addEventListener('click', clickDeleteFeature, false)
-
-    document.querySelector('#saveModificationFeature').addEventListener('click', updateFeature, false)
-    document.querySelector('#cancelModification').addEventListener('click', safetyCancel, false)
-
-    document.querySelector('#feature-properties-back-button').addEventListener('click', () => {
-        if(is_editing_feature){
-            safetyCancel();
-        }
-    }, false);
-
-    if(!layer.enabled){
-        document.querySelector('#feature-instrument-edit').setAttribute('disabled', false);
-        document.querySelector('#feature-instrument-edit-geometry').setAttribute('disabled', true);
-        document.querySelector('#feature-instrument-delete').setAttribute('disabled', true);
-    }
 
     let navigator = document.querySelector('#myNavigator');
     let page = navigator.topPage;
@@ -386,8 +387,11 @@ function featurePropertiesScript(featureFromPage){
         const geometry = feature.getGeometry();
         let coordinates = geometry.getCoordinates();
         let typeOfCoordinates = 'decimal';
-        if(geometry.getType() === 'MultiLineString' || geometry.getType() === 'MultiPolygon'){
+        const geometryType = geometry.getType();
+        if(geometryType === 'MultiLineString' || geometryType === 'MultiPolygon'){
             coordinates = coordinates[0];
+            if(geometryType === 'MultiPolygon')
+                coordinates = coordinates[0];
         }
         ons.createElement('manualInputCoordinates', {append: true})
             .then(function(dialog){
@@ -468,13 +472,8 @@ function featurePropertiesScript(featureFromPage){
     function createDialogEditCoordinate(coordinate = [], typeOfCoordinates, callback){
         ons.createElement('dialogEditCoordinate', {append: true})
             .then(function(dialog){
-                //const dialogContainer = document.querySelector('#dialog-edit-coordinate-content');
                 const dialogContent = document.querySelector('.dialog-edit-coordinate-content');
                 const inputContainer = document.querySelector('.dialog-edit-coordinate-inputs');
-                //const lonInputElement = dialogContent.querySelector('#longtitude');
-                //const latInputElement = dialogContent.querySelector('#latitude');
-                //let mask; 
-                // let lon = 0, lat = 0;
                 if(typeOfCoordinates === 'decimal'){
                     const template = dialogContent.querySelector('#dialog-edit-coordinate-inputs-meters');
                     const inputs = template.content.cloneNode(true);
@@ -550,8 +549,12 @@ function featurePropertiesScript(featureFromPage){
 
     function updateFeatureGeometry(coordinates){
         const geometry = feature.getGeometry();
-        if(geometry.getType() === 'MultiLineString' || geometry.getType() === 'MultiPolygon'){
-            feature.getGeometry().setCoordinates([coordinates]);
+        const geometryType = geometry.getType();
+        if(geometryType === 'MultiLineString' || geometryType === 'MultiPolygon'){
+            let newCoordinates = [coordinates];
+            if(geometryType === 'MultiPolygon')
+                newCoordinates = [newCoordinates];
+            feature.getGeometry().setCoordinates(newCoordinates);
         }
         else{
             feature.getGeometry().setCoordinates(coordinates);
