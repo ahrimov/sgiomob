@@ -121,7 +121,14 @@ function changeVisible(element){
             ons.notification.alert({title:"Внимание", message:'Элементы не найдены'})
             return
         }
-        let properties = features[0].getProperties()
+        const properties = new Set();
+        for(let feature of features){
+          const keys = Object.keys(feature.getProperties());
+          for(let key of keys)
+            properties.add(key);
+        }
+        console.log(properties);
+        // let properties = features[0].getProperties()
         ons.createElement('comparison_KML', {append: true})
             .then(function(dialog){
                 let html = '<table class="dialog-comparison-KML-table">'
@@ -131,7 +138,7 @@ function changeVisible(element){
 
                     let select = `<ons-select class='right_property' id='${atrib.name}' onclick="simpleCreateModalSelect('${atrib.name}')">`
                     select += `<option value="" selected disabled hidden>Нет соотвествия</option>`
-                    for(var prop in properties){
+                    for(let prop of properties){
                         let selected = ''
                         if(atrib.name.toLowerCase() == prop.toLowerCase()){
                             selected = ` selected="selected" `
