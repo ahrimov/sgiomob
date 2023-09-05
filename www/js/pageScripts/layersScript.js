@@ -108,20 +108,18 @@ function changeVisible(element){
   function compareAtribs(layerID, pathToKML){
     let layer = findLayer(layerID)
     openFile(pathToKML, function(data){
-        let format = new ol.format.KML()
-/*
-        data = data.replace(/nan/g, "0")
-        const array = [...data.matchAll(/\d*.\d*,\d*.\d*,(\d*.\d*)/g)];
-        for(let elem of array){
-          data = data.replace(elem[1], 0)
-        }*/
-
-        let features = format.readFeatures(data.replace(/nan/g, "0"))
+        let format = new ol.format.KML();
+        let features = format.readFeatures(data.replace(/nan/g, "0"));
         if(features.length == 0){
-            ons.notification.alert({title:"Внимание", message:'Элементы не найдены'})
-            return
+            ons.notification.alert({title:"Внимание", message:'Элементы не найдены'});
+            return;
         }
-        let properties = features[0].getProperties()
+        const properties = new Set();
+        for(let feature of features){
+          const keys = Object.keys(feature.getProperties());
+          for(let key of keys)
+            properties.add(key);
+        }
         ons.createElement('comparison_KML', {append: true})
             .then(function(dialog){
                 let html = '<table class="dialog-comparison-KML-table">'
@@ -131,7 +129,7 @@ function changeVisible(element){
 
                     let select = `<ons-select class='right_property' id='${atrib.name}' onclick="simpleCreateModalSelect('${atrib.name}')">`
                     select += `<option value="" selected disabled hidden>Нет соотвествия</option>`
-                    for(var prop in properties){
+                    for(let prop of properties){
                         let selected = ''
                         if(atrib.name.toLowerCase() == prop.toLowerCase()){
                             selected = ` selected="selected" `

@@ -55,7 +55,10 @@ function configParser(data, title){
 
         const parser = new DOMParser();
         const dom = parser.parseFromString(data, "application/xml");
-        // const geometryStyles = dom.getElementsByTagName("geometryStyle");
+
+        if(dom.getElementsByTagName("id").item(0).textContent === 'PODS_PI_CASING_READING')
+            console.log('PODS_PI_CASING_READING')
+        
         const geometryType = dom.getElementsByTagName("geometry").item(0).textContent;
         let styles = {};
         switch(geometryType){
@@ -193,7 +196,7 @@ function configParser(data, title){
         }
 
         const styleTypeColumn = dom.getElementsByTagName('StyleTypeColumn').item(0)?.textContent || 'type_cl';
-        const labelColumn = dom.getElementsByTagName('LabelColumn').item(0)?.textContent || 'description';
+        const labelColumn = dom.getElementsByTagName('LabelColumn').item(0)?.textContent || 'none';
         layer.styleTypeColumn = styleTypeColumn;
         layer.labelColumn = labelColumn;
 
@@ -213,7 +216,7 @@ function configParser(data, title){
 
         for(let i in layersName){
             if(layersName[i] === title){
-                layer.setZIndex(layersName.length - i);
+                layer.setZIndex(minZIndexForVectorLayers + layersName.length - i);
             }
         }
 
@@ -255,21 +258,44 @@ async function pointStyleParse(dom){
 
         const iconStyle = domStyle.getElementsByTagName('IconStyle').item(0);
         if(iconStyle){
-            let href = iconStyle.getElementsByTagName('href').item(0)?.textContent;
             const imageSize = iconStyle.getElementsByTagName('size').item(0)?.textContent || 16;
-            href = href.replace('Public', '');
-            const icon = await new Promise((resolve, reject) => {
-                window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + "www/resources/images/" + href, (fileEntry) => {
-                    resolve(new ol.style.Icon({
-                                src: fileEntry.toInternalURL(),
-                                size: [imageSize, imageSize]
-                            })
-                    );
-                }, (e) => {
-                    console.log('Error while opening: ', href);
+            let href = iconStyle.getElementsByTagName('href').item(0)?.textContent;
+            if(!href){
+                const color = convertColorToHEX(iconStyle.getElementsByTagName('color').item(0)?.textContent || generateColor());
+                const form = iconStyle.getElementsByTagName('form').item(0)?.textContent || 'circle';
+                const fill = new ol.style.Fill({color: color});
+                const outline = parseInt(iconStyle.getElementsByTagName('outline').item(0)?.textContent);
+                let stroke;
+                if(outline){
+                    const lineStyle = domStyle.getElementsByTagName('LineStyle').item(0);
+                    if(lineStyle){
+                        const lineColor = convertColorToHEX(lineStyle.getElementsByTagName('color').item(0)?.textContent|| '#000000');
+                        const width = parseInt(lineStyle.getElementsByTagName('width').item(0)?.textContent) || 1;
+                        stroke = new ol.style.Stroke({
+                            color: lineColor,
+                            width: width,
+                        });
+                    }
+                }
+                const image = createImageStyleByForm(form, fill, imageSize, stroke);
+                style.setImage(image);
+            }
+            else {
+                const imageSize = iconStyle.getElementsByTagName('size').item(0)?.textContent || 16;
+                href = href.replace('Public', '');
+                const icon = await new Promise((resolve, reject) => {
+                    window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + "www/resources/images/" + href, (fileEntry) => {
+                        resolve(new ol.style.Icon({
+                                    src: fileEntry.toInternalURL(),
+                                    size: [imageSize, imageSize]
+                                })
+                        );
+                    }, (e) => {
+                        console.log('Error while opening: ', href);
+                    });
                 });
-            });
-            style.setImage(icon);
+                style.setImage(icon);
+            }
         } else {
             // parse point style
             const defaultImage = new ol.style.Circle({
@@ -291,46 +317,44 @@ async function pointStyleParse(dom){
         const stroke = new ol.style.Stroke({color:xmlStroke.getElementsByTagName("CssParameter").item(0).textContent, width:parseInt(xmlStroke.getElementsByTagName("CssParameter").item(1).textContent)});
         const size = parseInt(dom.getElementsByTagName("Size").item(0).textContent);
         const rotation = parseInt(dom.getElementsByTagName("Rotation").item(0).textContent);
-        let style;
-        switch(dom.getElementsByTagName("WellKnownName").item(0).textContent){
-            case "square":
-                style = new ol.style.Style({
-                    image: new ol.style.RegularShape({
-                        fill: fill,
-                        stroke: stroke,
-                        points: 4,
-                        radius: size,
-                        rotation: rotation,
-                        angle: Math.PI / 4,
-                    })
-                })
-                break;
-            case "triangle":
-                style = new ol.style.Style({
-                    image: new ol.style.RegularShape({
-                        fill: fill,
-                        stroke: stroke,
-                        points: 3,
-                        radius: size,
-                        rotation: rotation,
-                        angle: 0,
-                    })
-                })
-                break;
-            default:
-                style = new ol.style.Style({
-                    image: new ol.style.Circle({
-                        fill: fill,
-                        stroke: stroke,
-                        radius: size,
-                        rotation: rotation,
-                    })
-                })
-        }
+        const style = new ol.style.Style({});
+        const form = dom.getElementsByTagName("WellKnownName").item(0).textContent;
+        const image = createImageStyleByForm(form, fill, size, stroke, rotation);
+        style.setImage(image);
         const labelStyle = labelStyleParse(dom);
         style.setText(labelStyle);
         return style;
     } 
+}
+
+function createImageStyleByForm(form, fill, size, stroke = new ol.style.Stroke({}), rotation = 0){
+    switch(form){
+        case "square":
+            return new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                points: 4,
+                radius: size,
+                rotation: rotation,
+                angle: Math.PI / 4,
+            });
+        case "triangle":
+            return  new ol.style.RegularShape({
+                fill: fill,
+                stroke: stroke,
+                points: 3,
+                radius: size,
+                rotation: rotation,
+                angle: 0,
+            });
+        default:
+            return new ol.style.Circle({
+                fill: fill,
+                stroke: stroke,
+                radius: size,
+                rotation: rotation,
+            });
+    }
 }
 
 function polygonStyleParse(dom){
@@ -443,7 +467,7 @@ function lineStyleParse(dom){
             width: width,
         }));
 
-        const labelStyle = labelStyleParse(domStyle);
+        const labelStyle = labelStyleParse(domStyle, 'line');
         style.setText(labelStyle);
 
         return style;
@@ -457,7 +481,7 @@ function lineStyleParse(dom){
             })
         });
 
-        const labelStyle = labelStyleParse(dom);
+        const labelStyle = labelStyleParse(dom, 'line');
         style.setText(labelStyle);
 
         return style;
@@ -476,14 +500,17 @@ function parseZoomLevel(dom){
     return [zoomMin, zoomMax];
 }
 
-function labelStyleParse(dom){
+function labelStyleParse(dom, placement = 'point'){
     const defaultStyle = new ol.style.Text({
         fill: new ol.style.Fill({color: '#000000'}),
-        offsetY: -12,
+        offsetY: placement === 'line' ? -3 : -12,
         stroke: new ol.style.Stroke({
             color: '#ffffff',
             width: 3
         }),
+        placement: placement,
+        overflow: true,
+        maxAngle: 360,
     });
     const labelStyleDom = dom.getElementsByTagName('LabelStyle')?.item(0);
     if(!labelStyleDom)
@@ -509,7 +536,7 @@ function labelStyleParse(dom){
             color: strokeColor,
             width: strokeWidth
         }),
-        // placement: placement,
+        placement: placement,
         // repeat: repeat
     });
 

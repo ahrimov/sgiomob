@@ -13,3 +13,5 @@ const NAVIGATION_MODE = {
 	TURN_NAVIGATION_ARROW: 'Turn navigation arrow',
 	HOLD_CENTER_MAP: 'Hold center map'
 }
+
+const minZIndexForVectorLayers = 100;
