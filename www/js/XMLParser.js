@@ -196,7 +196,7 @@ function configParser(data, title){
         }
 
         const styleTypeColumn = dom.getElementsByTagName('StyleTypeColumn').item(0)?.textContent || 'type_cl';
-        const labelColumn = dom.getElementsByTagName('LabelColumn').item(0)?.textContent || 'description';
+        const labelColumn = dom.getElementsByTagName('LabelColumn').item(0)?.textContent || 'none';
         layer.styleTypeColumn = styleTypeColumn;
         layer.labelColumn = labelColumn;
 
