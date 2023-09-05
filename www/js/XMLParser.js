@@ -467,7 +467,7 @@ function lineStyleParse(dom){
             width: width,
         }));
 
-        const labelStyle = labelStyleParse(domStyle);
+        const labelStyle = labelStyleParse(domStyle, 'line');
         style.setText(labelStyle);
 
         return style;
@@ -481,7 +481,7 @@ function lineStyleParse(dom){
             })
         });
 
-        const labelStyle = labelStyleParse(dom);
+        const labelStyle = labelStyleParse(dom, 'line');
         style.setText(labelStyle);
 
         return style;
@@ -500,14 +500,17 @@ function parseZoomLevel(dom){
     return [zoomMin, zoomMax];
 }
 
-function labelStyleParse(dom){
+function labelStyleParse(dom, placement = 'point'){
     const defaultStyle = new ol.style.Text({
         fill: new ol.style.Fill({color: '#000000'}),
-        offsetY: -12,
+        offsetY: placement === 'line' ? -3 : -12,
         stroke: new ol.style.Stroke({
             color: '#ffffff',
             width: 3
         }),
+        placement: placement,
+        overflow: true,
+        maxAngle: 360,
     });
     const labelStyleDom = dom.getElementsByTagName('LabelStyle')?.item(0);
     if(!labelStyleDom)
@@ -533,7 +536,7 @@ function labelStyleParse(dom){
             color: strokeColor,
             width: strokeWidth
         }),
-        // placement: placement,
+        placement: placement,
         // repeat: repeat
     });
 

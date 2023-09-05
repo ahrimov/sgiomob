@@ -236,6 +236,7 @@
         </Rule>
       </geometryStyle>
       </extendedStyles>
+      <LabelColumn>description</LabelColumn>
       <LabelStyle>
         <color>#f2930f</color>
         <fontSize>12</fontSize>
