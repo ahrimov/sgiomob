@@ -1,0 +1,341 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<template version="2">
+  <layers>
+    <layerDb enabled="true">
+      <id>PODS_STRUCTURE</id>
+      <label>Обустройство. Площадки крановые</label>
+      <encoding>UTF-8</encoding>
+      <crs>3857</crs>
+      <geometry>MULTIPOLYGON</geometry>
+      <attributes>
+        <attribute type="DOUBLE">
+          <id>id</id>
+          <label>Идентификатор</label>
+          <required>0</required>
+          <editable>0</editable>
+		  <visible>false</visible>
+        </attribute>
+		<attribute type="ENUM">
+          <id>type_cl</id>
+          <label>Тип объекта</label>
+          <required>0</required>
+          <editable>0</editable>
+		  <default>UNKNOWN#Неизвестно                                                                                                                                                            </default>
+		  <options>UNKNOWN#Неизвестно                                                                                                                                                            |STRUCT_TYPE_01#Индивидуальный дом|STRUCT_TYPE_02#Многоквартирный дом|STRUCT_TYPE_03#Гостиница|STRUCT_TYPE_04#Административное здание|STRUCT_TYPE_05#Церковь|STRUCT_TYPE_06#Ограда крановой площадки, установки катодной защиты|STRUCT_TYPE_07#Ферма линейная|STRUCT_TYPE_08#Оттяжка|STRUCT_TYPE_11#Дом оператора|STRUCT_TYPE_12#Аварийный запас труб|STRUCT_TYPE_13#Вертолетная площадка|STRUCT_TYPE_14#Строения|STRUCT_TYPE_15#Ферма|STRUCT_TYPE_16#Объекты ЭХЗ. Блок-бокс|STRUCT_TYPE_17#Объекты ЭХЗ. Комплексная трансформаторная станция|STRUCT_TYPE_18#Объекты связи. Будка связи|STRUCT_TYPE_19#Объекты ЭХЗ. Реклоузел|STRUCT_TYPE_20#Объекты ЭХЗ. Секционирующий пункт</options>
+        </attribute>
+		<attribute type="STRING">
+          <id>name</id>
+          <label>Наименование</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		<attribute type="DOUBLE">
+          <id>occupant_count</id>
+          <label>Кол-во людей</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>       
+        <attribute type="STRING">
+          <id>lg_attach</id>
+          <label>lg_attach</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+      </attributes>
+      <attrPrimary>test</attrPrimary>
+      <attrSecondary></attrSecondary>
+      <labelsOnMap />
+      <geometryStyle>
+        <colorFill>#FFFFFFFF</colorFill>
+        <colorBorder>#FF4D4D4D</colorBorder>
+        <widthBorder>1</widthBorder>
+        <Rule>
+          <PolygonSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
+            <Fill>
+              <CssParameter name="fill">#FFFFFF</CssParameter>
+              <CssParameter name="fill-opacity">1.0</CssParameter>
+            </Fill>
+            <Stroke>
+              <CssParameter name="stroke">#4D4D4D</CssParameter>
+              <CssParameter name="stroke-width">2.00</CssParameter>
+              <CssParameter name="stroke-opacity">1.0</CssParameter>
+            </Stroke>
+          </PolygonSymbolizer>
+        </Rule>
+      </geometryStyle>
+    </layerDb>
+    <styles>
+      <StyleTypeColumn>type_cl</StyleTypeColumn>
+      <LabelColumn>name</LabelColumn>
+<Style table="STRUCTURE" schema="PODS" id="PODS_STRUCTURE" comment="PODS.STRUCTURE" descr="Сооружения линейной части (площадки)">
+      <zoomMin>0</zoomMin>
+      <zoomMax>51800</zoomMax>
+      <MIStyle>
+        <data />
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>7FFFFFFF</color>
+        <fill>0</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    <Style table="STRUCTURE" schema="PODS" id="PODS_STRUCTURE" comment="PODS.STRUCTURE" descr="Ограда крановой площадки, установки катодной защиты">
+      <zoomMin>0</zoomMin>
+      <zoomMax>51800</zoomMax>
+      <value>STRUCT_TYPE_06</value>
+      <MIStyle>
+        <data>Pen (1,5,0) Brush(1,0,16777215)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="0x001d" type1="0x001d" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_fencing_make.xml" viewpoint="">
+          appearance Appearance { material Material { diffuseColor 0.88 0.88 0.88 emissiveColor  0.88 0.88 0.88 transparency 0.0  } }
+        </data>
+      </VRMLStyle>
+      <LineStyle>
+        <color>FFF59A9A</color>
+        <width>2</width>
+      </LineStyle>
+      <LineStyle>
+        <color>FFFFFFFF</color>
+        <width>5</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>00FF9393</color>
+        <fill>0</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    <Style table="STRUCTURE" schema="PODS" id="PODS_STRUCTURE" comment="PODS.STRUCTURE" descr="Ферма линейная">
+      <zoomMin>0</zoomMin>
+      <zoomMax>51800</zoomMax>
+      <value>STRUCT_TYPE_07</value>
+      <MIStyle>
+        <data>Pen (1,5,0)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>7FFFFFFF</color>
+        <fill>0</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    <Style table="STRUCTURE" schema="PODS" id="PODS_STRUCTURE" comment="PODS.STRUCTURE" descr="Оттяжка">
+      <zoomMin>0</zoomMin>
+      <zoomMax>51800</zoomMax>
+      <value>STRUCT_TYPE_08</value>
+      <MIStyle>
+        <data>Pen (1,5,0)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>7FFFFFFF</color>
+        <fill>1</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    <Style table="STRUCTURE" schema="PODS" id="PODS_STRUCTURE" comment="PODS.STRUCTURE" descr="Тип неизвестен">
+      <zoomMin>0</zoomMin>
+      <zoomMax>51800</zoomMax>
+      <value>STRUCT_TYPE_09</value>
+      <MIStyle>
+        <data />
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FFFF9393</color>
+        <width>1</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>7FFF9393</color>
+        <fill>0</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    <Style table="STRUCTURE" schema="PODS" id="PODS_STRUCTURE" comment="PODS.STRUCTURE" descr="Тип неизвестен">
+      <zoomMin>0</zoomMin>
+      <zoomMax>51800</zoomMax>
+      <value>STRUCT_TYPE_10</value>
+      <MIStyle>
+        <data />
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FFFF9393</color>
+        <width>1</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>7FFF9393</color>
+        <fill>0</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    <Style table="STRUCTURE" schema="PODS" id="PODS_STRUCTURE" comment="PODS.STRUCTURE" descr="Дом оператора">
+      <zoomMin>0</zoomMin>
+      <zoomMax>51800</zoomMax>
+      <value>STRUCT_TYPE_11</value>
+      <MIStyle>
+        <data>Pen (1,1,0) Brush(1,0,16777215)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_area_make.xml" viewpoint="0">appearance Appearance {  material Material { diffuseColor 0.69 .69 .69 } }</data>
+      </VRMLStyle>
+      <LineStyle>
+        <color>FFFFFFFF</color>
+        <width>1</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>FFFFFFFF</color>
+        <fill>0</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    <Style table="STRUCTURE" schema="PODS" id="PODS_STRUCTURE" comment="PODS.STRUCTURE" descr="Аварийный запас труб">
+      <zoomMin>0</zoomMin>
+      <zoomMax>51800</zoomMax>
+      <value>STRUCT_TYPE_12</value>
+      <MIStyle>
+        <data>Pen (1,2,12632256) Brush(5,12632256,16777215)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_area_make.xml" viewpoint="0">appearance Appearance { material Material { diffuseColor 0.69 .69 .69  transparency 0.000  } }</data>
+      </VRMLStyle>
+      <LineStyle>
+        <color>FFA0A0A0</color>
+        <width>1</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>FFFFFFFF</color>
+        <fill>0</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    <Style table="STRUCTURE" schema="PODS" id="PODS_STRUCTURE" comment="PODS.STRUCTURE" descr="Вертолетная площадка">
+      <zoomMin>0</zoomMin>
+      <zoomMax>51800</zoomMax>
+      <value>STRUCT_TYPE_13</value>
+      <MIStyle>
+        <data>Pen (1,2,16711935) Brush(1,0,16777215)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_area_make.xml" viewpoint="0">appearance Appearance { material Material { diffuseColor 0.44 .44 .44  transparency 0 } }</data>
+      </VRMLStyle>
+      <LineStyle>
+        <color>FFFF00FF</color>
+        <width>1</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>FFFFFFFF</color>
+        <fill>0</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    <Style table="STRUCTURE" schema="PODS" id="PODS_STRUCTURE" comment="PODS.STRUCTURE" descr="Строения">
+      <zoomMin>0</zoomMin>
+      <zoomMax>51800</zoomMax>
+      <value>STRUCT_TYPE_14</value>
+      <MIStyle>
+        <data>Pen (1,2,0) Brush(5,16756832,16777215)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_building_make.xml" viewpoint="0">appearance Appearance { material Material { diffuseColor 0.69 0.69 0.41 emissiveColor 0.69 0.69 0.41     transparency 0 } }</data>
+      </VRMLStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>7FFFC882</color>
+        <fill>0</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    <Style table="STRUCTURE" schema="PODS" id="PODS_STRUCTURE" comment="PODS.STRUCTURE" descr="Ферма">
+      <zoomMin>0</zoomMin>
+      <zoomMax>51800</zoomMax>
+      <value>STRUCT_TYPE_15</value>
+      <MIStyle>
+        <data>Pen (1,5,0) Brush(1,0,16777215)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>FFFFFFFF</color>
+        <fill>0</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    </styles>
+  </layers>
+</template>

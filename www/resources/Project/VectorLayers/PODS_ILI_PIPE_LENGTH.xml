@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<template version="2">
+  <layers>
+    <layerDb enabled="true">
+      <id>PODS_ILI_PIPE_LENGTH</id>
+      <label>Данные ВТД. Труб. журнал</label>
+      <encoding>UTF-8</encoding>
+      <crs>3857</crs>
+      <geometry>MULTILINESTRING</geometry>
+      <attributes>
+        <attribute type="DOUBLE">
+          <id>id</id>
+          <label>Идентификатор</label>
+          <required>0</required>
+          <editable>0</editable>
+		  <visible>false</visible>
+        </attribute>
+		  <attribute type="STRING">
+          <id>ili_inspection_id</id>
+          <label>Обследование</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		  <attribute type="STRING">
+          <id>weld_number</id>
+          <label>Номер нач. стыка</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		  <attribute type="DOUBLE">
+          <id>nominal_wall_thickness</id>
+          <label>Ном толщина стенки мм</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		  <attribute type="DOUBLE">
+          <id>seam_orientation_deg</id>
+          <label>Ориент. прод. шва час</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		  <attribute type="DOUBLE">
+          <id>start_odometer</id>
+          <label>Одом. дистанция м</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		  <attribute type="DOUBLE">
+          <id>sequence_number</id>
+          <label>Номер трубы</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		  <attribute type="STRING">
+          <id>description</id>
+          <label>Описание</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>       
+        <attribute type="STRING">
+          <id>lg_attach</id>
+          <label>lg_attach</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+      </attributes>
+      <attrPrimary>test</attrPrimary>
+      <attrSecondary></attrSecondary>
+      <labelsOnMap />
+      <geometryStyle>
+        <colorFill>#FFCC9900</colorFill>
+        <widthLine>2</widthLine>
+        <Rule>
+          <LineSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
+            <Stroke>
+              <CssParameter name="stroke">#CC9900</CssParameter>
+              <CssParameter name="stroke-width">2.00</CssParameter>
+              <CssParameter name="stroke-opacity">1.0</CssParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+      </geometryStyle>
+    </layerDb>
+	<styles>
+		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<Style table="ILI_PIPE_LENGTH" schema="PODS" id="PODS_ILI_PIPE_LENGTH" comment="ILI_PIPE_LENGTH" descr="Данные ВТД. Раскладка труб">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <MIStyle>
+        <data />
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FF8B785A</color>
+        <width>3</width>
+      </LineStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>5</width>
+      </LineStyle>
+      <LabelStyle>
+        <zoomMin>NaN</zoomMin>
+        <zoomMax>NaN</zoomMax>
+        <color>FF000000</color>
+        <fontSize>10</fontSize>
+        <bold>0</bold>
+        <italic>0</italic>
+        <underline>0</underline>
+        <auto>1</auto>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+      </LabelStyle>
+    </Style>
+	<Style table="ILI_PIPE_LENGTH" schema="PODS" id="PODS_ILI_PIPE_LENGTH" comment="ILI_PIPE_LENGTH" descr="Номинальная толщина стенки от 1 до 9 мм">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>0</value>
+      <MIStyle>
+        <data />
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FF8B785A</color>
+        <width>3</width>
+      </LineStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>5</width>
+      </LineStyle>
+      <LabelStyle>
+        <zoomMin>NaN</zoomMin>
+        <zoomMax>NaN</zoomMax>
+        <color>FF000000</color>
+        <fontSize>10</fontSize>
+        <bold>0</bold>
+        <italic>0</italic>
+        <underline>0</underline>
+        <auto>1</auto>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+      </LabelStyle>
+    </Style>
+	<Style table="ILI_PIPE_LENGTH" schema="PODS" id="PODS_ILI_PIPE_LENGTH" comment="ILI_PIPE_LENGTH" descr="Номинальная толщина стенки от 10 до 19 мм">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>1</value>
+      <MIStyle>
+        <data />
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FFD2B4D4</color>
+        <width>5</width>
+      </LineStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>7</width>
+      </LineStyle>
+      <LabelStyle>
+        <zoomMin>NaN</zoomMin>
+        <zoomMax>NaN</zoomMax>
+        <color>FF000000</color>
+        <fontSize>10</fontSize>
+        <bold>0</bold>
+        <italic>0</italic>
+        <underline>0</underline>
+        <auto>1</auto>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+      </LabelStyle>
+    </Style>
+	<Style table="ILI_PIPE_LENGTH" schema="PODS" id="PODS_ILI_PIPE_LENGTH" comment="ILI_PIPE_LENGTH" descr="Номинальная толщина стенки от 20 до 29 мм">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>2</value>
+      <MIStyle>
+        <data />
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FFD2B4D4</color>
+        <width>7</width>
+      </LineStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>9</width>
+      </LineStyle>
+      <LabelStyle>
+        <zoomMin>NaN</zoomMin>
+        <zoomMax>NaN</zoomMax>
+        <color>FF000000</color>
+        <fontSize>10</fontSize>
+        <bold>0</bold>
+        <italic>0</italic>
+        <underline>0</underline>
+        <auto>1</auto>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+      </LabelStyle>
+    </Style>
+	<Style table="ILI_PIPE_LENGTH" schema="PODS" id="PODS_ILI_PIPE_LENGTH" comment="ILI_PIPE_LENGTH" descr="Номинальная толщина стенки от 30 до 39 мм">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>3</value>
+      <MIStyle>
+        <data />
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FFD2B4D4</color>
+        <width>11</width>
+      </LineStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>13</width>
+      </LineStyle>
+      <LabelStyle>
+        <zoomMin>NaN</zoomMin>
+        <zoomMax>NaN</zoomMax>
+        <color>FF000000</color>
+        <fontSize>14</fontSize>
+        <bold>0</bold>
+        <italic>0</italic>
+        <underline>0</underline>
+        <auto>1</auto>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+      </LabelStyle>
+    </Style>
+	<Style table="ILI_PIPE_LENGTH" schema="PODS" id="PODS_ILI_PIPE_LENGTH" comment="ILI_PIPE_LENGTH" descr="Номинальная толщина стенки от 40 до 49 мм">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>4</value>
+      <MIStyle>
+        <data />
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FFD2B4D4</color>
+        <width>13</width>
+      </LineStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>15</width>
+      </LineStyle>
+      <LabelStyle>
+        <zoomMin>NaN</zoomMin>
+        <zoomMax>NaN</zoomMax>
+        <color>FF000000</color>
+        <fontSize>10</fontSize>
+        <bold>0</bold>
+        <italic>0</italic>
+        <underline>0</underline>
+        <auto>1</auto>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+      </LabelStyle>
+    </Style>
+	<Style table="ILI_PIPE_LENGTH" schema="PODS" id="PODS_ILI_PIPE_LENGTH" comment="ILI_PIPE_LENGTH" descr="Номинальная толщина стенки от 50 до 59 мм">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>5</value>
+      <MIStyle>
+        <data />
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+      <LineStyle>
+        <color>FFD2B4D4</color>
+        <width>15</width>
+      </LineStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>17</width>
+      </LineStyle>
+      <LabelStyle>
+        <zoomMin>NaN</zoomMin>
+        <zoomMax>NaN</zoomMax>
+        <color>FF000000</color>
+        <fontSize>10</fontSize>
+        <bold>0</bold>
+        <italic>0</italic>
+        <underline>0</underline>
+        <auto>1</auto>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+      </LabelStyle>
+    </Style>
+	</styles>
+  </layers>
+</template>

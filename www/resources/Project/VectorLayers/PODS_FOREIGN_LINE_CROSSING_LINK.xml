@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<template version="2">
+  <layers>
+    <layerDb enabled="true">
+      <id>PODS_FOREIGN_LINE_CROSSING_LINK</id>
+      <label>Связь. Кабельные линии</label>
+      <encoding>UTF-8</encoding>
+      <crs>3857</crs>
+      <geometry>MULTILINESTRING</geometry>
+      <attributes>
+        <attribute type="DOUBLE">
+          <id>id</id>
+          <label>Идентификатор</label>
+          <required>0</required>
+          <editable>0</editable>
+		  <visible>false</visible>
+        </attribute>
+		<attribute type="STRING">
+          <id>description</id>
+          <label>Описание</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>        
+        <attribute type="STRING">
+          <id>lg_attach</id>
+          <label>lg_attach</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+      </attributes>
+      <attrPrimary>test</attrPrimary>
+      <attrSecondary></attrSecondary>
+      <labelsOnMap />
+      <geometryStyle>
+        <colorFill>#FF66FF66</colorFill>
+        <widthLine>2</widthLine>
+        <Rule>
+          <LineSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
+            <Stroke>
+              <CssParameter name="stroke">#66FF66</CssParameter>
+              <CssParameter name="stroke-width">1.00</CssParameter>
+              <CssParameter name="stroke-opacity">1.0</CssParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+      </geometryStyle>
+    </layerDb>
+	<styles>
+		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<Style id="PODS_FOREIGN_LINE_CROSSING_LINK" schema="PODS" table="FOREIGN_LINE_CROSSING" comment="PODS.FOREIGN_LINE_CROSSING" descr="Кабельные линии связи" short_name="" topology="2">
+      <zoomMin>25</zoomMin>
+      <zoomMax>13</zoomMax>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+        <pattern>
+          <dasharray>4 4</dasharray>
+          <join>round</join>
+          <caps>round</caps>
+        </pattern>
+      </LineStyle>
+    </Style>
+	</styles>
+  </layers>
+</template>
