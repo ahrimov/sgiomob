@@ -216,7 +216,7 @@ function configParser(data, title){
 
         for(let i in layersName){
             if(layersName[i] === title){
-                layer.setZIndex(layersName.length - i);
+                layer.setZIndex(minZIndexForVectorLayers + layersName.length - i);
             }
         }
 

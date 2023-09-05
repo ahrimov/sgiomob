@@ -157,7 +157,7 @@
               var count = layers.length;
               for(layerID of this.toArray()){
                 let layer = getLayerById(layerID);
-                layer.setZIndex(count);
+                layer.setZIndex(minZIndexForVectorLayers +  count);
                 count--;
               }
             }
