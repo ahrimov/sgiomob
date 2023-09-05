@@ -8,7 +8,15 @@ function exportKML(pathToKML, layerID){
     let features = layer.getSource().getFeatures()
     let clone_features = []
     const query = `SELECT * FROM ${layer.id}`
-    requestToDB(query, function(data){
+    requestToDB(query, async function(data){
+        if(data.rows.length === 0){
+            const userAnswer = await ons.notification.confirm({
+                title: 'Запись KML-файла',
+                message: 'В данном слое не найдено объектов для записи. Записать пустой файл?',
+                buttonLabels: ["Да", "Отмена"],
+            });
+            if(userAnswer) return;
+        }
         for(let i = 0; i < data.rows.length; i++){
             let prop = {}
             for(let atrib of layer.atribs){
