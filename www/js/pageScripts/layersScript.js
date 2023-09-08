@@ -114,12 +114,7 @@ function changeVisible(element){
             ons.notification.alert({title:"Внимание", message:'Элементы не найдены'});
             return;
         }
-        const properties = new Set();
-        for(let feature of features){
-          const keys = Object.keys(feature.getProperties());
-          for(let key of keys)
-            properties.add(key);
-        }
+        const properties = Object.keys(features[0].getProperties());
         ons.createElement('comparison_KML', {append: true})
             .then(function(dialog){
                 let html = '<table class="dialog-comparison-KML-table">'
