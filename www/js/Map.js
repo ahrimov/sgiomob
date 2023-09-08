@@ -469,43 +469,46 @@ function removeModify(){
     drawButton.style['display'] = 'block'
 }
 
-function updateFeatureGeometry(feature){
+function updateFeatureGeometry(feature, callback = null){
     let layer = findLayer(feature.layerID);
 
-    function convertToGeometryType(inp_string){
-        if(inp_string.search('Z') != -1 && inp_string.search('MULTI') != -1) return inp_string;
+    // function convertToGeometryType(inp_string){
+    //     if(inp_string.search('Z') != -1 && inp_string.search('MULTI') != -1) return inp_string;
 
-        if(inp_string.search('Z') != -1 && inp_string.search('MULTI') == -1){
-            inp_string = inp_string.replace(/\(+/g, '((');
-            inp_string = inp_string.replace(/\)+/g, '))');
-            if(inp_string.search('MULTI') == -1)
-                inp_string = insert(inp_string, 'MULTI');
-            return inp_string; 
-        }
+    //     if(inp_string.search('Z') != -1 && inp_string.search('MULTI') == -1){
+    //         inp_string = inp_string.replace(/\(+/g, '((');
+    //         inp_string = inp_string.replace(/\)+/g, '))');
+    //         if(inp_string.search('MULTI') == -1)
+    //             inp_string = insert(inp_string, 'MULTI');
+    //         return inp_string; 
+    //     }
 
-        if(inp_string.search('MULTI') == -1)
-            inp_string = insert(inp_string, 'MULTI');
+    //     if(inp_string.search('MULTI') == -1)
+    //         inp_string = insert(inp_string, 'MULTI');
 
-        let string = inp_string
-        if(inp_string.search('Z') == -1)
-            string = insert(inp_string, ' Z', inp_string.search(/\(\(/));
-        let res = string.matchAll(/,/g);
-        let offset = 0;
-        for(let r of res){
-          string = insert(string, ' 0', r.index + offset);
-          offset += 2;
-        }
-        return insert(string, ' 0', string.search(/\)\)/));
-    }
+    //     let string = inp_string
+    //     if(inp_string.search('Z') == -1)
+    //         string = insert(inp_string, ' Z', inp_string.search(/\(\(/));
+    //     let res = string.matchAll(/,/g);
+    //     let offset = 0;
+    //     for(let r of res){
+    //       string = insert(string, ' 0', r.index + offset);
+    //       offset += 2;
+    //     }
+    //     return insert(string, ' 0', string.search(/\)\)/));
+    // }
 
-    const format = new ol.format.WKT()
-    let feautureString = format.writeFeature(feature)
-    feautureString = convertToGeometryType(feautureString)
+    const format = new ol.format.WKT();
+    const featureString = writeFeatureInKML(feature);
     
-    let query = `UPDATE ${layer.id} SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`;
+    // console.log(featureString);
+    // console.log(format.writeFeature(feature));
+    
+    let query = `UPDATE ${layer.id} SET Geometry = GeomFromText('${featureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`;
     requestToDB(query, function(res){
         saveDB();
-    })
+        if(callback) callback();
+    });
 }
 
 function displayCancelButton(){
