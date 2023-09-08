@@ -336,12 +336,8 @@ function featurePropertiesScript(featureFromPage){
 
 
     function centerOnCurrentFeature(){
-        centerOnFeature(feature.getGeometry().getClosestPoint([0,0]));
-    }
-
-    function centerOnFeature(center){
+        centeringOnFeature(feature);
         let navigator = document.querySelector('#myNavigator');
-        map.getView().setCenter(center);
         navigator.popPage({times: navigator.pages.length - 1});
         map.localMap = false;
         layer.changed();
@@ -368,6 +364,7 @@ function featurePropertiesScript(featureFromPage){
                   const mapRadio = document.querySelector('#choose-type-edit-geometry-map');
                   const manualRadio = document.querySelector('#choose-type-edit-geometry-manual');
                   if(mapRadio.checked){
+                    centeringOnFeature(feature);
                     addModify(layer, feature);
                     const navigator = document.querySelector('#myNavigator')
                     navigator.popPage({times: navigator.pages.length - 1})
@@ -561,39 +558,9 @@ function featurePropertiesScript(featureFromPage){
         }
         local_map.getView().fit(geometry.getExtent());
         updateFeatureGeometry(feature, () => {
-            if(geometryType === 'MultiPoint' || geometryType === 'Point'){
-                map.getView().setCenter(geometry.getCoordinates()[0]);
-            }
-            if(geometryType === 'MultiLineString' || geometryType === 'MultiPolygon'){
-                map.getView().fit(geometry.getExtent());
-            }
+            centeringOnFeature(feature);
             updateGeometryProperty(geometry, layer.geometryType);
         });
-        
-        // if(geometryType === 'MultiPoint' || geometryType === 'Point'){
-        //     //     map.getView().setCenter(geometry.getCoordinates()[0])
-        //     // }
-        //     // if(geometryType === 'MultiLineString' || geometryType === 'MultiPolygon'){
-        //     //     map.getView().fit(geometry.getExtent());
-        //     // }
-        // const format = new ol.format.WKT();
-        // let feautureString = format.writeFeature(feature);
-        // const query = `UPDATE ${layer.id } SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`;
-        
-        // requestToDB(query, function(res){
-
-        //     saveDB();
-        //     // if(geometryType === 'MultiPoint' || geometryType === 'Point'){
-        //     //     map.getView().setCenter(geometry.getCoordinates()[0])
-        //     // }
-        //     // if(geometryType === 'MultiLineString' || geometryType === 'MultiPolygon'){
-        //     //     map.getView().fit(geometry.getExtent());
-        //     // }
-        //     // updateGeometryProperty(geometry, layer.geometryType);
-
-        // }, function(error){
-        //     ons.notification.alert('Ошибка при сохранении геометрии оюъекта: ' + error);
-        // });
     }
 
     function convertToGeometryType(inp_string){

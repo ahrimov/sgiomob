@@ -93,6 +93,22 @@ function findFeatureByID(layer, id){
     return null
 }
 
+function centeringOnFeature(feature){
+    const geometry = feature.getGeometry();
+    const geometryType = geometry.getType();
+    if(geometryType === 'MultiPoint' || geometryType === 'Point'){
+        map.getView().setCenter(geometry.getCoordinates()[0]);
+    }
+    if(geometryType === 'MultiLineString' || geometryType === 'LineString' || geometryType === 'MultiPolygon'){
+        const extent = geometry.getExtent();
+        const delta = 0.2;
+        const deltaX = (extent[2] - extent[0])*delta;
+        const deltaY = (extent[3] - extent[1])*delta;
+        const extendExtent = [extent[0] - deltaX, extent[1] - deltaY, extent[2] + deltaX, extent[3] + deltaY];
+        map.getView().fit(extendExtent);
+    }
+}
+
 class LayerAtribs{
     constructor(name, label, type, visible = true, options = null){
         this.name = name;
@@ -500,7 +516,7 @@ function updateFeatureGeometry(feature, callback = null){
 
     const format = new ol.format.WKT();
     const featureString = writeFeatureInKML(feature);
-    
+
     // console.log(featureString);
     // console.log(format.writeFeature(feature));
     
