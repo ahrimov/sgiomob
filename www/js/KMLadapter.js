@@ -67,15 +67,31 @@ function exportKML(pathToKML, layerID){
 async function importKML(layerID, dict, features){
     let layer = findLayer(layerID);
 
+    const sourceNumberOfFeatures = features.length;
+
     features = features.filter(feature => {
-        if(typeof feature.getGeometry() == 'undefined' || feature.getGeometry() == null || feature.getGeometry().getCoordinates() == ''){
+        try{
+            return typeof feature.getGeometry() !== 'undefined' &&
+             feature.getGeometry() && feature.getGeometry().getCoordinates();
+        }
+        catch(e){
             return false;
         }
-        return true;
-    })
-    
+    });
 
-    let loading = new LoadScreen(features.length, 'Импорт KML завершён')
+    let acceptedNumberOfFeatures = 0;
+
+    let textFinishingLoading = 'Импорт KML завершён.';
+
+    function completeLoading(){
+        if(sourceNumberOfFeatures !== acceptedNumberOfFeatures){
+            textFinishingLoading += `Не все объекты были загружены.\
+             Загружено объектов ${acceptedNumberOfFeatures} из ${sourceNumberOfFeatures}.`
+        }
+        ons.notification.alert({title: 'Окончание импорта KML', message: textFinishingLoading});
+    }
+
+    let loading = new LoadScreen(features.length, textFinishingLoading, completeLoading);
     loading.startLoad()
 
     let featureMaxID;
@@ -174,6 +190,7 @@ async function importKML(layerID, dict, features){
                             if(labelIndex >= 0)
                                 old_feature.label = values[labelIndex];
 
+                            acceptedNumberOfFeatures += 1;
                             loading.elementLoaded();
                             break;
                         }
@@ -219,6 +236,7 @@ async function importKML(layerID, dict, features){
                 feature.setStyle(layer.getStyle());
                 layer.getSource().addFeature(feature);
                 saveDB();
+                acceptedNumberOfFeatures += 1;
                 loading.elementLoaded();
               })       
         }

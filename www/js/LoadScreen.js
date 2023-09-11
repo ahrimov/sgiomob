@@ -1,8 +1,9 @@
 class LoadScreen{
-    constructor(amount, message = ''){
-        this.counter = 0
-        this.amount = amount
-        this.message = message
+    constructor(amount, message = '', callback = null){
+        this.counter = 0;
+        this.amount = amount;
+        this.message = message;
+        this.callback = callback;
     }
 
     startLoad(){
@@ -18,9 +19,13 @@ class LoadScreen{
     }
 
     finishLoad(){
-        setTimeout(() => {document.querySelector('#myNavigator').popPage()}, 300) 
+        setTimeout(() => {document.querySelector('#myNavigator').popPage()}, 300);
+        if(this.callback){
+            this.callback();
+            return;
+        }
         if(this.message != ''){
-            ons.notification.alert({title: 'Загрузка', message: this.message})
+            ons.notification.alert({title: 'Загрузка', message: this.message});
         }
     }
 }
