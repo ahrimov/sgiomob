@@ -11,9 +11,9 @@ function exportKML(pathToKML, layerID){
 
         if(data.rows.length === 0){
             const userAnswer = await ons.notification.confirm({
-                title: 'Запись KML-файла',
-                message: 'В данном слое не найдено объектов для записи. Записать пустой файл?',
-                buttonLabels: ["Да", "Отмена"],
+                title: 'Экспорт в KML',
+                message: 'Экспортируемый слой не содержит объектов(узлов). Все равно сформировать KML-файл?',
+                buttonLabels: ["Да", "Нет"],
             });
             if(userAnswer) return;
         }
