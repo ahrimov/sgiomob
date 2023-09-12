@@ -235,7 +235,7 @@ function drawNextPoint(layer, feature){
 
 function appendCoordinate(coordinate){
     if(map.activeLayer.geometryType == 'MULTIPOINT'){
-        var point = new ol.geom.Point(coordinate)
+        var point = new ol.geom.MultiPoint([coordinate])
         let feature = new ol.Feature({
             geometry: point
         })

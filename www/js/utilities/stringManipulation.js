@@ -20,7 +20,11 @@ function formatDate(date){
 }
 
 function writeFeatureInKML(feature){
-  const geometryType = feature.getGeometry().getType().toUpperCase();
+  const sourceGeometryType = feature.getGeometry().getType().toUpperCase();
+  let geometryType = ''
+  if(sourceGeometryType === 'POINT' || sourceGeometryType === 'LINESTRING' || sourceGeometryType === 'POLYGON')
+    geometryType += 'MULTI';
+  geometryType += feature.getGeometry().getType().toUpperCase();
   let coordinates = feature.getGeometry().getCoordinates();
   if(geometryType === 'MULTILINESTRING' || geometryType === 'MULTIPOLYGON'){
     coordinates = coordinates[0];
