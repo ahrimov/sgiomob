@@ -210,6 +210,27 @@
     margin-right: 5vw;
 }
 
+.dialog-edit-coordinate-inputs-meters-container{
+    display: flex;
+    flex-direction: column;
+    grid-gap: 1.2vh;
+    margin-bottom: 1vh;
+}
+
+.dialog-edit-coordinate-inputs-meters-block{
+    display: flex;
+    justify-content: center;
+}
+
+.dialog-edit-coordinate-label-input{
+    transform: translateY(15%);
+}
+
+.input-meters{
+    width: 23vw;
+    margin-left: 1vw;
+}
+
 .mask-input-coordinate{
     background: none;
     color: #424242;

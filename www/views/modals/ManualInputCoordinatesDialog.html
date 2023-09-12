@@ -83,18 +83,26 @@
         <div class="dialog-edit-coordinate-content">
             <div class="dialog-edit-coordinate-inputs"></div>
             <template id="dialog-edit-coordinate-inputs-meters">
-                    <ons-input id="latitude" type="number" modifier="underbar" placeholder="Широта" float></ons-input>
-                    <ons-input id="longtitude" type="number" modifier="underbar" placeholder="Долгота" float></ons-input>
+                <div class="dialog-edit-coordinate-inputs-meters-container">
+                    <div class="dialog-edit-coordinate-inputs-meters-block">
+                        <span class="dialog-edit-coordinate-label-input">Широта:</span>
+                        <ons-input id="latitude" class="number-input input-meters" type="number" modifier="underbar" float></ons-input>
+                    </div>
+                    <div class="dialog-edit-coordinate-inputs-meters-block">
+                        <span class="dialog-edit-coordinate-label-input">Долгота:</span>
+                        <ons-input id="longtitude" class="number-input input-meters" type="number" modifier="underbar" float></ons-input>
+                    </div>
+                </div>
             </template>
             <template id="dialog-edit-coordinate-inputs-degrees">
                 <div class="dialog-edit-coordinate-inputs">
                     <template id="input-degrees">
                         <div class="input-degrees-container">
-                            <ons-input type="number" class="input-degrees idegree"></ons-input>
+                            <ons-input type="number" class="number-input input-degrees idegree"></ons-input>
                             °
-                            <ons-input type="number" class="input-degrees iminute"></ons-input>
+                            <ons-input type="number" class="number-input input-degrees iminute"></ons-input>
                             '
-                            <ons-input type="number" class="input-degrees isec"></ons-input>
+                            <ons-input type="number" class="number-input input-degrees isec"></ons-input>
                             "
                         </div>
                     </template>

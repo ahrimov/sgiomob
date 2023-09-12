@@ -49,6 +49,7 @@ function createDialogManualEditGeometry(feature, successfulCallback = null){
             document.querySelector('#edit-geometry-cancel-changes').addEventListener('click', () => {
                 hideDialog('manual-input-coordinates');
             });
+
             dialog.show();
         });
 
