@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <template version="2">
   <layers>
-    <layerDb enabled="false">
+    <layerDb enabled="true">
       <id>бд_запорнорегулирующая_арматура</id>
       <label>БД_Запорно-регулирующая арматура</label>
       <encoding>UTF-8</encoding>
@@ -13,6 +13,7 @@
           <label>Идентификатор</label>
           <required>0</required>
           <editable>1</editable>
+		  <visible>false</visible>
         </attribute>
         <attribute type="STRING">
           <id>valve_identifier</id>
@@ -133,5 +134,400 @@
         </Rule>
       </geometryStyle>
     </layerDb>
+	<styles>
+		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Запорно-регулирующая арматура">
+      <zoomMin>0</zoomMin>
+      <zoomMax>15000</zoomMax>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/VALVE.png</href>
+          <form>bitmap</form>
+          <size>16</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+      <LabelStyle>
+        <zoomMin>NaN</zoomMin>
+        <zoomMax>NaN</zoomMax>
+        <color>FF000000</color>
+        <fontSize>10</fontSize>
+        <bold>1</bold>
+        <italic>1</italic>
+        <underline>0</underline>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+        <auto>1</auto>
+        <parallel>0</parallel>
+        <align>right|top</align>
+        <rotation>0</rotation>
+      </LabelStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Запорно-регулирующая арматура">
+      <zoomMin>23</zoomMin>
+      <zoomMax>17</zoomMax>
+      <value>UNKNOWN</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/VALVE.png</href>
+          <form>bitmap</form>
+          <size>16</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+      <LabelStyle>
+        <zoomMin>NaN</zoomMin>
+        <zoomMax>NaN</zoomMax>
+        <color>FF000000</color>
+        <fontSize>10</fontSize>
+        <bold>1</bold>
+        <italic>1</italic>
+        <underline>0</underline>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+        <auto>1</auto>
+        <parallel>0</parallel>
+        <align>right|top</align>
+        <rotation>0</rotation>
+      </LabelStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Кран линейный">
+      <zoomMin>0</zoomMin>
+      <zoomMax>15000</zoomMax>
+      <value>VALVE_TYPE_14</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/VALVE_VALVE_TYPE_14.png</href>
+          <form>bitmap</form>
+          <size>16</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+      <LabelStyle>
+        <color>FF000000</color>
+        <fontSize>10</fontSize>
+        <bold>0</bold>
+        <italic>1</italic>
+        <underline>0</underline>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+        <auto>1</auto>
+        <parallel>0</parallel>
+        <align>center|middle</align>
+        <rotation>0</rotation>
+      </LabelStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Кран отводной">
+      <zoomMin>0</zoomMin>
+      <zoomMax>15000</zoomMax>
+      <value>VALVE_TYPE_15</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/VALVE_VALVE_TYPE_15.png</href>
+          <form>bitmap</form>
+          <size>16</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Кран газовый обводной,свечной">
+      <zoomMin>0</zoomMin>
+      <zoomMax>15000</zoomMax>
+      <value>VALVE_TYPE_16</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/VALVE.png</href>
+          <form>bitmap</form>
+          <size>16</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="PODS_VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.PODS_VALVE" descr="Кран шаровый в надземном исполнении">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_50</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_PODS_VALVE_VALVE_TYPE_50.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Регулятор давления газа">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_51</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_51.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Регулятор давления газа комбинированный с защитной арматурой">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_52</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_52.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Регулятор давления газа комбинированный с защитной и предохранительной арматурой">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_53</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_53.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Задвижка в надземном исполнении">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_54</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_54.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Защитная арматура (ПЗК)">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_55</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_55.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Клапан электромагнитный">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_56</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_56.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Арматура запорная угловая">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_57</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_57.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Клапан обратный угловой">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_58</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_58.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Клапан обратный проходной">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_59</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_59.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Предохранительная арматура (ПСК) проходная">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_60</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_60.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Предохранительная арматура (ПСК) угловая">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_61</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_61.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Кран трехходовой (импульсный кран для КИП)">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_62</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_62.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="УОРГ в надземном исполнении">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_63</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_63.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="УОРГ в подземном исполнении (в колодце)">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_64</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_64.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Задвижка в подземном исполнении (в колодце)">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_65</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_65.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Задвижка в подземном исполнении (под ковер)">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_66</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_66.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Кран шаровый в подземном исполнении (в колодце)">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_67</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_67.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Кран шаровый в подземном исполнении (под ковер)">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_68</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_68.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Кран вспомогательный (обвязки)">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>VALVE_TYPE_69</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_VALVE_VALVE_TYPE_69.png</href>
+          <form>bitmap</form>
+          <size>30</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+	</styles>
   </layers>
 </template>

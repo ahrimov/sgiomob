@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <template version="2">
   <layers>
-    <layerDb enabled="false">
+    <layerDb enabled="true">
       <id>бд_заглушки</id>
       <label>БД_Заглушки</label>
       <encoding>UTF-8</encoding>
@@ -107,5 +107,22 @@
         </Rule>
       </geometryStyle>
     </layerDb>
+	<styles>
+		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<Style table="CLOSURE" schema="PODS" id="PODS_CLOSURE" comment="PODS.CLOSURE" descr="Газопровод с заглушкой Заглушка газопроводов разного давления">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>CLOSURE_TYPE_07</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_CLOSURE_CLOSURE_TYPE_07.png</href>
+          <form>bitmap</form>
+          <size>16</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+	</styles>
   </layers>
 </template>

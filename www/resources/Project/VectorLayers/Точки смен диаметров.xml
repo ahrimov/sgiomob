@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <template version="2">
   <layers>
-    <layerDb enabled="false">
+    <layerDb enabled="true">
       <id>бд_точки_смен_диаметров</id>
       <label>БД_Точки смен диаметров</label>
       <encoding>UTF-8</encoding>
@@ -13,6 +13,7 @@
           <label>Идентификатор</label>
           <required>0</required>
           <editable>1</editable>
+		  <visible>false</visible>
         </attribute>
         <attribute type="ENUM">
           <id>type_cl</id>
@@ -77,5 +78,26 @@
         </Rule>
       </geometryStyle>
     </layerDb>
+	<styles>
+		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<Style table="INTERFACE_DETECTOR" schema="PODS" id="PODS_INTERFACE_DETECTOR" comment="PODS.INTERFACE_DETECTOR" descr="Изменение на газопроводе способа прокладки и диаметра">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>INTERFAC_TYPE_03</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_INTERFACE_DETECTOR_INTERFACE_TYPE_03.png</href>
+          <form>bitmap</form>
+          <size>16</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+      <LabelStyle>
+      <color>FF000000</color>
+      <align>center|middle</align>
+      </LabelStyle>
+    </Style>
+	</styles>
   </layers>
 </template>

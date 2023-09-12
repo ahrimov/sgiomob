@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <template version="2">
   <layers>
-    <layerDb enabled="false">
+    <layerDb enabled="true">
       <id>бд_нитки_трубопроводов</id>
       <label>БД_Нитки трубопроводов</label>
       <encoding>UTF-8</encoding>
@@ -13,6 +13,7 @@
           <label>Идентификатор</label>
           <required>0</required>
           <editable>1</editable>
+		  <visible>false</visible>
         </attribute>
         <attribute type="ENUM">
           <id>type_cl</id>
@@ -223,5 +224,26 @@
         </Rule>
       </geometryStyle>
     </layerDb>
+	<styles>
+		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<Style table="ROUTE" schema="PODS" id="PODS_ROUTE" comment="PODS.ROUTE" descr="Газопровод низкого давления, надземный (проектируемый, перспективный, строящийся)">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>ROUTE_TYPE_40</value>
+      <LineStyle>
+        <color>FF3F4999</color>
+        <width>1</width>
+        <pattern>
+          <dasharray>15 10</dasharray>
+          <join>round</join>
+          <caps>round</caps>
+        </pattern>
+      </LineStyle>
+      <LabelStyle>
+      <color>FF3F4999</color>
+      <align>center|middle</align>
+      </LabelStyle>
+    </Style>
+	</styles>
   </layers>
 </template>
