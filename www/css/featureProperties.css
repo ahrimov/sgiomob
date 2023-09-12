@@ -43,6 +43,7 @@
     height: 100%;
     overflow-x: scroll;
     white-space: nowrap;
+    display: flex;
 }
 
 #addNewPhoto{
@@ -68,10 +69,9 @@
 }
 
 .pre-image{
-    display: inline;
     padding: 2%;
     height: 90%;
-    width: 50%;
+    margin-top: 2%;
     image-orientation: from-image;
 }
 
