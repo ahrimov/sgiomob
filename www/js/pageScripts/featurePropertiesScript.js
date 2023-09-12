@@ -370,10 +370,12 @@ function featurePropertiesScript(featureFromPage){
 
         function manualEditing(){
             createDialogManualEditGeometry(feature, () => {
-                centeringOnFeature(feature);
-                const geometry = feature.getGeometry();
-                local_map.getView().fit(geometry.getExtent());
-                updateGeometryProperty(geometry, layer.geometryType);
+                updateFeatureGeometry(feature, () => {
+                    centeringOnFeature(feature);
+                    const geometry = feature.getGeometry();
+                    local_map.getView().fit(geometry.getExtent());
+                    updateGeometryProperty(geometry, layer.geometryType);
+                });
             });
         }
 

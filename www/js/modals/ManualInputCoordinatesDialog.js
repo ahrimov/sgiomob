@@ -16,9 +16,6 @@ function createDialogManualEditGeometry(feature, successfulCallback = null){
     ons.createElement('manualInputCoordinates', {append: true})
         .then(function(dialog){
             updateTableCoordinates();
-            if(geometry.getType() === 'Point' || geometry.getType() === 'MultiPoint'){
-                document.querySelector('#manual-edit-geometry-add-coordinate-button').style.display = 'none';
-            } 
             document.querySelector('#manual-edit-geometry-add-coordinate-button').addEventListener('click', () => {
                 createDialogEditCoordinate([], typeOfCoordinates, (coordinate) => {
                     const newCoord = ol.proj.fromLonLat(coordinate, map.getView().getProjection());
@@ -39,6 +36,13 @@ function createDialogManualEditGeometry(feature, successfulCallback = null){
                 updateTableCoordinates();
             });
             document.querySelector('#edit-geometry-save-changes').addEventListener('click', () => {
+                if(coordinates.length === 0 || 
+                    geometryType === 'MultiLineString' && coordinates.length < 2 ||
+                    geometryType === 'MultiPolygon' && coordinates.length < 3
+                ){
+                    ons.notification.alert({title: 'Ошибка', message: 'Неверное количество координат(узлов).'});
+                    return;
+                }
                 updateFeatureGeometryFromTable(feature, coordinates, successfulCallback);
                 hideDialog('manual-input-coordinates');
             });
@@ -157,8 +161,6 @@ function updateFeatureGeometryFromTable(feature, coordinates, successfulCallback
     else{
         feature.getGeometry().setCoordinates(coordinates);
     }
-    updateFeatureGeometry(feature, () => {
-        if(successfulCallback)
-            successfulCallback();
-    });
+    if(successfulCallback)
+        successfulCallback();
 }

@@ -90,21 +90,49 @@ function createDrawBar(){
         carouselItem.querySelector('.carousel-item-content').innerHTML = `<p class='carousel-button-text'>${layer.label}</p>`
         carouselItem.querySelector('.carousel-item-content').addEventListener('click', function(){
 
-            let drawButton = document.querySelector('.draw-button')
-            drawButton.style['display'] = 'none'
-            let acceptDrawButton = document.querySelector('.accept-draw-button')
-            acceptDrawButton.style['display'] = 'block'
+            function drawingOnMapMode(){
+                let drawButton = document.querySelector('.draw-button');
+                drawButton.style['display'] = 'none';
+                let acceptDrawButton = document.querySelector('.accept-draw-button');
+                acceptDrawButton.style['display'] = 'block';
 
-            let fabAcceptDrawButton = document.querySelector('.accept-draw-button-fab')
-            fabAcceptDrawButton.setAttribute('disabled', 'true')
-            
+                let fabAcceptDrawButton = document.querySelector('.accept-draw-button-fab');
+                fabAcceptDrawButton.setAttribute('disabled', 'true');
+                
 
-            drawBar.style['display'] = 'none'
-            let drawInstrumentBar = document.querySelector('#draw-instrument-bar')
-            drawInstrumentBar.style['display'] = 'block'
+                drawBar.style['display'] = 'none';
+                let drawInstrumentBar = document.querySelector('#draw-instrument-bar');
+                drawInstrumentBar.style['display'] = 'block';
 
-            addDrawInteraction(layer)
-        })
+                addDrawInteraction(layer);
+            }
+
+            function manualEditing(){
+                const geometryType = layer.geometryType;
+                let feature = new ol.Feature();
+                switch(geometryType){
+                    case 'MULTIPOINT':
+                        feature.setGeometry(new ol.geom.MultiPoint([]));
+                        break;
+                    case 'MULTILINESTRING':
+                        feature.setGeometry(new ol.geom.MultiLineString([[]]));
+                        break;
+                    case 'MULTIPOLYGON':
+                        feature.setGeometry(new ol.geom.MultiPolygon([[[]]]));
+                        break;
+                }
+                feature.layerID = layer.id;
+                createDialogManualEditGeometry(feature, () => {
+                    document.querySelector('#myNavigator').pushPage('./views/newFeature.html', {data: {
+                        layer: layer, 
+                        feature: feature,
+                        fromMap: false
+                    }});
+                });
+            }
+
+            createChooseEditGeometryModeDialog(drawingOnMapMode, manualEditing);
+        });
         drawCarousel.appendChild(carouselItem)
     }
 }

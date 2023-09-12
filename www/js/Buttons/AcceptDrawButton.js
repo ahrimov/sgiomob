@@ -47,7 +47,11 @@ class AcceptDrawButton extends ol.control.Control {
             }
             
             map.draw.finishDrawing();
-            document.querySelector('#myNavigator').pushPage('./views/newFeature.html', {data: {layer: map.activeLayer, feature: map.draw.currentFeature}});
+            document.querySelector('#myNavigator').pushPage('./views/newFeature.html', {data: {
+              layer: map.activeLayer, 
+              feature: map.draw.currentFeature, 
+              fromMap: true
+            }});
         }
     }
 }
