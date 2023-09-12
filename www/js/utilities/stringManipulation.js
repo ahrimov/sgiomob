@@ -18,3 +18,18 @@ function clipping(string, limit){
 function formatDate(date){
   return `_${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}_${date.getHours()}${date.getMinutes()}${date.getSeconds()}`
 }
+
+function writeFeatureInKML(feature){
+  const sourceGeometryType = feature.getGeometry().getType().toUpperCase();
+  let geometryType = ''
+  if(sourceGeometryType === 'POINT' || sourceGeometryType === 'LINESTRING' || sourceGeometryType === 'POLYGON')
+    geometryType += 'MULTI';
+  geometryType += feature.getGeometry().getType().toUpperCase();
+  let coordinates = feature.getGeometry().getCoordinates();
+  if(geometryType === 'MULTILINESTRING' || geometryType === 'MULTIPOLYGON'){
+    coordinates = coordinates[0];
+    if(geometryType === 'MULTIPOLYGON')
+      coordinates = coordinates[0];
+  }
+  return `${geometryType} Z((${coordinates.map(coord => ` ${coord[0]} ${coord[1]} 0`).join(',')}))`;
+}

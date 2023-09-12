@@ -33,7 +33,8 @@
             transformUIToOrientation();
             let layer = this.data.layer;
             let feature = this.data.feature;
-            newFeatureScipt(layer, feature);
+            const fromMap = this.data.fromMap;
+            newFeatureScipt(layer, feature, fromMap);
         }
 
       </script>

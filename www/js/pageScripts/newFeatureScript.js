@@ -1,4 +1,4 @@
-function newFeatureScipt(pageLayer, pageFeature){
+function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
     let layer = pageLayer;
     let feature = pageFeature;   
     let featureImages = []
@@ -64,8 +64,8 @@ function newFeatureScipt(pageLayer, pageFeature){
 
         }
         const format = new ol.format.WKT()
-        let feautureString = format.writeFeature(feature)
-        feautureString = convertToGeometryType(feautureString)
+        let feautureString = writeFeatureInKML(feature); // format.writeFeature(feature)
+        //feautureString = convertToGeometryType(feautureString)
         let query = `
                     INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
                     VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
@@ -86,7 +86,11 @@ function newFeatureScipt(pageLayer, pageFeature){
             if(labelIndex >= 0)
                 feature.label = values[labelIndex];
 
-            finishDraw();
+            if(fromMap)
+                finishDraw();
+            else
+                layer.getSource().addFeature(feature);
+
             document.querySelector('#myNavigator').popPage();
 
             if(featureImages.length > 0)

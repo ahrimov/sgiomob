@@ -93,6 +93,22 @@ function findFeatureByID(layer, id){
     return null
 }
 
+function centeringOnFeature(feature){
+    const geometry = feature.getGeometry();
+    const geometryType = geometry.getType();
+    if(geometryType === 'MultiPoint' || geometryType === 'Point'){
+        map.getView().setCenter(geometry.getCoordinates()[0]);
+    }
+    if(geometryType === 'MultiLineString' || geometryType === 'LineString' || geometryType === 'MultiPolygon'){
+        const extent = geometry.getExtent();
+        const delta = 0.2;
+        const deltaX = (extent[2] - extent[0])*delta;
+        const deltaY = (extent[3] - extent[1])*delta;
+        const extendExtent = [extent[0] - deltaX, extent[1] - deltaY, extent[2] + deltaX, extent[3] + deltaY];
+        map.getView().fit(extendExtent);
+    }
+}
+
 class LayerAtribs{
     constructor(name, label, type, visible = true, options = null){
         this.name = name;
@@ -180,6 +196,54 @@ function getValueFromLayerAtrib(layerID, atribName, value){
     }
  }
 
+function createFeature(layer){
+
+    function drawingOnMapMode(){
+        openDrawBar();
+        const drawBar = document.querySelector('#downbar-wrapper')
+        const drawButton = document.querySelector('.draw-button');
+        drawButton.style['display'] = 'none';
+        const acceptDrawButton = document.querySelector('.accept-draw-button');
+        acceptDrawButton.style['display'] = 'block';
+
+        const fabAcceptDrawButton = document.querySelector('.accept-draw-button-fab');
+        fabAcceptDrawButton.setAttribute('disabled', 'true');
+        
+
+        drawBar.style['display'] = 'none';
+        const drawInstrumentBar = document.querySelector('#draw-instrument-bar');
+        drawInstrumentBar.style['display'] = 'block';
+
+        addDrawInteraction(layer);
+    }
+
+    function manualEditing(){
+        const geometryType = layer.geometryType;
+        let feature = new ol.Feature();
+        switch(geometryType){
+            case 'MULTIPOINT':
+                feature.setGeometry(new ol.geom.MultiPoint([]));
+                break;
+            case 'MULTILINESTRING':
+                feature.setGeometry(new ol.geom.MultiLineString([[]]));
+                break;
+            case 'MULTIPOLYGON':
+                feature.setGeometry(new ol.geom.MultiPolygon([[[]]]));
+                break;
+        }
+        feature.layerID = layer.id;
+        createDialogManualEditGeometry(feature, () => {
+            document.querySelector('#myNavigator').pushPage('./views/newFeature.html', {data: {
+                layer: layer, 
+                feature: feature,
+                fromMap: false
+            }});
+        });
+    }
+
+    createChooseEditGeometryModeDialog(drawingOnMapMode, manualEditing);
+} 
+
 function addDrawInteraction(layer){
     map.activeLayer = layer
     if(typeof map.draw != 'undefined')
@@ -219,7 +283,7 @@ function drawNextPoint(layer, feature){
 
 function appendCoordinate(coordinate){
     if(map.activeLayer.geometryType == 'MULTIPOINT'){
-        var point = new ol.geom.Point(coordinate)
+        var point = new ol.geom.MultiPoint([coordinate])
         let feature = new ol.Feature({
             geometry: point
         })
@@ -469,43 +533,46 @@ function removeModify(){
     drawButton.style['display'] = 'block'
 }
 
-function updateFeatureGeometry(feature){
+function updateFeatureGeometry(feature, callback = null){
     let layer = findLayer(feature.layerID);
 
-    function convertToGeometryType(inp_string){
-        if(inp_string.search('Z') != -1 && inp_string.search('MULTI') != -1) return inp_string;
+    // function convertToGeometryType(inp_string){
+    //     if(inp_string.search('Z') != -1 && inp_string.search('MULTI') != -1) return inp_string;
 
-        if(inp_string.search('Z') != -1 && inp_string.search('MULTI') == -1){
-            inp_string = inp_string.replace(/\(+/g, '((');
-            inp_string = inp_string.replace(/\)+/g, '))');
-            if(inp_string.search('MULTI') == -1)
-                inp_string = insert(inp_string, 'MULTI');
-            return inp_string; 
-        }
+    //     if(inp_string.search('Z') != -1 && inp_string.search('MULTI') == -1){
+    //         inp_string = inp_string.replace(/\(+/g, '((');
+    //         inp_string = inp_string.replace(/\)+/g, '))');
+    //         if(inp_string.search('MULTI') == -1)
+    //             inp_string = insert(inp_string, 'MULTI');
+    //         return inp_string; 
+    //     }
 
-        if(inp_string.search('MULTI') == -1)
-            inp_string = insert(inp_string, 'MULTI');
+    //     if(inp_string.search('MULTI') == -1)
+    //         inp_string = insert(inp_string, 'MULTI');
 
-        let string = inp_string
-        if(inp_string.search('Z') == -1)
-            string = insert(inp_string, ' Z', inp_string.search(/\(\(/));
-        let res = string.matchAll(/,/g);
-        let offset = 0;
-        for(let r of res){
-          string = insert(string, ' 0', r.index + offset);
-          offset += 2;
-        }
-        return insert(string, ' 0', string.search(/\)\)/));
-    }
+    //     let string = inp_string
+    //     if(inp_string.search('Z') == -1)
+    //         string = insert(inp_string, ' Z', inp_string.search(/\(\(/));
+    //     let res = string.matchAll(/,/g);
+    //     let offset = 0;
+    //     for(let r of res){
+    //       string = insert(string, ' 0', r.index + offset);
+    //       offset += 2;
+    //     }
+    //     return insert(string, ' 0', string.search(/\)\)/));
+    // }
 
-    const format = new ol.format.WKT()
-    let feautureString = format.writeFeature(feature)
-    feautureString = convertToGeometryType(feautureString)
+    const format = new ol.format.WKT();
+    const featureString = writeFeatureInKML(feature);
+
+    // console.log(featureString);
+    // console.log(format.writeFeature(feature));
     
-    let query = `UPDATE ${layer.id} SET Geometry = GeomFromText('${feautureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`;
+    let query = `UPDATE ${layer.id} SET Geometry = GeomFromText('${featureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`;
     requestToDB(query, function(res){
         saveDB();
-    })
+        if(callback) callback();
+    });
 }
 
 function displayCancelButton(){

@@ -58,8 +58,6 @@
             </ons-splitter-content>
           </ons-splitter>
 
-          <div id="test" style="z-index: 10000;"></div>
-
         <!-- Constants -->
         <script src="./resources/consts/uiConsts.js"></script>
         <script src="./resources/consts/mapConsts.js"></script>
@@ -87,6 +85,10 @@
         <script src="./js/pageScripts/layersScript.js"></script>
         <script src="./js/pageScripts/newFeatureScript.js"></script>
 
+        <!-- JS Modal Window scripts -->
+        <script src="./js/modals/ManualInputCoordinatesDialog.js" type="text/javascript" ></script>
+        <script src="./js/modals/ChooseEditGeometryMode.js"></script>
+
         <!--  JS Utils -->
         <script src="./js/utilities/stringManipulation.js"></script>
         <script src="./js/utilities/generators.js"></script>
@@ -108,6 +110,8 @@
         <script src="./js/Buttons/HoldCenterButton.js"></script>
 
         <script src="cordova.js"></script>
+
+        <div id="modalWindowTemplates"></div>
 
         <!-- Select template -->
         <template id="modalSelect.html">
