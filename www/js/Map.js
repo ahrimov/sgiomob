@@ -196,6 +196,54 @@ function getValueFromLayerAtrib(layerID, atribName, value){
     }
  }
 
+function createFeature(layer){
+
+    function drawingOnMapMode(){
+        openDrawBar();
+        const drawBar = document.querySelector('#downbar-wrapper')
+        const drawButton = document.querySelector('.draw-button');
+        drawButton.style['display'] = 'none';
+        const acceptDrawButton = document.querySelector('.accept-draw-button');
+        acceptDrawButton.style['display'] = 'block';
+
+        const fabAcceptDrawButton = document.querySelector('.accept-draw-button-fab');
+        fabAcceptDrawButton.setAttribute('disabled', 'true');
+        
+
+        drawBar.style['display'] = 'none';
+        const drawInstrumentBar = document.querySelector('#draw-instrument-bar');
+        drawInstrumentBar.style['display'] = 'block';
+
+        addDrawInteraction(layer);
+    }
+
+    function manualEditing(){
+        const geometryType = layer.geometryType;
+        let feature = new ol.Feature();
+        switch(geometryType){
+            case 'MULTIPOINT':
+                feature.setGeometry(new ol.geom.MultiPoint([]));
+                break;
+            case 'MULTILINESTRING':
+                feature.setGeometry(new ol.geom.MultiLineString([[]]));
+                break;
+            case 'MULTIPOLYGON':
+                feature.setGeometry(new ol.geom.MultiPolygon([[[]]]));
+                break;
+        }
+        feature.layerID = layer.id;
+        createDialogManualEditGeometry(feature, () => {
+            document.querySelector('#myNavigator').pushPage('./views/newFeature.html', {data: {
+                layer: layer, 
+                feature: feature,
+                fromMap: false
+            }});
+        });
+    }
+
+    createChooseEditGeometryModeDialog(drawingOnMapMode, manualEditing);
+} 
+
 function addDrawInteraction(layer){
     map.activeLayer = layer
     if(typeof map.draw != 'undefined')

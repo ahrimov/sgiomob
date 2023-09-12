@@ -40,6 +40,7 @@ function changeVisible(element){
     event.stopPropagation()
     var layerID = element.getAttribute("layer_id")
     const layer = findLayer(layerID);
+    const navigator = document.querySelector('#myNavigator');
     ons.openActionSheet({
       cancelable: true,
       buttons: [
@@ -48,8 +49,10 @@ function changeVisible(element){
           modifier: 'destructive'
         },
         {
+          label: 'Добавить объект',
+        },
+        {
           label: 'Экспорт kml',
-
         },
         {
           label: 'Импорт kml',
@@ -63,10 +66,14 @@ function changeVisible(element){
         }
       ]
     }).then(function (index) {
-        if(index == 0){
-          document.querySelector('#myNavigator').pushPage('./views/features.html', {data: {layerID: layerID}});
+        if(index === 0){
+          navigator.pushPage('./views/features.html', {data: {layerID: layerID}});
         }
-        if(index == 1){
+        if(index === 1){
+          navigator.popPage({times: navigator.pages.length - 1});
+          createFeature(layer);
+        }
+        if(index === 2){
           if(!layer.enabled){
             ons.notification.alert({title:"Внимание", message: "Этот слой нельзя экспортировать"});
           }
@@ -74,10 +81,10 @@ function changeVisible(element){
             createFileChooserForKML(layerID, exportKML);
           }
         }
-        if(index == 2){
+        if(index === 3){
           createFileChooserForKML(layerID, chooseFile);
         }
-        if(index == 3){
+        if(index === 4){
           clearLayer(layerID)
         }
       });

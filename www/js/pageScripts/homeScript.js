@@ -78,7 +78,6 @@ function closeDrawBar(){
 }
 
 function createDrawBar(){
-    let drawBar = document.querySelector('#downbar-wrapper')
     let drawCarousel = document.querySelector('#draw-bar')
     layers.sort(function(a, b){
         return b.getZIndex() - a.getZIndex()
@@ -89,49 +88,7 @@ function createDrawBar(){
         let carouselItem = template.content.cloneNode(true)
         carouselItem.querySelector('.carousel-item-content').innerHTML = `<p class='carousel-button-text'>${layer.label}</p>`
         carouselItem.querySelector('.carousel-item-content').addEventListener('click', function(){
-
-            function drawingOnMapMode(){
-                let drawButton = document.querySelector('.draw-button');
-                drawButton.style['display'] = 'none';
-                let acceptDrawButton = document.querySelector('.accept-draw-button');
-                acceptDrawButton.style['display'] = 'block';
-
-                let fabAcceptDrawButton = document.querySelector('.accept-draw-button-fab');
-                fabAcceptDrawButton.setAttribute('disabled', 'true');
-                
-
-                drawBar.style['display'] = 'none';
-                let drawInstrumentBar = document.querySelector('#draw-instrument-bar');
-                drawInstrumentBar.style['display'] = 'block';
-
-                addDrawInteraction(layer);
-            }
-
-            function manualEditing(){
-                const geometryType = layer.geometryType;
-                let feature = new ol.Feature();
-                switch(geometryType){
-                    case 'MULTIPOINT':
-                        feature.setGeometry(new ol.geom.MultiPoint([]));
-                        break;
-                    case 'MULTILINESTRING':
-                        feature.setGeometry(new ol.geom.MultiLineString([[]]));
-                        break;
-                    case 'MULTIPOLYGON':
-                        feature.setGeometry(new ol.geom.MultiPolygon([[[]]]));
-                        break;
-                }
-                feature.layerID = layer.id;
-                createDialogManualEditGeometry(feature, () => {
-                    document.querySelector('#myNavigator').pushPage('./views/newFeature.html', {data: {
-                        layer: layer, 
-                        feature: feature,
-                        fromMap: false
-                    }});
-                });
-            }
-
-            createChooseEditGeometryModeDialog(drawingOnMapMode, manualEditing);
+            createFeature(layer);
         });
         drawCarousel.appendChild(carouselItem)
     }
