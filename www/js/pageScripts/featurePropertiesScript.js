@@ -358,31 +358,26 @@ function featurePropertiesScript(featureFromPage){
     }
 
     function clickEditGeometry(){
-        ons.createElement('chooseTypeEditGeometry', {append: true})
-            .then(function(dialog){
-                document.querySelector('#choose-type-edit-geometry-button').addEventListener('click', () => {
-                  const mapRadio = document.querySelector('#choose-type-edit-geometry-map');
-                  const manualRadio = document.querySelector('#choose-type-edit-geometry-manual');
-                  if(mapRadio.checked){
-                    centeringOnFeature(feature);
-                    addModify(layer, feature);
-                    const navigator = document.querySelector('#myNavigator')
-                    navigator.popPage({times: navigator.pages.length - 1})
-                    map.localMap = false;
-                    layer.changed();
-                  }
-                  else if (manualRadio){
-                    createDialogManualEditGeometry(feature, () => {
-                        centeringOnFeature(feature);
-                        const geometry = feature.getGeometry();
-                        local_map.getView().fit(geometry.getExtent());
-                        updateGeometryProperty(geometry, layer.geometryType);
-                    });
-                  }
-                  hideDialog('choose-type-edit-geometry');
-                }, false)
-                dialog.show()
+
+        function mapEditing(){
+            centeringOnFeature(feature);
+            addModify(layer, feature);
+            const navigator = document.querySelector('#myNavigator')
+            navigator.popPage({times: navigator.pages.length - 1})
+            map.localMap = false;
+            layer.changed();
+        }
+
+        function manualEditing(){
+            createDialogManualEditGeometry(feature, () => {
+                centeringOnFeature(feature);
+                const geometry = feature.getGeometry();
+                local_map.getView().fit(geometry.getExtent());
+                updateGeometryProperty(geometry, layer.geometryType);
             });
+        }
+
+        createChooseEditGeometryModeDialog(mapEditing, manualEditing);
     }
 
     function clickDeleteFeature(){

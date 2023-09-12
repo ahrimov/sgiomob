@@ -114,6 +114,7 @@ function initial(){
     addCustomProjections();
 
     addHTMLToDocument('./views/modals/ManualInputCoordinatesDialog.html');
+    addHTMLToDocument('./views/modals/ChooseEditGeometryMode.html');
 }
 
 function addCustomProjections(){
@@ -138,6 +139,6 @@ function addHTMLToDocument(filename){
         return response.text();
     })
      .then(data => {
-        document.querySelector('#modalWindowTemplates').innerHTML = data;
+        document.querySelector('#modalWindowTemplates').innerHTML += data;
      });
 }
