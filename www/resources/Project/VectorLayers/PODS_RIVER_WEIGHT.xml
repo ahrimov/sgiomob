@@ -2,8 +2,13 @@
 <template version="2">
   <layers>
     <layerDb enabled="true">
+<<<<<<< HEAD:www/resources/Project/VectorLayers/PODS_RIVER_WEIGHT.xml
       <id>PODS_RIVER_WEIGHT</id>
       <label>Обустройство. Грузы-утяжелители</label>
+=======
+      <id>бд_точки_смен_диаметров</id>
+      <label>Точки смен диаметров</label>
+>>>>>>> develop:www/resources/Project/VectorLayers/Точки смен диаметров.xml
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

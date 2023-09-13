@@ -140,7 +140,7 @@ function configParser(data, title){
             let featureStyle;
             const atribs = layer.atribs;
             const type = feature.type || 'default';
-            if(type !== 'UNKNOWN' && styles[type] !== void 0){
+            if(type !== 'UNKNOWN' && styles[type] !== void 0 && styles[type]){
                 featureStyle = styles[type];
             }
             else {
@@ -292,8 +292,10 @@ async function pointStyleParse(dom){
                         );
                     }, (e) => {
                         console.log('Error while opening: ', href);
+                        resolve(null);
                     });
                 });
+                if(!icon) return null;
                 style.setImage(icon);
             }
         } else {
