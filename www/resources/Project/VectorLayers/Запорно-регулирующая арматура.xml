@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>бд_запорнорегулирующая_арматура</id>
-      <label>БД_Запорно-регулирующая арматура</label>
+      <label>Запорно-регулирующая арматура</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

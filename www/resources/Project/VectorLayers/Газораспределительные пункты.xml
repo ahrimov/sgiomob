@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>бд_газораспределительные_пункты</id>
-      <label>БД_Газораспределительные пункты</label>
+      <label>Газораспределительные пункты</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>
@@ -157,7 +157,6 @@
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
 		   <Style id="PODS_DISTRIBUTION_PLANT" schema="PODS" table="DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газорегуляторные пункты" short_name="" topology="3">
-      <!-- Код класса в 4.3 C3000048  -->
       <zoomMin>0</zoomMin>
       <zoomMax>13000</zoomMax>
       <IconStyle>
@@ -213,7 +212,6 @@
       </LabelStyle>
     </Style>
     <Style id="PODS_DISTRIBUTION_PLANT" schema="PODS" table="DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газорегуляторный пункт шкафной" short_name="" topology="3">
-      <!-- Код класса в 4.3 V3030002  -->
       <value>DP_TYPE_01</value>
       <zoomMin>0</zoomMin>
       <zoomMax>13000</zoomMax>
@@ -228,7 +226,6 @@
       </IconStyle>
      </Style>
     <Style id="PODS_DISTRIBUTION_PLANT" schema="PODS" table="DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Стационарный газорегуляторный пункт" short_name="" topology="3">
-      <!-- Код класса в 4.3 V3030001  -->
       <value>DP_TYPE_04</value>
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>
@@ -241,24 +238,6 @@
         <color>FF000000</color>
         <outline>0</outline>
       </IconStyle>
-    </Style>
-    <Style id="PODS_DISTRIBUTION_PLANT" schema="PODS" table="DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газораспределительные и шкафные распределительные пункты">
-      <zoomMin>0</zoomMin>
-      <zoomMax>13000</zoomMax>
-      <LineStyle>
-        <color>FF000000</color>
-        <width>1</width>
-      </LineStyle>
-      <LineStyle>
-        <color>FFFFFFFF</color>
-        <width>5</width>
-      </LineStyle>
-      <PolyStyle>
-        <color>FF000000</color>
-        <fill>0</fill>
-        <outline>1</outline>
-        <fillPattern>solid</fillPattern>
-      </PolyStyle>
     </Style>
     <Style table="DISTRIBUTION_PLANT" schema="PODS" id="PODS_DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газорегуляторный пункт">
       <zoomMin>NAN</zoomMin>
@@ -368,6 +347,6 @@
   <align>center|middle</align>
       </LabelStyle>
     </Style>
-	</styles>
+	</styles> 
   </layers>
 </template>

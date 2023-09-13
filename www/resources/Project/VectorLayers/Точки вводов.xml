@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>бд_точки_вводов</id>
-      <label>БД_Точки вводов</label>
+      <label>Точки вводов</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>
