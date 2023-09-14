@@ -31,5 +31,8 @@ function writeFeatureInKML(feature){
     if(geometryType === 'MULTIPOLYGON')
       coordinates = coordinates[0];
   }
-  return `${geometryType} Z((${coordinates.map(coord => ` ${coord[0]} ${coord[1]} 0`).join(',')}))`;
+  const numberOfBrackets = geometryType === 'MULTIPOLYGON' ? 3 : 2;
+  const brackets = [...Array(numberOfBrackets).keys()]; 
+  return `${geometryType} Z ${brackets.map(i => '(').join('')}\
+  ${coordinates.map(coord => ` ${coord[0]} ${coord[1]} 0`).join(',')}${brackets.map(i => ')').join('')}`;
 }

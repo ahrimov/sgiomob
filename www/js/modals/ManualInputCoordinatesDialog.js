@@ -123,6 +123,8 @@ function createDialogEditCoordinate(coordinate = [], typeOfCoordinates, callback
                         dialogContent.getElementsByClassName('isec')[i].value = c.slice(c.indexOf('\'') + 1, c.indexOf('\"'));
                     }
                 }
+                dialogContent.getElementsByClassName('dialog-edit-coordinate-label-input')[0].textContent = 'Широта:';
+                dialogContent.getElementsByClassName('dialog-edit-coordinate-label-input')[1].textContent = 'Долгота:';
             }
             dialogContent.querySelector('#edit-coordinate-save-changes').addEventListener('click', () => {
                 let newCoord = [];
