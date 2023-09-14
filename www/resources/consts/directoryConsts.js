@@ -5,7 +5,7 @@ const media_directory = "file:///storage/self/primary/Android/media/io.cordova.s
 const common_media_directory = "file:///storage/self/primary/Android/media/";
 const app_directory_name = "io.cordova.sgiomobmg";
 
-const path_to_media_kml_label = ' Android/media/io.cordova.sgiomob/KML';
-const path_to_project_kml_label = 'Android/data/io.cordova.sgiomob/Project/KML';
+const path_to_media_kml_label = ' Android/media/io.cordova.sgiomobmg/KML';
+const path_to_project_kml_label = 'Android/data/io.cordova.sgiomobmg/Project/KML';
 
 let rosreestr_url = '';
