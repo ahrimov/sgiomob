@@ -63,7 +63,11 @@
 .dialog-toolbar-content{
   font-size: 12pt;
   color: white;
+  word-break: break-all;
+  line-height: 1.45rem;
+  white-space: pre-line;
 }
+
 .dialog-close{
   color: white;
 }
