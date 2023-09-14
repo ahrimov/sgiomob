@@ -63,14 +63,12 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
             }
 
         }
-        const format = new ol.format.WKT()
-        let feautureString = writeFeatureInKML(feature); // format.writeFeature(feature)
-        //feautureString = convertToGeometryType(feautureString)
-        let query = `
+
+        const feautureString = writeFeatureInKML(feature); // format.writeFeature(feature)
+        const query = `
                     INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
                     VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
                     ;`
-        console.log(query)
         requestToDB(query, function(res){
             let id = document.querySelector(`#${layer.atribs[0].name}`).value;
             feature.id = id;
