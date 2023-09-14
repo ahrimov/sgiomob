@@ -202,12 +202,10 @@
 
 .dialog-edit-coordinate-inputs{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    margin-top: 4vh;
-    gap: 10vw;
-    margin-left: 5vw;
-    margin-right: 5vw;
+    margin-top: 2vh;
+    gap: 2vh;
 }
 
 .dialog-edit-coordinate-inputs-meters-container{
@@ -262,6 +260,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    gap: 0.5vw;
 }
 
 .input-degrees{

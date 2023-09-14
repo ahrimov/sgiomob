@@ -66,6 +66,10 @@
   word-break: break-all;
   line-height: 1.45rem;
   white-space: pre-line;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translateY(-0.8vh);
 }
 
 .dialog-close{
