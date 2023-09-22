@@ -78,6 +78,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="JUNCTION_BOX" schema="PODS" id="PODS_JUNCTION_BOX" comment="PODS.JUNCTION_BOX" short_name="" descr="Необслуживаемые усилительные пункты">
       <zoomMin>0</zoomMin>
       <zoomMax>11500</zoomMax>

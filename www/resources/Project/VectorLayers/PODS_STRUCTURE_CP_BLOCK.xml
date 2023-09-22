@@ -52,6 +52,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="STRUCTURE_CP_BLOCK" schema="PODS" id="PODS_STRUCTURE_CP_BLOCK" comment="PODS.STRUCTURE" descr="Блок-боксы" topology="1" short_name="">
      <zoomMin>25</zoomMin>
      <zoomMax>11</zoomMax>

@@ -110,6 +110,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="LAUNCHER_RECEIVER" schema="PODS" id="PODS_LAUNCHER_RECEIVER" comment="PODS.LAUNCHER_RECEIVER" descr="Камеры приёма-запуска">
       <zoomMin>0</zoomMin>
       <zoomMax>15000</zoomMax>

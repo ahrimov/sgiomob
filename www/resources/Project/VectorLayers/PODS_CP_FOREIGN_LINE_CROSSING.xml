@@ -47,6 +47,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style id="PODS_CP_FOREIGN_LINE_CROSSING" schema="PODS" table="CP_FOREIGN_LINE_CROSSING" comment="PODS.FOREIGN_LINE_CROSSING" descr="Линии электропередач" topology="2" short_name="">
       <zoomMin>0</zoomMin>
       <zoomMax>15000</zoomMax>

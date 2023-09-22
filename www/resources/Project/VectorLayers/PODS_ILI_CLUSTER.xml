@@ -149,6 +149,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style id="PODS_ILI_CLUSTER" schema="PODS" table="ILI_CLUSTER" comment="PODS.ILI_CLUSTER" descr="Группы взаимодействующих дефектов" short_name="" topology="1">
       <zoomMin>NaN</zoomMin>
       <zoomMax>NaN</zoomMax>

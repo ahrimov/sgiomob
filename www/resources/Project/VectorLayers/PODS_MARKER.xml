@@ -88,6 +88,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style id="PODS_MARKER" descr="Маркеры" schema="PODS" table="MARKER" comment="PODS.MARKER" short_name="Маркеры" topology="1">
       <!--value>MARKER_TYPE_01</value-->
       <!-- Код класса в 4.3 C1100002 -->

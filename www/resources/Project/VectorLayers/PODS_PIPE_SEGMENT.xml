@@ -109,6 +109,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="PIPE_SEGMENT" schema="PODS" id="PODS_PIPE_SEGMENT" comment="PIPE_SEGMENT" descr="Номинальный диаметр 1620 мм">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>

@@ -122,6 +122,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+	<LabelColumn>description</LabelColumn>
 		 <Style id="PODS_ANODE" schema="PODS" table="ANODE" comment="PODS.ANODE" descr="Аноды" short_name="" topology="1">
       <!-- Код класса в 4.3 C1200042 -->
       <zoomMin>0</zoomMin>

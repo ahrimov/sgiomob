@@ -90,6 +90,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="METER_STATION" schema="PODS" id="PODS_METER_STATION" comment="PODS.METER_STATION" descr="Газоизмерительные станции">
       <zoomMin>NaN</zoomMin>
       <zoomMax>NaN</zoomMax>

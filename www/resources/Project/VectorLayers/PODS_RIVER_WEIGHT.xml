@@ -79,6 +79,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="RIVER_WEIGHT" schema="PODS" id="PODS_RIVER_WEIGHT" comment="PODS.RIVER_WEIGHT" descr="Грузы-утяжелители">
       <zoomMin>NaN</zoomMin>
       <zoomMax>NaN</zoomMax>

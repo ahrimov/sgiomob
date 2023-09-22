@@ -89,6 +89,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="RECTIFIER" schema="PODS" id="PODS_RECTIFIER" comment="PODS.RECTIFIER" descr="Станция дренажной защиты">
       <zoomMin>0</zoomMin>
       <zoomMax>6000</zoomMax>

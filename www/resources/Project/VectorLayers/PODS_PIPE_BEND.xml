@@ -77,6 +77,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="PIPE_BEND" schema="PODS" id="PODS_PIPE_BEND" comment="PODS.PIPE_BEND" descr="Отводы гнутые (линейные)">
 <value>2</value>
       <zoomMin>NAN</zoomMin>

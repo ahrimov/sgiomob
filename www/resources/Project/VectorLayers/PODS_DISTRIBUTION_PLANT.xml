@@ -115,6 +115,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style id="PODS_DISTRIBUTION_PLANT" schema="PODS" table="DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газораспределительные и шкафные распределительные пункты" short_name="" topology="3">
       <!-- Код класса в 4.3 C3000048  -->
       <zoomMin>NAN</zoomMin>

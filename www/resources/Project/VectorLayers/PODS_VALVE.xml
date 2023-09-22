@@ -126,7 +126,7 @@
     </layerDb>
     <styles>
       <StyleTypeColumn>type_cl</StyleTypeColumn>
-      <LabelColumn>model</LabelColumn>
+      <LabelColumn>description</LabelColumn>
       <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Запорно-регулирующая арматура">
       <zoomMin>0</zoomMin>
       <zoomMax>15000</zoomMax>

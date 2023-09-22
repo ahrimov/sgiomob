@@ -83,6 +83,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="ILI_PIPE_LENGTH" schema="PODS" id="PODS_ILI_PIPE_LENGTH" comment="ILI_PIPE_LENGTH" descr="Данные ВТД. Раскладка труб">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>

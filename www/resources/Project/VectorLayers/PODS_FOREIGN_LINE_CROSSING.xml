@@ -96,6 +96,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style id="PODS_FOREIGN_LINE_CROSSING" schema="PODS" table="FOREIGN_LINE_CROSSING" comment="PODS.FOREIGN_LINE_CROSSING" descr="Пересечения со сторонними трубопроводами, кабелями" short_name="" topology="2">
       <zoomMin>0</zoomMin>
       <zoomMax>15000</zoomMax>

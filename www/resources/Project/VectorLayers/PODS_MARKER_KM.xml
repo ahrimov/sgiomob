@@ -88,6 +88,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style id="PODS_MARKER_KM" descr="Километровые столбы" schema="PODS" table="MARKER" comment="PODS.MARKER" short_name="Столбы км." topology="1">
       <!--value>MARKER_TYPE_05</value-->
       <!-- Код класса в 4.3  C1400003 -->

@@ -105,6 +105,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="VENT_PIPE" schema="PODS" id="PODS_VENT_PIPE" comment="PODS.VENT_PIPE" descr="Выпускные свечи">
       <zoomMin>0</zoomMin>
       <zoomMax>1500</zoomMax>

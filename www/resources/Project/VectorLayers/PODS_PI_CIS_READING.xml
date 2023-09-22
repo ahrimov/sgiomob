@@ -138,6 +138,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="PI_CIS_READING" schema="PODS" id="PODS_PI_CIS_READING" comment="PODS.PI_CIS_READING" descr="Интенсивы. Данные измерений параметров ЭХЗ.">
       <zoomMin>NaN</zoomMin>
       <zoomMax>NaN</zoomMax>

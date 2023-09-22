@@ -52,6 +52,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="STRUCTURE_CP_TRANS" schema="PODS" id="PODS_STRUCTURE_CP_TRANS" comment="PODS.STRUCTURE" descr="Комплексные трансформаторные станции" topology="3" short_name="">
       <zoomMin>25</zoomMin>
       <zoomMax>11</zoomMax>

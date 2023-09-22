@@ -58,5 +58,8 @@
         </Rule>
       </geometryStyle>
     </layerDb>
+    <styles>
+	<LabelColumn>description</LabelColumn>
+    </styles>
   </layers>
 </template>

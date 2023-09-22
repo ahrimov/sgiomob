@@ -144,6 +144,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="PI_CP_READING" schema="PODS" id="PODS_PI_CP_READING" comment="PI_CP_READING" descr="КИПы. Данные измерений параметров ЭХЗ.">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>

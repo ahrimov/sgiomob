@@ -89,6 +89,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="METER" schema="PODS" id="PODS_METER" comment="PODS.METER" descr="Измерительные приборы и датчики">
       <zoomMin>0</zoomMin>
       <zoomMax>1500</zoomMax>

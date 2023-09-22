@@ -78,6 +78,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="RIGHT_OF_WAY" schema="PODS" id="PODS_RIGHT_OF_WAY" comment="PODS.RIGHT_OF_WAY" descr="Земельные участки">
       <zoomMin>NaN</zoomMin>
       <zoomMax>NaN</zoomMax>

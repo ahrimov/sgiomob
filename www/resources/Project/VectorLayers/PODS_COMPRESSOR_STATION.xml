@@ -99,6 +99,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+	<LabelColumn>description</LabelColumn>
 		<Style id="PODS_COMPRESSOR_STATION" schema="PODS" table="COMPRESSOR_STATION" comment="PODS.COMPRESSOR_STATION" descr="Компрессорные станции" short_name="" topology="3">
       <!-- Код класса в 4.3 C3000047 -->
       <zoomMin>NAN</zoomMin>

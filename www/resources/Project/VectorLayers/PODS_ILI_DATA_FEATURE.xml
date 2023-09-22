@@ -130,6 +130,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="ILI_DATA_FEATURE" schema="PODS" id="PODS_ILI_DATA_FEATURE" comment="PODS.ILI_DATA_FEATURE" descr="Данные ВТД. Особенности трассы">
       <zoomMin>NaN</zoomMin>
       <zoomMax>NaN</zoomMax>

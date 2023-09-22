@@ -68,6 +68,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="SHEET_NOTE" schema="PODS" id="PODS_SHEET_NOTE_FUND" comment="PODS.SHEET_NOTE" descr="Опоры ЛЭП" topology="1" short_name="">
       <zoomMin>25</zoomMin>
       <zoomMax>16</zoomMax>

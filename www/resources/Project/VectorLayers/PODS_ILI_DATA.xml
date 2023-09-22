@@ -154,6 +154,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" descr="Данные ВТД. Дефекты" short_name="" topology="">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>

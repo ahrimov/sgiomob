@@ -69,6 +69,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="SHEET_NOTE" schema="PODS" id="PODS_SHEET_NOTE_LINK" comment="PODS.SHEET_NOTE" descr="Вышки РРС">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>

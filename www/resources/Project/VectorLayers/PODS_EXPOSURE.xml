@@ -69,6 +69,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="EXPOSURE" schema="PODS" id="PODS_EXPOSURE" comment="PODS.EXPOSURE" descr="Воздушные переходы">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>

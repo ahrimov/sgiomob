@@ -73,6 +73,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		 <Style table="PIPE_LENGTH" schema="PODS" id="PODS_PIPE_LENGTH" comment="PODS.PIPE_LENGTH" descr="Трубный журнал" topology="2" short_name="">
       <zoomMin>NaN</zoomMin>
       <zoomMax>NaN</zoomMax>

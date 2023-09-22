@@ -47,6 +47,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="HORIZONTAL_DIRECTIONAL_DRILL" schema="PODS" id="PODS_HORIZONTAL_DIRECTIONAL_DRILL" comment="HORIZONTAL_DIRECTIONAL_DRILL" descr="Участки горизонтально/наклонно направленного бурения">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>

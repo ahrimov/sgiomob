@@ -89,6 +89,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style id="PODS_MARKER_POINT" descr="Указатели газопровода" schema="PODS" table="MARKER" comment="PODS.MARKER" short_name="Указатель газопровода" topology="1">
       <!--value>MARKER_TYPE_06</value-->
       <!-- Код класса в 4.3 C1400013  -->

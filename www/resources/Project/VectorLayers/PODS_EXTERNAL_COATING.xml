@@ -100,6 +100,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
 		<Style table="EXTERNAL_COATING" schema="PODS" id="PODS_EXTERNAL_COATING" comment="PODS.EXTERNAL_COATING" descr="Внешнее покрытие секции трубы">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>

@@ -76,6 +76,7 @@
     <styles>
       <StyleTypeColumn>type_cl</StyleTypeColumn>
       <LabelColumn>description</LabelColumn>
+      <LabelColumn>description</LabelColumn>
           <Style table="ROUTE" schema="PODS" id="PODS_ROUTE" comment="PODS.ROUTE" descr="Нитки трубопроводов">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>
