@@ -132,7 +132,8 @@ function configParser(data, title){
         }
 
         const layer = new ol.layer.Vector({
-            renderMode: 'image'
+            renderMode: 'image',
+            declutter: true,
         }); 
 
         layer.setStyle(function(feature){

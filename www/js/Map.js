@@ -23,37 +23,37 @@ function showMap(){
         let extent = map.getView().calculateExtent(map.getSize());
         let is_overflow = false;
         let number_nodes = 0;
-        layers.forEach((layer) =>{
-            if(layer.visible){
+        // layers.forEach((layer) =>{
+        //     if(layer.visible){
 
-                let source = layer.getSource();
-                let features = source.getFeaturesInExtent(extent);
-                let visible = layer.getVisible();
-                for(let feature of features){
-                    let coordinates = feature.getGeometry().getCoordinates();
-                    coordinates = coordinates.toString();
-                    coordinates = coordinates.split(',');
-                    number_nodes += coordinates.length/3;
+        //         let source = layer.getSource();
+        //         let features = source.getFeaturesInExtent(extent);
+        //         let visible = layer.getVisible();
+        //         for(let feature of features){
+        //             let coordinates = feature.getGeometry().getCoordinates();
+        //             coordinates = coordinates.toString();
+        //             coordinates = coordinates.split(',');
+        //             number_nodes += coordinates.length/3;
 
-                    if(visible == true && is_overflow == false && number_nodes > numberNodesOnMap){
-                        layer.setVisible(false);
-                        is_overflow = true;
-                        ons.notification.alert({
-                            title:'Внимание',
-                            messageHTML:`<p class="notification-alert">Не поддерживаемое количество объектов на слое ${layer.label}. Измените разрешение.</p>`});
-                        break;
-                    }
-                }
-                if(visible == true && is_overflow == true){
-                    layer.setVisible(false);
-                }
-                else if(visible == false && number_nodes < numberNodesOnMap){
-                    is_overflow = false;
-                    layer.setVisible(true);
-                }
+        //             if(visible == true && is_overflow == false && number_nodes > numberNodesOnMap){
+        //                 layer.setVisible(false);
+        //                 is_overflow = true;
+        //                 ons.notification.alert({
+        //                     title:'Внимание',
+        //                     messageHTML:`<p class="notification-alert">Не поддерживаемое количество объектов на слое ${layer.label}. Измените разрешение.</p>`});
+        //                 break;
+        //             }
+        //         }
+        //         if(visible == true && is_overflow == true){
+        //             layer.setVisible(false);
+        //         }
+        //         else if(visible == false && number_nodes < numberNodesOnMap){
+        //             is_overflow = false;
+        //             layer.setVisible(true);
+        //         }
                 
-            }
-        })
+        //     }
+        // })
     });
     
     let deniedCount = 0;
