@@ -527,7 +527,7 @@ function labelStyleParse(dom, placement = 'point'){
     const strokeWidth = 3; // strokeStyleDom.getElementsByTagName('Width')?.item(0)?.textContent || 1;
     const strokeColor = '#ffffff'; // strokeStyleDom.getElementsByTagName('Color')?.item(0)?.textContent || '#ffffff';
     // const placement = labelStyleDom.getElementsByTagName('Placement')?.item(0)?.textContent || 'point';
-    // const repeat = labelStyleDom.getElementsByTagName('Repeat')?.item(0)?.textContent || 10000;
+    const repeat = 300;
 
     const font = (bold ? 'bold ' : '') + (italic ? 'italic ' : '') + fontSize + 'px ' + fontFamily;
     const labelStyle = new ol.style.Text({
@@ -539,7 +539,8 @@ function labelStyleParse(dom, placement = 'point'){
             width: strokeWidth
         }),
         placement: placement,
-        // repeat: repeat
+        repeat: repeat,
+        overflow: true,
     });
 
     labelStyle.zoomMin = parseFloat(labelStyleDom.getElementsByTagName('zoomMax').item(0)?.textContent);
