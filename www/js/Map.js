@@ -11,7 +11,7 @@ function showMap(){
             new TileStatusBar, new ZoomMinusButton, new ZoomPlusButton, 
             new UndoButton, new AcceptDrawButton, new AcceptModifyButton, new NavigationButton,
             new CompassArrow, new HoldCenterButton],
-        // interaction: ol.interaction.defaults({altShiftDragRotate: false, pinchRotate: false})
+        interaction: ol.interaction.defaults.defaults({altShiftDragRotate: false, pinchRotate: false})
     });
 
     map.on('click', function(evt){
