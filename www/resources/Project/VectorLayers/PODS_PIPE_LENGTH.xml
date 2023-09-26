@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<template version="2">
+  <layers>
+    <layerDb enabled="true">
+      <id>PODS_PIPE_LENGTH</id>
+      <label>Труб. арматура. Секции труб</label>
+      <encoding>UTF-8</encoding>
+      <crs>3857</crs>
+      <geometry>MULTILINESTRING</geometry>
+      <attributes>
+        <attribute type="DOUBLE">
+          <id>id</id>
+          <label>Идентификатор</label>
+          <required>0</required>
+          <editable>0</editable>
+		  <visible>false</visible>
+        </attribute>
+		 <attribute type="STRING">
+          <id>length_identifier</id>
+          <label>Номер стыка</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="STRING">
+          <id>description</id>
+          <label>Описание</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="STRING">
+          <id>coil_number</id>
+          <label>Кол-во катушек подогрева</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="ENUM">
+          <id>end_treatment_cl</id>
+          <label>Вид обработки концов</label>
+          <required>0</required>
+          <editable>0</editable>
+		  <default>UNKNOWN#Неизвестно                                                                                                                                                            </default>
+		  <options>UNKNOWN#Неизвестно                                                                                                                                                            |END_TREAT_01#Гладкий|END_TREAT_02#Раструбный</options>
+        </attribute>
+		 <attribute type="STRING">
+          <id>heat_number</id>
+          <label>Номер партии</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>   
+        <attribute type="STRING">
+          <id>lg_attach</id>
+          <label>lg_attach</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+      </attributes>
+      <attrPrimary>test</attrPrimary>
+      <attrSecondary></attrSecondary>
+      <labelsOnMap />
+      <geometryStyle>
+        <colorFill>#FFCC9900</colorFill>
+        <widthLine>2</widthLine>
+        <Rule>
+          <LineSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
+            <Stroke>
+              <CssParameter name="stroke">#CC9900</CssParameter>
+              <CssParameter name="stroke-width">2.00</CssParameter>
+              <CssParameter name="stroke-opacity">1.0</CssParameter>
+            </Stroke>
+          </LineSymbolizer>
+        </Rule>
+      </geometryStyle>
+    </layerDb>
+	<styles>
+		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
+		 <Style table="PIPE_LENGTH" schema="PODS" id="PODS_PIPE_LENGTH" comment="PODS.PIPE_LENGTH" descr="Трубный журнал" topology="2" short_name="">
+      <zoomMin>NaN</zoomMin>
+      <zoomMax>NaN</zoomMax>
+      <LineStyle>
+        <color>FF99B898</color>
+        <width>4</width>
+        <pattern>
+          <join>round</join>
+          <caps>square</caps>
+        </pattern>
+      </LineStyle>
+      <LineStyle>
+        <color>FF0000CC</color>
+        <width>7</width>
+        <pattern>
+          <join>round</join>
+          <caps>square</caps>
+        </pattern>
+      </LineStyle>
+      <LabelStyle>
+        <zoomMin>NaN</zoomMin>
+        <zoomMax>NaN</zoomMax>
+        <color>FF009966</color>
+        <fontSize>10</fontSize>
+        <bold>0</bold>
+        <italic>0</italic>
+        <underline>0</underline>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+        <auto>1</auto>
+        <parallel>0</parallel>
+        <align>right|middle</align>
+        <rotation>0</rotation>
+        <fontFamily>Times New Roman</fontFamily>
+      </LabelStyle>
+    </Style>
+	</styles>
+  </layers>
+</template>

@@ -1,0 +1,3172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<template version="2">
+  <layers>
+    <layerDb enabled="true">
+      <id>PODS_ILI_DATA</id>
+      <label>Данные ВТД. Дефекты</label>
+      <encoding>UTF-8</encoding>
+      <crs>3857</crs>
+      <geometry>MULTIPOINT</geometry>
+      <attributes>
+        <attribute type="DOUBLE">
+          <id>id</id>
+          <label>Идентификатор</label>
+          <required>0</required>
+          <editable>0</editable>
+		  <visible>false</visible>
+        </attribute>
+		 <attribute type="STRING">
+          <id>weld_number</id>
+          <label>Номер шваНомер шва</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="DOUBLE">
+          <id>absolute_odometer</id>
+          <label>Одом. дист. м</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="ENUM">
+          <id>anomaly_type_cl</id>
+          <label>Тип аномалии</label>
+          <required>0</required>
+          <editable>0</editable>
+		  <default>UNKNOWN#Неизвестно                                                                                                                                                            </default>
+		  <options>UNKNOWN#Неизвестно                                                                                                                                                            |CROS_MAT_01#Стальной трубопровод|CROS_MAT_02#Полимерный трубопровод|CROS_MAT_03#Кабель в стальной оплетке|CROS_MAT_04#Кабель в полимерной изоляции</options>
+        </attribute>
+		 <attribute type="ENUM">
+          <id>anomaly_extension_cl</id>
+          <label>Группа аномалий</label>
+          <required>0</required>
+          <editable>0</editable>
+		  <default>UNKNOWN#Неизвестно                                                                                                                                                            </default>
+		  <options>UNKNOWN#Неизвестно                                                                                                                                                            |ANOMALY_EXT_001#Коррозионный дефект|ANOMALY_EXT_002#Металлургический дефект|ANOMALY_EXT_003#Дефект геометрии трубы|ANOMALY_EXT_004#Прочие|ANOMALY_EXT_005#Стресс-коррозионный дефект|ANOMALY_EXT_006#Дефект сварного шва|ANOMALY_EXT_007#Технологические дефекты|ANOMALY_EXT_008#Недопустимые конструктивные элементы|ANOMALY_EXT_009#Механические повреждения</options>
+        </attribute>
+		 <attribute type="DOUBLE">
+          <id>length</id>
+          <label>Длина мм</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="DOUBLE">
+          <id>width</id>
+          <label>Ширин. мм</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="DOUBLE">
+          <id>average_depth</id>
+          <label>Глуб. %</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="DOUBLE">
+          <id>bpr_pig</id>
+          <label>КБД</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="DOUBLE">
+          <id>rpr_calculated</id>
+          <label>Безоп. P, МПа</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="DOUBLE">
+          <id>bpr_calculated</id>
+          <label>Факт. коэф. зап. проч.</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="DOUBLE">
+          <id>bpr_variance</id>
+          <label>Разруш. P, МПа</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="DOUBLE">
+          <id>rpr_variance</id>
+          <label>Норм. коэф. зап. проч.</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="DOUBLE">
+          <id>orientation_deg</id>
+          <label>Ориен. час</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="DOUBLE">
+          <id>nominal_wall_thickness</id>
+          <label>Ном. толщ. стенки мм</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="STRING">
+          <id>description</id>
+          <label>Описание</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+		 <attribute type="STRING">
+          <id>feature_description</id>
+          <label>Идентификация</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+        <attribute type="STRING">
+          <id>lg_attach</id>
+          <label>lg_attach</label>
+          <required>0</required>
+          <editable>0</editable>
+        </attribute>
+      </attributes>
+      <attrPrimary>test</attrPrimary>
+      <attrSecondary></attrSecondary>
+      <labelsOnMap />
+      <geometryStyle>
+        <colorFill>#FFC00000</colorFill>
+        <colorBorder>#FF000000</colorBorder>
+        <sizePoint>5</sizePoint>
+        <Rule>
+          <PointSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
+            <Graphic>
+              <Mark>
+                <Fill>
+                  <CssParameter name="fill">#FFC00000</CssParameter>
+                  <CssParameter name="fill-opacity">1.0</CssParameter>
+                </Fill>
+                <Stroke>
+                  <CssParameter name="stroke">#000000</CssParameter>
+                  <CssParameter name="stroke-width">2.00</CssParameter>
+                  <CssParameter name="stroke-opacity">1.0</CssParameter>
+                </Stroke>
+                <WellKnownName>circle</WellKnownName>
+              </Mark>
+              <Size>5.00</Size>
+              <Opacity>1.00</Opacity>
+              <Rotation>0.00</Rotation>
+            </Graphic>
+          </PointSymbolizer>
+        </Rule>
+      </geometryStyle>
+    </layerDb>
+	<styles>
+		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
+		<Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" descr="Данные ВТД. Дефекты" short_name="" topology="">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFFF1493</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data />
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="вмятина" topology="1">
+      <value>1</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFBF1A21</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12524065,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="изгиб" topology="1">
+      <value>2</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC4E68B</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12904075,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="овальность" topology="1">
+      <value>3</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCAB372</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13284210,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="прилегание мет.предм." topology="1">
+      <value>4</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC1EFB</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13377275,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="гофр" topology="1">
+      <value>5</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC0278B</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12593035,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="коррозия" topology="1">
+      <value>6</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC7197E</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13048190,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="КОРРОЗИЯ по всей длине трубы" topology="1">
+      <value>7</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC7197E</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13048190,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Дефектный сварной стык (поперечный)" topology="1">
+      <value>8</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC0DF3C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12640060,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="группа аномалий" topology="1">
+      <value>9</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC03726</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12597030,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="заварка" topology="1">
+      <value>10</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC3B1D5</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12825045,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="сегм.поворот" topology="1">
+      <value>11</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCDC4F4</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13485300,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="приварка" topology="1">
+      <value>12</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC1EFB</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13377275,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="стресс-коррозия" topology="1">
+      <value>13</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCE2AC5</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13511365,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="продольная трещина" topology="1">
+      <value>14</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC1F19</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13377305,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="гнутый изгиб" topology="1">
+      <value>17</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC01FB6</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12591030,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="сегментный изгиб" topology="1">
+      <value>18</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCDC4F4</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13485300,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="аномалия" topology="1">
+      <value>121</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFBD259A</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12395930,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="каверна" topology="1">
+      <value>122</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC6ABD8</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13020120,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="дефект проката" topology="1">
+      <value>123</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC0DF3C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12640060,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="царапина" topology="1">
+      <value>124</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFD2942A</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13800490,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Продольная канавка" topology="1">
+      <value>125</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC1F19</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13377305,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Зона продольных трещин" topology="1">
+      <value>126</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC41F6C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12853100,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Механическое повреждение" topology="1">
+      <value>127</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC8CF49</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13160265,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Продольные канавки" topology="1">
+      <value>128</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC1F19</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13377305,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Технологический дефект" topology="1">
+      <value>129</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCEC34F</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13550415,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Прокатные полосы" topology="1">
+      <value>130</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC1F19</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13377305,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Вмятины" topology="1">
+      <value>131</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFBF1A21</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12524065,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Поперечная канавка" topology="1">
+      <value>132</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC0F7E</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13373310,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Задир" topology="1">
+      <value>133</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC3B1DF</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12825055,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Прогрев" topology="1">
+      <value>134</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC1F19</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13377305,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Препятствие" topology="1">
+      <value>135</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC1EEC</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13377260,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Наплыв" topology="1">
+      <value>136</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC9A61C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13215260,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Эксцентричность патрона" topology="1">
+      <value>137</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFD9D456</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,14275670,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Поперечные канавки" topology="1">
+      <value>138</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC0F7E</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13373310,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Язва" topology="1">
+      <value>139</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFDBB89D</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,14399645,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Дефект не обнаружен" topology="1">
+      <value>140</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC0DF3C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12640060,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Язвы" topology="1">
+      <value>141</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFDBB89D</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,14399645,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Отложение" topology="1">
+      <value>142</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCB30A9</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13316265,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Подварка" topology="1">
+      <value>143</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC0F47</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13373255,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Расслоение" topology="1">
+      <value>144</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCCA029</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13410345,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Включения" topology="1">
+      <value>145</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFBF0A1D</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12519965,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Поперечная трещина" topology="1">
+      <value>146</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC0F7E</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13373310,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Утонение" topology="1">
+      <value>147</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFD026BD</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13641405,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Внутренний дефект" topology="1">
+      <value>148</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFBF21B5</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12526005,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Сужение" topology="1">
+      <value>149</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCE3263</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13513315,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Металлургический дефект" topology="1">
+      <value>150</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC8CF3A</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13160250,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Зашлифовка" topology="1">
+      <value>151</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC3B243</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12825155,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Расслоение выходящее на поверхность" topology="1">
+      <value>152</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCCA029</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13410345,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Нарушение изоляции" topology="1">
+      <value>153</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC9A621</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13215265,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Выпуклость" topology="1">
+      <value>154</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFBF8F01</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12553985,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Дефектный сварной стык (продольный)" topology="1">
+      <value>155</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC0DF3C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12640060,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Потеря металла" topology="1">
+      <value>156</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCC0F8D</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13373325,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Наложения" topology="1">
+      <value>157</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC9A608</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13215240,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="риска" topology="1">
+      <value>158</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCCDEA9</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13426345,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="риска (корроз.) (поперечн.)" topology="1">
+      <value>159</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCCDEA9</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13426345,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="риска (корроз.) (продольн.)" topology="1">
+      <value>160</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFCCDEA9</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,13426345,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="аномалия спирального шва" topology="1">
+      <value>161</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFBD259A</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12395930,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="зона коррозии" topology="1">
+      <value>162</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC41F6C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12853100,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Дефект не отшурфован" topology="1">
+      <value>501</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>4</size>
+        </Icon>
+        <color>FFC0DF3C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>1</width>
+      </LineStyle>
+      <MIStyle>
+        <data>Symbol (34,12640060,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Shape  { appearance Appearance { material Material  { diffuseColor $COLOR_RGB$  transparency 0.5} }
+          geometry Sphere {  radius  $RADIUS_1_15$ } }
+        </data>
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Отвод" topology="1">
+      <value>1001</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCB307C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13316220,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Кран" topology="1">
+      <value>1003</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC728CE</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13052110,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Магнитный маркер" topology="1">
+      <value>1004</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC8A7DF</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13150175,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Узел подключения технической перемычки" topology="1">
+      <value>1005</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCFD0A0</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13619360,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Вход в патрон" topology="1">
+      <value>1006</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFBF601C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12541980,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Секущий кран КЗ" topology="1">
+      <value>1007</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCDC517</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13485335,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Секущий кран КП" topology="1">
+      <value>1008</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCDC517</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13485335,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Выход из патрона" topology="1">
+      <value>1010</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFBF8F1F</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12554015,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Отметка оператора" topology="1">
+      <value>1011</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCB30AE</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13316270,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Тройник" topology="1">
+      <value>1009</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCF191C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13572380,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Окно" topology="1">
+      <value>1012</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCAF233</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13300275,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Камера приема/запуска" topology="1">
+      <value>1013</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC6AC0A</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13020170,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Неизвестный тип особенности" topology="1">
+      <value>1014</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC9CD09</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13225225,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="одиночный" topology="1">
+      <value>2003</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCAC33A</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13288250,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="начало" topology="1">
+      <value>2001</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC9A644</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13215300,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="конец" topology="1">
+      <value>2002</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC7196F</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13048175,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Прямошовная" topology="1">
+      <value>3001</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCC1F6E</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13377390,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Бесшовная" topology="1">
+      <value>3002</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFBDE52A</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12444970,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Невыявленный шов" topology="1">
+      <value>3003</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC9CCEB</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13225195,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Одношовная" topology="1">
+      <value>3004</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCAC353</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13288275,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Двухшовная" topology="1">
+      <value>3005</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC0C7C7</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12634055,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Спиралешовная" topology="1">
+      <value>3006</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCE132D</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13505325,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Листовая продольносваренная двухшовная" topology="1">
+      <value>3007</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC7E8A4</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13101220,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Листовые, продольносваренные" topology="1">
+      <value>3008</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC7E8A4</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13101220,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Прямошовная с одним продольным швом" topology="1">
+      <value>3009</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCC1F6E</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13377390,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Электросварная" topology="1">
+      <value>3010</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFD9DBEA</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,14277610,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="кран-секция" topology="1">
+      <value>3011</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC728CE</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13052110,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="тройник-секция" topology="1">
+      <value>3012</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCF191C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13572380,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Муфта ремонтная композитная замкнутая" topology="1">
+      <value>4001</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC93CA4</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13188260,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Муфта ремонтная композитная не замкнутая" topology="1">
+      <value>4002</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC93CA4</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13188260,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Ремонт поперечного сварного стыка" topology="1">
+      <value>4003</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCCC720</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13420320,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="заварка, муфта" topology="1">
+      <value>4004</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC3B1D5</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12825045,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Облицовка шва" topology="1">
+      <value>4005</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCAABD9</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13282265,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Зачистка и изоляция" topology="1">
+      <value>4006</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC3B23E</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12825150,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Ремонт мультиметаллом" topology="1">
+      <value>4007</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCCC720</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13420320,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Заварка дефекта" topology="1">
+      <value>4008</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC3B1D5</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12825045,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Замена участка" topology="1">
+      <value>4009</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC3B207</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12825095,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Вставка катушки, муфта" topology="1">
+      <value>4010</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFBF40F0</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12534000,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Зашлифовка дефекта" topology="1">
+      <value>4011</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC3B243</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12825155,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Заварка технологического окна" topology="1">
+      <value>4012</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC3B1D5</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12825045,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Усиление шва" topology="1">
+      <value>4013</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFD01ECF</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13639375,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Ремонт не проведен" topology="1">
+      <value>4014</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCCC720</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13420320,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Ремонт продольного сварного стыка" topology="1">
+      <value>4015</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCCC720</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13420320,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Наплавка" topology="1">
+      <value>4016</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC9A61C</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13215260,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Устранен" topology="1">
+      <value>4017</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFD01F01</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13639425,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="муфта" topology="1">
+      <value>4018</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC93CA4</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13188260,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Переоблицовка" topology="1">
+      <value>4019</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCBC933</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13355315,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Установка уплотнительных муфт" topology="1">
+      <value>4020</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFD01F01</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13639425,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Стальная ремонтная муфта" topology="1">
+      <value>4021</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCE2A75</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13511285,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Вышлифовка и изоляция" topology="1">
+      <value>4022</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFBF8F2E</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12554030,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Вварка заплаты" topology="1">
+      <value>4023</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFBECB66</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12503910,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Ремонт не требуется" topology="1">
+      <value>4024</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCCC720</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13420320,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Переизоляция" topology="1">
+      <value>4025</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCBC933</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13355315,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Замена трубы" topology="1">
+      <value>4026</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC3B207</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12825095,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Вставка катушки" topology="1">
+      <value>4027</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFBF40F0</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,12534000,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Холодная сварка" topology="1">
+      <value>4028</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFD20370</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13763440,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Композитная муфта" topology="1">
+      <value>4029</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFC7196A</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13048170,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+    <Style id="PODS_ILI_DATA" schema="PODS" table="ILI_DATA" comment="PODS.ILI_DATA" short_name="" descr="Поперечный шов" topology="1">
+      <value>5001</value>
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>triangle</form>
+          <size>12</size>
+        </Icon>
+        <color>FFCC0F7E</color>
+        <outline>1</outline>
+      </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,13373310,10)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="" viewpoint="" />
+      </VRMLStyle>
+    </Style>
+	</styles>
+  </layers>
+</template>
