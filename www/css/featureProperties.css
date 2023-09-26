@@ -5,6 +5,10 @@
     overflow: scroll;
 }
 
+#feature-properties-title{
+    width: 100;
+}
+
 #local-map {
     margin: 0;
     height: 30%;
@@ -20,6 +24,17 @@
     padding-left: 5%;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.feature-properties-main-title{
+    font-size: 17px;
+    line-height: 32px;
+}
+
+#feature-properties-title{
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: 390;
 }
 
 #featureProperties .content{

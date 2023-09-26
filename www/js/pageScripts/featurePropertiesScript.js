@@ -29,6 +29,8 @@ function featurePropertiesScript(featureFromPage){
         atribs.push(atrib.name);
     }
 
+    document.querySelector('#feature-properties-title').textContent = layer.label;
+
     document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false)
 
     document.querySelector('#feature-instrument-map').addEventListener('click', centerOnCurrentFeature, false)

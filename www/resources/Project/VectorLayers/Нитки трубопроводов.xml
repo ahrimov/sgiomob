@@ -226,6 +226,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+    <LabelColumn>description</LabelColumn>
 		<Style table="ROUTE" schema="PODS" id="PODS_ROUTE" comment="PODS.ROUTE" descr="Газопровод низкого давления, надземный (проектируемый, перспективный, строящийся)">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>
