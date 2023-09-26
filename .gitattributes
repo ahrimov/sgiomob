@@ -1,0 +1,6 @@
+./www/resources/Project merge=ours
+./www/resources/consts/directoryConsts.js merge=ours
+config.xml merge=ours
+package.json merge=ours
+package-lock.json merge=ours
+package.backup.json merge=ours

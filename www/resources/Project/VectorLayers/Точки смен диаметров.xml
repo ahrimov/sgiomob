@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<template version="2">
+  <layers>
+    <layerDb enabled="true">
+      <id>бд_точки_смен_диаметров</id>
+      <label>Точки смен диаметров</label>
+      <encoding>UTF-8</encoding>
+      <crs>3857</crs>
+      <geometry>MULTIPOINT</geometry>
+      <attributes>
+        <attribute type="DOUBLE">
+          <id>id</id>
+          <label>Идентификатор</label>
+          <required>0</required>
+          <editable>1</editable>
+		  <visible>false</visible>
+        </attribute>
+        <attribute type="ENUM">
+          <id>type_cl</id>
+          <label>Тип объекта</label>
+          <required>0</required>
+          <editable>1</editable>
+          <default>UNKNOWN#Неизвестно</default>
+          <options>UNKNOWN#Неизвестно</options>
+        </attribute>
+        <attribute type="STRING">
+          <id>description</id>
+          <label>Описание</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="ENUM">
+          <id>manufacturer_cl</id>
+          <label>Изготовитель</label>
+          <required>0</required>
+          <editable>1</editable>
+          <default>UNKNOWN#Неизвестно</default>
+          <options>UNKNOWN#Неизвестно</options>
+        </attribute>
+        <attribute type="DATE">
+          <id>date_installed</id>
+          <label>Дата установки</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="STRING">
+          <id>lg_attach</id>
+          <label>lg_attach</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+      </attributes>
+      <attrPrimary>test</attrPrimary>
+      <attrSecondary></attrSecondary>
+      <labelsOnMap />
+      <geometryStyle>
+        <colorFill>#FFAF00AF</colorFill>
+        <colorBorder>#FF000000</colorBorder>
+        <sizePoint>4</sizePoint>
+        <Rule>
+          <PointSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
+            <Graphic>
+              <Mark>
+                <Fill>
+                  <CssParameter name="fill">#AF00AF</CssParameter>
+                </Fill>
+                <Stroke>
+                  <CssParameter name="stroke">#000000</CssParameter>
+                  <CssParameter name="stroke-width">1.00</CssParameter>
+                </Stroke>
+                <WellKnownName>square</WellKnownName>
+              </Mark>
+              <Size>4.00</Size>
+              <Opacity>1.00</Opacity>
+              <Rotation>0.00</Rotation>
+            </Graphic>
+          </PointSymbolizer>
+        </Rule>
+      </geometryStyle>
+    </layerDb>
+	<styles>
+		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<Style table="INTERFACE_DETECTOR" schema="PODS" id="PODS_INTERFACE_DETECTOR" comment="PODS.INTERFACE_DETECTOR" descr="Изменение на газопроводе способа прокладки и диаметра">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>INTERFAC_TYPE_03</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_INTERFACE_DETECTOR_INTERFACE_TYPE_03.png</href>
+          <form>bitmap</form>
+          <size>16</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+      <LabelStyle>
+      <color>FF000000</color>
+      <align>center|middle</align>
+      </LabelStyle>
+    </Style>
+	</styles>
+  </layers>
+</template>

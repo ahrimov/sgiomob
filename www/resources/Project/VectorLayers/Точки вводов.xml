@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<template version="2">
+  <layers>
+    <layerDb enabled="true">
+      <id>бд_точки_вводов</id>
+      <label>Точки вводов</label>
+      <encoding>UTF-8</encoding>
+      <crs>3857</crs>
+      <geometry>MULTIPOINT</geometry>
+      <attributes>
+        <attribute type="DOUBLE">
+          <id>id</id>
+          <label>Идентификатор</label>
+          <required>0</required>
+          <editable>1</editable>
+		  <visible>false</visible>
+        </attribute>
+        <attribute type="ENUM">
+          <id>type_cl</id>
+          <label>Тип объекта</label>
+          <required>0</required>
+          <editable>1</editable>
+          <default>UNKNOWN#Неизвестно</default>
+          <options>UNKNOWN#Неизвестно|C1300009#Съемочные точки газопроводов|C1400014#Столб|C1400024#Угол объекта|C1400057#Молниеотвод|C1400058#Прожектор(фонарь)|C1400059#Мачта|C1400060#Створные точки|C1400061#Свеча защитного патрона|C1400062#Характерные точки|C1400063#Столбик-сторожок кабельный|C1400068#Указатель границы ЛПУ|C1400069#Шкаф(будка)распределительный</options>
+        </attribute>
+        <attribute type="STRING">
+          <id>description</id>
+          <label>Описание</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="DOUBLE">
+          <id>width</id>
+          <label>Ширина м</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="STRING">
+          <id>source_number</id>
+          <label>Полевой номер</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="STRING">
+          <id>lg_attach</id>
+          <label>lg_attach</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+      </attributes>
+      <attrPrimary>test</attrPrimary>
+      <attrSecondary></attrSecondary>
+      <labelsOnMap />
+      <geometryStyle>
+        <colorFill>#FFAD0000</colorFill>
+        <colorBorder>#FF000000</colorBorder>
+        <sizePoint>4</sizePoint>
+        <Rule>
+          <PointSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
+            <Graphic>
+              <Mark>
+                <Fill>
+                  <CssParameter name="fill">#AD0000</CssParameter>
+                </Fill>
+                <Stroke>
+                  <CssParameter name="stroke">#000000</CssParameter>
+                  <CssParameter name="stroke-width">1.00</CssParameter>
+                </Stroke>
+                <WellKnownName>square</WellKnownName>
+              </Mark>
+              <Size>4.00</Size>
+              <Opacity>1.00</Opacity>
+              <Rotation>0.00</Rotation>
+            </Graphic>
+          </PointSymbolizer>
+        </Rule>
+      </geometryStyle>
+    </layerDb>
+	<styles>
+		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<Style table="SHEET_NOTE" schema="PODS" id="PODS_SHEET_NOTE" comment="PODS.SHEET_NOTE" descr="Опора ЛЭП, учитывая направление разветвления линий электропередач">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_SHEET_NOTE_FUND_SHEET_NOTE_TYPE_04.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="SHEET_NOTE" schema="PODS" id="PODS_SHEET_NOTE" comment="PODS.SHEET_NOTE" descr="Колодец водопроводный">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>SHEET_N_TYPE_01</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_SHEET_NOTE_FUND_SHEET_NOTE_TYPE_01.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="SHEET_NOTE" schema="PODS" id="PODS_SHEET_NOTE" comment="PODS.SHEET_NOTE" descr="Опора ВЛ 0,4 кВ">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>SHEET_N_TYPE_02</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_SHEET_NOTE_FUND_SHEET_NOTE_TYPE_02.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="SHEET_NOTE" schema="PODS" id="PODS_SHEET_NOTE" comment="PODS.SHEET_NOTE" descr="Опора ВЛ 6 - 10 кВ">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>SHEET_N_TYPE_03</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_SHEET_NOTE_FUND_SHEET_NOTE_TYPE_03.png</href>
+          <form>bitmap</form>
+          <size>32</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="SHEET_NOTE" schema="PODS" id="PODS_SHEET_NOTE" comment="PODS.SHEET_NOTE" descr="Опора ЛЭП, учитывая направление разветвления линий электропередач">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>SHEET_N_TYPE_04</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_SHEET_NOTE_FUND_SHEET_NOTE_TYPE_04.png</href>
+          <form>bitmap</form>
+          <size>59</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+	</styles>
+  </layers>
+</template>
