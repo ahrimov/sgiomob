@@ -3,6 +3,10 @@ node_modules/
 /plugins/
 /platforms/
 
+/www/resources/
+config.xml
+package.json
+package-lock.json
 
 
 zipalign
