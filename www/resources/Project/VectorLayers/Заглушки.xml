@@ -109,6 +109,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+    <LabelColumn>description</LabelColumn>
 		<Style table="CLOSURE" schema="PODS" id="PODS_CLOSURE" comment="PODS.CLOSURE" descr="Газопровод с заглушкой Заглушка газопроводов разного давления">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>

@@ -156,6 +156,7 @@
     </layerDb>
 	<styles>
 		<StyleTypeColumn>type_cl</StyleTypeColumn>
+    <LabelColumn>description</LabelColumn>
 		   <Style id="PODS_DISTRIBUTION_PLANT" schema="PODS" table="DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газорегуляторные пункты" short_name="" topology="3">
       <zoomMin>0</zoomMin>
       <zoomMax>13000</zoomMax>
