@@ -150,28 +150,25 @@ function configParser(data, title){
                 else
                     featureStyle = styles['default'];
             }
+            const mapZoom = map.getView().getZoom();
             if(!map.localMap && ((!map.draw && !map.modify) || (map.draw?.currentFeature !== feature && map.modify?.modifyFeature !== feature))){
                 let zoomMin = getZoomFromMeters(featureStyle.zoomMin, map);
                 if(isNaN(zoomMin)) zoomMin = 0;
                 let zoomMax = getZoomFromMeters(featureStyle.zoomMax, map);
                 if(isNaN(zoomMax)) zoomMax = Infinity;
-                const mapZoom = map.getView().getZoom();
                 if(mapZoom < zoomMin || mapZoom > zoomMax){
                     return new ol.style.Style({});
                 }
             }
             featureStyle = featureStyle.clone();
-            if(feature.label){
+            const geometryType = feature.getGeometry().getType();
+            if(feature.label && 
+                !((geometryType === 'MultiLineString' || geometryType === 'LineString') && mapZoom >= 19)
+                ){
                 const featureLabelStyle = featureStyle.getText();
                 featureLabelStyle.setText(feature.label);
                 featureStyle.setText(featureLabelStyle);
             }
-            // return new ol.style.Style({
-            //     stroke: new ol.style.Stroke({
-            //         color: '#000000',
-            //         width: 1
-            //     })
-            // });
             return featureStyle;
         });
 
@@ -528,7 +525,7 @@ function labelStyleParse(dom, placement = 'point'){
     const strokeWidth = 3; // strokeStyleDom.getElementsByTagName('Width')?.item(0)?.textContent || 1;
     const strokeColor = '#ffffff'; // strokeStyleDom.getElementsByTagName('Color')?.item(0)?.textContent || '#ffffff';
     // const placement = labelStyleDom.getElementsByTagName('Placement')?.item(0)?.textContent || 'point';
-    const repeat = 300;
+    const repeat = 600;
 
     const font = (bold ? 'bold ' : '') + (italic ? 'italic ' : '') + fontSize + 'px ' + fontFamily;
     const labelStyle = new ol.style.Text({

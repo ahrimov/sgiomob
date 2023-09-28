@@ -207,15 +207,15 @@ function featurePropertiesScript(featureFromPage){
     }
 
     function addMetricCharacter(layer, geom){
+        let tr = document.createElement("tr");
+        tr.className = 'geometry-property';
         if(typeof geom === 'undefined' || geom === ''){
-            return ``;
+            return tr;
         }
         const format = new ol.format.WKT();
         let wkt = geom;
         let feature = format.readFeature(wkt.replace(/nan/g, "0"))
         let geometry = feature.getGeometry()
-        let tr = document.createElement("tr");
-        tr.className = 'geometry-property';
         fillGeometryProperty(tr, geometry, layer.geometryType);
         return tr;
     }
@@ -381,7 +381,11 @@ function featurePropertiesScript(featureFromPage){
             });
         }
 
-        createChooseEditGeometryModeDialog(mapEditing, manualEditing);
+        if (feature.getGeometry()?.getCoordinates().length) {
+            createChooseEditGeometryModeDialog(mapEditing, manualEditing);
+        } else {
+            manualEditing();
+        }
     }
 
     function clickDeleteFeature(){

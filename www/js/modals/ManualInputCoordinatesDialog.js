@@ -4,10 +4,11 @@
  * successfulCallback - function
  * */
 function createDialogManualEditGeometry(feature, successfulCallback = null){
+    const layer = findLayer(feature.layerID);
     const geometry = feature.getGeometry();
-    let coordinates = geometry.getCoordinates();
+    let coordinates = geometry?.getCoordinates() || [];
     let typeOfCoordinates = 'decimal';
-    const geometryType = geometry.getType();
+    const geometryType = geometry?.getType() || layer.geometryType;
     if(geometryType === 'MultiLineString' || geometryType === 'MultiPolygon'){
         coordinates = coordinates[0];
         if(geometryType === 'MultiPolygon')
@@ -88,7 +89,7 @@ function createDialogManualEditGeometry(feature, successfulCallback = null){
         if(coordinates.length === 0){
             document.querySelector('#manual-edit-geometry-add-coordinate-button').style.display = 'block';
         }
-        else if(geometry.getType() === 'Point' || geometry.getType() === 'MultiPoint'){
+        else if(geometryType === 'Point' || geometryType === 'MultiPoint'){
             document.querySelector('#manual-edit-geometry-add-coordinate-button').style.display = 'none';
         }
     }
@@ -153,17 +154,42 @@ function createDialogEditCoordinate(coordinate = [], typeOfCoordinates, callback
 }
 
 function updateFeatureGeometryFromTable(feature, coordinates, successfulCallback = null){
+
+    const layer = findLayer(feature.layerID);
     const geometry = feature.getGeometry();
-    const geometryType = geometry.getType();
-    if(geometryType === 'MultiLineString' || geometryType === 'MultiPolygon'){
-        let newCoordinates = [coordinates];
-        if(geometryType === 'MultiPolygon')
-            newCoordinates = [newCoordinates];
-        feature.getGeometry().setCoordinates(newCoordinates);
+    const geometryType = geometry?.getType() || layer.geometryType;
+
+    if (!geometry) {
+        switch(geometryType.toUpperCase()) {
+            case 'MULTIPOINT':
+            case 'POINT':
+                feature.setGeometry(new ol.geom.MultiPoint(coordinates));
+                break;
+            case 'MuULTILINESTRING':
+                feature.setGeometry(new ol.geom.MultiLineString([coordinates]));
+                break;
+            case 'LINESTRING':
+                feature.setGeometry(new ol.geom.LineString(coordinates));
+                break;
+            case 'MULTIPOLYGON':
+                feature.setGeometry(new ol.geom.MultiPolygon([[coordinates]]));
+                break;
+            case 'POLYGON':
+                feature.setGeometry(new ol.geom.Polygon(coordinates))
+                break;
+        }
+    } else {
+        if(geometryType === 'MultiLineString' || geometryType === 'MultiPolygon'){
+            let newCoordinates = [coordinates];
+            if(geometryType === 'MultiPolygon')
+                newCoordinates = [newCoordinates];
+            feature.getGeometry().setCoordinates(newCoordinates);
+        }
+        else{
+            feature.getGeometry().setCoordinates(coordinates);
+        }
     }
-    else{
-        feature.getGeometry().setCoordinates(coordinates);
-    }
+
     if(successfulCallback)
         successfulCallback();
 }
