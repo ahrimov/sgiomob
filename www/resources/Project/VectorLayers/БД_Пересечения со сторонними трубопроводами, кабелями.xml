@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<template version="2">
+  <layers>
+    <layerDb enabled="false">
+      <id>бд_пересечения_со_сторонними_трубопроводами_кабелями</id>
+      <label>БД_Пересечения со сторонними трубопроводами, кабелями</label>
+      <encoding>UTF-8</encoding>
+      <crs>3857</crs>
+      <geometry>MULTIPOINT</geometry>
+      <attributes>
+        <attribute type="DOUBLE">
+          <id>id</id>
+          <label>Идентификатор</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="ENUM">
+          <id>add_type_cl</id>
+          <label>Тип объекта</label>
+          <required>0</required>
+          <editable>1</editable>
+          <default>UNKNOWN#Неизвестно</default>
+          <options>UNKNOWN#Неизвестно|FL_CROSS_TYPE_14#Кабель оптико-волоконный|FL_CROSS_TYPE_15#Кабель телеметрии и телемеханики|FL_CROSS_TYPE_16#Теплосеть бесканальная|FL_CROSS_TYPE_17#Теплосеть канальная
+|FL_CROSS_TYPE_18#Канализация дренажная|FL_CROSS_TYPE_19#Канализация ливневая|FL_CROSS_TYPE_20#Канализация напорная|FL_CROSS_TYPE_21#Дренажный кабель, существующий|FL_CROSS_TYPE_22#Дренажный кабель, проектируемый</options>
+        </attribute>
+        <attribute type="STRING">
+          <id>description</id>
+          <label>Описание</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="DOUBLE">
+          <id>foreign_diameter</id>
+          <label>Dm, пересек. труб-да мм</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="DOUBLE">
+          <id>width</id>
+          <label>Ширина м</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="ENUM">
+          <id>material_cl</id>
+          <label>Материал</label>
+          <required>0</required>
+          <editable>1</editable>
+          <default>UNKNOWN#Неизвестно</default>
+          <options>UNKNOWN#Неизвестно|CROS_MAT_01#Стальной трубопровод|CROS_MAT_02#Полимерный трубопровод|CROS_MAT_03#Кабель в стальной оплетке|CROS_MAT_04#Кабель в полимерной изоляции</options>
+        </attribute>
+        <attribute type="ENUM">
+          <id>owner_cl</id>
+          <label>Собственник</label>
+          <required>0</required>
+          <editable>1</editable>
+          <default>UNKNOWN#Неизвестно</default>
+          <options>UNKNOWN#Неизвестно</options>
+        </attribute>
+        <attribute type="DATE">
+          <id>crossing_date</id>
+          <label>Дата обустройства пересечения</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="STRING">
+          <id>comments</id>
+          <label>Комментарии</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="STRING">
+          <id>lg_attach</id>
+          <label>lg_attach</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+      </attributes>
+      <attrPrimary>test</attrPrimary>
+      <attrSecondary></attrSecondary>
+      <labelsOnMap />
+      <geometryStyle>
+
+      </geometryStyle>
+    </layerDb>
+	<styles>
+		<StyleTypeColumn>add_type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
+    <Style id="PODS_FOREIGN_LINE_CROSSING" schema="PODS" table="FOREIGN_LINE_CROSSING" comment="PODS.FOREIGN_LINE_CROSSING" descr="Пересечения со сторонними трубопроводами, кабелями" short_name="" topology="1">
+      <zoomMin>0</zoomMin>
+      <zoomMax>15000</zoomMax>
+      <value>UNKNOWN</value>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>3</size>
+        </Icon>
+        <color>FFFF6A00</color>
+        <outline>1</outline>
+        <rotation>0</rotation>
+      </IconStyle>
+      <LabelStyle>
+        <color>FFFF6A00</color>
+        <fontSize>10</fontSize>
+        <bold>0</bold>
+        <italic>1</italic>
+        <underline>0</underline>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+        <auto>1</auto>
+        <parallel>0</parallel>
+        <align>center|middle</align>
+        <rotation>0</rotation>
+      </LabelStyle>
+    </Style>
+    <Style id="PODS_FOREIGN_LINE_CROSSING" schema="PODS" table="FOREIGN_LINE_CROSSING" comment="PODS.FOREIGN_LINE_CROSSING" descr="Пересечения со сторонними трубопроводами, кабелями" short_name="" topology="1">
+      <zoomMin>0</zoomMin>
+      <zoomMax>15000</zoomMax>
+      <IconStyle>
+        <Icon>
+          <form>circle</form>
+          <size>3</size>
+        </Icon>
+        <color>FFFFCC33</color>
+        <outline>1</outline>
+        <rotation>0</rotation>
+      </IconStyle>
+      <LabelStyle>
+        <color>FFFFCC00</color>
+        <fontSize>10</fontSize>
+        <bold>0</bold>
+        <italic>1</italic>
+        <underline>0</underline>
+        <duplicate>0</duplicate>
+        <overlap>0</overlap>
+        <auto>1</auto>
+        <parallel>0</parallel>
+        <align>center|middle</align>
+        <rotation>0</rotation>
+      </LabelStyle>
+    </Style>
+    <Style id="PODS_FOREIGN_LINE_CROSSING" schema="PODS" table="FOREIGN_LINE_CROSSING" comment="PODS.FOREIGN_LINE_CROSSING" descr="Пересечения со сторонними трубопроводами, кабелями" short_name="" topology="2">
+      <zoomMin>0</zoomMin>
+      <zoomMax>15000</zoomMax>
+      <LineStyle>
+        <color>FFF5E407</color>
+        <width>6</width>
+      </LineStyle>
+    </Style>
+    <Style table="FOREIGN_LINE_CROSSING" schema="PODS" id="PODS_FOREIGN_LINE_CROSSING" comment="PODS.FOREIGN_LINE_CROSSING" descr="Кабельные линии связи">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>FL_CROSS_TYPE_21</value>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>2</width>
+      </LineStyle>
+     </Style>
+    <Style table="FOREIGN_LINE_CROSSING" schema="PODS" id="PODS_FOREIGN_LINE_CROSSING" comment="PODS.FOREIGN_LINE_CROSSING" descr="Кабельные линии связи">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>FL_CROSS_TYPE_22</value>
+      <LineStyle>
+        <color>FF000000</color>
+        <width>2</width>
+      </LineStyle>
+  <LabelStyle>
+  <color>FF000000</color>
+  <align>center|middle</align>
+      </LabelStyle>
+    </Style>		
+	</styles>
+  </layers>
+</template>

@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<template version="2">
+  <layers>
+    <layerDb enabled="true">
+      <id>ред_потребители_строения</id>
+      <label>РЕД_Потребители (строения)</label>
+      <encoding>UTF-8</encoding>
+      <crs>3857</crs>
+      <geometry>MULTIPOINT</geometry>
+      <attributes>
+        <attribute type="DOUBLE">
+          <id>id</id>
+          <label>Идентификатор</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="STRING">
+          <id>name</id>
+          <label>Наименование</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="DOUBLE">
+          <id>occupant_count</id>
+          <label>Кол-во людей</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="ENUM">
+          <id>add_type_cl</id>
+          <label>Тип объекта</label>
+          <required>0</required>
+          <editable>1</editable>
+          <default>UNKNOWN#Неизвестно</default>
+          <options>UNKNOWN#Неизвестно|POP_AREA_TYPE_05#Потребители газа существующие|POP_AREA_TYPE_06#Потребители газа перспективные</options>
+        </attribute>
+        <attribute type="DATE">
+          <id>determination_date</id>
+          <label>Дата обследования</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="STRING">
+          <id>comments</id>
+          <label>Комментарии</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+        <attribute type="STRING">
+          <id>lg_attach</id>
+          <label>lg_attach</label>
+          <required>0</required>
+          <editable>1</editable>
+        </attribute>
+      </attributes>
+      <attrPrimary>test</attrPrimary>
+      <attrSecondary></attrSecondary>
+      <labelsOnMap />
+      <geometryStyle>
+
+      </geometryStyle>
+    </layerDb>
+	<styles>
+		<StyleTypeColumn>add_type_cl</StyleTypeColumn>
+		<LabelColumn>description</LabelColumn>
+    <Style table="POPULATED_AREA" schema="PODS" id="PODS_POPULATED_AREA" comment="PODS.POPULATED_AREA" descr="Потребители газа существующие">
+      <zoomMin>NaN</zoomMin>
+      <zoomMax>NaN</zoomMax>
+      <value>UNKNOWN</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_POPULATED_AREA_UNKNOWN.png</href>
+          <form>bitmap</form>
+          <size>31</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+   <Style table="POPULATED_AREA" schema="PODS" id="PODS_POPULATED_AREA" comment="PODS.POPULATED_AREA" descr="Потребители (строения)">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <LineStyle>
+        <color>FF336456</color>
+        <width>1</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>54FFEDBF</color>
+        <fill>1</fill>
+        <outline>1</outline>
+        <fillPattern>solid</fillPattern>
+      </PolyStyle>
+    </Style>
+    <Style table="POPULATED_AREA" schema="PODS" id="PODS_POPULATED_AREA" comment="PODS.POPULATED_AREA" descr="Потребители (строения)">
+      <zoomMin>NaN</zoomMin>
+      <zoomMax>NaN</zoomMax>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_POPULATED_AREA_POP_AREA_TYPE_05.png</href>
+          <form>bitmap</form>
+          <size>31</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="POPULATED_AREA" schema="PODS" id="PODS_POPULATED_AREA" comment="PODS.POPULATED_AREA" descr="Потребители газа существующие">
+      <zoomMin>NaN</zoomMin>
+      <zoomMax>NaN</zoomMax>
+      <value>POP_AREA_TYPE_05</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_POPULATED_AREA_POP_AREA_TYPE_05.png</href>
+          <form>bitmap</form>
+          <size>31</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>
+    <Style table="POPULATED_AREA" schema="PODS" id="PODS_POPULATED_AREA" comment="PODS.POPULATED_AREA" descr="Потребители газа перспективные">
+      <zoomMin>NaN</zoomMin>
+      <zoomMax>NaN</zoomMax>
+      <value>POP_AREA_TYPE_06</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_POPULATED_AREA_POP_AREA_TYPE_06.png</href>
+          <form>bitmap</form>
+          <size>31</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+    </Style>		
+	</styles>
+  </layers>
+</template>
