@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>ред_газоизмерительные_станции</id>
-      <label>РЕД_Газоизмерительные станции</label>
+      <label>РЕД_Измерительные приборы</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>
@@ -19,8 +19,8 @@
           <label>Тип объекта</label>
           <required>0</required>
           <editable>1</editable>
-          <default>UNKNOWN#Неизвестно</default>
-          <options>UNKNOWN#Неизвестно|METER_ST_TYPE_07#Манометр|METER_ST_TYPE_09#Датчик давления|METER_ST_TYPE_10#Датчик перепада давления|METER_ST_TYPE_11#Электроконтактный манометр|METER_ST_TYPE_12#Термометр|METER_ST_TYPE_13#Датчик температуры|METER_ST_TYPE_14#Сигнализатор температуры|METER_ST_TYPE_15#Датчик контроля положения (герконовый магнитоуправляемый герметичный контакт, выключатель путевой и т.п.)|METER_ST_TYPE_16#Считыватель для систем контроля и управления доступом|METER_ST_TYPE_17#Прибор учета электроэнергии|METER_ST_TYPE_18#Контроллер (функциональные блоки цифровой, сопряжения)|METER_ST_TYPE_19#Датчик пожарной безопасности</options>
+          <default>UNKNOWN#Неизвестно                                                                                                                                                            </default>
+          <options>UNKNOWN#Неизвестно                                                                                                                                                            |METER_ST_TYPE_07#Манометр|METER_ST_TYPE_09#Датчик давления|METER_ST_TYPE_10#Датчик перепада давления|METER_ST_TYPE_11#Электроконтактный манометр|METER_ST_TYPE_12#Термометр|METER_ST_TYPE_13#Датчик температуры|METER_ST_TYPE_14#Сигнализатор температуры|METER_ST_TYPE_15#Датчик контроля положения (герконовый магнитоуправляемый герметичный контакт, выключатель путевой и т.п.)|METER_ST_TYPE_16#Считыватель для систем контроля и управления доступом|METER_ST_TYPE_17#Прибор учета электроэнергии|METER_ST_TYPE_18#Контроллер (функциональные блоки цифровой, сопряжения)|METER_ST_TYPE_19#Датчик пожарной безопасности</options>
         </attribute>
         <attribute type="ENUM">
           <id>class_cl</id>
@@ -47,8 +47,8 @@
           <label>Состояние</label>
           <required>0</required>
           <editable>1</editable>
-          <default>UNKNOWN#Неизвестно</default>
-          <options>UNKNOWN#Неизвестно|METER_ST_STAT_01#Исправна|METER_ST_STAT_02#Неисправна|METER_ST_STAT_03#Не прошла проверку</options>
+          <default>UNKNOWN#Неизвестно                                                                                                                                                            </default>
+          <options>UNKNOWN#Неизвестно                                                                                                                                                            |METER_ST_STAT_01#Исправна|METER_ST_STAT_02#Неисправна|METER_ST_STAT_03#Не прошла проверку</options>
         </attribute>
         <attribute type="STRING">
           <id>lease_name</id>
@@ -70,6 +70,30 @@
         </attribute>
       </attributes>
       <geometryStyle>
+        <colorFill>#FF0070C0</colorFill>
+        <colorBorder>#FF0070C0</colorBorder>
+        <sizePoint>7</sizePoint>
+        <Rule>
+          <PointSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
+            <Graphic>
+              <Mark>
+                <Fill>
+                  <CssParameter name="fill">#0070C0</CssParameter>
+                  <CssParameter name="fill-opacity">1.0</CssParameter>
+                </Fill>
+                <Stroke>
+                  <CssParameter name="stroke">#0070C0</CssParameter>
+                  <CssParameter name="stroke-width">1.00</CssParameter>
+                  <CssParameter name="stroke-opacity">1.0</CssParameter>
+                </Stroke>
+                <WellKnownName>square</WellKnownName>
+              </Mark>
+              <Size>7.00</Size>
+              <Opacity>1.00</Opacity>
+              <Rotation>0.00</Rotation>
+            </Graphic>
+          </PointSymbolizer>
+        </Rule>
       </geometryStyle>
 	  </layerDb>
 	<styles>

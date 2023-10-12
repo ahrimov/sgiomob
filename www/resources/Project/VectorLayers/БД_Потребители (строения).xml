@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="false">
       <id>бд_потребители_строения</id>
-      <label>БД_Потребители (строения)</label>
+      <label>БД_Потребители</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

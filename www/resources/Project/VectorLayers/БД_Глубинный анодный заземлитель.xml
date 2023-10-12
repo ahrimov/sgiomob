@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="false">
       <id>бд_глубинный_анодный_заземлитель</id>
-      <label>БД_Глубинный анодный заземлитель</label>
+      <label>БД_Анодные заземления</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

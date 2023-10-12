@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>ред_глубинный_анодный_заземлитель</id>
-      <label>РЕД_Глубинный анодный заземлитель</label>
+      <label>РЕД_Анодные заземления</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>
@@ -112,6 +112,19 @@
         <color>FF000000</color>
         <outline>0</outline>
       </IconStyle>
+      <MIStyle>
+        <data>Symbol (34,0,24,"UZdorogi",0,0)</data>
+      </MIStyle>
+      <IMGStyle>
+        <data type0="" type1="" type2="" />
+      </IMGStyle>
+      <VRMLStyle>
+        <data process="vrml_pikets_make.xml" viewpoint="0">
+          Transform  {	translation 0 -1 0  children  [
+          Shape { appearance Appearance { material Material { diffuseColor 0.69 .69 .69 } }
+          geometry Cylinder { bottom  FALSE  height  3 radius  .1 top  FALSE }}] }
+        </data>
+      </VRMLStyle>	                                                                                                                                                              
     </Style>
     <Style table="ANODE" schema="PODS" id="PODS_ANODE" comment="PODS.ANODE" descr="Глубинный анодный заземлитель">
       <zoomMin>NAN</zoomMin>

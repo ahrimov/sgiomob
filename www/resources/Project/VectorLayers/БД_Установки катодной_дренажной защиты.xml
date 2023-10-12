@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="false">
       <id>бд_установки_катодной_дренажной_защиты</id>
-      <label>БД_Установки катодной дренажной защиты</label>
+      <label>БД_Установки ЭХЗ</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

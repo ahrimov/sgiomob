@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>ред_контрольные_трубки</id>
-      <label>РЕД_Контрольные трубки</label>
+      <label>РЕД_Свечи</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

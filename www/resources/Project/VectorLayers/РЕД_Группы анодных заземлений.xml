@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>ред_группы_анодных_заземлений</id>
-      <label>РЕД_Группы анодных заземлений</label>
+      <label>РЕД_Защитные заземления</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

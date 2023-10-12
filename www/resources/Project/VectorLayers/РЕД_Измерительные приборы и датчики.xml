@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>ред_измерительные_приборы_и_датчики</id>
-      <label>РЕД_Измерительные приборы и датчики</label>
+      <label>РЕД_Датчики, приборы контроля</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

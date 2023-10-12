@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="false">
       <id>бд_измерительные_приборы_и_датчики</id>
-      <label>БД_Измерительные приборы и датчики</label>
+      <label>БД_Датчики, приборы контроля</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

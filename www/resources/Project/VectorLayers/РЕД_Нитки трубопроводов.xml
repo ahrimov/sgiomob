@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>ред_нитки_трубопроводов</id>
-      <label>РЕД_Нитки трубопроводов</label>
+      <label>РЕД_Газопроводы</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTILINESTRING</geometry>

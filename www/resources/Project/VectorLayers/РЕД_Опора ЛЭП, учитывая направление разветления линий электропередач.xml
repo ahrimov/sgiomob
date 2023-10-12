@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>ред_опора_лэп_учитывая_направление_разветления_линий_электропередач</id>
-      <label>РЕД_Опора ЛЭП, учитывая направление разветления линий электропередач</label>
+      <label>РЕД_Опоры ЛЭП</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

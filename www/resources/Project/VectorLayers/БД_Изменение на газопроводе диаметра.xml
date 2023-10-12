@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="false">
       <id>бд_изменение_на_газопроводе_диаметра</id>
-      <label>БД_Изменение на газопроводе диаметра</label>
+      <label>БД_Смена характеристик газопровода</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

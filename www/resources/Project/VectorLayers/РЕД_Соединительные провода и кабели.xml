@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>ред_соединительные_провода_и_кабели</id>
-      <label>РЕД_Соединительные провода и кабели</label>
+      <label>РЕД_Электрооборудование ЭХЗ</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>

@@ -3,7 +3,7 @@
   <layers>
     <layerDb enabled="true">
       <id>ред_точки_пересечений_со_сторонними_объектами</id>
-      <label>РЕД_Точки пересечений со сторонними объектами</label>
+      <label>РЕД_Колодцы и коверы</label>
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>
