@@ -56,9 +56,6 @@
       <attrPrimary>test</attrPrimary>
       <attrSecondary></attrSecondary>
       <labelsOnMap />
-      <geometryStyle>
-
-      </geometryStyle>
     </layerDb>
 	<styles>
 		<StyleTypeColumn>add_type_cl</StyleTypeColumn>

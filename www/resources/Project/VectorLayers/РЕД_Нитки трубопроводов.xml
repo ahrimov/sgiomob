@@ -204,18 +204,6 @@
       <attrPrimary>test</attrPrimary>
       <attrSecondary></attrSecondary>
       <labelsOnMap />
-      <geometryStyle>
-        <colorFill>#FFFF0000</colorFill>
-        <widthLine>1</widthLine>
-        <Rule>
-          <LineSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
-            <Stroke>
-              <CssParameter name="stroke">#FF0000</CssParameter>
-              <CssParameter name="stroke-width">1.00</CssParameter>
-            </Stroke>
-          </LineSymbolizer>
-        </Rule>
-      </geometryStyle>
     </layerDb>
     <styles>
 		<StyleTypeColumn>add_type_cl</StyleTypeColumn>

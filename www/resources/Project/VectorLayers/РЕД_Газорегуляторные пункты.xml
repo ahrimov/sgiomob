@@ -125,20 +125,6 @@
 <styles>
 		<StyleTypeColumn>add_type_cl</StyleTypeColumn>
 		<LabelColumn>description</LabelColumn>
-    <Style table="CLOSURE" schema="PODS" id="PODS_CLOSURE" comment="PODS.CLOSURE" descr="Газопровод с заглушкой Заглушка газопроводов разного давления">
-      <zoomMin>NAN</zoomMin>
-      <zoomMax>NAN</zoomMax>
-      <value>UNKNOWN</value>
-      <IconStyle>
-        <Icon>
-          <href>Public/assets/RASP_PODS_CLOSURE_UNKNOWN.png</href>
-          <form>bitmap</form>
-          <size>16</size>
-        </Icon>
-        <color>FF000000</color>
-        <outline>0</outline>
-      </IconStyle>
-    </Style>
     <Style id="PODS_DISTRIBUTION_PLANT" schema="PODS" table="DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газорегуляторные пункты" short_name="" topology="3">
       <!-- Код класса в 4.3 C3000048  -->
       <zoomMin>0</zoomMin>
@@ -167,163 +153,15 @@
         <rotation>0</rotation>
       </LabelStyle>
     </Style>
-    <Style id="PODS_DISTRIBUTION_PLANT" schema="PODS" table="DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газораспределительная станция">
-      <value>DP_TYPE_05</value>
-      <zoomMin>NAN</zoomMin>
-      <zoomMax>NAN</zoomMax>
-      <IconStyle>
-        <Icon>
-          <href>Public/assets/DISTRIBUTION_PLANT.png</href>
-          <form>bitmap</form>
-          <size>16</size>
-        </Icon>
-        <color>FF000000</color>
-        <outline>1</outline>
-        <rotation>0</rotation>
-      </IconStyle>
-      <LabelStyle>
-        <color>FF0000FF</color>
-        <fontSize>10</fontSize>
-        <bold>0</bold>
-        <italic>0</italic>
-        <underline>0</underline>
-        <duplicate>0</duplicate>
-        <overlap>0</overlap>
-        <auto>1</auto>
-        <parallel>0</parallel>
-        <align>left|middle</align>
-        <rotation>0</rotation>
-      </LabelStyle>
-    </Style>
-    <Style id="PODS_DISTRIBUTION_PLANT" schema="PODS" table="DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газорегуляторный пункт шкафной" short_name="" topology="3">
-      <!-- Код класса в 4.3 V3030002  -->
-      <value>DP_TYPE_01</value>
-      <zoomMin>0</zoomMin>
-      <zoomMax>13000</zoomMax>
-      <IconStyle>
-        <Icon>
-          <href>Public/assets/DISTRIBUTION_PLANT.png</href>
-          <form>bitmap</form>
-          <size>16</size>
-        </Icon>
-        <color>FF000000</color>
-        <outline>0</outline>
-      </IconStyle>
-     </Style>
-    <Style id="PODS_DISTRIBUTION_PLANT" schema="PODS" table="DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Стационарный газорегуляторный пункт" short_name="" topology="3">
-      <!-- Код класса в 4.3 V3030001  -->
-      <value>DP_TYPE_04</value>
-      <zoomMin>NAN</zoomMin>
-      <zoomMax>NAN</zoomMax>
-      <IconStyle>
-        <Icon>
-          <href>Public/assets/DISTRIBUTION_PLANT.png</href>
-          <form>bitmap</form>
-          <size>16</size>
-        </Icon>
-        <color>FF000000</color>
-        <outline>0</outline>
-      </IconStyle>
-    </Style>
-    <Style id="PODS_DISTRIBUTION_PLANT" schema="PODS" table="DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газораспределительные и шкафные распределительные пункты">
-      <zoomMin>0</zoomMin>
-      <zoomMax>13000</zoomMax>
-      <LineStyle>
-        <color>FF000000</color>
-        <width>1</width>
-      </LineStyle>
-      <LineStyle>
-        <color>FFFFFFFF</color>
-        <width>5</width>
-      </LineStyle>
-      <PolyStyle>
-        <color>FF000000</color>
-        <fill>0</fill>
-        <outline>1</outline>
-        <fillPattern>solid</fillPattern>
-      </PolyStyle>
-    </Style>
     <Style table="DISTRIBUTION_PLANT" schema="PODS" id="PODS_DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газорегуляторный пункт">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>
-      <value>DP_TYPE_01</value>
+      <value>UNKNOWN</value>
       <IconStyle>
         <Icon>
-          <href>Public/assets/RASP_PODS_DISTRIBUTION_PLANT_DP_TYPE_01.png</href>
+          <href>Public/assets/RASP_PODS_DISTRIBUTION_UNKNOWN.png</href>
           <form>bitmap</form>
-          <size>60</size>
-        </Icon>
-        <color>FF000000</color>
-        <outline>0</outline>
-      </IconStyle>
-       <LabelStyle>
-  <color>FF000000</color>
-  <align>center|middle</align>
-      </LabelStyle>
-    </Style>
-    <Style table="DISTRIBUTION_PLANT" schema="PODS" id="PODS_DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газораспределительная станция">
-      <zoomMin>NAN</zoomMin>
-      <zoomMax>NAN</zoomMax>
-      <value>DP_TYPE_05</value>
-      <IconStyle>
-        <Icon>
-          <href>Public/assets/RASP_PODS_DISTRIBUTION_PLANT_DP_TYPE_05.png</href>
-          <form>bitmap</form>
-          <size>32</size>
-        </Icon>
-        <color>FF000000</color>
-        <outline>0</outline>
-      </IconStyle>
-      <LabelStyle>
-      <color>FF6FB333</color>
-      <align>center|middle</align>
-      </LabelStyle>
-    </Style>
-    <Style table="DISTRIBUTION_PLANT" schema="PODS" id="PODS_DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Пункт редуцирования газа">
-      <zoomMin>NAN</zoomMin>
-      <zoomMax>NAN</zoomMax>
-      <value>DP_TYPE_06</value>
-      <IconStyle>
-        <Icon>
-          <href>Public/assets/RASP_PODS_DISTRIBUTION_PLANT_DP_TYPE_06.png</href>
-          <form>bitmap</form>
-          <size>60</size>
-        </Icon>
-        <color>FF000000</color>
-        <outline>0</outline>
-      </IconStyle>
-        <LabelStyle>
-  <color>FF000000</color>
-  <align>center|middle</align>
-      </LabelStyle>
-    </Style>
-    <Style table="DISTRIBUTION_PLANT" schema="PODS" id="PODS_DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Подземный пункт редуцирования газа">
-      <zoomMin>NAN</zoomMin>
-      <zoomMax>NAN</zoomMax>
-      <value>DP_TYPE_07</value>
-      <IconStyle>
-        <Icon>
-          <href>Public/assets/RASP_PODS_DISTRIBUTION_PLANT_DP_TYPE_07.png</href>
-          <form>bitmap</form>
-          <size>60</size>
-        </Icon>
-        <color>FF000000</color>
-        <outline>0</outline>
-      </IconStyle>
-    <LabelStyle>
-  <color>FF000000</color>
-  <align>center|middle</align>
-      </LabelStyle>
-    </Style>
-    <Style table="DISTRIBUTION_PLANT" schema="PODS" id="PODS_DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Пункт газорегуляторный блочный">
-      <zoomMin>NAN</zoomMin>
-      <zoomMax>NAN</zoomMax>
-      <value>DP_TYPE_03</value>
-      <IconStyle>
-        <Icon>
-          <href>Public/assets/RASP_PODS_DISTRIBUTION_PLANT_DP_TYPE_03.png</href>
-          <form>bitmap</form>
-          <size>58</size>
+          <size>116</size>
         </Icon>
         <color>FF000000</color>
         <outline>0</outline>
@@ -341,7 +179,61 @@
         <Icon>
           <href>Public/assets/RASP_PODS_DISTRIBUTION_PLANT_DP_TYPE_08.png</href>
           <form>bitmap</form>
-          <size>53</size>
+          <size>80</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+       <LabelStyle>
+  <color>FF000000</color>
+  <align>center|middle</align>
+      </LabelStyle>
+    </Style>
+    <Style table="DISTRIBUTION_PLANT" schema="PODS" id="PODS_DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Пункт газорегуляторный блочный">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>DP_TYPE_10</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_DISTRIBUTION_PLANT_DP_TYPE_03.png</href>
+          <form>bitmap</form>
+          <size>88</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+       <LabelStyle>
+  <color>FF000000</color>
+  <align>center|middle</align>
+      </LabelStyle>
+    </Style>
+    <Style table="DISTRIBUTION_PLANT" schema="PODS" id="PODS_DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газорегуляторный пункт">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>DP_TYPE_11</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_DISTRIBUTION_PLANT_DP_TYPE_01.png</href>
+          <form>bitmap</form>
+          <size>116</size>
+        </Icon>
+        <color>FF000000</color>
+        <outline>0</outline>
+      </IconStyle>
+       <LabelStyle>
+  <color>FF000000</color>
+  <align>center|middle</align>
+      </LabelStyle>
+    </Style>
+    <Style table="DISTRIBUTION_PLANT" schema="PODS" id="PODS_DISTRIBUTION_PLANT" comment="PODS.DISTRIBUTION_PLANT" descr="Газораспределительная станция">
+      <zoomMin>NAN</zoomMin>
+      <zoomMax>NAN</zoomMax>
+      <value>DP_TYPE_12</value>
+      <IconStyle>
+        <Icon>
+          <href>Public/assets/RASP_PODS_DISTRIBUTION_PLANT_DP_TYPE_05.png</href>
+          <form>bitmap</form>
+          <size>32</size>
         </Icon>
         <color>FF000000</color>
         <outline>0</outline>

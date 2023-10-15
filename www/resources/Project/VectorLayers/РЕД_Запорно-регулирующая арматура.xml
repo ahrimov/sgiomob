@@ -107,63 +107,10 @@
       <attrPrimary>test</attrPrimary>
       <attrSecondary></attrSecondary>
       <labelsOnMap />
-      <geometryStyle>
-        <colorFill>#FF000000</colorFill>
-        <colorBorder>#FF000000</colorBorder>
-        <sizePoint>3</sizePoint>
-        <Rule>
-          <PointSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
-            <Graphic>
-              <Mark>
-                <Fill>
-                  <CssParameter name="fill">#000000</CssParameter>
-                </Fill>
-                <Stroke>
-                  <CssParameter name="stroke">#000000</CssParameter>
-                  <CssParameter name="stroke-width">1.00</CssParameter>
-                </Stroke>
-                <WellKnownName>x</WellKnownName>
-              </Mark>
-              <Size>3.00</Size>
-              <Opacity>1.00</Opacity>
-              <Rotation>0.00</Rotation>
-            </Graphic>
-          </PointSymbolizer>
-        </Rule>
-      </geometryStyle>
     </layerDb>
     <styles>
 		<StyleTypeColumn>add_type_cl</StyleTypeColumn>
 		<LabelColumn>description</LabelColumn>
-    <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Запорно-регулирующая арматура">
-      <zoomMin>23</zoomMin>
-      <zoomMax>17</zoomMax>
-      <value>UNKNOWN</value>
-      <IconStyle>
-        <Icon>
-          <href>Public/assets/VALVE.png</href>
-          <form>bitmap</form>
-          <size>16</size>
-        </Icon>
-        <color>FF000000</color>
-        <outline>0</outline>
-      </IconStyle>
-      <LabelStyle>
-        <zoomMin>NaN</zoomMin>
-        <zoomMax>NaN</zoomMax>
-        <color>FF000000</color>
-        <fontSize>10</fontSize>
-        <bold>1</bold>
-        <italic>1</italic>
-        <underline>0</underline>
-        <duplicate>0</duplicate>
-        <overlap>0</overlap>
-        <auto>1</auto>
-        <parallel>0</parallel>
-        <align>right|top</align>
-        <rotation>0</rotation>
-      </LabelStyle>
-    </Style>
     <Style table="VALVE" schema="PODS" id="PODS_VALVE" comment="PODS.VALVE" descr="Запорно-регулирующая арматура">
       <zoomMin>0</zoomMin>
       <zoomMax>15000</zoomMax>
@@ -198,7 +145,7 @@
       <value>UNKNOWN</value>
       <IconStyle>
         <Icon>
-          <href>Public/assets/VALVE.png</href>
+          <href>Public/assets/RASP_PODS_VALVE_UNKNOWN.png</href>
           <form>bitmap</form>
           <size>16</size>
         </Icon>

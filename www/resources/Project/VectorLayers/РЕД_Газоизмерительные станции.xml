@@ -69,32 +69,6 @@
           <editable>1</editable>
         </attribute>
       </attributes>
-      <geometryStyle>
-        <colorFill>#FF0070C0</colorFill>
-        <colorBorder>#FF0070C0</colorBorder>
-        <sizePoint>7</sizePoint>
-        <Rule>
-          <PointSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
-            <Graphic>
-              <Mark>
-                <Fill>
-                  <CssParameter name="fill">#0070C0</CssParameter>
-                  <CssParameter name="fill-opacity">1.0</CssParameter>
-                </Fill>
-                <Stroke>
-                  <CssParameter name="stroke">#0070C0</CssParameter>
-                  <CssParameter name="stroke-width">1.00</CssParameter>
-                  <CssParameter name="stroke-opacity">1.0</CssParameter>
-                </Stroke>
-                <WellKnownName>square</WellKnownName>
-              </Mark>
-              <Size>7.00</Size>
-              <Opacity>1.00</Opacity>
-              <Rotation>0.00</Rotation>
-            </Graphic>
-          </PointSymbolizer>
-        </Rule>
-      </geometryStyle>
 	  </layerDb>
 	<styles>
 	<StyleTypeColumn>add_type_cl</StyleTypeColumn>

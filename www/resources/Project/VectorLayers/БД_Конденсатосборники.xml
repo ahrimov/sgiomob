@@ -65,30 +65,6 @@
       <attrPrimary>test</attrPrimary>
       <attrSecondary></attrSecondary>
       <labelsOnMap />
-      <geometryStyle>
-        <colorFill>#FFD7D7D7</colorFill>
-        <colorBorder>#FF000000</colorBorder>
-        <sizePoint>6</sizePoint>
-        <Rule>
-          <PointSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
-            <Graphic>
-              <Mark>
-                <Fill>
-                  <CssParameter name="fill">#D7D7D7</CssParameter>
-                </Fill>
-                <Stroke>
-                  <CssParameter name="stroke">#000000</CssParameter>
-                  <CssParameter name="stroke-width">1.00</CssParameter>
-                </Stroke>
-                <WellKnownName>circle</WellKnownName>
-              </Mark>
-              <Size>3.00</Size>
-              <Opacity>1.00</Opacity>
-              <Rotation>0.00</Rotation>
-            </Graphic>
-          </PointSymbolizer>
-        </Rule>
-      </geometryStyle>
     </layerDb>
 	<styles>
 		<StyleTypeColumn>add_type_cl</StyleTypeColumn>

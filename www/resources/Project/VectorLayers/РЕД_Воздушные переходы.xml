@@ -36,12 +36,9 @@
       <attrPrimary>test</attrPrimary>
       <attrSecondary></attrSecondary>
       <labelsOnMap />
-      <geometryStyle>
-
-      </geometryStyle>
     </layerDb>
 	<styles>
-		<StyleTypeColumn>type_cl</StyleTypeColumn>
+		<StyleTypeColumn>add_type_cl</StyleTypeColumn>
 		<LabelColumn>description</LabelColumn>
     <Style table="EXPOSURE" schema="PODS" id="PODS_EXPOSURE" comment="PODS.EXPOSURE" descr="Воздушные переходы">
       <zoomMin>NAN</zoomMin>

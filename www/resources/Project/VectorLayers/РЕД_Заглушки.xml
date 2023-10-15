@@ -75,30 +75,6 @@
       <attrPrimary>test</attrPrimary>
       <attrSecondary></attrSecondary>
       <labelsOnMap />
-      <geometryStyle>
-        <colorFill>#80F7E707</colorFill>
-        <colorBorder>#FF000000</colorBorder>
-        <sizePoint>6</sizePoint>
-        <Rule>
-          <PointSymbolizer uom="http://www.opengeospatial.org/se/units/pixel">
-            <Graphic>
-              <Mark>
-                <Fill>
-                  <CssParameter name="fill">#F7E707</CssParameter>
-                </Fill>
-                <Stroke>
-                  <CssParameter name="stroke">#000000</CssParameter>
-                  <CssParameter name="stroke-width">1.00</CssParameter>
-                </Stroke>
-                <WellKnownName>cross</WellKnownName>
-              </Mark>
-              <Size>3.00</Size>
-              <Opacity>1.00</Opacity>
-              <Rotation>0.00</Rotation>
-            </Graphic>
-          </PointSymbolizer>
-        </Rule>
-      </geometryStyle>
     </layerDb>
     <styles>
 		<StyleTypeColumn>add_type_cl</StyleTypeColumn>
@@ -111,7 +87,7 @@
         <Icon>
           <href>Public/assets/RASP_PODS_CLOSURE_UNKNOWN.png</href>
           <form>bitmap</form>
-          <size>16</size>
+          <size>32</size>
         </Icon>
         <color>FF000000</color>
         <outline>0</outline>
@@ -139,7 +115,7 @@
         <Icon>
           <href>Public/assets/RASP_PODS_CLOSURE_CLOSURE_TYPE_07.png</href>
           <form>bitmap</form>
-          <size>16</size>
+          <size>32</size>
         </Icon>
         <color>FF000000</color>
         <outline>0</outline>

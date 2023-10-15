@@ -69,8 +69,6 @@
           <editable>1</editable>
         </attribute>
       </attributes>
-      <geometryStyle>
-      </geometryStyle>
 	  </layerDb>
 	<styles>
 	<StyleTypeColumn>add_type_cl</StyleTypeColumn>
