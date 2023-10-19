@@ -632,14 +632,16 @@ function parseBaseRasterLayers(jsonArray){
                 tileGrid: ol.tilegrid.createXYZ({
                     extent: [-20037508.342789244, -20037508.342789244, 20037508.342789244, 20037508.342789244]
                 }),
-                tileSize: json.tileSize
+                tileSize: json.tileSize,
+                cacheSize: 40,
             });
         }
         else{
             source = new ol.source.XYZ({
                 projection: json.projection,
                 url: json.useLocalTiles ? main_directory + json.local_path : json.remote_url,
-                tileSize: json.tileSize
+                tileSize: json.tileSize,
+                cacheSize: 40,
             });
         }
         if(json.useLocalTiles){
