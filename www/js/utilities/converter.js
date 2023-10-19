@@ -42,9 +42,11 @@ function getZoomFromMeters(dist, map){
 }
 
 function getZoomForExtent(extent, map){
-	const viewSize = map.getSize();
+	//const viewSize = map.getSize();
 	const view = map.getView();
-	const resolution = Math.max(ol.extent.getWidth(extent) / viewSize[0], ol.extent.getHeight(extent) / viewSize[1]);
+	const deviceWidth = window.screen.width * window.devicePixelRatio;
+	const deviceHeight = window.screen.height * window.devicePixelRatio;
+	const resolution = Math.max(ol.extent.getWidth(extent) / deviceWidth, ol.extent.getHeight(extent) / deviceHeight);
 	return view.getZoomForResolution(resolution);
 }
 

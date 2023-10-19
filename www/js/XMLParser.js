@@ -183,6 +183,16 @@ function configParser(data, title){
         layer.id = dom.getElementsByTagName("id").item(0).textContent;
         layer.label = dom.getElementsByTagName("label").item(0).textContent;
         layer.geometryType = geometryType;
+
+        let layerZoomMin = parseFloat(dom.getElementsByTagName('zoomMax').item(0)?.textContent);
+        let layerZoomMax = parseFloat(dom.getElementsByTagName('zoomMin').item(0)?.textContent);
+        layerZoomMin = getZoomFromMeters(layerZoomMin, map);
+        layerZoomMax = getZoomFromMeters(layerZoomMax, map);
+        if(isNaN(layerZoomMin)) layerZoomMin = 0;
+        if(isNaN(layerZoomMax)) layerZoomMax = Infinity;
+        layer.setMinZoom(layerZoomMin);
+        layer.setMaxZoom(layerZoomMax);
+
         layer.atribs = [];
         var atribs = dom.getElementsByTagName("attribute");
         for(atrib of atribs){
