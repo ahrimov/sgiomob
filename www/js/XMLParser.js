@@ -1,24 +1,31 @@
 function configParser(data, title){
-    var parser = new DOMParser()
-    var dom = parser.parseFromString(data, "application/xml")
-    var pathToLayers = dom.getElementsByTagName("PathToLayers").item(0).textContent
-    var layersName = dom.getElementsByTagName("LayersName").item(0).textContent.split("|")
-    
-    updateVectorLayers(pathToLayers, function(){
-        for(let layerName of layersName){
-            openFile(root_directory + pathToLayers + layerName, layerParser)
-        }
-    });
+    var parser = new DOMParser();
+    var dom = parser.parseFromString(data, "application/xml");
+    var pathToLayers = dom.getElementsByTagName("PathToLayers").item(0).textContent;
+    var layersName = dom.getElementsByTagName("LayersName").item(0).textContent.split("|");
 
-    var nameDB = dom.getElementsByTagName("NameDB").item(0).textContent
-    var filenameDB = dom.getElementsByTagName("FilenameDB").item(0).textContent
-    var pathToDB = dom.getElementsByTagName("PathToDB").item(0).textContent
-    initialDB(root_directory + pathToDB, filenameDB, nameDB)
-    const centerLong = parseFloat(dom.getElementsByTagName("longitude").item(0).textContent)
-    const centerLat = parseFloat(dom.getElementsByTagName("latitude").item(0).textContent)
-    const minZoom = parseInt(dom.getElementsByTagName("MinZoom").item(0).textContent)
-    const maxZoom = parseInt(dom.getElementsByTagName("MaxZoom").item(0).textContent)
-    const zoom = parseInt(dom.getElementsByTagName("zoom").item(0).textContent)
+    if (debugMode) {
+        for(let layerName of layersName){
+            openFile(root_directory + pathToLayers + layerName, layerParser);
+        }
+    }
+    else {
+        updateVectorLayers(pathToLayers, function(){
+            for(let layerName of layersName){
+                openFile(root_directory + pathToLayers + layerName, layerParser);
+            }
+        });
+    }
+
+    var nameDB = dom.getElementsByTagName("NameDB").item(0).textContent;
+    var filenameDB = dom.getElementsByTagName("FilenameDB").item(0).textContent;
+    var pathToDB = dom.getElementsByTagName("PathToDB").item(0).textContent;
+    initialDB(root_directory + pathToDB, filenameDB, nameDB);
+    const centerLong = parseFloat(dom.getElementsByTagName("longitude").item(0).textContent);
+    const centerLat = parseFloat(dom.getElementsByTagName("latitude").item(0).textContent);
+    const minZoom = parseInt(dom.getElementsByTagName("MinZoom").item(0).textContent);
+    const maxZoom = parseInt(dom.getElementsByTagName("MaxZoom").item(0).textContent);
+    const zoom = parseInt(dom.getElementsByTagName("zoom").item(0).textContent);
     currentMapView = new ol.View({
         center: ol.proj.fromLonLat([centerLong, centerLat]),
         zoom: zoom,

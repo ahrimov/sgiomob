@@ -32,9 +32,13 @@ function initial(){
 
     function fileExist(file){
         console.log('Config file exist!');
-        updateConfigFile(file, () => {
+        if (debugMode)
             openFile(path, configParser);
-        });
+        else {
+            updateConfigFile(file, () => {
+                openFile(path, configParser);
+            });
+        }
     }
 
     function updateConfigFile(file, callback){

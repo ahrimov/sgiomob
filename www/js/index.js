@@ -1,3 +1,6 @@
+// !!! IMPORTANT !!! Turn off debug mode in release version
+const debugMode = true;
+
 document.addEventListener('deviceready', onDeviceReady, false);
 
 var layers = []
