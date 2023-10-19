@@ -128,6 +128,8 @@ function configParser(data, title){
                 };
         }
 
+        if(styles['UNKNOWN']) styles['default'] = styles['UNKNOWN'];
+
         const layer = new ol.layer.Vector({
             renderMode: 'image',
             declutter: true,
