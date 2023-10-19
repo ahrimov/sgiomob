@@ -55,9 +55,6 @@ function configParser(data, title){
 
         const parser = new DOMParser();
         const dom = parser.parseFromString(data, "application/xml");
-
-        if(dom.getElementsByTagName("id").item(0).textContent === 'PODS_PI_CASING_READING')
-            console.log('PODS_PI_CASING_READING')
         
         const geometryType = dom.getElementsByTagName("geometry").item(0).textContent;
         let styles = {};
@@ -279,13 +276,15 @@ async function pointStyleParse(dom){
                 style.setImage(image);
             }
             else {
-                const imageSize = iconStyle.getElementsByTagName('size').item(0)?.textContent || 16;
+                let imageSize = iconStyle.getElementsByTagName('size').item(0)?.textContent || 16;
+                imageSize = imageSize;
                 href = href.replace('Public', '');
                 const icon = await new Promise((resolve, reject) => {
                     window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + "www/resources/images/" + href, (fileEntry) => {
                         resolve(new ol.style.Icon({
                                     src: fileEntry.toInternalURL(),
-                                    size: [imageSize, imageSize]
+                                    width: imageSize,
+                                    height: imageSize,
                                 })
                         );
                     }, (e) => {
