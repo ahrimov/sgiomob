@@ -60,7 +60,14 @@ function exportKML(pathToKML, layerID){
         kml = kml.replace(/\/>/g, '$&\n');
         kml = kml.replace(/\\\\/g, '\\');
 
-        saveFile(pathToKML, layer.id + formatDate(date) + '.kml', kml);
+        const fileName = layer.id + formatDate(date) + '.kml';
+
+        saveFile(pathToKML, fileName, kml, () => {
+            ons.notification.alert({ 
+                title:"Внимание", 
+                messageHTML:'<p class="notification-alert">Файл успешно сохранён: ' + fileName + '</p>',
+            });
+        });
     });
 }
 

@@ -7,7 +7,8 @@
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTILINESTRING</geometry>
-	  
+      <zoomMin>NaN</zoomMin>
+      <zoomMax>NaN</zoomMax>	  
       <attributes>
         <attribute type="DOUBLE">
           <id>id</id>

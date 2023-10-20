@@ -7,6 +7,8 @@
       <encoding>UTF-8</encoding>
       <crs>3857</crs>
       <geometry>MULTIPOINT</geometry>
+      <zoomMin>0</zoomMin>
+      <zoomMax>1500</zoomMax>
       <attributes>
         <attribute type="DOUBLE">
           <id>id</id>

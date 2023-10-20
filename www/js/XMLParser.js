@@ -4,17 +4,17 @@ function configParser(data, title){
     var pathToLayers = dom.getElementsByTagName("PathToLayers").item(0).textContent;
     var layersName = dom.getElementsByTagName("LayersName").item(0).textContent.split("|");
 
-    if (debugMode) {
-        for(let layerName of layersName){
-            openFile(root_directory + pathToLayers + layerName, layerParser);
-        }
-    }
-    else {
+    if (updateAppMode) {
         updateVectorLayers(pathToLayers, function(){
             for(let layerName of layersName){
                 openFile(root_directory + pathToLayers + layerName, layerParser);
             }
         });
+    }
+    else {
+        for(let layerName of layersName){
+            openFile(root_directory + pathToLayers + layerName, layerParser);
+        }
     }
 
     var nameDB = dom.getElementsByTagName("NameDB").item(0).textContent;

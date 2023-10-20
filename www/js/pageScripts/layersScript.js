@@ -72,8 +72,10 @@ function changeVisible(element){
           navigator.pushPage('./views/features.html', {data: {layerID: layerID}});
         }
         if(index === 1){
-          navigator.popPage({times: navigator.pages.length - 1});
-          createFeature(layer);
+          if (layer.enabled) {
+            navigator.popPage({times: navigator.pages.length - 1});
+            createFeature(layer);
+          }
         }
         if(index === 2){
           if(!layer.enabled){

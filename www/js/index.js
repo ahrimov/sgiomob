@@ -1,5 +1,8 @@
-// !!! IMPORTANT !!! Turn off debug mode in release version
-const debugMode = true;
+const appVersion = '1.0.2';
+
+let updateAppMode = false;
+
+const versionFileName = 'version.txt';
 
 document.addEventListener('deviceready', onDeviceReady, false);
 

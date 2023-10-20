@@ -17,6 +17,24 @@ function getFileEntry(path, success, fail) {
     window.resolveLocalFileSystemURL(path, success, fail);
 }
 
+function writeFileText(fileEntry, text, success, fail) {
+    fileEntry.createWriter(function (fileWriter) {
+
+        fileWriter.onwriteend = function() {
+            success();
+        };
+
+        fileWriter.onerror = function (e) {
+            console.log("Failed file write: " + e.toString());
+            fail();
+        };
+
+        const dataObj = new Blob([text], { type: 'text/plain' });
+
+        fileWriter.write(dataObj);
+    });
+}
+
 function getFolder(dirName, callback){
     window.resolveLocalFileSystemURL(root_directory, function(rootDirEntry){
         rootDirEntry.getDirectory(dirName, {create: true}, function(dirEntry){
@@ -33,39 +51,33 @@ function checkIfFileExists(path, fileExists, fileDoesNotExist){
     window.resolveLocalFileSystemURL(path, fileExists,  fileDoesNotExist)
 }
 
-function saveFile(pathDir, fileName, fileData){
+function saveFile(pathDir, fileName, fileData, success){
     window.resolveLocalFileSystemURL(pathDir, function(dirEntry){
         dirEntry.getFile(fileName, {create: true}, function(fileEntry){
-            writeFile(fileEntry,  fileData)
+            writeFile(fileEntry,  fileData);
+            if (success) success();
         }, function(error){
             ons.notification.alert({title:"Внимание", message:`Невозможно создать файл. Ошибка:` + error})
         })
-    })
-}
-
-function writeFile(fileEntry, dataObj) {
-    // Create a FileWriter object for our FileEntry (log.txt).
-    fileEntry.createWriter(function (fileWriter) {
-
-        fileWriter.onwriteend = function() {
-            //console.log("Successful file write...", fileEntry.toInternalURL());
-            ons.notification.alert({title:"Внимание", messageHTML:'<p class="notification-alert">Файл успешно сохранён: ' + fileEntry.name + '</p>'})
-        };
-
-        fileWriter.onerror = function (e) {
-            console.log("Failed file write: " + e.toString());
-        };
-
-        // If data object is not passed in,
-        // create a new Blob instead.
-        if (!dataObj) {
-            dataObj = new Blob(['some file data'], { type: 'text/plain' });
-        }
-
-        fileWriter.write(dataObj);
+    }, (e) => {
+        console.log(e);
     });
-}
 
+    function writeFile(fileEntry, dataObj) {
+        fileEntry.createWriter(function (fileWriter) {
+
+            fileWriter.onwriteend = function() {
+                // ons.notification.alert({title:"Внимание", messageHTML:'<p class="notification-alert">Файл успешно сохранён: ' + fileEntry.name + '</p>'})
+            };
+
+            fileWriter.onerror = function (e) {
+                console.log("Failed file write: " + e.toString());
+            };
+
+            fileWriter.write(dataObj);
+        });
+    }
+}
 
 function showAllFilesAtDir(pathToDir, succes){
     window.resolveLocalFileSystemURL(pathToDir, function(dirEntry){

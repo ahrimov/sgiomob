@@ -1,4 +1,4 @@
-function initial(){
+function initial() {
     document.querySelector('#myNavigator').pushPage('./views/loadScreen.html');
 
     ons.ready(function(){
@@ -6,17 +6,40 @@ function initial(){
             ons.notification.confirm({title: 'Потверждение выхода', message: 'Вы уверены, что хотите выйти?', buttonLabels: ["Нет", "Да"]}) 
             .then(function(index) {
                 if (index === 1) { 
-                navigator.app.exitApp(); 
+                    navigator.app.exitApp(); 
                 }
             });
         });
     })
 
-    let path = root_directory + "config.xml";
-    //openFile(path, configParser);
-    createMediaDirectory();
-    checkIfFileExists(path, fileExist, warning);
+    const pathToVersionFile = app_device_directory + versionFileName;
+    getFileEntry(pathToVersionFile, (fileEntry) => {
+        fileEntry.file(function (file) {
+            const reader = new FileReader();
+            reader.onloadend = function(evt) {
+                if (this.result === appVersion) {
+                    updateAppMode = false;
+                    continueInitial();
+                } else {
+                    updateAppMode = true;
+                    writeFileText(fileEntry, appVersion, continueInitial, () => {
+                        console.log('Aborting');
+                    });
+                }
+            }
+            reader.readAsText(file, 'utf-8');
+        });
+    }, () => {
+        updateAppMode = true;
+        const dataObj = new Blob([appVersion], { type: 'text/plain' });
+        saveFile(app_device_directory, versionFileName, dataObj, continueInitial);
+    });
+}
 
+function continueInitial() {
+    const pathToConfig = root_directory + "config.xml";
+    createMediaDirectory();
+    checkIfFileExists(pathToConfig, fileExist, warning);
 
     function createMediaDirectory(){
         let dirName = common_media_directory;
@@ -32,13 +55,13 @@ function initial(){
 
     function fileExist(file){
         console.log('Config file exist!');
-        if (debugMode)
-            openFile(path, configParser);
-        else {
+        if (updateAppMode){
             updateConfigFile(file, () => {
-                openFile(path, configParser);
+                openFile(pathToConfig, configParser);
             });
         }
+        else 
+            openFile(pathToConfig, configParser);
     }
 
     function updateConfigFile(file, callback){
@@ -63,7 +86,6 @@ function initial(){
     
     function warning(){
         let sourceName = cordova.file.applicationDirectory + 'www/resources/Project';
-        console.log(sourceName);
         let targetDirName = app_device_directory ;
         window.resolveLocalFileSystemURL(cordova.file.applicationDirectory,
             function(resourcesDir) {
@@ -82,7 +104,7 @@ function initial(){
         }
         
         function copyWin(){
-            openFile(path, configParser);
+            openFile(pathToConfig, configParser);
         }
         
         function copyFail(){
