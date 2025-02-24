@@ -61,7 +61,17 @@ function configParser(data, title){
         }
 
         const parser = new DOMParser();
-        const dom = parser.parseFromString(data, "application/xml");
+        const dom = parser.parseFromString(data, "application/xml");;
+        if (dom.getElementsByTagName('parsererror').item(0)) {
+            const errorMessage = dom.querySelector('parsererror div').textContent;
+            console.log(errorMessage);
+            ons.notification.alert({
+                title: 'Внимание',
+                 messageHTML:`<p class="notification-alert">Некорректный xml-файл: ${title}. Ошибка: ${errorMessage} </p>`,
+            });
+            layerParser.counter++;
+            return;
+        }
         
         const geometryType = dom.getElementsByTagName("geometry").item(0).textContent;
         let styles = {};
@@ -296,16 +306,21 @@ async function pointStyleParse(dom){
             }
             else {
                 let imageSize = iconStyle.getElementsByTagName('size').item(0)?.textContent || 16;
-                imageSize = imageSize;
                 href = href.replace('Public', '');
                 const icon = await new Promise((resolve, reject) => {
                     window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + "www/resources/images/" + href, (fileEntry) => {
-                        resolve(new ol.style.Icon({
+                        const img = new Image();
+                        img.onload = function() {
+                            const scaleX = imageSize / this.width;
+                            const scaleY = imageSize / this.height;
+                            const scale = scaleX < scaleY ? scaleX : scaleY;
+                            resolve(new ol.style.Icon({
                                     src: fileEntry.toInternalURL(),
-                                    width: imageSize,
-                                    height: imageSize,
+                                    scale: scale,
                                 })
-                        );
+                            );
+                        };
+                        img.src = fileEntry.toInternalURL();
                     }, (e) => {
                         console.log('Error while opening: ', href);
                         resolve(null);

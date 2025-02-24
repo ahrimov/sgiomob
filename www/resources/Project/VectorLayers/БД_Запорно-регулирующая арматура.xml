@@ -109,7 +109,6 @@
       <attrPrimary>test</attrPrimary>
       <attrSecondary></attrSecondary>
       <labelsOnMap />
-      </geometryStyle>
     </layerDb>
     <styles>
 		<StyleTypeColumn>add_type_cl</StyleTypeColumn>

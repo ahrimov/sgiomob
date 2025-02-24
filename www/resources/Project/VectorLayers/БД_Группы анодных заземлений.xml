@@ -128,7 +128,7 @@
     <Style table="GROUND_BED" schema="PODS" id="PODS_GROUND_BED" comment="PODS.GROUND_BED" descr="Защитное заземление">
       <zoomMin>NAN</zoomMin>
       <zoomMax>NAN</zoomMax>
-      <value>GROUND_BED_TYPE_01</value>
+      <value>GROUND_B_TYPE_01</value>
       <IconStyle>
         <Icon>
           <href>Public/assets/RASP_PODS_GROUND_BED_GROUND_BED_TYPE_01.png</href>
