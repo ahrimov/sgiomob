@@ -32,16 +32,5 @@
 		"remote_url": "https://core-renderer-tiles.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
 		"local_path": "Android/media/io.cordova.sgiomob/TileTrees/YandexTiles/{z}/{x}/{-y}.png",
 		"useLocalTiles": false
-	},{
-		"id": "Rosreestr",
-		"descr": "Росреестр (Кадастр)",
-		"visible": false,
-		"order": 6,
-		"icon": "RosreestrLogo.png",
-		"projection": "EPSG:3857",
-		"remote_url": "https://pkk.rosreestr.ru/arcgis/rest/services/PKK6/CadastreWms/MapServer/export?layers=show%3A34%2C33%2C32%2C29%2C280%2C27%2C26%2C25%2C24%2C23%2C20%2C19%2C18%2C16%2C15%2C14%2C13%2C12%2C11%2C10%2C9%2C7%2C6%2C5%2C4%2C3%2C2%2C1&dpi=96&format=PNG32&bboxSR=102100&imageSR=102100&size=1024%2C1024&transparent=true&f=image",
-		"local_path": "Android/media/io.cordova.sgiomob/TileTrees/Rosreestr/{z}/{x}/{-y}.png",
-		"tileSize": [1024, 1024],
-		"useLocalTiles": false
 	}
 ]

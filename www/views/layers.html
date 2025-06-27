@@ -12,6 +12,12 @@
 
     <div id="layerListWithHandle" class="list-group"></div>
 
+    <div class="addNewLayerButton">
+      <ons-fab>
+          <ons-icon class='icon' icon='md-plus' onclick="addNewLayer()"></ons-icon>
+      </ons-fab>
+    </div>
+
     <ons-list id="base-raster-layers-list">
       <ons-list-header class="layer-list-header">
         <span class="layer-list-header-label">Растровые слои</span>
@@ -126,43 +132,7 @@
 
     <script>
         ons.getScriptPage().onInit = function() {
-          const list = document.querySelector("#layerListWithHandle");
-          const template = document.querySelector('#layerListItem');
-          layers.sort(function(a, b){
-            return b.getZIndex() - a.getZIndex();
-          })
-          for(layer of layers){
-            var item = template.content.cloneNode(true);
-            item.querySelector('.layer-label').textContent = layer.get("descr");
-            item.querySelector('.list-group-item').setAttribute("data-id", layer.get("id"));
-            item.querySelector('.layers-more-button').setAttribute("layer_id", layer.get("id"));
-            if(layer.enabled){
-              item.querySelector('.block-icon').style['display'] = 'none';
-            }
-            if(layer.getVisible()){
-              item.querySelector('.list-group-item').style.backgroundColor = 'rgb(99 156 249)';
-            }
-            item.querySelector('.layers-more-button').addEventListener('click', function(event){showActionSheet(this, event)});
-            list.appendChild(item);
-          }
-
-          createBaseRasterList();
-
-          Sortable.create(layerListWithHandle, {
-            handle: '.reorder-move',
-            animation: 150,
-            onUpdate: function(event){
-              var count = layers.length;
-              for(layerID of this.toArray()){
-                let layer = getLayerById(layerID);
-                layer.setZIndex(minZIndexForVectorLayers +  count);
-                count--;
-              }
-            }
-          });
+          layersScriptInit();
         }
-
-
-
     </script>
 </ons-page>

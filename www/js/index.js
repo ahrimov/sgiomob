@@ -23,6 +23,8 @@ let needsCancelNavigator = false;
 
 let hasGeolocationPermission = false;
 
+let hasExternalStoragePermissions = false;
+
 let map = new ol.Map();
 
 let numberNodesOnMap = defaultNumberNodesOnMap;

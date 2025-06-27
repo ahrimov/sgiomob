@@ -1,4 +1,74 @@
-function changeVisible(element){
+function layersScriptInit() {
+  creatingLayerList();
+
+  createBaseRasterList();
+
+  Sortable.create(layerListWithHandle, {
+    handle: '.reorder-move',
+    animation: 150,
+    onUpdate: function(event){
+      var count = layers.length;
+      for(layerID of this.toArray()){
+        let layer = getLayerById(layerID);
+        layer.setZIndex(minZIndexForVectorLayers +  count);
+        count--;
+      }
+    }
+  });
+}
+
+function creatingLayerList() {
+  const list = document.querySelector("#layerListWithHandle");
+  layers.sort(function(a, b){
+    return b.getZIndex() - a.getZIndex();
+  });
+  for (layer of layers) {
+    addLayerToViewList({ layer, list });
+  }
+}
+
+function addLayerToViewList({ layer, list }) {
+  const template = document.querySelector('#layerListItem');
+  const item = template.content.cloneNode(true);
+
+  item.querySelector('.layer-label').textContent = '';
+  item.querySelector('.list-group-item').removeAttribute("data-id");
+  item.querySelector('.layers-more-button')?.removeAttribute("layer_id");
+
+  item.querySelector('.layer-label').textContent = layer.get("descr");
+  item.querySelector('.list-group-item').setAttribute("data-id", layer.get("id"));
+  item.querySelector('.layers-more-button').setAttribute("layer_id", layer.get("id"));
+  
+  if(layer.enabled){
+    item.querySelector('.block-icon').style['display'] = 'none';
+  }
+  if(layer.getVisible()){
+    item.querySelector('.list-group-item').style.backgroundColor = 'rgb(99 156 249)';
+  }
+  item.querySelector('.layers-more-button').addEventListener('click', function(event){showActionSheet(this, event)});
+  list.appendChild(item);
+}
+
+function updatingVectorList() {
+  const list = document.querySelector("#layerListWithHandle");
+  list.innerHTML = '';
+  creatingLayerList();
+
+  Sortable.create(layerListWithHandle, {
+    handle: '.reorder-move',
+    animation: 150,
+    onUpdate: function(event){
+      var count = layers.length;
+      for(layerID of this.toArray()){
+        let layer = getLayerById(layerID);
+        layer.setZIndex(minZIndexForVectorLayers +  count);
+        count--;
+      }
+    }
+  });
+}
+
+function changeVisible(element) {
     const layerID = element.getAttribute("data-id");
     const layer = getLayerById(layerID);
     if(layer){
@@ -39,59 +109,107 @@ function changeVisible(element){
 
 
   function showActionSheet(element, event){
-    event.stopPropagation()
-    var layerID = element.getAttribute("layer_id")
+    event.stopPropagation();
+    var layerID = element.getAttribute("layer_id");
     const layer = findLayer(layerID);
     const navigator = document.querySelector('#myNavigator');
-    ons.openActionSheet({
-      cancelable: true,
-      buttons: [
-        {
-          label: 'Список атрибутов',
-          modifier: 'destructive'
-        },
-        {
-          label: 'Добавить объект',
-        },
-        {
-          label: 'Экспорт kml',
-        },
-        {
-          label: 'Импорт kml',
-        },
-        {
-          label: 'Очистить слой'
-        },
-        {
-          label: 'Назад',
-          icon: 'md-close'
-        }
-      ]
-    }).then(function (index) {
-        if(index === 0){
-          navigator.pushPage('./views/features.html', {data: {layerID: layerID}});
-        }
-        if(index === 1){
-          if (layer.enabled) {
-            navigator.popPage({times: navigator.pages.length - 1});
-            createFeature(layer);
+    const kmlType = layer.get('kmlType');
+    if (kmlType) {
+      ons.openActionSheet({
+        cancelable: true,
+        buttons: [
+          {
+            label: 'Список атрибутов',
+            modifier: 'destructive'
+          },
+          {
+            label: 'Добавить объект',
+          },
+          {
+            label: 'Сохранить слой',
+          },
+          {
+            label: 'Очистить слой',
+          },
+          {
+            label: 'Удалить слой',
+          },
+          {
+            label: 'Назад',
+            icon: 'md-close'
           }
-        }
-        if(index === 2){
-          if(!layer.enabled){
-            ons.notification.alert({title:"Внимание", message: "Этот слой нельзя экспортировать"});
+        ]
+      }).then(function (index) {
+          if(index === 0){
+            navigator.pushPage('./views/features.html', {data: {layerID: layerID}});
           }
-          else{
-            createFileChooserForKML(layerID, exportKML);
+          if(index === 1){
+            if (layer.enabled) {
+              navigator.popPage({times: navigator.pages.length - 1});
+              createFeature(layer);
+            }
           }
-        }
-        if(index === 3){
-          createFileChooserForKML(layerID, chooseFile);
-        }
-        if(index === 4){
-          clearLayer(layerID)
-        }
+          if (index === 2) {
+            saveKMLToFile(layerID);
+          }
+          if(index === 3){
+            clearLayer(layerID);
+          }
+          if (index === 4) {
+            deleteLayer(layerID);
+          }
       });
+    } else {
+      ons.openActionSheet({
+        cancelable: true,
+        buttons: [
+          {
+            label: 'Список атрибутов',
+            modifier: 'destructive'
+          },
+          {
+            label: 'Добавить объект',
+          },
+          {
+            label: 'Экспорт kml',
+          },
+          {
+            label: 'Импорт kml',
+          },
+          {
+            label: 'Очистить слой'
+          },
+          {
+            label: 'Назад',
+            icon: 'md-close'
+          }
+        ]
+      }).then(function (index) {
+          if(index === 0){
+            navigator.pushPage('./views/features.html', {data: {layerID: layerID}});
+          }
+          if(index === 1){
+            if (layer.enabled) {
+              navigator.popPage({times: navigator.pages.length - 1});
+              createFeature(layer);
+            }
+          }
+          if(index === 2){
+            if(!layer.enabled){
+              ons.notification.alert({title:"Внимание", message: "Этот слой нельзя экспортировать"});
+            }
+            else{
+              createFileChooserForKML(layerID, exportKML);
+            }
+          }
+          if(index === 3){
+            createFileChooserForKML(layerID, chooseFile);
+          }
+          if(index === 4){
+            clearLayer(layerID);
+          }
+      });
+    }
   }
 
   function chooseFile(pathToKML, layerID){
@@ -168,17 +286,24 @@ function changeVisible(element){
   }
 
   function clearLayer(layerID){
-    let layer = findLayer(layerID)
+    let layer = findLayer(layerID);
+    const kmlType = layer.get('kmlType');
     ons
     .notification.confirm({title: 'Очистка слоя', messageHTML: `<p class="notification-alert">Вы уверены, что хотите очитстить слой ${layer.label}?</p>`, buttonLabels: ["Нет", "Да"]})
     .then(function(index) {
         if(index == 1){
-          let query = `DELETE FROM ${layer.id}`
-          requestToDB(query, function(res){
-            layer.getSource().clear(true)
-            ons.notification.alert({title:"Внимание", message:`Слой ${layer.label} очищен`})
-            saveDB()
-          })
+          if (kmlType) {
+            const features = layer.getSource().getFeatures();
+            features.forEach(feature => feature.deleted = true);
+            syncChangesWithKML(layerID);
+          } else {
+            let query = `DELETE FROM ${layer.id}`;
+            requestToDB(query, function(res){
+              layer.getSource().clear(true);
+              ons.notification.alert({title:"Внимание", message:`Слой ${layer.label} очищен`});
+              saveDB();
+            });
+          }
         }
     });
 

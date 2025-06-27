@@ -96,8 +96,11 @@ function findFeatureByID(layer, id){
 function centeringOnFeature(feature){
     const geometry = feature.getGeometry();
     const geometryType = geometry.getType();
-    if(geometryType === 'MultiPoint' || geometryType === 'Point'){
+    if (geometryType === 'MultiPoint'){
         map.getView().setCenter(geometry.getCoordinates()[0]);
+    }
+    if (geometryType === 'Point') {
+        map.getView().setCenter(geometry.getCoordinates());
     }
     if(geometryType === 'MultiLineString' || geometryType === 'LineString' || geometryType === 'MultiPolygon'){
         const extent = geometry.getExtent();
@@ -122,7 +125,7 @@ class LayerAtribs{
 function checkServiceField(label){
     if(label == 'lg_attach' || label == 'date_to1' || label == 'result_to1' ||
         label == 'date_to2' || label == 'result_to2' || label == 'date_tr' ||
-        label == 'result_tr' || label == 'date_sr' || label == 'result_sr'){
+        label == 'result_tr' || label == 'date_sr' || label == 'result_sr' || label === 'geometry'){
         return true
     }
     return false
@@ -535,6 +538,7 @@ function removeModify(){
 
 function updateFeatureGeometry(feature, callback = null){
     let layer = findLayer(feature.layerID);
+    const kmlType = layer.get('kmlType');
 
     // function convertToGeometryType(inp_string){
     //     if(inp_string.search('Z') != -1 && inp_string.search('MULTI') != -1) return inp_string;
@@ -568,11 +572,16 @@ function updateFeatureGeometry(feature, callback = null){
     // console.log(featureString);
     // console.log(format.writeFeature(feature));
     
-    let query = `UPDATE ${layer.id} SET Geometry = GeomFromText('${featureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`;
-    requestToDB(query, function(res){
-        saveDB();
+    if (kmlType) {
+        syncChangesWithKML(feature.layerID);
         if(callback) callback();
-    });
+    } else {
+        let query = `UPDATE ${layer.id} SET Geometry = GeomFromText('${featureString}', 3857) WHERE ${layer.atribs[0].name} = ${feature.id}`;
+        requestToDB(query, function(res){
+            saveDB();
+            if(callback) callback();
+        });
+    }
 }
 
 function displayCancelButton(){
@@ -594,7 +603,7 @@ function convertGeometryType(type){
         case 'MULTILINESTRING':
             return 'MultiLineString'
         default:
-            return 'Point'
+            return type;
     }
 }
 

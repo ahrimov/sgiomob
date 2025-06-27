@@ -55,6 +55,8 @@ function configParser(data, title){
         numberNodesOnMap = dom.getElementsByTagName("NumberNodesOnMap").item(0).textContent;
     } 
 
+    addExistingKMLLayers();
+
     async function layerParser(data,title){
         if(typeof layerParser.counter == 'undefined'){
             layerParser.counter = 0

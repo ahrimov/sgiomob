@@ -36,3 +36,13 @@ function writeFeatureInKML(feature){
   return `${geometryType} Z ${brackets.map(i => '(').join('')}\
   ${coordinates.map(coord => ` ${coord[0]} ${coord[1]} 0`).join(',')}${brackets.map(i => ')').join('')}`;
 }
+
+function toBase64(str) {
+  const encoder = new TextEncoder();
+  const uint8Array = encoder.encode(str);
+  let binaryString = '';
+  uint8Array.forEach(byte => {
+      binaryString += String.fromCharCode(byte);
+  });
+  return btoa(binaryString);
+}

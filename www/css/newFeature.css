@@ -13,13 +13,19 @@
 .new-feature-content-table{
     border-spacing: 2vw 0;
     border-collapse: separate;
+    table-layout: fixed;
+    width: 100%;
 }
 
 .page-content .title{
     color: dimgrey;
     text-align: right;
     font-size: small;
-    width: 20%;
+    width: 40%;
+    word-wrap: break-word;
+    overflow-wrap: break-word; 
+    white-space: normal;
+    box-sizing: border-box;
 }
 
 .page-content .input{

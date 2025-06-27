@@ -51,14 +51,14 @@ function checkIfFileExists(path, fileExists, fileDoesNotExist){
     window.resolveLocalFileSystemURL(path, fileExists,  fileDoesNotExist)
 }
 
-function saveFile(pathDir, fileName, fileData, success){
+function saveFile(pathDir, fileName, fileData, success, onError) {
+    const innerOnError = (error) => { ons.notification.alert({title:"Внимание", message:`Невозможно создать файл. Ошибка:` + error}) };
+    const onError_ = onError ?? innerOnError;
     window.resolveLocalFileSystemURL(pathDir, function(dirEntry){
         dirEntry.getFile(fileName, {create: true}, function(fileEntry){
             writeFile(fileEntry,  fileData);
             if (success) success();
-        }, function(error){
-            ons.notification.alert({title:"Внимание", message:`Невозможно создать файл. Ошибка:` + error})
-        })
+        }, onError_);
     }, (e) => {
         console.log(e);
     });
@@ -146,4 +146,34 @@ function rosreetrUrlFunction(tileCoord, number, projection){
     const bbox = tileToBBOX(tile);
     const bboxM = ol.proj.transformExtent(bbox, 'EPSG:4326', projection);
     return rosreestr_url + '&bbox=' + bboxM.join(','); 
+}
+
+function globalReadlFile(fileUri, callback) {
+    if (fileUri.startsWith('content://')) {
+        cordova.plugins.safMediastore.readFile(fileUri).then(data => {
+            const decoder = new TextDecoder('utf-8'); 
+            const text = decoder.decode(data);
+            callback(text);
+          }, onError);
+      } else {
+        window.resolveLocalFileSystemURL(fileUri, function (fileEntry) {
+            fileEntry.file(function (file) {
+                var reader = new FileReader();
+    
+                reader.onloadend = function (e) {
+                    callback(this.result); 
+                };
+    
+                reader.onerror = function () {
+                    console.error('Ошибка чтения файла:', this.error);
+                };
+    
+                reader.readAsText(file, 'UTF-8');
+            }, onError);
+        }, onError);
+      }
+
+    function onError(error) {
+        console.error("Ошибка: " + JSON.stringify(error));
+    }
 }

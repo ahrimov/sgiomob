@@ -24,6 +24,11 @@
     padding-left: 5%;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 40%; /* Максимальная ширина 40% */
+    word-wrap: break-word; /* Разрешаем перенос текста внутри ячейки */
+    overflow-wrap: break-word; /* Альтернативное свойство для старых браузеров */
+    white-space: normal; /* Разрешаем перенос строк */
+    box-sizing: border-box;
 }
 
 .feature-properties-main-title{
@@ -122,7 +127,7 @@
     gap: 1vh;
     margin-top: 1vh;
 }
-}
+
 
 .type-coordinatees-switcher-label{
     display: flex;
@@ -160,6 +165,11 @@
 .manual-edit-geometry-add-coordinate-button-container{
     padding-right: 2vw;
     margin-bottom: 8vh;
+}
+
+#featureProperties table{
+    table-layout: fixed;
+    width: 100%;
 }
 
 .table-coordinates-container{

@@ -180,3 +180,15 @@
     margin-right: 1vw;
     margin-bottom: 0.3vh;
 }
+
+.addNewLayerButton{
+    position: fixed;
+    bottom: 3%;
+    right: 2%;
+    z-index: 1000;
+}
+
+.addNewLayerButton .fab {
+    background-color: #2375fa;
+    color: white;
+}

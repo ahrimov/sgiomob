@@ -22,12 +22,15 @@ function featurePropertiesScript(featureFromPage){
     let values = []
     let images = []
     let is_editing_feature = false;
-    for(atrib of layer.atribs){
-        if(checkServiceField(atrib.name)){
+    const kmlType = layer.get('kmlType');
+
+    for (const atrib of layer.atribs) {
+        if (checkServiceField(atrib.name)) {
             continue;
         }
         atribs.push(atrib.name);
     }
+    
 
     document.querySelector('#feature-properties-title').textContent = layer.label;
 
@@ -53,41 +56,14 @@ function featurePropertiesScript(featureFromPage){
         document.querySelector('#feature-instrument-delete').setAttribute('disabled', true);
     }
 
-    let query = "SELECT AsText(Geometry) as geom, " + atribs.join(', ') + " from " + layer.id + 
-    " WHERE id = " + feature.id;
-    requestToDB(query, function(data){
-        var table = document.createElement("table");
-        for(atrib of layer.atribs){
-            if(checkServiceField(atrib.name)){
-                continue;
-            }
-            let tr = document.createElement("tr");
-            tr.className = "property";
-            let td_title = document.createElement("td");
-            td_title.className = 'title';
-            td_title.textContent = atrib.label;
-            tr.append(td_title);
-            let td_content = document.createElement("td");
-            td_content.className = 'content';
-            let content = contentByType(atrib, data.rows.item(0)[atrib.name]);
-            if(content === '' || typeof content === "undefined"){
-                tr.style['visibility'] = 'collapse';
-            }
-            td_content.innerHTML = content;
-            tr.append(td_content);
-            if(!atrib.visible){
-                tr.style.visibility = 'collapse';
-            }
-            table.append(tr);
+    if (kmlType) {
+        fillInfoFromFeature();
+    } else {
+        requestFeatureAtribs();
+        displayImagesFromStorage();
+    }
 
-            values.push(data.rows.item(0)[atrib.name]);
-        }
-        table.append(addMetricCharacter(layer, data.rows.item(0).geom));
-        document.getElementById("table").append(table);
-    })
-
-    displayLocalMap()
-    displayImagesFromStorage()
+    displayLocalMap();
 
     let navigator = document.querySelector('#myNavigator');
     let page = navigator.topPage;
@@ -100,6 +76,72 @@ function featurePropertiesScript(featureFromPage){
             map.localMap = false;
             layer.changed();
         }
+    }
+
+    
+    function requestFeatureAtribs() {
+        let query = "SELECT AsText(Geometry) as geom, " + atribs.join(', ') + " from " + layer.id + 
+        " WHERE id = " + feature.id;
+        requestToDB(query, function(data){
+            var table = document.createElement("table");
+            for(atrib of layer.atribs){
+                if(checkServiceField(atrib.name)){
+                    continue;
+                }
+                let tr = document.createElement("tr");
+                tr.className = "property";
+                let td_title = document.createElement("td");
+                td_title.className = 'title';
+                td_title.textContent = atrib.label;
+                tr.append(td_title);
+                let td_content = document.createElement("td");
+                td_content.className = 'content';
+                let content = contentByType(atrib, data.rows.item(0)[atrib.name]);
+                if(content === '' || typeof content === "undefined"){
+                    tr.style['visibility'] = 'collapse';
+                }
+                td_content.innerHTML = content;
+                tr.append(td_content);
+                if(!atrib.visible){
+                    tr.style.visibility = 'collapse';
+                }
+                table.append(tr);
+
+                values.push(data.rows.item(0)[atrib.name]);
+            }
+            table.append(addMetricCharacter(layer, data.rows.item(0).geom));
+            document.getElementById("table").append(table);
+        })
+    }
+
+    function fillInfoFromFeature() {
+        const table = document.createElement("table");
+        const atribs = layer.atribs;
+        for (let atrib of atribs) {
+            const key = atrib.name;
+            if (checkServiceField(key)) continue;
+            const tr = document.createElement("tr");
+            tr.className = "property";
+            const td_title = document.createElement("td");
+            td_title.className = 'title';
+            td_title.textContent = key;
+            tr.append(td_title);
+            const td_content = document.createElement("td");
+            td_content.className = 'content';
+            const content = feature.get(key);
+            if (content === '' || typeof content === "undefined") { 
+                tr.style['visibility'] = 'collapse';
+            }
+            td_content.innerHTML = content;
+            tr.append(td_content);
+            table.append(tr);
+            values.push(content);
+        }
+        let tr = document.createElement("tr");
+        tr.className = 'geometry-property';
+        const geometry = featureFromPage.getGeometry();
+        fillGeometryProperty(tr, geometry, layer.geometryType);
+        document.getElementById("table").append(table);
     }
 
     function safetyCancel(event){
@@ -250,6 +292,10 @@ function featurePropertiesScript(featureFromPage){
     //camera function
     function clickOpenCamera(){
         try{
+            if (kmlType) {
+                ons.notification.alert({ title:'Внимание', message: 'Функция фотографирования не поддерживается для kml-слоя.' })
+                return;
+            }
             openCamera(function(imgUri){
                 getFileEntry(imgUri, function(fileEntry){
 
@@ -398,16 +444,21 @@ function featurePropertiesScript(featureFromPage){
     }
 
     function deleteCurrentFeature(){
-        const query = `DELETE FROM ${feature.layerID} WHERE id='${feature.id}';`
-        requestToDB(query, function(res){
-            layer.getSource().removeFeature(feature)
-            saveDB()
+        if (kmlType) {
+            feature.deleted = true;
+            syncChangesWithKML(feature.layerID);
+        } else {
+            const query = `DELETE FROM ${feature.layerID} WHERE id='${feature.id}';`
+            requestToDB(query, function(res){
+                saveDB()
+            });
+        }
 
-            let navigator = document.querySelector('#myNavigator')
-            navigator.popPage({times: navigator.pages.length - 1})
-            map.localMap = false;
-            layer.changed();
-        })
+        layer.getSource().removeFeature(feature);
+        let navigator = document.querySelector('#myNavigator')
+        navigator.popPage({times: navigator.pages.length - 1})
+        map.localMap = false;
+        layer.changed();
     }
 
     function convertToGeometryType(inp_string){
@@ -421,43 +472,58 @@ function featurePropertiesScript(featureFromPage){
         return insert(string, ' 0', string.search(/\)\)/))
     }
 
-    function updateFeature(){
-        let updates = []
-        let input_content = document.querySelectorAll('.input-content')
-        for(let index in values){
+    function updateFeature() {
+        const updates = [];
+        let input_content = document.querySelectorAll('.input-content');
+        for (let index in values) {
             if(layer.atribs[index].type === 'BOOLEAN'){
-                if(input_content[index].checked)
+                if (input_content[index].checked)
                     values[index] = 1;
                 else
                     values[index] = 0; 
             }
-            else{
+            else {
                 values[index] = input_content[index].value;
             }
-            if(values[index] === ''){
-                continue
+            if (values[index] === '') {
+                continue;
             }
-            updates.push(`${atribs[index]} = '${values[index]}'`)
+            updates.push(`${atribs[index]} = '${values[index]}'`);
+            feature.set(atribs[index], values[index]);
         }
-        const query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature.id}`
-        requestToDB(query, function(res){
-            feature.id = values[0];
 
+        if (kmlType) {
             const typeIndex = atribs.indexOf(layer.styleTypeColumn);
             if(typeIndex >= 0){
                 feature.type = values[typeIndex];
             }
-
             const labelIndex = atribs.indexOf(layer.labelColumn);
             if(labelIndex >= 0){
                 feature.label = values[labelIndex];
             }
-
             feature.changed();
-            saveDB();
-        })
-        cancel()
+            syncChangesWithKML(feature.layerID);
+        } else {
+            const query = `UPDATE ${layer.id } SET ${updates.join(', ')} WHERE ${layer.atribs[0].name} = ${feature.id}`;
+            requestToDB(query, function(res){
+                feature.id = values[0];
 
+                const typeIndex = atribs.indexOf(layer.styleTypeColumn);
+                if(typeIndex >= 0){
+                    feature.type = values[typeIndex];
+                }
+
+                const labelIndex = atribs.indexOf(layer.labelColumn);
+                if(labelIndex >= 0){
+                    feature.label = values[labelIndex];
+                }
+
+                feature.changed();
+                saveDB();
+            })
+        }
+        
+        cancel();
     }
 
     function cancel(){

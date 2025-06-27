@@ -34,6 +34,9 @@ function initial() {
         const dataObj = new Blob([appVersion], { type: 'text/plain' });
         saveFile(app_device_directory, versionFileName, dataObj, continueInitial);
     });
+
+    requestExternalStoragePermission();
+    checkPermissions();
 }
 
 function continueInitial() {
@@ -167,4 +170,59 @@ function addHTMLToDocument(filename){
      .then(data => {
         document.querySelector('#modalWindowTemplates').innerHTML += data;
      });
+}
+
+function requestExternalStoragePermission() {
+    const permissions = cordova.plugins.permissions;
+    permissions.requestPermission(permissions.READ_EXTERNAL_STORAGE, success, error);
+  
+    function success() {
+        hasExternalStoragePermissions = true;
+        console.log('Доступ к внешнему хранилищу разрешён');
+    }
+  
+    function error() {
+        hasExternalStoragePermissions = false;
+        console.log('Доступ к внешнему хранилищу запрещён');
+    }
+}
+
+function checkPermissions() {
+    if (cordova.plugins && cordova.plugins.permissions) {
+        cordova.plugins.permissions.checkPermission(
+            cordova.plugins.permissions.READ_EXTERNAL_STORAGE,
+            function (result) {
+                if (!result.hasPermission) {
+                    cordova.plugins.permissions.requestPermission(
+                        cordova.plugins.permissions.READ_EXTERNAL_STORAGE,
+                        function (status) {
+                            if (!status.hasPermission) {
+                                alert('Необходимо предоставить доступ к файлам!');
+                            }
+                        }
+                    );
+                }
+            }
+        );
+    }
+}
+
+function checkManageExternalStoragePermission() {
+    if (device.platform === 'Android' && parseInt(device.version) >= 10) {
+        cordova.plugins.permissions.checkPermission(
+            cordova.plugins.permissions.MANAGE_EXTERNAL_STORAGE,
+            function (result) {
+                if (!result.hasPermission) {
+                    cordova.plugins.permissions.requestPermission(
+                        cordova.plugins.permissions.MANAGE_EXTERNAL_STORAGE,
+                        function (status) {
+                            if (!status.hasPermission) {
+                                alert('Необходимо предоставить доступ к внешнему хранилищу!');
+                            }
+                        }
+                    );
+                }
+            }
+        );
+    }
 }

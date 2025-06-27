@@ -1,7 +1,9 @@
 function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
     let layer = pageLayer;
+    const layerId = layer.get('id');
+    const kmlType = layer.get('kmlType');
     let feature = pageFeature;   
-    let featureImages = []
+    let featureImages = [];
     const content  =  document.createElement('table');
     content.className = 'new-feature-content-table';
     for(let atrib of layer.atribs){
@@ -27,9 +29,22 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
     document.querySelector('#saveFeatureButton').addEventListener('click', saveFeature, false)
     document.querySelector('#backButton').addEventListener('click', back, false)
 
-    autonumericID(layer.atribs[0].name, layer).then((new_id) => {
-    document.querySelector(`#${layer.atribs[0].name}`).value = new_id
-    })
+    if (kmlType) {
+        const features = layer.getSource().getFeatures();
+        let maxId = 0;
+        features.forEach(feature => {
+            const id = feature.get('ID');
+            if (id > maxId) {
+                maxId = id;
+            }
+        });
+        const newId = maxId + 1;
+        document.querySelector('#ID').value = newId;
+    } else {
+        autonumericID(layer.atribs[0].name, layer).then((new_id) => {
+            document.querySelector(`#${layer.atribs[0].name}`).value = new_id
+        });
+    }
 
     function back(){
         document.querySelector('#myNavigator').popPage();
@@ -64,39 +79,58 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
 
         }
 
-        const feautureString = writeFeatureInKML(feature); // format.writeFeature(feature)
-        const query = `
-                    INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
-                    VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
-                    ;`
-        requestToDB(query, function(res){
-            let id = document.querySelector(`#${layer.atribs[0].name}`).value;
+        if (kmlType) {
+            let id = document.querySelector('#ID').value;
             feature.id = id;
+            feature.set('id', id);
             feature.layerID = layer.id;
-
-            const typeIndex = atribNames.indexOf(layer.styleTypeColumn);
-            if(typeIndex >= 0)
-                feature.type = values[typeIndex];
-            else 
-                feature.type = 'default';
-
-            const labelIndex = atribNames.indexOf(layer.labelColumn);
-            if(labelIndex >= 0)
-                feature.label = values[labelIndex];
-
-            if(fromMap)
-                finishDraw();
-            else
-                layer.getSource().addFeature(feature);
-
+            feature.type = 'default';
+            feature.isNew = true;
+            for (let i = 0; i < atribNames.length; i++) {
+                const atribName = atribNames[i];
+                const atribValue = values[i];
+                feature.set(atribName, atribValue);
+            }
+            if (fromMap) finishDraw();
+            else layer.getSource().addFeature(feature);
+            
             document.querySelector('#myNavigator').popPage();
+            syncChangesWithKML(layerId);
+        } else {
+            const feautureString = writeFeatureInKML(feature); // format.writeFeature(feature)
+            const query = `
+                        INSERT INTO ${layer.id} (${atribNames.join(', ')}, Geometry)
+                        VALUES (${atribValues.join(',')}, GeomFromText('${feautureString}', 3857));
+                        ;`
+            requestToDB(query, function(res){
+                let id = document.querySelector(`#${layer.atribs[0].name}`).value;
+                feature.id = id;
+                feature.layerID = layer.id;
 
-            if(featureImages.length > 0)
-                saveImageToNewFeature();
+                const typeIndex = atribNames.indexOf(layer.styleTypeColumn);
+                if(typeIndex >= 0)
+                    feature.type = values[typeIndex];
+                else 
+                    feature.type = 'default';
 
-            feature.changed();
-            saveDB();
-        }) 
+                const labelIndex = atribNames.indexOf(layer.labelColumn);
+                if(labelIndex >= 0)
+                    feature.label = values[labelIndex];
+
+                if(fromMap)
+                    finishDraw();
+                else
+                    layer.getSource().addFeature(feature);
+
+                document.querySelector('#myNavigator').popPage();
+
+                if(featureImages.length > 0)
+                    saveImageToNewFeature();
+
+                feature.changed();
+                saveDB();
+            }); 
+        }
     }
 
     async function saveImageToNewFeature(){
