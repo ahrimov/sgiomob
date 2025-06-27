@@ -72,6 +72,7 @@ function showMap(){
     
     updateInfo();
     requestNavigation();
+    addSelectInteraction(map);
 }
 
 function findLayer(layerID){
@@ -96,6 +97,7 @@ function findFeatureByID(layer, id){
 function centeringOnFeature(feature){
     const geometry = feature.getGeometry();
     const geometryType = geometry.getType();
+
     switch(geometryType) {
         case 'MultiPoint': 
             map.getView().setCenter(geometry.getCoordinates()[0]);
@@ -636,6 +638,98 @@ function isServiceFeature(feature){
     return (name === GEO_MARKER_NAME || name === GPS_ACCURACY_NAME);
 }
 
-// function createOlFeature(id, geometry, type = 'default', label = null){
-    
-// }
+function findInteraction(InteractionClass) {
+    return map.getInteractions().getArray().find((interaction) => interaction instanceof InteractionClass);
+}
+
+function addSelectInteraction(map) {
+    const selectInteraction = new ol.interaction.Select({
+        condition: () => false,
+        multi: false,
+        style: function(feature) {
+            const geomType = feature.getGeometry().getType();
+            const baseType = geomType.startsWith('Multi') 
+              ? geometry.getGeometryAt(0).getType() 
+              : geomType;
+
+            if (baseType === 'LineString') {
+                return getLineHighlightStyle();
+            } else if (geomType === 'Polygon') {
+                return getPolygonHighlightStyle();
+            } else if (geomType === 'Point') {
+                return getPointHighlightStyle();
+            }
+                return null;
+        },
+    });
+
+    map.addInteraction(selectInteraction);
+
+    map.on('click', () => {
+        selectInteraction.getFeatures().clear();
+    });
+}
+
+function selectFeature(feature) {
+    const selectInteraction = findInteraction(ol.interaction.Select);
+
+    selectInteraction.getFeatures().clear();
+    selectInteraction.getFeatures().push(feature); 
+}
+
+
+const selectedLineStyle = new ol.style.Style({
+  stroke: new ol.style.Stroke({
+    color: '#000000', // Внешний черный контур
+    width: 4,
+  }),
+});
+
+const innerLineStyle = new ol.style.Style({
+  stroke: new ol.style.Stroke({
+    color: '#FFFFFF', // Внутренний белый контур
+    width: 2,
+  }),
+});
+
+function getLineHighlightStyle() {
+  return [innerLineStyle, selectedLineStyle];
+}
+
+const selectedPolygonStyle = new ol.style.Style({
+  fill: new ol.style.Fill({
+    color: 'rgba(255, 255, 255, 0.125)', // Полупрозрачная белая заливка
+  }),
+  stroke: new ol.style.Stroke({
+    color: '#000000', // Внешний черный контур
+    width: 4,
+  }),
+});
+
+const innerPolygonStyle = new ol.style.Style({
+  stroke: new ol.style.Stroke({
+    color: '#FFFFFF', // Внутренний белый контур
+    width: 2,
+  }),
+});
+
+function getPolygonHighlightStyle() {
+  return [innerPolygonStyle, selectedPolygonStyle];
+}
+
+const selectedPointStyle = new ol.style.Style({
+  image: new ol.style.Circle({
+    radius: 4, // Оранжевый квадрат (8x8)
+    fill: new ol.style.Fill({
+      color: '#FC580C', // Оранжевая заливка
+    }),
+    stroke: new ol.style.Stroke({
+      color: '#FFFFFF', // Белая обводка
+      width: 1,
+    }),
+  }),
+});
+
+function getPointHighlightStyle() {
+  return [selectedPointStyle];
+}

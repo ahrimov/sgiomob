@@ -389,6 +389,7 @@ function featurePropertiesScript(featureFromPage){
         navigator.popPage({times: navigator.pages.length - 1});
         map.localMap = false;
         layer.changed();
+        selectFeature(feature);
     }
 
     function clickEditFeature(){
