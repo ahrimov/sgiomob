@@ -96,19 +96,21 @@ function findFeatureByID(layer, id){
 function centeringOnFeature(feature){
     const geometry = feature.getGeometry();
     const geometryType = geometry.getType();
-    if (geometryType === 'MultiPoint'){
-        map.getView().setCenter(geometry.getCoordinates()[0]);
-    }
-    if (geometryType === 'Point') {
-        map.getView().setCenter(geometry.getCoordinates());
-    }
-    if(geometryType === 'MultiLineString' || geometryType === 'LineString' || geometryType === 'MultiPolygon'){
-        const extent = geometry.getExtent();
-        const delta = 0.2;
-        const deltaX = (extent[2] - extent[0])*delta;
-        const deltaY = (extent[3] - extent[1])*delta;
-        const extendExtent = [extent[0] - deltaX, extent[1] - deltaY, extent[2] + deltaX, extent[3] + deltaY];
-        map.getView().fit(extendExtent);
+    switch(geometryType) {
+        case 'MultiPoint': 
+            map.getView().setCenter(geometry.getCoordinates()[0]);
+            return;
+        case 'Point':
+            map.getView().setCenter(geometry.getCoordinates());
+            return;
+        default:
+            const extent = geometry.getExtent();
+            const delta = 0.2;
+            const deltaX = (extent[2] - extent[0])*delta;
+            const deltaY = (extent[3] - extent[1])*delta;
+            const extendExtent = [extent[0] - deltaX, extent[1] - deltaY, extent[2] + deltaX, extent[3] + deltaY];
+            map.getView().fit(extendExtent); 
+            return;
     }
 }
 
