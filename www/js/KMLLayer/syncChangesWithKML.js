@@ -8,6 +8,10 @@ function syncChangesWithKML(layerId, succes, onError) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(originalKMLContent, "application/xml");
 
+        if (features.length) {
+            ensureGeometryTypeInSchema(xmlDoc, features[0].getGeometry().getType());
+        }
+
         // 2. Создаем словарь для быстрого поиска <Placemark> по ID
         const placemarks = {};
         const placemarkNodes = xmlDoc.querySelectorAll('Placemark');
@@ -212,4 +216,22 @@ function createPolygonGeometry(geometry, xmlDoc) {
     outerBoundaryIs.appendChild(linearRing);
     polygon.appendChild(outerBoundaryIs);
     return polygon;
+}
+
+function ensureGeometryTypeInSchema(xmlDoc, geometryType) {
+    const schema = xmlDoc.querySelector('Schema');
+    if (!schema) return;
+
+    // Проверяем, есть ли уже поле geometryType
+    const hasGeometryType = Array.from(schema.querySelectorAll('SimpleField'))
+        .some(field => field.getAttribute('name') === 'geometryType');
+
+    if (!hasGeometryType) {
+        const geometryTypeField = xmlDoc.createElement('SimpleField');
+        geometryTypeField.setAttribute('name', 'geometryType');
+        geometryTypeField.setAttribute('type', 'string');
+
+        geometryTypeField.setAttribute('actualType', geometryType);
+        schema.appendChild(geometryTypeField);
+    }
 }
