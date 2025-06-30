@@ -96,20 +96,62 @@ function findFeatureByID(layer, id){
 
 function centeringOnFeature(feature){
     const geometry = feature.getGeometry();
+    
+    customFit(map, geometry);
+}
+
+function getMapSize() {
+    const targetId = map.getTarget();
+    const target = document.getElementById(targetId);
+    return [
+        target.offsetWidth,
+        target.offsetHeight
+    ];
+}
+
+function customFit(map, geometry, options = {}) {
+    const {
+        padding = 0,
+        duration = 10
+    } = options;
+
+    const view = map.getView();
+    const size = getMapSize();
+    const extent = geometry.getExtent();
+
     const geometryType = geometry.getType();
 
-    switch(geometryType) {
-        case 'MultiPoint': 
-            map.getView().setCenter(geometry.getCoordinates()[0]);
-            return;
-        case 'Point':
-            map.getView().setCenter(geometry.getCoordinates());
-            return;
-        default:
-            const extent = geometry.getExtent();
-            map.getView().fit(extent, { size: map.getSize(), minResolution: 7 }); 
-            return;
+    // Для точечных геометрий
+    if (geometryType === 'Point' || geometryType === 'MultiPoint') {
+        const center = geometryType === 'Point' 
+            ? geometry.getCoordinates() 
+            : geometry.getCoordinates()[0];
+        
+        view.animate({
+            center: center,
+            zoom: 18, // Фиксированный зум для точек
+            duration: duration
+        });
+        return;
     }
+
+    // Рассчитываем оптимальный зум
+    const resolution = view.getResolutionForExtent(extent, [
+        size[0] - padding * 2,
+        size[1] - padding * 2
+    ]);
+
+    const zoom = view.getZoomForResolution(resolution);
+
+    // Центр экстента
+    const center = ol.extent.getCenter(extent);
+
+    // Анимация перехода
+    view.animate({
+        center: center,
+        zoom: zoom - 1,
+        duration: duration
+    });
 }
 
 class LayerAtribs{

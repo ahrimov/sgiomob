@@ -384,11 +384,11 @@ function featurePropertiesScript(featureFromPage){
 
 
     function centerOnCurrentFeature(){
-        centeringOnFeature(feature);
         let navigator = document.querySelector('#myNavigator');
         navigator.popPage({times: navigator.pages.length - 1});
         map.localMap = false;
         layer.changed();
+        centeringOnFeature(feature);
         selectFeature(feature);
     }
 
