@@ -692,3 +692,32 @@ function parseBaseRasterLayers(jsonArray){
         });
     });
 }
+
+function readConfigFile(filePath) {
+    return new Promise((resolve, reject) => {
+        window.resolveLocalFileSystemURL(filePath, function (fileEntry) {
+            fileEntry.file(function (file) {
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    resolve(reader.result);
+                };
+                reader.onerror = reject;
+                reader.readAsText(file);
+            }, reject);
+        }, reject);
+    });
+}
+
+  // Функция для записи XML-файла
+function writeConfigFile(filePath, content) {
+    return new Promise((resolve, reject) => {
+        window.resolveLocalFileSystemURL(filePath, function (fileEntry) {
+            fileEntry.createWriter(function (fileWriter) {
+                fileWriter.onwriteend = resolve;
+                fileWriter.onerror = reject;
+                const blob = new Blob([content], { type: 'text/xml' });
+                fileWriter.write(blob);
+            }, reject);
+        }, reject);
+    });
+}

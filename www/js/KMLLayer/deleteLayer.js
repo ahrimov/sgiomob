@@ -1,8 +1,13 @@
 function deleteLayer(layerID) {
     const layer = findLayer(layerID);
     const fileUri = layer.get('fileUri');
+    const fileName = fileUri.split('/').pop();
+    console.log("filename ", fileName);
 
-    deleteFile(fileUri).then(() => {
+    Promise.all([
+        deleteFile(fileUri),
+        updateConfigFile(fileName)
+    ]).then(() => {
         map.removeLayer(layer);
 
         layers = layers.filter(layer => layer.id !== layerID);
@@ -24,5 +29,39 @@ function deleteFile(filePath) {
         }, (error) => {
             reject(`Файл не найден: ${error.message}`);
         });
+    });
+}
+
+// Вспомогательная функция для обновления конфига
+function updateConfigFile(fileName) {
+    const pathToConfig = root_directory + "config.xml";
+    
+    return readConfigFile(pathToConfig).then(data => {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(data, 'application/xml');
+        
+        const storageNode = xmlDoc.querySelector('storage KML');
+        if (!storageNode) {
+            console.error('Тег <KML> не найден в конфигурационном файле.');
+            return;
+        }
+
+        let kmlFilesNode = storageNode.querySelector('KMLFiles');
+        if (!kmlFilesNode) return; // Если нет узла KMLFiles, ничего не делаем
+
+        // Удаляем файл из списка
+        const existingFiles = kmlFilesNode.textContent.split('|')
+            .filter(file => file.trim() !== '' && file !== fileName);
+        
+        kmlFilesNode.textContent = existingFiles.join('|');
+
+        // Сериализуем и сохраняем
+        const serializer = new XMLSerializer();
+        const updatedXml = serializer.serializeToString(xmlDoc);
+        
+        return writeConfigFile(pathToConfig, updatedXml);
+    }).catch(error => {
+        console.error('Ошибка при обновлении конфига:', error);
+        throw error;
     });
 }

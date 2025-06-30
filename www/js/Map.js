@@ -107,11 +107,7 @@ function centeringOnFeature(feature){
             return;
         default:
             const extent = geometry.getExtent();
-            const delta = 0.2;
-            const deltaX = (extent[2] - extent[0])*delta;
-            const deltaY = (extent[3] - extent[1])*delta;
-            const extendExtent = [extent[0] - deltaX, extent[1] - deltaY, extent[2] + deltaX, extent[3] + deltaY];
-            map.getView().fit(extendExtent); 
+            map.getView().fit(extent, { size: map.getSize(), minResolution: 7 }); 
             return;
     }
 }

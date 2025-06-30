@@ -216,20 +216,4 @@ async function getKmlLayerFiles() {
     const kmlFiles = kmlFilesNode.textContent.split('|').filter(file => file.trim() !== '');
     console.log(`Найдены KML файлы в конфиге: ${kmlFiles.join(', ')}`);
     return kmlFiles;
-
-    
-    function readConfigFile(filePath) {
-        return new Promise((resolve, reject) => {
-            window.resolveLocalFileSystemURL(filePath, function (fileEntry) {
-                fileEntry.file(function (file) {
-                    const reader = new FileReader();
-                    reader.onloadend = function () {
-                        resolve(reader.result);
-                    };
-                    reader.onerror = reject;
-                    reader.readAsText(file);
-                }, reject);
-            }, reject);
-        });
-    }
 }
