@@ -126,6 +126,9 @@ function changeVisible(element) {
             label: 'Добавить объект',
           },
           {
+            label: 'Изменить стиль',
+          },
+          {
             label: 'Сохранить слой',
           },
           {
@@ -150,12 +153,18 @@ function changeVisible(element) {
             }
           }
           if (index === 2) {
+            document.querySelector('#myNavigator').pushPage('./views/styleEditor.html', { data: {
+              layer: layer,
+              callback: () => {},
+            }});
+          }
+          if (index === 3) {
             saveKMLToFile(layerID);
           }
-          if(index === 3){
+          if(index === 4) {
             clearLayer(layerID);
           }
-          if (index === 4) {
+          if (index === 5) {
             deleteLayer(layerID);
           }
       });

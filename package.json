@@ -17,11 +17,13 @@
         "cordova-check-screen-lock": "^0.2.0",
         "cordova-plugin-android-permissions": "^1.1.5",
         "cordova-plugin-camera": "^6.0.0",
+        "cordova-plugin-color-picker": "^1.0.0",
         "cordova-plugin-device-orientation": "^2.0.1",
         "cordova-plugin-file": "^7.0.0",
         "cordova-plugin-filechooser": "^1.2.0",
         "cordova-plugin-filepath": "^1.6.0",
         "cordova-plugin-geolocation": "^4.1.0",
+        "cordova-plugin-haptic": "^1.0.0",
         "cordova-plugin-intent": "^0.1.2",
         "cordova-plugin-permission": "^0.1.0",
         "cordova-plugin-saf-mediastore": "^1.0.10",
@@ -57,7 +59,12 @@
             "com.napolitano.cordova.plugin.intent": {},
             "cordova-plugin-filechooser": {},
             "cordova-plugin-filepath": {},
-            "cordova-plugin-saf-mediastore": {}
+            "cordova-plugin-saf-mediastore": {},
+            "cordova-plugin-haptic": {},
+            "cordova-plugin-color-picker": {}
         }
+    },
+    "dependencies": {
+        "@material/mwc-select": "^0.27.0"
     }
 }

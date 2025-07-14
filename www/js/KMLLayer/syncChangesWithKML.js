@@ -116,13 +116,13 @@ function syncChangesWithKML(layerId, succes, onError) {
         saveFile(path, fileName, newKMLContent, () => {
             console.log('Успешное сохранение данных в файл: ' + fileName);
             if (succes) succes();
-          }, (error) => {
+        }, (error) => {
             ons.notification.alert({
                 title:'Внимание',
                 message:'Произошла ошибка при сохранение данных.',
             });
             if (onError) onError(error);
-          });
+        });
     });
 }
 

@@ -1,4 +1,4 @@
-function createModalSelect(dict, element_id, selected=null){
+function createModalSelect(dict, element_id, selected=null, hasSearch=true){
     let element = document.getElementById(element_id);
     element.disabled = true;
     element.disabled = false;
@@ -6,13 +6,25 @@ function createModalSelect(dict, element_id, selected=null){
         .then(function(dialog){
             let content = document.getElementById('select-list');
             showList(dict, content, selected);
-            dialog.onDeviceBackButton = () => {hideDialog('modal-select');}
-            let input = document.getElementById('select-search');
-            input.oninput = function(){
-                content.innerHTML = '';
-                showList(dict, content, selected, input.value);
-            }     
-            dialog.show()
+            dialog.onDeviceBackButton = () => { hideDialog('modal-select') }
+
+            if (hasSearch) {
+                const searchContainer = document.getElementById('select-search-container');
+                const searchInput = document.createElement('ons-list-item');
+                searchInput.className = 'select-search';
+                searchInput.innerHTML = `
+                    <ons-input id="select-search" placeholder="Поиск"></ons-input>
+                `;
+                searchContainer.appendChild(searchInput);
+
+                const input = document.getElementById('select-search');
+                input.oninput = function() {
+                    content.innerHTML = '';
+                    showList(dict, content, selected, input.value);
+                };
+            }
+ 
+            dialog.show();
         })
     
     function showList(dict, content, selected, filter=null){
@@ -29,9 +41,12 @@ function createModalSelect(dict, element_id, selected=null){
 }
 
 function returnSelectedValue(key, element_id){
-    let element = document.getElementById(element_id);
-    element.value = key;
+    const selectElement = document.getElementById(element_id);
+    selectElement.value = key;
     hideDialog('modal-select');
+
+    const event = new Event('change', { bubbles: true });
+    selectElement.dispatchEvent(event);
 }
 
 function callModalSelectWithLayerAtribs(layer_id, atribName, element_id){

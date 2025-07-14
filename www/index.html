@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="./css/about.css" type="text/css">
         <link rel="stylesheet" href="./css/modalSelect.css" type="text/css">
         <link rel="stylesheet" href="./css/notification.css" type="text/css">
+        <link rel="stylesheet" href="./css/styleEditor.css" type="text/css">
 
         <!--  CSS Buttons -->
         <link rel="stylesheet" href="./css/Buttons/Crosshair.css" type="text/css">
@@ -83,6 +84,8 @@
         <script src="./js/KMLLayer/addExistingKmlLayers.js"></script>
         <script src="./js/KMLLayer/saveKMLToFile.js"></script>
         <script src="./js/KMLLayer/deleteLayer.js"></script>
+        <script src="./js/KMLLayer/updateLayerStyle.js"></script>
+        <script src="./js/KMLLayer/loadLayerStyle.js"></script>
 
         <!-- JS Page scripts -->
         <script src="./js/pageScripts/featurePropertiesScript.js"></script>
@@ -90,6 +93,7 @@
         <script src="./js/pageScripts/layersScript.js"></script>
         <script src="./js/pageScripts/newFeatureScript.js"></script>
         <script src="./js/pageScripts/featuresScript.js"></script>
+        <script src="./js/pageScripts/styleEditorScript.js"></script>
 
         <!-- JS Modal Window scripts -->
         <script src="./js/modals/ManualInputCoordinatesDialog.js" type="text/javascript" ></script>
@@ -133,9 +137,7 @@
                       </div>
                   </ons-toolbar>
                   <div class="modal-select">
-                    <ons-list-item class="select-search">
-                      <ons-input id="select-search" placeholder="Поиск"></ons-input>
-                    </ons-list-item>
+                    <div id="select-search-container"></div>
                       <ons-list id="select-list">
                         
                       </ons-list>

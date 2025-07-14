@@ -11,6 +11,7 @@ async function addExistingKMLLayers() {
             let descrLayerId = file;
 
             const kmlContent = await readFileContent(folderPath + file);
+            console.log(kmlContent);
             const features = format.readFeatures(kmlContent, 
                 { dataProjection: 'EPSG:4326', featureProjection: mapProjection }
             );
@@ -69,57 +70,12 @@ async function addExistingKMLLayers() {
             }
 
             newLayer.geometryType = geometryType;
-            let style = new ol.style.Style({
-                stroke: new ol.style.Stroke({
-                  color: '#fa2375',
-                  width: 3,
-                }),
-            });
-            switch (geometryType) {
-                case 'Point':
-                    style =  new ol.style.Style({
-                        image: new ol.style.Circle({
-                            fill: new ol.style.Fill({color: generateColor()}),
-                            radius: 3
-                        }),
-                        text: new ol.style.Text({
-                            fill: new ol.style.Fill({color: '#000000'})
-                        })
-                    });
-                    break;
-                case 'LineString': 
-                    style = new ol.style.Style({
-                        stroke: new ol.style.Stroke({
-                            color: generateColor(),
-                            width: 2
-                        }),
-                        text: new ol.style.Text({
-                            fill: new ol.style.Fill({color: '#000000'})
-                        })
-                    });
-                    break;
-                case 'Polygon':
-                    style = new ol.style.Style({
-                        fill: new ol.style.Fill({
-                            color: generateColor()
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: 'rgb(0,0,0)',
-                            width: 1
-                        }),
-                        text: new ol.style.Text({
-                            fill: new ol.style.Fill({color: '#000000'})
-                        })
-                    });
-                    break;
-            }
-            newLayer.setStyle(style);
-            features.forEach(feature => {
-                feature.setStyle(style);
-            });
+
+            loadKMLLayerStyle(newLayer, kmlContent, geometryType);
+
+            newLayer.set('fileUri', media_directory + tempKMLDir + '/' + innerLayerId);
             newLayer.visible = true;
             newLayer.set('kmlType', true);
-            newLayer.set('fileUri', media_directory + tempKMLDir + '/' + innerLayerId);
             newLayer.atribs = layerAtribs;
             newLayer.enabled = true;
 

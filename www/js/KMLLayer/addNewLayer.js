@@ -75,6 +75,7 @@ function addNewLayer() {
             }
           }
         });
+        
         newLayer.id = innerLayerId;
         newLayer.label = descrLayerId;
         const geometryType = features[0].getGeometry().getType();
@@ -88,6 +89,7 @@ function addNewLayer() {
             width: 3,
           }),
         });
+
         switch (geometryType) {
           case 'Point':
               style =  new ol.style.Style({
@@ -125,32 +127,40 @@ function addNewLayer() {
                   })
               });
               break;
-      }
+        }
+
         newLayer.setStyle(style);
         features.forEach(feature => {
           feature.setStyle(style);
         });
         const firstFeature = features[0];
         const layerKeys = firstFeature.getKeys()
-        const layerAtribs = layerKeys.filter(key => key !== 'geometry').map((key) => { return { name: key, label: key, visible: true } });
+        const layerAtribs = layerKeys.filter(key => key !== 'geometry' && key !== 'styleUrl').map((key) => { return { name: key, label: key, visible: true } });
         newLayer.atribs = layerAtribs;
         newLayer.enabled = true;
-        
-        
+
         window.resolveLocalFileSystemURL(media_directory, function(rootDirEntry){
           rootDirEntry.getDirectory(tempKMLDir, { create: true }, function(dirEntry){
             const path = media_directory + tempKMLDir + '/';
             const fileName = innerLayerId;
             const text_ = text;
             saveFile(path, fileName, text_, () => {
-              layers.push(newLayer);
-              map.addLayer(newLayer);
-              updatingVectorList();
-              ons.notification.alert({ title: 'Внимание', message: 'Добавлен новый kml-слой.' });
+
+              document.querySelector('#myNavigator').pushPage('./views/styleEditor.html', { data: {
+                layer: newLayer,
+                callback: () => {
+                  layers.push(newLayer);
+                  map.addLayer(newLayer);
+                  updatingVectorList();
+                  ons.notification.alert({ title: 'Внимание', message: 'Добавлен новый kml-слой.' });
+                },
+              }});
+
             }, onError);
             addKMLLayerFileToConfig(innerLayerId);
           });
         }, onError);
+        
       });
     }, { "mime": ".kml,application/vnd.google-earth.kml+xml" }); 
     
