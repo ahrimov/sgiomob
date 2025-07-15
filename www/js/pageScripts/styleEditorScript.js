@@ -17,7 +17,7 @@ function styleEditor(layer, callback) {
 
     const defaultStyle = getDefaultStyleFromLayer(layer);
 
-    const styleUpdater = (() => {
+    const stylePointUpdater = (() => {
         let currentStyle = new ol.style.Style();
         let currentImage = defaultStyle.getImage();
         currentStyle.setImage(currentImage);
@@ -117,59 +117,146 @@ function styleEditor(layer, callback) {
         };
     })();
 
+    const styleLineUpdater = (() => {
+        const currentStyle = defaultStyle;
+        const DASH_RATIO = 3;
+
+        return {
+            updatePattern(pattern) {
+                const stroke = currentStyle.getStroke();
+                const width = stroke.getWidth();
+                if (pattern === 'dotted') {
+                    const dashLength = Math.max(2, width * DASH_RATIO);
+                    stroke.setLineDash([dashLength, dashLength]);
+                } else {
+                    stroke.setLineDash(null);
+                }
+                currentStyle.setStroke(stroke);
+                previewFeature.setStyle(currentStyle);
+            },
+
+            updateSize(size) {
+                const stroke = currentStyle.getStroke();
+
+                if (stroke.getLineDash()) {
+                    const dashLength = Math.max(2, size * DASH_RATIO);
+                    stroke.setLineDash([dashLength, dashLength]);
+                }
+
+                stroke.setWidth(size);
+                currentStyle.setStroke(stroke);
+                previewFeature.setStyle(currentStyle);
+            },
+
+            updateColor(color) {
+                const stroke = currentStyle.getStroke();
+                stroke.setColor(color);
+                currentStyle.setStroke(stroke);
+                previewFeature.setStyle(currentStyle);
+            }
+        }
+    })();
+
     switch (geometryType) {
         case 'Point':
          case 'MultiPoint':
             createPointEditor();
+            break;
+        case 'LineString':
+          case 'MultiLineString':
+            createLineStringEditor();
             break;
         default:
             break;
     }
 
     setTimeout(() => {
-        applyDefaultStyleValues(defaultStyle);
+
+        switch (geometryType) {
+            case 'Point':
+            case 'MultiPoint':
+                initPointStyleEditor();
+                break;
+            case 'LineString':
+            case 'MultiLineString':
+                initLineStyleEditor()
+                break;
+            default: break;
+        }
+
+        const saveButton = document.getElementById('saveLayerStyle');
+        saveButton.addEventListener('click', () => saveStyle(layer, geometryType, callback));
+
+        const cancelButton = document.getElementById('backButtonStyleEditor');
+        cancelButton.addEventListener('click', () => closeStylePage(callback));
+    
+        const backButton = document.getElementById('style-editor-back-button');
+        backButton.addEventListener('click', () => closeStylePage(callback));
+    }, 0);
+
+    function initPointStyleEditor () {
+        applyDefaultPointStyleValues(defaultStyle);
 
         const selectElement = document.getElementById('style-select-shape');
         const event = new Event('change', { bubbles: true });
         selectElement.dispatchEvent(event);
 
         document.getElementById('style-select-shape')?.addEventListener('change', (e) => {
-            styleUpdater.updateShape(e.target.value);
+            stylePointUpdater.updateShape(e.target.value);
         });
 
         document.getElementById('style-input-size')?.addEventListener('change', (e) => {
-            styleUpdater.updateSize(parseInt(e.target.value) ?? 10);
+            stylePointUpdater.updateSize(parseInt(e.target.value) ?? 10);
         });
 
         document.getElementById('color-input')?.addEventListener('change', (e) => {
-            styleUpdater.updateColor(e.target.value);
+            stylePointUpdater.updateColor(e.target.value);
         });
 
         document.getElementById('style-input-border')?.addEventListener('change', (e) => {
-            styleUpdater.updateBorderSize(parseInt(e.target.value) ?? 0);
+            stylePointUpdater.updateBorderSize(parseInt(e.target.value) ?? 0);
         });
 
         document.getElementById('border-color-input')?.addEventListener('change', (e) => {
-            styleUpdater.updateBorderColor(e.target.value);
+            stylePointUpdater.updateBorderColor(e.target.value);
+        });
+    }
+
+    function initLineStyleEditor() {
+        applyDefaultLineStyleValues(defaultStyle);
+
+        const selectElement = document.getElementById('style-select-pattern');
+        const event = new Event('change', { bubbles: true });
+        selectElement.dispatchEvent(event);
+
+        document.getElementById('style-select-pattern')?.addEventListener('change', (e) => {
+            styleLineUpdater.updatePattern(e.target.value);
         });
 
-        const saveButton = document.getElementById('saveLayerStyle');
-        saveButton.addEventListener('click', () => savePointStyle(layer, geometryType, callback));
+        document.getElementById('style-input-size')?.addEventListener('change', (e) => {
+            styleLineUpdater.updateSize(parseInt(e.target.value) ?? 1);
+        });
 
-        const cancelButton = document.getElementById('backButtonStyleEditor');
-        cancelButton.addEventListener('click', () => closeStylePage(callback));
-    }, 0);
+        document.getElementById('color-input')?.addEventListener('change', (e) => {
+            styleLineUpdater.updateColor(e.target.value);
+        });
+    }
 
 
-    function savePointStyle(layer, geometryType, callback) {
-        let style;
+    function saveStyle(layer, geometryType, callback) {
+        const style = previewFeature.getStyle();
         let styleSettings;
         switch (geometryType) {
             case 'Point':
             case 'MultiPoint':
-                style = previewFeature.getStyle();
                 styleSettings = getPointStyleSettings();
                 break;
+            case 'LineString':
+            case 'MultiLineString':
+                styleSettings = getLineStyleSettings();
+                console.log(styleSettings);
+                break;
+            default: break;
         }
 
         const features = layer.getSource().getFeatures();
@@ -192,6 +279,8 @@ function styleEditor(layer, callback) {
 
     function closeStylePage(callback) {
         layer.getSource().removeFeature(previewFeature);
+        previewMap.removeLayer(layer);
+        previewMap.renderSync();
 
         const navigator = document.querySelector('#myNavigator');
         navigator.popPage({ times: 1 });
@@ -199,13 +288,27 @@ function styleEditor(layer, callback) {
     }
 }
 
-function getDefaultStyleFromLayer(layer) {
+function getDefaultStyleFromLayer(layer, geometryType) {
     const features = layer.getSource().getFeatures();
     if (features.length > 0) {
         const feature = features[0];
-        return feature.getStyle() || layer.getStyle() || createDefaultPointStyle();
+        const featureStyle = feature.getStyle().clone() || layer.getStyle().clone();
+        if (!featureStyle) {
+            switch (geometryType) {
+                case 'Point': return createDefaultPointStyle();
+                case 'LineString': return createDefaultLineStyle();
+                case 'Polygon': return createDefaultPolygonStyle();
+                default: return null;
+            }
+        }
+        return feature.getStyle().clone() || layer.getStyle().clone();
     }
-    return createDefaultPointStyle();
+    switch (geometryType) {
+        case 'Point': return createDefaultPointStyle();
+        case 'LineString': return createDefaultLineStyle();
+        case 'Polygon': return createDefaultPolygonStyle();
+        default: return null;
+    };
 }
 
 function createDefaultPointStyle() {
@@ -223,7 +326,28 @@ function createDefaultPointStyle() {
     });
 }
 
-function applyDefaultStyleValues(style) {
+function createDefaultLineStyle() {
+    return new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: '#000000',
+            width: 1,
+        })
+    })
+}
+
+function createDefaultPolygonStyle() {
+    return new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: '#000000',
+            width: 1,
+        }),
+        fill: new ol.style.Fill({
+            color: '#000000',
+        })
+    })
+}
+
+function applyDefaultPointStyleValues(style) {
     if (!style) return;
 
     const image = style.getImage();
@@ -279,10 +403,50 @@ function applyDefaultStyleValues(style) {
     }
 }
 
+function applyDefaultLineStyleValues(style) {
+    if (!style) return;
+
+    const stroke = style.getStroke();
+    if (!stroke) return;
+
+    const lineDash = stroke.getLineDash();
+    let patternType = 'solid';
+    if (lineDash && lineDash.length > 0) {
+        patternType = 'dotted';
+    }
+
+    const patternSelect = document.getElementById('style-select-pattern');
+    if (patternSelect) patternSelect.value = patternType;
+
+    const sizeInput = document.getElementById('style-input-size');
+    if (sizeInput) {
+        sizeInput.value = stroke.getWidth() || 1;
+        const event = new Event('change', { bubbles: true });
+        sizeInput.dispatchEvent(event);
+    }
+
+    const colorInput = document.getElementById('color-input');
+    if (colorInput) {
+        const strokeColor = olColorToHex(stroke.getColor());
+        colorInput.value = strokeColor || '#000000';
+        
+        const preview = document.getElementById('point-color-preview');
+        if (preview) {
+            preview.setAttribute('fill', stroke.getColor() || '#000000');
+        }
+    }
+}
+
 function handleClickStyleShape(_) {
     const dict = { 'circle': 'Круг', 'square': 'Квадрат', 'triangle': 'Треугольник' };
     const selected = document.getElementById('style-select-shape').value;
     createModalSelect(dict, 'style-select-shape', selected, false);
+}
+
+function handleClickStylePattern(_) {
+    const dict = { 'solid': 'Сплошная', 'dotted': 'Пунктирная', };
+    const selected = document.getElementById('style-select-pattern').value;
+    createModalSelect(dict, 'style-select-pattern', selected, false);
 }
 
 function handleEditStyleShape(event) {
@@ -296,6 +460,18 @@ function handleEditStyleShape(event) {
     const icon = document.getElementById('style-select-icon');
 
     icon.innerHTML = shapes[value];
+}
+
+function handleEditStylePattern(event) {
+    const patterns = {
+        solid: '<line x1="20" y1="100" x2="180" y2="100" stroke="#000000" stroke-width="8"/>',
+        dotted: '<line x1="20" y1="100" x2="180" y2="100" stroke="#000000" stroke-width="6" stroke-dasharray="12,6"/>'
+    };
+
+    const value = event.target.value;
+    const icon = document.getElementById('style-select-icon');
+
+    icon.innerHTML = patterns[value];
 }
 
 function createPreviewFeature(geometryType) {
@@ -322,6 +498,12 @@ function createPointEditor() {
     const template = document.querySelector('#point-editor');
     const cloneNode = template.content.cloneNode(true);
     document.querySelector('#style-editor-content').appendChild(cloneNode);
+}
+
+function createLineStringEditor() {
+    const template = document.querySelector('#line-editor');
+    const cloneNode = template.content.cloneNode(true);
+    document.querySelector('#style-editor-content').appendChild(cloneNode); 
 }
 
 function decrementInput(inputId, min = 0) {
@@ -360,13 +542,13 @@ function handleCustomInput(event, inputId, incrementControlId, decrementControlI
     const incrementControl = document.getElementById(incrementControlId);
     const decrementControl = document.getElementById(decrementControlId);
 
-    if (value === min) {
+    if (value <= min) {
         decrementControl.classList.add('disabled');
     } else if (decrementControl.classList.contains('disabled')) {
         decrementControl.classList.remove('disabled');
     }
 
-    if (value === max) {
+    if (value >= max) {
         incrementControl.classList.add('disabled');
     } else if (incrementControl.classList.contains('disabled')) {
         incrementControl.classList.remove('disabled');
@@ -402,89 +584,12 @@ function getPointStyleSettings() {
     return { shape, size, color, borderSize, borderColor };
 }
 
-function createNewStyle() {
-    const { shape, size, color, borderSize, borderColor } = getPointStyleSettings();
+function getLineStyleSettings() {
+    const pattern = document.getElementById('style-select-pattern')?.value;
+    const size = document.getElementById('style-input-size')?.value;
+    const color = document.getElementById('color-input')?.value;
 
-    let imageStyle;
-    if (shape === 'circle') {
-        imageStyle = new ol.style.Circle({
-            radius: size,
-            fill: new ol.style.Fill({ color }),
-            stroke: new ol.style.Stroke({ color: borderColor, width: borderSize })
-        });
-    } else if (shape === 'square') {
-        imageStyle = new ol.style.RegularShape({
-            points: 4,
-            radius: size,
-            angle: Math.PI / 4,
-            fill: new ol.style.Fill({ color }),
-            stroke: new ol.style.Stroke({ color: borderColor, width: borderSize })
-        });
-    } else if (shape === 'triangle') {
-        imageStyle = new ol.style.RegularShape({
-            points: 3,
-            radius: size,
-            rotation: Math.PI / 4,
-            angle: 0,
-            fill: new ol.style.Fill({ color }),
-            stroke: new ol.style.Stroke({ color: borderColor, width: borderSize })
-        });
-    }
-
-    return new ol.style.Style({ image: imageStyle });
-}
-
-function updateExistingStyle(style) {
-    const { shape, size, color, borderSize, borderColor } = getPointStyleSettings();
-
-    const image = style.getImage();
-
-    if (shape === 'circle' && image instanceof ol.style.Circle) {
-        image.setRadius(size);
-        image.getFill().setColor(color);
-    } else if (shape === 'square' && image instanceof ol.style.RegularShape) {
-        image.setRadius(size);
-        image.setFill(new ol.style.Fill({ color }));
-    } else if (shape === 'triangle' && image instanceof ol.style.RegularShape) {
-        image.setRadius(size);
-        image.setFill(new ol.style.Fill({ color }));
-    } else {
-        // Если тип фигуры изменился, создаём новое изображение
-        const newImage = createImageForShape(shape, size, color, borderSize, borderColor);
-        style.setImage(newImage);
-    }
-    if (borderSize) {
-        image.setStroke(new ol.style.Stroke({ color: borderColor, width: borderSize }));
-    }
-}
-
-function createImageForShape(shape, size, color, borderSize, borderColor) {
-    if (shape === 'circle') {
-        return new ol.style.Circle({
-            radius: size,
-            fill: new ol.style.Fill({ color }),
-            stroke: new ol.style.Stroke({ color: borderColor, width: borderSize })
-        });
-    } else if (shape === 'square') {
-        return new ol.style.RegularShape({
-            points: 4,
-            radius: size,
-            angle: Math.PI / 4,
-            fill: new ol.style.Fill({ color }),
-            stroke: new ol.style.Stroke({ color: borderColor, width: borderSize })
-        });
-    } else if (shape === 'triangle') {
-        return new ol.style.RegularShape({
-            points: 3,
-            radius: size,
-            rotation: Math.PI / 4,
-            angle: 0,
-            fill: new ol.style.Fill({ color }),
-            stroke: new ol.style.Stroke({ color: borderColor, width: borderSize })
-        });
-    }
-
-    return null;
+    return { pattern, size, color };
 }
 
 function olColorToHex(color) {

@@ -2,7 +2,7 @@
     <ons-toolbar>
         <div class="left">
           <ons-toolbar-button>
-              <ons-back-button>Back</ons-back-button>
+              <ons-back-button id="style-editor-back-button">Back</ons-back-button>
           </ons-toolbar-button>
         </div>
         <div class="center toolbar-label">
@@ -118,6 +118,60 @@
             <div class="form-select">
                 <label for="border-color-input" class="style-field-label">Цвет штриха</label>
                 <ons-input id="border-color-input" class="style-input-field" onclick="showColorPicker('border-color-input', 'point-border-color-preview')" readonly></ons-input>
+            </div>
+        </div>
+      </template>
+
+      <template id="line-editor">
+        <div class="style-editor-field">
+            <div class="style-icon">
+                <svg id="style-select-icon" viewBox="0 0 200 200" width="24" height="24"></svg>
+            </div>
+            <div class="form-select">
+                <label for="style-select-shape" class="style-field-label">Шаблон</label>
+                <ons-select id="style-select-pattern" class="style-select-field" onclick="handleClickStylePattern(event)" onchange="handleEditStylePattern(event)">
+                    <option value="solid">Сплошная</option>
+                    <option value="dotted">Пунктирная</option>
+                </ons-select>
+            </div>
+        </div> 
+
+        <div class="style-editor-field">
+            <div class="style-icon">
+                <img src="../resources/split-vertical.png" width="24" height="24"></img>
+            </div>
+            <div class="form-select">
+                <label for="style-input-size" class="style-field-label">Ширина</label>
+                <ons-input 
+                    id="style-input-size" 
+                    class="style-input-field" 
+                    type="number" 
+                    max="20" 
+                    min="1" 
+                    value="1" 
+                    onchange="handleCustomInput(event, 'style-input-size', 'increment-style-size', 'decrement-style-size', 1, 20)">
+                </ons-input>
+                <div class="input-buttons">
+                    <div id="decrement-style-size" onclick="decrementInput('style-input-size')" class="input-button-container">
+                        <img src="../resources/minus.png" class="input-button-icon">
+                    </div>
+                    <div id="increment-style-size" onclick="incrementInput('style-input-size')" class="input-button-container">
+                        <img src="../resources/plus.png" class="input-button-icon">
+                    </div>
+                </div>
+                <span>пикс.</span>
+            </div>
+        </div>
+
+        <div class="style-editor-field">
+            <div class="style-icon">
+                <svg id="style-select-icon" viewBox="0 0 200 200" width="24" height="24">
+                    <circle id="point-color-preview" cx="100" cy="100" r="80" fill="#000000"/>
+                </svg>
+            </div>
+            <div class="form-select">
+                <label for="color-input" class="style-field-label">Цвет</label>
+                <ons-input id="color-input" class="style-input-field" onclick="showColorPicker('color-input', 'point-color-preview')" readonly></ons-input>
             </div>
         </div>
       </template>

@@ -63,6 +63,7 @@ function getDefaultKMLStyle(geometryType) {
 }
 
 function parseLayerStyleFromKML(layer, xmlDoc) {
+    const geometryType = layer.geometryType;
     const styleId = layer.get('id') + '_style';
     const styleNode = xmlDoc.querySelector(`Style[id="${styleId}"]`);
 
@@ -81,69 +82,102 @@ function parseLayerStyleFromKML(layer, xmlDoc) {
         return data ? data.querySelector('value')?.textContent : null;
     };
 
-    // Парсим только те параметры, которые мы записываем при сохранении
-    const shape = getStyleValue('ol_style_shape') || 'circle';
-    const radius = parseInt(getStyleValue('ol_style_radius')) || 10;
-    const fillColor = getStyleValue('ol_style_fill_color') || '#000000';
-    const strokeColor = getStyleValue('ol_style_stroke_color') || '#000000';
-    const strokeWidth = parseInt(getStyleValue('ol_style_stroke_width')) || 1;
-
-    // Вспомогательные параметры по умолчанию
-    let points = 0;
-    let radius2 = undefined;
-    let angle = 0;
-
-    // Определяем параметры в зависимости от типа фигуры
-    switch (shape) {
-        case 'circle':
-            return new ol.style.Style({
-                image: new ol.style.Circle({
-                    radius: radius,
-                    fill: new ol.style.Fill({ color: fillColor }),
-                    stroke: new ol.style.Stroke({
-                        color: strokeColor,
-                        width: strokeWidth
-                    })
-                })
-            });
-
-        case 'square':
-            points = 4;
-            angle = Math.PI / 4; // квадрат без поворота
-            break;
-
-        case 'triangle':
-            points = 3;
-            angle = 0; // небольшой поворот для правильного отображения
-            break;
-
-        case 'star':
-            points = 5;
-            radius2 = radius / 2; // внутренний радиус звезды
-            angle = Math.PI / 2; // центральная точка звезды
-            break;
-
-        default:
-            // если неизвестная фигура — по умолчанию квадрат
-            points = 4;
-            angle = 0;
-            break;
+    switch (geometryType) {
+        case 'Point':
+        case 'MultiPoint':
+            return parsePointStyle();
+        case 'LineString':
+        case 'MultiLineString':
+            return parseLineStyle();
+        default: return;
     }
 
-    // Для всех фигур кроме circle создаём RegularShape
-    return new ol.style.Style({
-        image: new ol.style.RegularShape({
-            points: points,
-            radius: radius,
-            radius2: radius2, // только для звезды
-            angle: angle,
-            fill: new ol.style.Fill({ color: fillColor }),
-            stroke: new ol.style.Stroke({
-                color: strokeColor,
-                width: strokeWidth
+    function parsePointStyle() {
+        const shape = getStyleValue('ol_style_shape') || 'circle';
+        const radius = parseInt(getStyleValue('ol_style_radius')) || 10;
+        const fillColor = getStyleValue('ol_style_fill_color') || '#000000';
+        const strokeColor = getStyleValue('ol_style_stroke_color') || '#000000';
+        const strokeWidth = parseInt(getStyleValue('ol_style_stroke_width')) || 1;
+
+        // Вспомогательные параметры по умолчанию
+        let points = 0;
+        let radius2 = undefined;
+        let angle = 0;
+
+        // Определяем параметры в зависимости от типа фигуры
+        switch (shape) {
+            case 'circle':
+                return new ol.style.Style({
+                    image: new ol.style.Circle({
+                        radius: radius,
+                        fill: new ol.style.Fill({ color: fillColor }),
+                        stroke: new ol.style.Stroke({
+                            color: strokeColor,
+                            width: strokeWidth
+                        })
+                    })
+                });
+
+            case 'square':
+                points = 4;
+                angle = Math.PI / 4; // квадрат без поворота
+                break;
+
+            case 'triangle':
+                points = 3;
+                angle = 0; // небольшой поворот для правильного отображения
+                break;
+
+            case 'star':
+                points = 5;
+                radius2 = radius / 2; // внутренний радиус звезды
+                angle = Math.PI / 2; // центральная точка звезды
+                break;
+
+            default:
+                // если неизвестная фигура — по умолчанию квадрат
+                points = 4;
+                angle = 0;
+                break;
+        }
+
+        // Для всех фигур кроме circle создаём RegularShape
+        return new ol.style.Style({
+            image: new ol.style.RegularShape({
+                points: points,
+                radius: radius,
+                radius2: radius2, // только для звезды
+                angle: angle,
+                fill: new ol.style.Fill({ color: fillColor }),
+                stroke: new ol.style.Stroke({
+                    color: strokeColor,
+                    width: strokeWidth
+                })
             })
-        })
-    });
+        });
+    }
+
+    function parseLineStyle() {
+        const pattern = getStyleValue('ol_style_pattern') || 'solid';
+        const color = getStyleValue('ol_style_color') || '#000000';
+        const width = parseInt(getStyleValue('ol_style_width')) || 1;
+
+        // Создаем массив для lineDash в зависимости от типа линии
+        let lineDash = null;
+        if (pattern === 'dotted') {
+            const dashLength = Math.max(2, width * 3);
+            lineDash = [dashLength, dashLength];
+        } 
+        // Для 'solid' lineDash остается null
+
+        return new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: color,
+                width: width,
+                lineDash: lineDash
+            })
+        });
+    }
 }
 
 /**

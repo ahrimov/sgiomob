@@ -24,6 +24,7 @@ function handleStyleUpdate(layer) {
 
 function updateLayerStyleInKML(layer, xmlDoc) {
     const styleSettings = layer.styleSettings;
+    const geometryType = layer.geometryType;
     if (!styleSettings) return;
 
     const styleId = layer.get('id') + '_style';
@@ -51,14 +52,27 @@ function updateLayerStyleInKML(layer, xmlDoc) {
         extendedData.appendChild(data);
     };
 
-    // Основные параметры стиля из styleSettings
-    addStyleData('ol_style_shape', styleSettings.shape || 'circle');
-    addStyleData('ol_style_radius', parseInt(styleSettings.size) || 10);
-    addStyleData('ol_style_fill_color', styleSettings.color || '#000000');
+    switch (geometryType) {
+        case 'Point':
+        case 'MultiPoint':
+            addStyleData('ol_style_shape', styleSettings.shape || 'circle');
+            addStyleData('ol_style_radius', parseInt(styleSettings.size) || 10);
+            addStyleData('ol_style_fill_color', styleSettings.color || '#000000');
 
-    if (styleSettings.borderSize || styleSettings.borderColor) {
-        addStyleData('ol_style_stroke_color', styleSettings.borderColor || '#000000');
-        addStyleData('ol_style_stroke_width', parseInt(styleSettings.borderSize) || 1);
+            if (styleSettings.borderSize || styleSettings.borderColor) {
+                addStyleData('ol_style_stroke_color', styleSettings.borderColor || '#000000');
+                addStyleData('ol_style_stroke_width', parseInt(styleSettings.borderSize) || 1);
+            } 
+            break;
+        
+        case 'LineString':
+        case 'MultiLineString':
+            addStyleData('ol_style_pattern', styleSettings.pattern || 'solid');
+            addStyleData('ol_style_color', styleSettings.color || '#000000');
+            addStyleData('ol_style_width', parseInt(styleSettings.size) || 1);
+            break;
+        default: break;
+
     }
 
     styleNode.appendChild(extendedData);
