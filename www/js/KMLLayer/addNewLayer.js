@@ -26,8 +26,16 @@ function addNewLayer() {
         const similarLayers = layers.filter(layer => regex.test(layer.label));
         if (similarLayers?.length) descrLayerId += ('_' + similarLayers.length);
   
+        let innerFeatureId = 1;
         features.forEach(feature => {
-          feature.id = feature.get('ID');
+          if (feature.get('ID')) {
+            feature.id = feature.get('ID');
+          } else {
+             const id = innerFeatureId;
+             feature.set('ID', id);
+             feature.id = id;
+             innerFeatureId += 1; 
+          }
           feature.layerID = innerLayerId;
           feature.type = 'default';
         });

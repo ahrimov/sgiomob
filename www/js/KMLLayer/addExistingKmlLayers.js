@@ -1,89 +1,103 @@
 async function addExistingKMLLayers() {
-    const folderPath = media_directory + tempKMLDir + '/';
-    const files = await getKmlLayerFiles();
+    try {
+        const folderPath = media_directory + tempKMLDir + '/';
+        const files = await getKmlLayerFiles();
+        if (!files?.length) return;
 
-    const mapProjection = map.getView().getProjection().getCode();
-    const format = new ol.format.KML();
+        const mapProjection = map.getView().getProjection().getCode();
+        const format = new ol.format.KML();
 
-    for (const file of files) {
-        if (file.endsWith('.kml')) { // Фильтруем только KML-файлы
-            const innerLayerId = file;
-            let descrLayerId = file;
+        for (const file of files) {
+            if (!file.endsWith('.kml')) continue;
+            
+            try {
+                if (file.endsWith('.kml')) { // Фильтруем только KML-файлы
+                    const innerLayerId = file;
+                    let descrLayerId = file;
 
-            const kmlContent = await readFileContent(folderPath + file);
-            console.log(kmlContent);
-            const features = format.readFeatures(kmlContent, 
-                { dataProjection: 'EPSG:4326', featureProjection: mapProjection }
-            );
+                    const kmlContent = await readFileContent(folderPath + file);
+                    if (!kmlContent) continue;
+                    const features = format.readFeatures(kmlContent, 
+                        { dataProjection: 'EPSG:4326', featureProjection: mapProjection }
+                    );
 
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(kmlContent, "application/xml");
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(kmlContent, "application/xml");
 
-            const schemaElement = xmlDoc.querySelector("kml > Document > Schema");
-            if (schemaElement) {
-              const schemaId = schemaElement.getAttribute("id");
-              descrLayerId = schemaId;
-            }
-
-            const layerAtribs = [];
-
-            const schemaElements = xmlDoc.getElementsByTagName('Schema');
-                    
-            if (schemaElements.length > 0) {
-                const simpleFields = schemaElements[0].getElementsByTagName('SimpleField');
-                for (let i = 0; i < simpleFields.length; i++) {
-                    const name = simpleFields[i].getAttribute('name');
-                    if (name) {
-                        layerAtribs.push({ name, label: name, visible: true });
+                    const schemaElement = xmlDoc.querySelector("kml > Document > Schema");
+                    if (schemaElement) {
+                    const schemaId = schemaElement.getAttribute("id");
+                    descrLayerId = schemaId;
                     }
-                }
+
+                    const layerAtribs = [];
+
+                    const schemaElements = xmlDoc.getElementsByTagName('Schema');
+                            
+                    if (schemaElements.length > 0) {
+                        const simpleFields = schemaElements[0].getElementsByTagName('SimpleField');
+                        for (let i = 0; i < simpleFields.length; i++) {
+                            const name = simpleFields[i].getAttribute('name');
+                            if (name) {
+                                layerAtribs.push({ name, label: name, visible: true });
+                            }
+                        }
+                    }
+
+                    const regex = new RegExp(`^${descrLayerId}(_\\d)?`);
+                    const similarLayers = layers.filter(layer => regex.test(layer.label));
+                    if (similarLayers?.length) descrLayerId += ('_' + similarLayers.length);
+
+                    features.forEach(feature => {
+                        feature.id = feature.get('ID');
+                        feature.layerID = innerLayerId;
+                        feature.type = 'default';
+                    });
+                    const newLayer = new ol.layer.Vector({
+                        id: innerLayerId, 
+                        descr: descrLayerId,
+                        source: new ol.source.Vector( { features }),
+                        zIndex: minZIndexForVectorLayers,
+                        style: styleFunction,
+                    });
+                    newLayer.id = innerLayerId;
+                    newLayer.label = descrLayerId;
+
+                                
+                    let geometryType = null;
+                    const geometryTypeField = xmlDoc.querySelector('SimpleField[name="geometryType"]');
+                    if (geometryTypeField) {
+                        geometryType = geometryTypeField.getAttribute('actualType');
+                    }
+
+                    if (!geometryType && features[0].getGeometry()) {
+                        geometryType = features[0].getGeometry().getType();
+                    }
+
+                    newLayer.geometryType = geometryType;
+
+                    loadKMLLayerStyle(newLayer, kmlContent, geometryType);
+
+                    newLayer.set('fileUri', media_directory + tempKMLDir + '/' + innerLayerId);
+                    newLayer.visible = true;
+                    newLayer.set('kmlType', true);
+                    newLayer.atribs = layerAtribs;
+                    newLayer.enabled = true;
+
+                    console.log(kmlContent);
+
+                    layers.push(newLayer);
+                    map.addLayer(newLayer);
+
+                    completeLoad();
+                } 
+            } catch (error) {
+                console.error(`Error processing file ${file}:`, error);
+                completeLoad(); // Учитываем и ошибки в подсчёте
             }
-
-            const regex = new RegExp(`^${descrLayerId}(_\\d)?`);
-            const similarLayers = layers.filter(layer => regex.test(layer.label));
-            if (similarLayers?.length) descrLayerId += ('_' + similarLayers.length);
-
-            features.forEach(feature => {
-                feature.id = feature.get('ID');
-                feature.layerID = innerLayerId;
-                feature.type = 'default';
-            });
-            const newLayer = new ol.layer.Vector({
-                id: innerLayerId, 
-                descr: descrLayerId,
-                source: new ol.source.Vector( { features }),
-                zIndex: minZIndexForVectorLayers,
-                style: styleFunction,
-            });
-            newLayer.id = innerLayerId;
-            newLayer.label = descrLayerId;
-
-                        
-            let geometryType = null;
-            const geometryTypeField = xmlDoc.querySelector('SimpleField[name="geometryType"]');
-            if (geometryTypeField) {
-                geometryType = geometryTypeField.getAttribute('actualType');
-            }
-
-            if (!geometryType && features[0].getGeometry()) {
-                geometryType = features[0].getGeometry().getType();
-            }
-
-            newLayer.geometryType = geometryType;
-
-            loadKMLLayerStyle(newLayer, kmlContent, geometryType);
-
-            newLayer.set('fileUri', media_directory + tempKMLDir + '/' + innerLayerId);
-            newLayer.visible = true;
-            newLayer.set('kmlType', true);
-            newLayer.atribs = layerAtribs;
-            newLayer.enabled = true;
-
-            layers.push(newLayer);
-            map.addLayer(newLayer);
-
-            completeLoad();
         }
+    } catch (e) {
+        console.error('Error in addExistingKMLLayers:', error);
     }
 }
 

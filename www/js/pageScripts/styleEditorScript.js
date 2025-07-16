@@ -22,7 +22,8 @@ function styleEditor(layer, callback) {
     const defaultStyle = getDefaultStyleFromLayer(layer);
 
     const stylePointUpdater = (() => {
-        let currentStyle = new ol.style.Style();
+        let currentStyle = defaultStyle;
+        previewFeature.setStyle(currentStyle);
         let currentImage = defaultStyle.getImage();
         currentStyle.setImage(currentImage);
         let currentShape = styleSettings?.shape || 'circle';
@@ -123,6 +124,7 @@ function styleEditor(layer, callback) {
 
     const styleLineUpdater = (() => {
         const currentStyle = defaultStyle;
+        previewFeature.setStyle(currentStyle);
         const DASH_RATIO = 3;
 
         return {
@@ -163,6 +165,7 @@ function styleEditor(layer, callback) {
 
     const stylePolygonUpdater = (() => {
         const currentStyle = defaultStyle;
+        previewFeature.setStyle(currentStyle);
         let lastBorderColor = '#000000';
         let lastBorderPattern = 'solid';
         const DASH_RATIO = 3;
@@ -211,7 +214,7 @@ function styleEditor(layer, callback) {
                     } else {
                         stroke.setLineDash(null);
                     }
-                    
+
                     currentStyle.setStroke(stroke);
                 }
             
@@ -403,7 +406,7 @@ function getDefaultStyleFromLayer(layer, geometryType) {
     const features = layer.getSource().getFeatures();
     if (features.length > 0) {
         const feature = features[0];
-        const featureStyle = feature.getStyle().clone() || layer.getStyle().clone();
+        const featureStyle = feature.getStyle()?.clone() || layer.getStyle()?.clone();
         if (!featureStyle) {
             switch (geometryType) {
                 case 'Point': return createDefaultPointStyle();

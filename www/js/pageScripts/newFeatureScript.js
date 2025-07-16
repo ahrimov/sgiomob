@@ -39,7 +39,16 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
             }
         });
         const newId = maxId + 1;
-        document.querySelector('#ID').value = newId;
+        if (document.querySelector('#ID')) {
+            document.querySelector('#ID').value = newId;
+        } else {
+            // Создаем скрытое поле, если оно не существует
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.id = 'ID';
+            hiddenInput.value = newId;
+            document.body.appendChild(hiddenInput);
+        }
     } else {
         autonumericID(layer.atribs[0].name, layer).then((new_id) => {
             document.querySelector(`#${layer.atribs[0].name}`).value = new_id

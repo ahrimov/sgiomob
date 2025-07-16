@@ -111,6 +111,7 @@ function syncChangesWithKML(layerId, succes, onError) {
         const serializer = new XMLSerializer();
         const newKMLContent = serializer.serializeToString(xmlDoc);
 
+        console.log(newKMLContent);
         const path = media_directory + tempKMLDir + '/';
         const fileName = layerId;
         saveFile(path, fileName, newKMLContent, () => {

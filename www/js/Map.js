@@ -717,16 +717,16 @@ function selectFeature(feature) {
 
 
 const selectedLineStyle = new ol.style.Style({
-  stroke: new ol.style.Stroke({
-    color: '#000000', // Внешний черный контур
-    width: 4,
-  }),
+    stroke: new ol.style.Stroke({
+      color: '#FC580C', 
+      width: 2,
+    }),
 });
 
 const innerLineStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
-    color: '#FFFFFF', // Внутренний белый контур
-    width: 2,
+    color: '#FFFFFF',
+    width: 4,
   }),
 });
 
@@ -738,16 +738,16 @@ const selectedPolygonStyle = new ol.style.Style({
   fill: new ol.style.Fill({
     color: 'rgba(255, 255, 255, 0.125)', // Полупрозрачная белая заливка
   }),
-  stroke: new ol.style.Stroke({
-    color: '#000000', // Внешний черный контур
-    width: 4,
-  }),
+    stroke: new ol.style.Stroke({
+      color: '#FC580C', // Белая обводка
+      width: 2,
+    }),
 });
 
 const innerPolygonStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
     color: '#FFFFFF', // Внутренний белый контур
-    width: 2,
+    width: 4,
   }),
 });
 

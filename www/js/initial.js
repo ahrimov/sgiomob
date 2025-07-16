@@ -1,4 +1,14 @@
 function initial() {
+
+    document.addEventListener('prepush', function(e) {
+        const navigator = document.querySelector('#myNavigator');
+        if (!navigator) return;
+        if (navigator._isRunning) {
+            e.cancel();
+            setTimeout(() => navigator.pushPage(e.promise), 200);
+        }
+    });
+
     document.querySelector('#myNavigator').pushPage('./views/loadScreen.html');
 
     ons.ready(function(){
@@ -151,14 +161,29 @@ function addCustomProjections(){
     ol.proj.proj4.register(proj4);    
 }
 
-function completeLoad(){
+function completeLoad() {
     if(typeof completeLoad.counter == 'undefined'){
-        completeLoad.counter = 0
+        completeLoad.counter = 0;
     }
     completeLoad.counter++;
-    document.querySelector('#load_stage').textContent = `${completeLoad.counter}/${layers.length}`;
-    if(completeLoad.counter == layers.length){
-        document.querySelector('#myNavigator').resetToPage('./views/home.html');
+    if (document.querySelector('#load_stage')) {
+        document.querySelector('#load_stage').textContent = `${completeLoad.counter}/${layers.length}`;
+    }
+    if (completeLoad.counter >= layers.length) {
+        setTimeout(() => {
+            try {
+                const navigator = document.querySelector('#myNavigator');
+                if (navigator && navigator.resetToPage) {
+                    if (completeLoad.counter >= layers.length) {
+                        navigator.resetToPage('./views/home.html').catch(e => {
+                            console.error('Navigation error:', e);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error in completeLoad:', error);
+            }
+        }, 1000);
     }
 }
 
