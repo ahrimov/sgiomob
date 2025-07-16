@@ -20,10 +20,12 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
     }
     document.querySelector('#add-feature-content').appendChild(content);
 
-    let template_gallery = document.querySelector('#photogallery');
-    let clone_gallery = template_gallery.content.cloneNode(true);
-    document.querySelector('#add-feature-content').appendChild(clone_gallery);
-    document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false)
+    if (!kmlType) {
+        let template_gallery = document.querySelector('#photogallery');
+        let clone_gallery = template_gallery.content.cloneNode(true);
+        document.querySelector('#add-feature-content').appendChild(clone_gallery);
+        document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false)
+    }
 
 
     document.querySelector('#saveFeatureButton').addEventListener('click', saveFeature, false)

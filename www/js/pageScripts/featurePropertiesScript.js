@@ -34,7 +34,28 @@ function featurePropertiesScript(featureFromPage){
 
     document.querySelector('#feature-properties-title').textContent = layer.label;
 
-    document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false)
+    if (!kmlType) {
+        const photosDiv = document.createElement('div');
+        
+        photosDiv.innerHTML = `
+            <ons-button modifier="outline light" id="addNewPhoto">
+                <div>
+                    <ons-icon icon="md-plus" size="30px"></ons-icon>
+                    <p>Нажмите, чтобы<br/>добавить фотографию</p>
+                </div>
+            </ons-button>
+        `;
+        
+        
+        const container = document.querySelector('#photos'); 
+        if (container) {
+            container.appendChild(photosDiv);
+            setTimeout(() => {
+                 document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false);
+            }, 0);
+        }
+    }
+
 
     document.querySelector('#feature-instrument-map').addEventListener('click', centerOnCurrentFeature, false)
     document.querySelector('#feature-instrument-edit').addEventListener('click', clickEditFeature, false)
