@@ -71,6 +71,13 @@ function updateLayerStyleInKML(layer, xmlDoc) {
             addStyleData('ol_style_color', styleSettings.color || '#000000');
             addStyleData('ol_style_width', parseInt(styleSettings.size) || 1);
             break;
+        case 'Polygon':
+        case 'MultiPolygon':
+            addStyleData('ol_style_pattern', styleSettings.pattern || 'solid');
+            addStyleData('ol_style_color', styleSettings.color || '#000000');
+            addStyleData('ol_style_stroke_color', styleSettings.borderColor || '#000000');
+            addStyleData('ol_style_stroke_width', parseInt(styleSettings.borderSize) || 1);
+            break;
         default: break;
 
     }

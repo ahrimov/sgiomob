@@ -89,6 +89,9 @@ function parseLayerStyleFromKML(layer, xmlDoc) {
         case 'LineString':
         case 'MultiLineString':
             return parseLineStyle();
+        case 'Polygon':
+        case 'MultiPolygon':
+            return parsePolygonStyle();
         default: return;
     }
 
@@ -174,6 +177,32 @@ function parseLayerStyleFromKML(layer, xmlDoc) {
             stroke: new ol.style.Stroke({
                 color: color,
                 width: width,
+                lineDash: lineDash
+            })
+        });
+    }
+
+    function parsePolygonStyle() {
+        const pattern = getStyleValue('ol_style_pattern') || 'solid';
+        const fillColor = getStyleValue('ol_style_color') || '#000000';
+        const strokeColor = getStyleValue('ol_style_stroke_color') || '#000000';
+        const strokeWidth = parseInt(getStyleValue('ol_style_stroke_width')) || 1;
+
+        // Создаем массив для lineDash в зависимости от типа линии
+        let lineDash = null;
+        if (pattern === 'dotted') {
+            const dashLength = Math.max(2, strokeWidth * 3);
+            lineDash = [dashLength, dashLength];
+        }
+        // Для 'solid' lineDash остается null
+
+        return new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: fillColor
+            }),
+            stroke: new ol.style.Stroke({
+                color: strokeColor,
+                width: strokeWidth,
                 lineDash: lineDash
             })
         });

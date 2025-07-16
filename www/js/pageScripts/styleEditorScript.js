@@ -13,7 +13,11 @@ function styleEditor(layer, callback) {
         layers: [layer],
     });
 
-    previewMap.getView().fit(previewFeature.getGeometry().getExtent());
+    previewMap.getView().fit(previewFeature.getGeometry().getExtent(), { padding: [1, 10, 30, 10] });
+    if (geometryType === 'Polygon') {
+        const currentZoom = previewMap.getView().getZoom();
+        previewMap.getView().setZoom(currentZoom - 1);
+    }
 
     const defaultStyle = getDefaultStyleFromLayer(layer);
 
@@ -157,6 +161,78 @@ function styleEditor(layer, callback) {
         }
     })();
 
+    const stylePolygonUpdater = (() => {
+        const currentStyle = defaultStyle;
+        let lastBorderColor = '#000000';
+        let lastBorderPattern = 'solid';
+        const DASH_RATIO = 3;
+
+        return {
+            updateColor(color) {
+                const fill = currentStyle.getFill();
+                fill.setColor(color);
+                currentStyle.setFill(fill);
+                previewFeature.setStyle(currentStyle);
+            },
+
+            updatePattern(pattern) {
+                const stroke = currentStyle.getStroke();
+                lastBorderPattern = pattern;
+                
+                if (stroke.getWidth() === 0) return;
+                
+                if (pattern === 'dotted') {
+                    const dashLength = Math.max(2, stroke.getWidth() * DASH_RATIO);
+                    stroke.setLineDash([dashLength, dashLength]);
+                } else {
+                    stroke.setLineDash(null);
+                }
+                
+                currentStyle.setStroke(stroke);
+                previewFeature.setStyle(currentStyle);
+            },
+
+            updateBorderSize(size) {
+                const stroke = currentStyle.getStroke();
+                const newSize = parseInt(size) || 0;
+                
+                if (newSize === 0) {
+                    // При размере 0 просто отключаем границу
+                    stroke.setWidth(0);
+                    currentStyle.setStroke(null);
+                } else {
+                    // Восстанавливаем предыдущие значения при включении
+                    stroke.setWidth(newSize);
+                    stroke.setColor(lastBorderColor);
+                    
+                    if (lastBorderPattern === 'dotted') {
+                        const dashLength = Math.max(2, newSize * DASH_RATIO);
+                        stroke.setLineDash([dashLength, dashLength]);
+                    } else {
+                        stroke.setLineDash(null);
+                    }
+                    
+                    currentStyle.setStroke(stroke);
+                }
+            
+                previewFeature.setStyle(currentStyle);
+            },
+
+            updateBorderColor(color) {
+                const stroke = currentStyle.getStroke();
+                lastBorderColor = color;
+                
+                // Обновляем цвет только если граница включена
+                if (stroke.getWidth() > 0) {
+                    stroke.setColor(color);
+                    currentStyle.setStroke(stroke);
+                    previewFeature.setStyle(currentStyle);
+                }
+            },
+        }
+    })();
+
+
     switch (geometryType) {
         case 'Point':
          case 'MultiPoint':
@@ -165,6 +241,10 @@ function styleEditor(layer, callback) {
         case 'LineString':
           case 'MultiLineString':
             createLineStringEditor();
+            break;
+        case 'Polygon':
+        case 'Multipolygon':
+            createPolygonEditor();
             break;
         default:
             break;
@@ -180,6 +260,10 @@ function styleEditor(layer, callback) {
             case 'LineString':
             case 'MultiLineString':
                 initLineStyleEditor()
+                break;
+            case 'Polygon':
+            case 'MultiPolygon':
+                initPolygonStyleEditor();
                 break;
             default: break;
         }
@@ -242,6 +326,30 @@ function styleEditor(layer, callback) {
         });
     }
 
+    function initPolygonStyleEditor() {
+        applyDefaultPolygonStyleValues(defaultStyle);
+
+        const selectElement = document.getElementById('style-select-pattern');
+        const event = new Event('change', { bubbles: true });
+        selectElement.dispatchEvent(event);
+
+        document.getElementById('color-input')?.addEventListener('change', (e) => {
+            stylePolygonUpdater.updateColor(e.target.value);
+        });
+
+        document.getElementById('style-select-pattern')?.addEventListener('change', (e) => {
+            stylePolygonUpdater.updatePattern(e.target.value);
+        });
+
+        document.getElementById('style-input-border')?.addEventListener('change', (e) => {
+            stylePolygonUpdater.updateBorderSize(parseInt(e.target.value) || 1);
+        });
+
+        document.getElementById('border-color-input')?.addEventListener('change', (e) => {
+            stylePolygonUpdater.updateBorderColor(e.target.value);
+        });
+    }
+
 
     function saveStyle(layer, geometryType, callback) {
         const style = previewFeature.getStyle();
@@ -254,7 +362,10 @@ function styleEditor(layer, callback) {
             case 'LineString':
             case 'MultiLineString':
                 styleSettings = getLineStyleSettings();
-                console.log(styleSettings);
+                break;
+            case 'Polygon':
+            case 'MultiPolygon':
+                styleSettings = getPolygonStyleSettings();
                 break;
             default: break;
         }
@@ -437,6 +548,58 @@ function applyDefaultLineStyleValues(style) {
     }
 }
 
+function applyDefaultPolygonStyleValues(style) {
+    if (!style) return;
+
+    // Получаем стили заливки и обводки
+    const fill = style.getFill();
+    const stroke = style.getStroke();
+
+    // Устанавливаем цвет заливки
+    const colorInput = document.getElementById('color-input');
+    if (colorInput && fill) {
+        const fillColor = olColorToHex(fill.getColor()) || '#000000';
+        colorInput.value = fillColor;
+        
+        // Обновляем превью цвета
+        const preview = document.getElementById('point-color-preview');
+        if (preview) {
+            preview.setAttribute('fill', fillColor);
+        }
+    }
+
+    // Устанавливаем тип штриховки (solid/dotted)
+    const patternSelect = document.getElementById('style-select-pattern');
+    if (patternSelect && stroke) {
+        const lineDash = stroke.getLineDash();
+        const patternType = (lineDash && lineDash.length > 0) ? 'dotted' : 'solid';
+        patternSelect.value = patternType;
+    }
+
+    // Устанавливаем толщину обводки
+    const borderSizeInput = document.getElementById('style-input-border');
+    if (borderSizeInput && stroke) {
+        borderSizeInput.value = stroke.getWidth() || 1;
+        const event = new Event('change', { bubbles: true });
+        borderSizeInput.dispatchEvent(event);
+    }
+
+    // Устанавливаем цвет обводки
+    const borderColorInput = document.getElementById('border-color-input');
+    if (borderColorInput && stroke) {
+        const strokeColor = olColorToHex(stroke.getColor()) || '#000000';
+        borderColorInput.value = strokeColor;
+        
+        // Обновляем превью цвета обводки
+        const previewBorder = document.getElementById('point-border-color-preview');
+        if (previewBorder) {
+            previewBorder.setAttribute('fill', strokeColor);
+        }
+    } else if (borderColorInput) {
+        borderColorInput.value = '#000000';
+    }
+}
+
 function handleClickStyleShape(_) {
     const dict = { 'circle': 'Круг', 'square': 'Квадрат', 'triangle': 'Треугольник' };
     const selected = document.getElementById('style-select-shape').value;
@@ -489,7 +652,9 @@ function createPreviewFeature(geometryType) {
         case 'Polygon':
         case 'MultiPolygon':
             return new ol.Feature({
-                geometry: new ol.geom.Polygon([[-1, -1], [1, -1], [1, 1], [-1, 1], [-1, -1]]),
+                geometry: new ol.geom.Polygon([[
+                    [-1, -1], [1, -1], [1, 1], [-1, 1], [-1, -1]
+                ]]),
             });
     }
 }
@@ -504,6 +669,12 @@ function createLineStringEditor() {
     const template = document.querySelector('#line-editor');
     const cloneNode = template.content.cloneNode(true);
     document.querySelector('#style-editor-content').appendChild(cloneNode); 
+}
+
+function createPolygonEditor() {
+    const template = document.querySelector('#polygon-editor');
+    const cloneNode = template.content.cloneNode(true);
+    document.querySelector('#style-editor-content').appendChild(cloneNode);
 }
 
 function decrementInput(inputId, min = 0) {
@@ -590,6 +761,15 @@ function getLineStyleSettings() {
     const color = document.getElementById('color-input')?.value;
 
     return { pattern, size, color };
+}
+
+function getPolygonStyleSettings() {
+    const color = document.getElementById('color-input')?.value;
+    const pattern = document.getElementById('style-select-pattern')?.value;
+    const borderSize = document.getElementById('style-input-border')?.value;
+    const borderColor = document.getElementById('border-color-input')?.value;
+
+    return { color, pattern, borderSize, borderColor };
 }
 
 function olColorToHex(color) {
