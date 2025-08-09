@@ -104,8 +104,8 @@
 
     <script>
     ons.getScriptPage().onInit = function() {
-        showMap()
-        createDrawBar()
+        showMap();
+        createDrawBar();
 
         this.querySelector('#layers-button').onclick = function() {
             document.querySelector('#myNavigator').pushPage('./views/layers.html');
@@ -114,6 +114,7 @@
         this.onShow = function() { 
             transformUIToOrientation();
             map.updateSize();
+            createDrawBar();
         };
     };
     </script>

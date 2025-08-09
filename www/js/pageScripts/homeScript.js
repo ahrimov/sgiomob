@@ -78,11 +78,18 @@ function closeDrawBar(){
 }
 
 function createDrawBar(){
-    let drawCarousel = document.querySelector('#draw-bar')
+    let drawCarousel = document.querySelector('#draw-bar');
+
+    const existingItems = drawCarousel.querySelectorAll('.carousel-item-content');
+    
+    existingItems.forEach(item => {
+        item.parentNode.remove(); 
+    });
+
     layers.sort(function(a, b){
-        return b.getZIndex() - a.getZIndex()
+        return b.getZIndex() - a.getZIndex();
       })
-    for(let layer of layers){
+    for(const layer of layers){
         if(!layer.enabled) continue;
         let template = document.querySelector('#carousel-item')
         let carouselItem = template.content.cloneNode(true)
