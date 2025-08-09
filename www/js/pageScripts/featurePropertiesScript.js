@@ -430,11 +430,11 @@ function featurePropertiesScript(featureFromPage){
     function clickEditGeometry(){
 
         function mapEditing(){
-            centeringOnFeature(feature);
-            addModify(layer, feature);
             const navigator = document.querySelector('#myNavigator')
             navigator.popPage({times: navigator.pages.length - 1})
             map.localMap = false;
+            addModify(layer, feature);
+            centeringOnFeature(feature);
             layer.changed();
         }
 
