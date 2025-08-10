@@ -1,5 +1,15 @@
-function saveKMLToFile(layerId) {
+async function saveKMLToFile(layerId) {
     const layer = findLayer(layerId);
+
+    if (layer.getSource().getFeatures().length === 0){
+        const userAnswer = await ons.notification.confirm({
+            title: 'Сохранение KML-слоя',
+            message: 'Экспортируемый слой не содержит объектов(узлов). Все равно сформировать KML-файл?',
+            buttonLabels: ["Да", "Нет"],
+        });
+        if (userAnswer) return;
+    }
+
     const fileUri = layer.get('fileUri');
 
     globalReadlFile(fileUri, (KMLContent) => {
