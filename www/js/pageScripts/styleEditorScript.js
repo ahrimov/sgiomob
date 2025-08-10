@@ -6,12 +6,21 @@ function styleEditor(layer, callback) {
 
     layer.getSource().addFeature(previewFeature);
 
+    const layerVisibility = layer.getVisible();
+    layer.setVisible(true);
+
     const previewMap = new ol.Map({
         target: 'style-preview-map',
         controls: [],
         interactions: [],
         layers: [layer],
     });
+
+    const navigator = document.querySelector('#myNavigator');
+
+    navigator.addEventListener('postpop', () => {
+        layer.setVisible(layerVisibility);
+    }, { once: true });
 
     previewMap.getView().fit(previewFeature.getGeometry().getExtent(), { padding: [1, 10, 30, 10] });
     if (geometryType === 'Polygon') {
