@@ -55,6 +55,10 @@ function showMap(){
             }
         })
     });
+
+    saveMapPosition();
+
+    loadMapPosition();
     
     let deniedCount = 0;
 

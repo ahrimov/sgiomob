@@ -84,10 +84,10 @@ async function addExistingKMLLayers() {
                     newLayer.atribs = layerAtribs;
                     newLayer.enabled = true;
 
-                    console.log(kmlContent);
-
                     layers.push(newLayer);
                     map.addLayer(newLayer);
+
+                    loadLayersVisibility();
 
                     completeLoad();
                 } 

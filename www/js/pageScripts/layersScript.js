@@ -3,10 +3,14 @@ function layersScriptInit() {
 
   createBaseRasterList();
 
+  loadLayersVisibility(true);
+
   Sortable.create(layerListWithHandle, {
     handle: '.reorder-move',
     animation: 150,
     onUpdate: function(event){
+      saveLayersOrder(this.toArray());
+
       var count = layers.length;
       for(layerID of this.toArray()){
         let layer = getLayerById(layerID);
@@ -58,6 +62,7 @@ function updatingVectorList() {
     handle: '.reorder-move',
     animation: 150,
     onUpdate: function(event){
+      saveLayersOrder(this.toArray());
       var count = layers.length;
       for(layerID of this.toArray()){
         let layer = getLayerById(layerID);
@@ -84,6 +89,9 @@ function changeVisible(element) {
     else{
       element.style.backgroundColor = '#FFFFFF';
     }
+
+    saveLayersVisibility()
+
     updateInfo();
   }
 
