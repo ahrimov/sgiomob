@@ -10,6 +10,11 @@ function addNewLayer() {
           ons.notification.alert({title: "Внимание", message:'Не найдено объектов в файле.'});
           return;
         }
+
+        if (!features[0].get('ID')) {
+          text = addMissingIdsToKml(text, features);
+        }
+
         let descrLayerId = 'unknown_id';
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(text, "application/xml");
@@ -211,4 +216,55 @@ function addKMLLayerFileToConfig(kmlFile) {
       // Запись обновленного файла
       return writeConfigFile(pathToConfig, updatedXml);
   });
+}
+
+function addMissingIdsToKml(kmlContent,features) {
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(kmlContent, "application/xml");
+
+  const schema = xmlDoc.querySelector('Schema');
+  if (!schema) {
+    const document = xmlDoc.querySelector('Document');
+    schema = xmlDoc.createElement('Schema');
+    schema.setAttribute('name', 'DefaultSchema');
+    schema.setAttribute('id', 'DefaultSchema');
+    document.insertBefore(schema, document.firstChild);
+  }
+
+  let idField = Array.from(schema.querySelectorAll('SimpleField')).find(field => field.getAttribute('name') === 'ID');
+
+  if (!idField) {
+    idField = xmlDoc.createElement('SimpleField');
+    idField.setAttribute('name', 'ID');
+    idField.setAttribute('type', 'string');
+    schema.appendChild(idField);
+  }
+
+  const placemarks = xmlDoc.querySelectorAll('Placemark');
+
+  placemarks.forEach((placemark, index) => {
+    const schemaData = placemark.querySelector('SchemaData');
+    if (!schemaData) return;
+
+    const idData = placemark.querySelector('SimpleData[name="ID"]');
+    if (idData) {
+      return;
+    }
+
+    const newId = `${index}`;
+    if (features[index]) {
+      features[index].set('ID', newId);
+    }
+
+    const newIdData = xmlDoc.createElement('SimpleData');
+    newIdData.setAttribute('name', 'ID');
+    newIdData.textContent = newId;
+
+    schemaData.appendChild(newIdData);
+  });
+
+  const serializer = new XMLSerializer();
+  const updatedKml = serializer.serializeToString(xmlDoc);
+
+  return updatedKml;
 }
