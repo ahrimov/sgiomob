@@ -9,11 +9,8 @@ function autonumericID(idName, layer){
     })
 }
 
-function generateColor(){
-  if(typeof generateColor.counter == 'undefined'){
-    generateColor.counter = 0;
-  }
-  const carouselColor = [
+function createColorGenerator() {
+  const carouselColors = [
     'rgba(255, 206, 86, 1)',
     'rgba(255, 99, 132, 1)',
     'rgba(54, 162, 235, 1)',
@@ -30,7 +27,15 @@ function generateColor(){
     'rgba(74, 50, 148, 1)',
   ];
 
-  generateColor.counter += 1;
-  generateColor.counter = generateColor.counter % carouselColor.length;
-  return carouselColor[generateColor.counter];
+  const shuffled = [...carouselColors].sort(() => 0.5 - Math.random());
+  let index = 0;
+
+  return function () {
+    if (index >= shuffled.length) {
+      index = 0;
+    }
+    return shuffled[index++];
+  }
 }
+
+const generateColor = createColorGenerator();
