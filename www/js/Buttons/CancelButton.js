@@ -15,11 +15,16 @@ class CancelButton extends ol.control.Control {
     }
 
     cancelDraw(){
-        if(typeof map.draw.currentFeature != 'undefined'){
+        if(typeof map.draw?.currentFeature != 'undefined'){
             let layer = map.activeLayer
             layer.getSource().removeFeature(map.draw.currentFeature)
         }
 
-        finishDraw()
+        if (map.draw) finishDraw();
+
+        if (map.modify) {
+            map.modify.modifyFeature?.setGeometry(map.modify.oldGeometry);
+            removeModify();
+        }
     }
 }

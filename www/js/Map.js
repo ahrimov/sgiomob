@@ -488,7 +488,8 @@ function addModify(layer, feature){
 
     disablePinchZoom();
 
-    homeDisableButtons()
+    displayCancelButton();
+    homeDisableButtons();
 }
 
 function enablePinchZoom(){
@@ -571,6 +572,7 @@ function removeModify(){
     map.modify.modifyFeature.setStyle(map.modify.featureStyle);
     deleteFeatureNodes();
     map.removeInteraction(map.modify);
+    removeCancelButton();
     map.modify = null
 
     homeEnableButton()
