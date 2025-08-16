@@ -39,7 +39,7 @@ async function addExistingKMLLayers() {
                         for (let i = 0; i < simpleFields.length; i++) {
                             const name = simpleFields[i].getAttribute('name');
                             if (name) {
-                                layerAtribs.push({ name, label: name, visible: true });
+                                layerAtribs.push({ name, label: name, visible: true, type: 'STRING' });
                             }
                         }
                     }

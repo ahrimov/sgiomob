@@ -148,7 +148,7 @@ function addNewLayer() {
         });
         const firstFeature = features[0];
         const layerKeys = firstFeature.getKeys()
-        const layerAtribs = layerKeys.filter(key => key !== 'geometry' && key !== 'styleUrl').map((key) => { return { name: key, label: key, visible: true } });
+        const layerAtribs = layerKeys.filter(key => key !== 'geometry' && key !== 'styleUrl').map((key) => { return { name: key, label: key, visible: true, type: 'STRING' } });
         newLayer.atribs = layerAtribs;
         newLayer.enabled = true;
 

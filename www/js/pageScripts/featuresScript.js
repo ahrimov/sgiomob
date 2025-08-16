@@ -1,14 +1,13 @@
 
 function featuresInit(layerID) {
+    const layer = findLayer(layerID);
+    const kmlType = layer.get('kmlType');
     var left_row, right_row;
     var count_row;
     var limit = 50;
     var offset = 0;
     var filter_atrib_name;
-    var filter_atrib_value = '%';
-
-    const layer = findLayer(layerID);
-    const kmlType = layer.get('kmlType');
+    var filter_atrib_value = kmlType ? '' : '%';
 
     const layerAtribs = layer.atribs.filter(atrib => atrib.name !== 'geometryType');
 
@@ -126,8 +125,20 @@ function featuresInit(layerID) {
         if (kmlType) {
             const table = document.querySelector('#features-tbody');
             const features = layer.getSource().getFeatures();
-            for (let i = 0; i < features.length; i++) {
-                const feature = features[i];
+
+            let filteredFeatures = features;
+        
+            if (filter_atrib_name && filter_atrib_value) {
+                filteredFeatures = features.filter(feature => {
+                    const value = feature.get(filter_atrib_name);
+                    return value && String(value).toLowerCase().startsWith(filter_atrib_value.toLowerCase());
+                });
+            }
+
+            const paginatedFeatures = filteredFeatures.slice(offset, offset + limit);
+
+            for (let i = 0; i < paginatedFeatures.length; i++) {
+                const feature = paginatedFeatures[i];
                 const properties = feature.getProperties();
                 let line = document.createElement("tr");
                 let line_content = `<td><div>${getValueFromLayerAtrib(layerID, left_row, properties[left_row])}</div></td>
@@ -240,7 +251,7 @@ function featuresInit(layerID) {
         let table = document.querySelector('#features-tbody')
         table.innerHTML = ""
         filter_atrib_name = left_row
-        filter_atrib_value = '%'
+        filter_atrib_value = kmlType ? '' : '%'
         offset = 0
         showFeaturesList(layerID, left_row, right_row, filter_atrib_name, filter_atrib_value, limit, offset)
 

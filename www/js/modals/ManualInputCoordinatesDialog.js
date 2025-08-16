@@ -7,9 +7,10 @@ function createDialogManualEditGeometry(feature, successfulCallback = null){
     const layer = findLayer(feature.layerID);
     const geometry = feature.getGeometry();
     let coordinates = geometry?.getCoordinates() || [];
+    console.log(coordinates);
     let typeOfCoordinates = 'decimal';
     const geometryType = geometry?.getType() || layer.geometryType;
-    if(geometryType === 'MultiLineString' || geometryType === 'MultiPolygon'){
+    if(geometryType === 'MultiLineString' || geometryType === 'MultiPolygon' || geometryType === 'Polygon'){
         coordinates = coordinates[0];
         if(geometryType === 'MultiPolygon')
             coordinates = coordinates[0];
