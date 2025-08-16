@@ -143,7 +143,7 @@ function changeVisible(element) {
             label: 'Очистить слой',
           },
           {
-            label: 'Удалить слой',
+            label: 'Исключить из проекта',
           },
           {
             label: 'Назад',
