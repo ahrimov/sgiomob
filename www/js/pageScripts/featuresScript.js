@@ -10,6 +10,14 @@ function featuresInit(layerID) {
     const layer = findLayer(layerID);
     const kmlType = layer.get('kmlType');
 
+    const layerAtribs = layer.atribs.filter(atrib => atrib.name !== 'geometryType');
+
+    const idIndex = layerAtribs.findIndex(atrib => atrib.name === 'ID');
+    if (idIndex > 0) {
+        const idAtrib = layerAtribs.splice(idIndex, 1)[0];
+        layerAtribs.unshift(idAtrib);
+    }
+
     document.querySelector('#tool-search').addEventListener('click', showDialogSearch);
 
     if (!kmlType) {
@@ -22,18 +30,18 @@ function featuresInit(layerID) {
         "<thead>" + 
             "<tr>" + 
                 `<th>
-                    <ons-select onchange="editFeaturesTable(event)">
+                    <ons-select id="feat_left">
                         <select class="feat_left">`
-                        for(atrib of layer.atribs){
+                        for(atrib of layerAtribs){
                             table += `<option value="${atrib.name}">${atrib.label}</option>`
                         }
                     table += `</select>
                     </ons-select>
                 </th>` + 
                 `<th>
-                    <ons-select onchange="editFeaturesTable(event)">
+                    <ons-select id="feat_right">
                         <select class='feat_right'>`
-                        for(atrib of layer.atribs){
+                        for(atrib of layerAtribs){
                             table += `<option value="${atrib.name}">${atrib.label}</option>`
                         }
                     table += `</select>
@@ -44,12 +52,21 @@ function featuresInit(layerID) {
         "<tbody id='features-tbody'>" +
         "</tbody>" + 
     "</table>"
-    var content = document.getElementById("features-list");
-    content.innerHTML = table
+    const content = document.getElementById("features-list");
+    content.innerHTML = table;
+
+    setTimeout(() => {
+        const leftSelect = content.querySelector('#feat_left');
+        const rightSelect = content.querySelector('#feat_right');
+
+        leftSelect.addEventListener('change', editFeaturesTable);
+        rightSelect.addEventListener('change', editFeaturesTable);
+    })
+
     document.getElementById("title").innerHTML = layer.label
-    left_row = layer.atribs[0].name
-    right_row = layer.atribs[1].name
-    filter_atrib_name = layer.atribs[0].name
+    left_row = layerAtribs[0].name
+    right_row = layerAtribs[1].name
+    filter_atrib_name = layerAtribs[0].name
     document.getElementsByClassName("feat_right")[0].value = right_row
     showFeaturesList(layerID, left_row, right_row, filter_atrib_name, filter_atrib_value, limit, offset)
 
@@ -120,7 +137,7 @@ function featuresInit(layerID) {
                 table.append(line);
             }
         } else {
-            const query = `SELECT  ${layer.atribs[0].name} as id, ${left_row} as left, ${right_row} as right from ${layerID}
+            const query = `SELECT  ${layerAtribs[0].name} as id, ${left_row} as left, ${right_row} as right from ${layerID}
                 WHERE ${filter_atrib_name} LIKE '${filter_atrib_value}%' 
                 LIMIT ${limit} OFFSET ${offset}`;
             requestToDB(query, function(data){
@@ -144,7 +161,7 @@ function featuresInit(layerID) {
             let layer = findLayer(layerID)
             let select = document.querySelector('#select-dialog-search')
             let options = ''
-            for(let atrib of layer.atribs){
+            for(let atrib of layerAtribs){
                 if(checkServiceField(atrib.name)){
                     continue;
                 }
@@ -153,7 +170,7 @@ function featuresInit(layerID) {
             select.innerHTML = options
             select.value = filter_atrib_name
 
-            let typeAtrib = getAtribByName(layer.atribs, filter_atrib_name)
+            let typeAtrib = getAtribByName(layerAtribs, filter_atrib_name)
             addInputForFilter(typeAtrib)
             if(filter_atrib_value != '%'){
                 inputSetValue(filter_atrib_value, typeAtrib)
@@ -168,7 +185,7 @@ function featuresInit(layerID) {
     function selectingSearch(event){
         let atribName = event.target.value
         let layer = findLayer(layerID)
-        addInputForFilter(getAtribByName(layer.atribs, atribName))
+        addInputForFilter(getAtribByName(layerAtribs, atribName))
     }
 
     function addInputForFilter(atrib){
@@ -209,7 +226,7 @@ function featuresInit(layerID) {
     function acceptFilter(){ 
         filter_atrib_name = document.querySelector('#ons-select-dialog-search').value
         let layer = findLayer(layerID)
-        let typeAtrib = getTypeByAtribName(layer.atribs, filter_atrib_name)
+        let typeAtrib = getTypeByAtribName(layerAtribs, filter_atrib_name)
         filter_atrib_value = inputGetValue(typeAtrib)
         offset = 0
         let table = document.querySelector('#features-tbody')
