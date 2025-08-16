@@ -26,8 +26,8 @@ async function addExistingKMLLayers() {
 
                     const schemaElement = xmlDoc.querySelector("kml > Document > Schema");
                     if (schemaElement) {
-                    const schemaId = schemaElement.getAttribute("id");
-                    descrLayerId = schemaId;
+                        const schemaId = schemaElement.getAttribute("name");
+                        descrLayerId = schemaId;
                     }
 
                     const layerAtribs = [];

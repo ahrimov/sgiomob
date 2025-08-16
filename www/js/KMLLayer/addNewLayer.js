@@ -1,6 +1,7 @@
 function addNewLayer() {
     fileChooser.open((fileUri) => {
       globalReadlFile(fileUri, (text) => {
+        const fileName = getFileNameFromUri(fileUri);
         const mapProjection = map.getView().getProjection().getCode();
         const format = new ol.format.KML();
         const features = format.readFeatures(text, 
@@ -15,13 +16,18 @@ function addNewLayer() {
           text = addMissingIdsToKml(text, features);
         }
 
-        let descrLayerId = 'unknown_id';
+        let descrLayerId = fileName;
+        let schemaName = '';
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(text, "application/xml");
+
         const schemaElement = xmlDoc.querySelector("kml > Document > Schema");
         if (schemaElement) {
-          const schemaId = schemaElement.getAttribute("id");
-          descrLayerId = schemaId;
+          schemaName = schemaElement.getAttribute("name");
+          if (schemaName) descrLayerId += `_${schemaName}`;
+          schemaElement.setAttribute('name', descrLayerId);
+          const serializer = new XMLSerializer();
+          text = serializer.serializeToString(xmlDoc);
         } 
 
         const date = new Date();
@@ -267,4 +273,27 @@ function addMissingIdsToKml(kmlContent,features) {
   const updatedKml = serializer.serializeToString(xmlDoc);
 
   return updatedKml;
+}
+
+
+// Функция для извлечения имени файла из URI
+function getFileNameFromUri(uri) {
+    try {
+        const decodedUri = decodeURIComponent(uri);
+        
+        const lastSeparatorIndex = Math.max(
+            decodedUri.lastIndexOf('/'),
+            decodedUri.lastIndexOf(':')
+        );
+        
+        let fileName = decodedUri.substring(lastSeparatorIndex + 1);
+        
+        fileName = fileName.split('?')[0];
+        fileName = fileName.split('#')[0];
+        
+        return fileName;
+    } catch (e) {
+        console.error("Ошибка при получении имени файла:", e);
+        return "unknown.kml"; 
+    }
 }
