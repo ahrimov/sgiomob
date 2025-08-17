@@ -1,4 +1,4 @@
-function exportKML(pathToKML, layerID){
+function exportKML(layerID){
     let layer = findLayer(layerID);
     let format = new ol.format.KML({
         showPointNames: true,
@@ -53,19 +53,26 @@ function exportKML(pathToKML, layerID){
             featureProjection: 'EPSG:3857'
         });
 
-        let date = new Date();
-
         kml = kml.replace(/,0/g, ",nan");
         kml = kml.replace(/<\/\w*>/g, '$&\n');
         kml = kml.replace(/\/>/g, '$&\n');
         kml = kml.replace(/\\\\/g, '\\');
 
-        const fileName = layer.id + formatDate(date) + '.kml';
+        const fileName = layer.id + '.kml';
 
-        saveFile(pathToKML, fileName, kml, () => {
+        cordova.plugins.safMediastore.saveFile({ 
+            data: toBase64(kml),
+            filename: fileName,
+            folder: 'Documents',
+        }).then(newFileUri => {
             ons.notification.alert({ 
                 title:"Внимание", 
-                messageHTML:'<p class="notification-alert">Файл успешно сохранён: ' + fileName + '</p>',
+                messageHTML:'<p class="notification-alert">Файл успешно сохранён: ' + newFileUri + '</p>',
+            });
+        }).catch(e => {
+            ons.notification.alert({ 
+                title: 'Внимание',
+                message: 'Не удалось сохранить слой: ' + layerId,
             });
         });
     });

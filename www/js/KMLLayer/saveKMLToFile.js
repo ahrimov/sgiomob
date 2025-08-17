@@ -10,20 +10,39 @@ async function saveKMLToFile(layerId) {
         if (userAnswer) return;
     }
 
-    const fileUri = layer.get('fileUri');
+    const kmlType = layer.get('kmlType');
+    if (kmlType) {
+        const fileUri = layer.get('fileUri');
 
-    globalReadlFile(fileUri, (KMLContent) => {
+        globalReadlFile(fileUri, (KMLContent) => {
+            cordova.plugins.safMediastore.saveFile({ 
+                data: toBase64(KMLContent),
+                filename: layerId,
+                folder: 'Documents',
+            }).then(newFileUri => {
+                console.log('Успешное сохранение файла: ', newFileUri);
+            }).catch(e => {
+                ons.notification.alert({ 
+                    title: 'Внимание',
+                    message: 'Не удалось сохранить слой: ' + layerId,
+                });
+            })
+        });
+    } else {
+        const format = new ol.format.KML();
+        const kmlContent = format.writeFeatures(layer.getSource().getFeatures());
+
         cordova.plugins.safMediastore.saveFile({ 
-            data: toBase64(KMLContent),
+            data: toBase64(kmlContent),
             filename: layerId,
             folder: 'Documents',
-         }).then(newFileUri => {
+        }).then(newFileUri => {
             console.log('Успешное сохранение файла: ', newFileUri);
-         }).catch(e => {
+        }).catch(e => {
             ons.notification.alert({ 
                 title: 'Внимание',
                 message: 'Не удалось сохранить слой: ' + layerId,
             });
-         })
-    });
+        })
+    }
 }

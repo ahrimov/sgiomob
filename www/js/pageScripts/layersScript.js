@@ -137,7 +137,7 @@ function changeVisible(element) {
             label: 'Изменить стиль',
           },
           {
-            label: 'Сохранить слой',
+            label: 'Экспорт kml',
           },
           {
             label: 'Очистить слой',
@@ -216,11 +216,13 @@ function changeVisible(element) {
               ons.notification.alert({title:"Внимание", message: "Этот слой нельзя экспортировать"});
             }
             else{
-              createFileChooserForKML(layerID, exportKML);
+              exportKML(layerID);
             }
           }
           if(index === 3){
-            createFileChooserForKML(layerID, chooseFile);
+            fileChooser.open((fileUri) => {
+              compareAtribs(layerID, fileUri)
+            });
           }
           if(index === 4){
             clearLayer(layerID);
@@ -253,7 +255,7 @@ function changeVisible(element) {
 
   function compareAtribs(layerID, pathToKML){
     let layer = findLayer(layerID)
-    openFile(pathToKML, function(data){
+    globalReadlFile(pathToKML, function(data){
         let format = new ol.format.KML();
         let features = format.readFeatures(data.replace(/nan/g, "0"));
         if(features.length == 0){
