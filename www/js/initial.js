@@ -173,6 +173,7 @@ function completeLoad() {
         setTimeout(() => {
             try {
                 loadLayersVisibility();
+                initLayerOrder();
                 const navigator = document.querySelector('#myNavigator');
                 if (navigator && navigator.resetToPage) {
                     if (completeLoad.counter >= layers.length) {

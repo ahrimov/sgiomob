@@ -57,20 +57,6 @@ function updatingVectorList() {
   const list = document.querySelector("#layerListWithHandle");
   list.innerHTML = '';
   creatingLayerList();
-
-  Sortable.create(layerListWithHandle, {
-    handle: '.reorder-move',
-    animation: 150,
-    onUpdate: function(event){
-      saveLayersOrder(this.toArray());
-      var count = layers.length;
-      for(layerID of this.toArray()){
-        let layer = getLayerById(layerID);
-        layer.setZIndex(minZIndexForVectorLayers +  count);
-        count--;
-      }
-    }
-  });
 }
 
 function changeVisible(element) {

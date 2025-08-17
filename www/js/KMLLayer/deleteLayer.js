@@ -2,7 +2,6 @@ function deleteLayer(layerID) {
     const layer = findLayer(layerID);
     const fileUri = layer.get('fileUri');
     const fileName = fileUri.split('/').pop();
-    console.log("filename ", fileName);
 
     Promise.all([
         deleteFile(fileUri),

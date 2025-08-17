@@ -75,9 +75,14 @@ function loadLayersVisibility(showInList = false) {
 }
 
 function saveLayersOrder(order) {
+    const orderDict = {};
+    order.forEach((layerId, index) => {
+        orderDict[layerId] = index;
+    });
+
     NativeStorage.setItem(
         'layersOrder',
-        order,
+        orderDict,
         () => console.log("Данные сохранены!"),
         (error) => console.error("Ошибка сохранения:", error)
     );
@@ -87,7 +92,7 @@ async function loadLayersOrder() {
   return new Promise((resolve, reject) => {
     NativeStorage.getItem(
         'layersOrder', 
-        (order) => resolve(order),
+        (order) => resolve(order ?? {}),
         (error) => {
             if (error.code === 2) resolve([]);
             else reject(error);
@@ -99,26 +104,20 @@ async function loadLayersOrder() {
 async function initLayerOrder() {
     const savedOrder = await loadLayersOrder();
 
-    if (savedOrder && savedOrder.length > 0) {
-        // Если есть сохраненный порядок - используем его
+    if (savedOrder) {
         layers.sort(function(a, b) {
-            const aIndex = savedOrder.indexOf(a.get("id"));
-            const bIndex = savedOrder.indexOf(b.get("id"));
-            // Всегда сортируем от большего к меньшему (сверху-вниз)
-            return bIndex - aIndex;
+            const aId = a.get("id");
+            const bId = b.get("id");
+            const aIndex = aId in savedOrder ? savedOrder[aId] : Infinity;
+            const bIndex = bId in savedOrder ? savedOrder[bId] : Infinity;
+            return aIndex - bIndex;
         });
     } else {
-        // Если сохраненного порядка нет - сортируем по zIndex (сверху-вниз)
         layers.sort(function(a, b) {
             return b.getZIndex() - a.getZIndex();
         });
-        
-        // NEW: Сохраняем этот порядок как начальный
-        const initialOrder = layers.map(layer => layer.get("id"));
-        await saveLayersOrder(initialOrder);
     }
     
-    // Обновляем z-index (сверху-вниз)
     let count = layers.length;
     for (let layer of layers) {
         layer.setZIndex(minZIndexForVectorLayers + count);
