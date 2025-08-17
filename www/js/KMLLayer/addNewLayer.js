@@ -105,6 +105,15 @@ async function addNewLayer() {
         newLayer.label = descrLayerId;
         const geometryType = features[0].getGeometry().getType();
         newLayer.geometryType = geometryType;
+        for(let i = 0; i < features.length; i++) {
+          if (features[i]?.getGeometry().getType() !== geometryType) {
+            ons.notification.alert({
+              title: 'Внимание',
+              message: `В слое обнаружено несколько разных топологий. Стиль будет задан только для ${geometryType}. Для остальных топологий стиль будет задан автоматически.` 
+            });
+            break;
+          }
+        }
         newLayer.visible = true;
         newLayer.set('kmlType', true);
         newLayer.set('fileUri', media_directory + tempKMLDir + '/' + innerLayerId);
