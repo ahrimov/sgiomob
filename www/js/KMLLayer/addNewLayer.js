@@ -1,4 +1,10 @@
-function addNewLayer() {
+async function addNewLayer() {
+  const answer = await ons.notification.confirm({
+      title: 'Добавление kml-слоя', 
+      message: 'Изменения в слое не сохранятся в файле. Для сохранения используйте "Экспорт в KML".', 
+      buttonLabels: ["Отмена", "Продолжить"]
+  }); 
+  if (!answer) return;
     fileChooser.open((fileUri) => {
       globalReadlFile(fileUri, (text) => {
         const fileName = getFileNameFromUri(fileUri);
