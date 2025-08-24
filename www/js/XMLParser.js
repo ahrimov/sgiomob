@@ -2,17 +2,19 @@ function configParser(data, title){
     var parser = new DOMParser();
     var dom = parser.parseFromString(data, "application/xml");
     var pathToLayers = dom.getElementsByTagName("PathToLayers").item(0).textContent;
-    var layersName = dom.getElementsByTagName("LayersName").item(0).textContent.split("|");
+    var layersName = dom.getElementsByTagName("LayersName").item(0).textContent.split("|").filter(el => Boolean(el));
 
     if (updateAppMode) {
         updateVectorLayers(pathToLayers, function(){
             for(let layerName of layersName){
+                console.log(root_directory + pathToLayers + layerName);
                 openFile(root_directory + pathToLayers + layerName, layerParser);
             }
         });
     }
     else {
         for(let layerName of layersName){
+            console.log(root_directory + pathToLayers + layerName);
             openFile(root_directory + pathToLayers + layerName, layerParser);
         }
     }

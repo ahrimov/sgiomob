@@ -2,7 +2,10 @@ async function addExistingKMLLayers() {
     try {
         const folderPath = media_directory + tempKMLDir + '/';
         const files = await getKmlLayerFiles();
-        if (!files?.length) return;
+        if (!files?.length) {
+            completeLoad();
+            return;
+        }
 
         const mapProjection = map.getView().getProjection().getCode();
         const format = new ol.format.KML();

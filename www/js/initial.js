@@ -166,7 +166,7 @@ function completeLoad() {
         completeLoad.counter = 0;
     }
     completeLoad.counter++;
-    if (document.querySelector('#load_stage')) {
+    if (document.querySelector('#load_stage') && layers.length) {
         document.querySelector('#load_stage').textContent = `${completeLoad.counter}/${layers.length}`;
     }
     if (completeLoad.counter >= layers.length) {

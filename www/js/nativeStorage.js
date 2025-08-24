@@ -26,8 +26,10 @@ function loadMapPosition() {
     NativeStorage.getItem(
         "mapSettings",
         (data) => {
-            map.getView().setCenter(data.center);
-            map.getView().setZoom(data.zoom);
+            if (data && !isDemoData(data)) {
+                map.getView().setCenter(data.center);
+                map.getView().setZoom(data.zoom);
+            }
         },
         (error) => console.error("Ошибка загрузки:", error)
     );
@@ -123,4 +125,13 @@ async function initLayerOrder() {
         layer.setZIndex(minZIndexForVectorLayers + count);
         count--;
     }
+}
+
+function isDemoData(data) {
+    const demoCenter = [5589769.981252036, 7624937.878124485];
+    const demoZoom = 20.546652995062992;
+    
+    return data.center[0] === demoCenter[0] && 
+           data.center[1] === demoCenter[1] && 
+           data.zoom === demoZoom;
 }

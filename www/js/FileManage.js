@@ -1,6 +1,9 @@
 function openFile(path, post_processing){
-    window.resolveLocalFileSystemURL(path, function(file) {
-        file.file(function (file) {
+    window.resolveLocalFileSystemURL(path, function(fileEntry) {
+        console.log(path);
+        console.log(fileEntry);
+        console.log(fileEntry.isFile);
+        fileEntry.file(function (file) {
             var reader = new FileReader();
             reader.onloadend = function(evt){
                 post_processing(this.result, file.name)

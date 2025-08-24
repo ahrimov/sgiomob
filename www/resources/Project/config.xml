@@ -5,12 +5,12 @@
 	</main>
 	<MapView>
 		<center>
-			<longitude>49.1199</longitude>
-			<latitude>55.7951</latitude>
+			<longitude>30.3385</longitude>
+			<latitude>59.9475</latitude>
 		</center>
 		<MinZoom>0</MinZoom>
 		<MaxZoom>25</MaxZoom>
-		<zoom>5</zoom>
+		<zoom>10</zoom>
 		<projection>0</projection>
 	</MapView>
 	<database>
@@ -40,7 +40,7 @@
 		</images>
 		<KML>
 			<PathToKMLStorage>KML/</PathToKMLStorage>
-		<KMLFiles>test_1_2107_2025721_21459.kml</KMLFiles></KML>
+		<KMLFiles></KMLFiles></KML>
 	</storage>
 	<style>
 		<SelectedElements>
