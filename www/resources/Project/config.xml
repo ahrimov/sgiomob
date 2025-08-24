@@ -1,5 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<template>
+<?xml version="1.0" encoding="UTF-8"?><template>
 	<main>
 		<Title>Распредсети</Title>
 		<version>0.1.0</version>
@@ -21,15 +20,15 @@
 	</database>
 	<layers>
 		<VectorLayers>
-			<NumberOfLayers>45</NumberOfLayers>
+			<NumberOfLayers>5</NumberOfLayers>
 			<PathToLayers>VectorLayers/</PathToLayers>
-			<LayersName>РЕД_Газорегуляторные пункты.xml|БД_Газорегуляторные пункты.xml|РЕД_Запорно-регулирующая арматура.xml|БД_Запорно-регулирующая арматура.xml|РЕД_Контрольные трубки.xml|БД_Контрольные трубки.xml|РЕД_Заглушки.xml|БД_Заглушки.xml|РЕД_Соединения разъёмные (фланцы).xml|БД_Соединения разъёмные (фланцы).xml|РЕД_Газоизмерительные станции.xml|БД_Газоизмерительные станции.xml|РЕД_Глубинный анодный заземлитель.xml|БД_Глубинный анодный заземлитель.xml|РЕД_Группы анодных заземлений.xml|БД_Группы анодных заземлений.xml|РЕД_Измерительные приборы и датчики.xml|БД_Измерительные приборы и датчики.xml|РЕД_Установки катодной_дренажной защиты.xml|БД_Установки катодной_дренажной защиты.xml|РЕД_Контрольно-измерительные пункты.xml|БД_Контрольно-измерительные пункты.xml|РЕД_Соединительные провода и кабели.xml|БД_Соединительные провода и кабели.xml|РЕД_Конденсатосборники.xml|БД_Конденсатосборники.xml|РЕД_Точки пересечений со сторонними объектами.xml|БД_Точки пересечений со сторонними объектами.xml|РЕД_Опора ЛЭП, учитывая направление разветления линий электропередач.xml|БД_Опора ЛЭП, учитывая направление разветления линий электропередач.xml|РЕД_Изменение на газопроводе диаметра.xml|БД_Изменение на газопроводе диаметра.xml|РЕД_Воздушные переходы.xml|БД_Воздушные переходы.xml|РЕД_Пересечения со сторонними трубопроводами, кабелями.xml|БД_Пересечения со сторонними трубопроводами, кабелями.xml|РЕД_Нитки трубопроводов.xml|БД_Нитки трубопроводов.xml|РЕД_Потребители (строения).xml|БД_Потребители (строения).xml</LayersName>
+			<LayersName></LayersName>
 		</VectorLayers>
 		<RasterLayers>
 			<IsLocalTiles>0</IsLocalTiles>
 			<LocalTiles>
-				<TileLoaderOption></TileLoaderOption>
-				<PathToTiles></PathToTiles>
+				<TileLoaderOption/>
+				<PathToTiles/>
 			</LocalTiles>
 		</RasterLayers>
 		<PathToBaseRasterLayers>rasterLayers.json</PathToBaseRasterLayers>
@@ -41,7 +40,7 @@
 		</images>
 		<KML>
 			<PathToKMLStorage>KML/</PathToKMLStorage>
-		</KML>
+		<KMLFiles>test_1_2107_2025721_21459.kml</KMLFiles></KML>
 	</storage>
 	<style>
 		<SelectedElements>

@@ -1,7 +1,7 @@
 async function addNewLayer() {
   const answer = await ons.notification.confirm({
       title: 'Добавление kml-слоя', 
-      message: 'Изменения в слое не сохранятся в файле. Для сохранения используйте "Экспорт в KML".', 
+      message: 'Если Вы будете вносить изменения в добавляемый слой, то, для получения измененного файла, необходимо использовать функцию "Экспорт kml".', 
       buttonLabels: ["Отмена", "Продолжить"]
   }); 
   if (!answer) return;
@@ -107,9 +107,10 @@ async function addNewLayer() {
         newLayer.geometryType = geometryType;
         for(let i = 0; i < features.length; i++) {
           if (features[i]?.getGeometry().getType() !== geometryType) {
+            const topology = convertGeomtetryTypeName(geometryType);
             ons.notification.alert({
               title: 'Внимание',
-              message: `В слое обнаружено несколько разных топологий. Стиль будет задан только для ${geometryType}. Для остальных топологий стиль будет задан автоматически.` 
+              message: `В загружаемых данных имеются объекты различных типов геометрии (топологии). Для объектов ${topology} топологии стиль будет предложено изменить вручную. Для остальных топологий будут использованы автоматически созданные стили.` 
             });
             break;
           }
@@ -311,4 +312,20 @@ function getFileNameFromUri(uri) {
         console.error("Ошибка при получении имени файла:", e);
         return "unknown.kml"; 
     }
+}
+
+function convertGeomtetryTypeName(geometryType) {
+  switch(geometryType) {
+    case 'Point':
+    case 'MultiPoint':
+      return 'точечной';
+    case 'LineString':
+    case 'MultiLineString':
+      return 'линейной';
+    case 'Polygon':
+    case 'MultiPolygon':
+      return 'площадной';
+    default: 
+      return geometryType;
+  }
 }
