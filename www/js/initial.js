@@ -180,6 +180,7 @@ function completeLoad() {
             try {
                 loadLayersVisibility();
                 initLayerOrder();
+                loadMapPosition();
                 const navigator = document.querySelector('#myNavigator');
                 
                 if (navigator && navigator.resetToPage) {

@@ -27,8 +27,8 @@ function loadMapPosition() {
         "mapSettings",
         (data) => {
             if (data && !isDemoData(data)) {
-                map.getView().setCenter(data.center);
-                map.getView().setZoom(data.zoom);
+                currentMapView.setCenter(data.center);
+                currentMapView.setZoom(data.zoom);
             }
         },
         (error) => console.error("Ошибка загрузки:", error)
