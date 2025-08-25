@@ -162,28 +162,41 @@ function addCustomProjections(){
 }
 
 function completeLoad() {
-    if(typeof completeLoad.counter == 'undefined'){
+    if (typeof completeLoad.counter === 'undefined') {
         completeLoad.counter = 0;
+        completeLoad.navigationCalled = false;
     }
+    
     completeLoad.counter++;
+    
     if (document.querySelector('#load_stage') && layers.length) {
         document.querySelector('#load_stage').textContent = `${completeLoad.counter}/${layers.length}`;
     }
-    if (completeLoad.counter >= layers.length) {
+    
+    if (completeLoad.counter >= layers.length && !completeLoad.navigationCalled) {
+        completeLoad.navigationCalled = true;
+        
         setTimeout(() => {
             try {
                 loadLayersVisibility();
                 initLayerOrder();
                 const navigator = document.querySelector('#myNavigator');
+                
                 if (navigator && navigator.resetToPage) {
-                    if (completeLoad.counter >= layers.length) {
-                        navigator.resetToPage('./views/home.html').catch(e => {
-                            console.error('Navigation error:', e);
-                        });
+                    if (completeLoad.counter >= layers.length && completeLoad.navigationCalled) {
+                        navigator.resetToPage('./views/home.html')
+                            .then(() => {
+                                console.log('Navigation completed successfully');
+                            })
+                            .catch(e => {
+                                console.error('Navigation error:', e);
+                                completeLoad.navigationCalled = false;
+                            });
                     }
                 }
             } catch (error) {
                 console.error('Error in completeLoad:', error);
+                completeLoad.navigationCalled = false;
             }
         }, 1000);
     }
