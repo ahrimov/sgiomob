@@ -2,6 +2,19 @@
     margin-bottom: 50px;
 }
 
+.icon {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button--material {
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
 .list-group {
     padding-left: 0;
     margin-bottom: 7px;
