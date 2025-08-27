@@ -9,6 +9,9 @@ async function addExistingKMLLayers() {
 
         const mapProjection = map.getView().getProjection().getCode();
         const format = new ol.format.KML();
+        
+        if (!completeLoad.finishCounter) completeLoad.finishCounter = 0;
+        completeLoad.finishCounter += files.filter(file => file.endsWith('.kml')).length;
 
         for (const file of files) {
             if (!file.endsWith('.kml')) continue;

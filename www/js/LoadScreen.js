@@ -7,7 +7,9 @@ class LoadScreen{
     }
 
     startLoad(){
-        document.querySelector('#myNavigator').pushPage('./views/loadScreen.html');
+        setTimeout(() => { 
+            document.querySelector('#myNavigator').pushPage('./views/loadScreen.html');
+         }, 400);
     }
 
     elementLoaded(){
@@ -19,13 +21,15 @@ class LoadScreen{
     }
 
     finishLoad(){
-        setTimeout(() => {document.querySelector('#myNavigator').popPage()}, 300);
-        if(this.callback){
-            this.callback();
-            return;
-        }
-        if(this.message != ''){
-            ons.notification.alert({title: 'Загрузка', message: this.message});
-        }
+        setTimeout(() => {
+            document.querySelector('#myNavigator').popPage();
+            if (this.callback) {
+                this.callback();
+                return;
+            }
+            if (this.message != '') {
+                ons.notification.alert({title: 'Загрузка', message: this.message});
+            }
+        }, 600);
     }
 }

@@ -166,14 +166,19 @@ function completeLoad() {
         completeLoad.counter = 0;
         completeLoad.navigationCalled = false;
     }
-    
-    completeLoad.counter++;
-    
-    if (document.querySelector('#load_stage') && layers.length) {
-        document.querySelector('#load_stage').textContent = `${completeLoad.counter}/${layers.length}`;
+
+    if (typeof completeLoad.finishCounter === 'undefined') {
+        completeLoad.finishCounter = 0;
     }
     
-    if (completeLoad.counter >= layers.length && !completeLoad.navigationCalled) {
+    completeLoad.counter++;
+    const finishCounter = completeLoad.finishCounter;
+    
+    if (document.querySelector('#load_stage') && finishCounter) {
+        document.querySelector('#load_stage').textContent = `${completeLoad.counter}/${finishCounter}`;
+    }
+    
+    if (completeLoad.counter >= finishCounter && !completeLoad.navigationCalled) {
         completeLoad.navigationCalled = true;
         
         setTimeout(() => {
@@ -184,7 +189,7 @@ function completeLoad() {
                 const navigator = document.querySelector('#myNavigator');
                 
                 if (navigator && navigator.resetToPage) {
-                    if (completeLoad.counter >= layers.length && completeLoad.navigationCalled) {
+                    if (completeLoad.counter >= finishCounter && completeLoad.navigationCalled) {
                         navigator.resetToPage('./views/home.html')
                             .then(() => {
                                 console.log('Navigation completed successfully');

@@ -184,10 +184,11 @@ async function addNewLayer() {
               document.querySelector('#myNavigator').pushPage('./views/styleEditor.html', { data: {
                 layer: newLayer,
                 callback: () => {
-                  layers.push(newLayer);
-                  map.addLayer(newLayer);
-                  updatingVectorList();
-                  ons.notification.alert({ title: 'Внимание', message: 'Добавлен новый kml-слой.' });
+                  addLayerWithLoading(newLayer);
+                  // layers.push(newLayer);
+                  // map.addLayer(newLayer);
+                  // updatingVectorList();
+                  // ons.notification.alert({ title: 'Внимание', message: 'Добавлен новый kml-слой.' });
                 },
               }});
 
@@ -328,4 +329,50 @@ function convertGeomtetryTypeName(geometryType) {
     default: 
       return geometryType;
   }
+}
+
+async function addLayerWithLoading(newLayer) {
+    try {
+      const loading = new LoadScreen(0, '', () => {
+        ons.notification.alert({ 
+          title: 'Внимание', 
+          message: 'Добавлен новый kml-слой.' 
+        });
+      });
+      loading.startLoad();
+
+      layers.push(newLayer);
+      map.addLayer(newLayer);
+      
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      updatingVectorList();
+
+      loading.finishLoad();
+        
+    } catch (error) {
+        console.error('Ошибка при добавлении слоя:', error);
+        ons.notification.alert({ 
+            title: 'Ошибка', 
+            message: 'Не удалось добавить слой.' 
+        });
+    }
+}
+
+function waitForLayerReady(layer, timeout = 5000) {
+    return new Promise((resolve, reject) => {
+        const startTime = Date.now();
+        
+        function check() {
+            if (layer.getSource().getState() === 'ready') {
+                resolve();
+            } else if (Date.now() - startTime > timeout) {
+                reject(new Error('Layer loading timeout'));
+            } else {
+                setTimeout(check, 100);
+            }
+        }
+        
+        check();
+    });
 }
