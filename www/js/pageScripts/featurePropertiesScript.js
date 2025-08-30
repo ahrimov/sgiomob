@@ -40,7 +40,7 @@ function featurePropertiesScript(featureFromPage){
         photosDiv.innerHTML = `
             <ons-button modifier="outline light" id="addNewPhoto">
                 <div>
-                    <ons-icon icon="md-plus" size="30px"></ons-icon>
+                    <ons-icon class='icon' icon="md-plus" size="30px"></ons-icon>
                     <p>Нажмите, чтобы<br/>добавить фотографию</p>
                 </div>
             </ons-button>
@@ -396,7 +396,7 @@ function featurePropertiesScript(featureFromPage){
         addNewPhoto.remove()
         addNewPhoto = ons.createElement(`<ons-button modifier="outline light" id="addNewPhoto"></ons-button>`)
         addNewPhoto.innerHTML = `<div class='signature'>
-            <ons-icon icon="md-plus" size="20px"></ons-icon></div>`
+            <ons-icon class='icon' icon="md-plus" size="20px"></ons-icon></div>`
         addNewPhoto.style['width'] = "25%"
         addNewPhoto.style['float'] = 'right'
         document.querySelector('#photos').appendChild(addNewPhoto)

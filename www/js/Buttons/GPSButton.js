@@ -3,7 +3,7 @@ class GPSButton extends ol.control.Control {
         const options = opt_options || {};
 
         const gpsButton = ons.createElement(`<div class='gps-button' id='gps-button'><ons-fab  modifier='mini'>
-            <ons-icon icon='md-gps'></ons-icon>
+            <ons-icon class='icon' icon='md-gps'></ons-icon>
         </ons-fab></div>`);
 
         super({

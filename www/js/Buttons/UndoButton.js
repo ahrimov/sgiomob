@@ -3,7 +3,7 @@ class UndoButton extends ol.control.Control {
         const options = opt_options || {};
     
         const undoButton = ons.createElement(`<div class='undo-button'><ons-fab modifier='mini'>
-                                                <ons-icon icon='md-undo'></ons-icon>
+                                                <ons-icon class='icon' icon='md-undo'></ons-icon>
                                             </ons-fab></div>`)
     
         super({

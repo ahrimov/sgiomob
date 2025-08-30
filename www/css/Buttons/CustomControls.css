@@ -64,13 +64,34 @@
     left: 85%;
   }
   
-  .dot {
-    height: 12px;
-    width: 12px;
+.dot {
+  height: 12px;
+  width: 12px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.dot.online {
+  background-color: #4CAF50;
+  animation: breathing 1.5s ease-in-out infinite;
+}
+
+@keyframes breathing {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+  .dot.offline {
     background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    background-color: green;
+    animation: none;
   }
   
   .att {
@@ -83,6 +104,9 @@
     opacity: .7;
     position: absolute;
     top: 90%;
-    left: 2%
+    left: 2%;
+    display: flex;
+    align-items: center;
+    gap: 3px;
   }
   

@@ -5,7 +5,7 @@ class HoldCenterButton extends ol.control.Control {
         const holdCenterButton = ons.createElement(`
             <div class='hold-center-button' id='hold-center-button'>
                 <ons-fab id='ons-hold-center-button' modifier='mini'>
-                    <ons-icon id='hold-center-button-icon' icon='md-center-focus-strong'>
+                    <ons-icon id='hold-center-button-icon' class='icon' icon='md-center-focus-strong'>
                     </ons-icon>
                 </ons-fab>
             </div>`

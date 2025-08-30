@@ -3,7 +3,7 @@ class ZoomPlusButton extends ol.control.Control {
     const options = opt_options || {};
 
     const buttonZoomPlus = ons.createElement(`<div class='zoom-plus' id='zoom-plus'><ons-fab modifier='mini'>
-      <ons-icon icon='md-plus'></ons-icon>
+      <ons-icon class='icon' icon='md-plus'></ons-icon>
     </ons-fab></div>`);
 
     super({

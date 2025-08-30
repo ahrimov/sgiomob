@@ -4,7 +4,7 @@
     <div class="left">
         
         <ons-toolbar-button id='side-menu-button' onclick="fn.openMenu()"> 
-        <ons-icon icon="md-menu"></ons-icon>
+        <ons-icon class='icon' icon="md-menu"></ons-icon>
         </ons-toolbar-button>
         
     </div>
@@ -14,7 +14,7 @@
 
     <div class="right">
         <ons-toolbar-button id="layers-button">
-            <ons-icon icon="md-layers"></ons-icon>
+            <ons-icon class='icon' icon="md-layers"></ons-icon>
         </ons-toolbar-button>
     </div>
     </ons-toolbar>
@@ -23,9 +23,9 @@
     <div id="map-container"></div>
 
     <div id="downbar-wrapper">
-        <ons-button modifier="quiet" onclick="carousel_prev()"><ons-icon icon="md-arrow-left" class="button-icon"></ons-icon></ons-button>
+        <ons-button modifier="quiet" onclick="carousel_prev()"><ons-icon icon="md-arrow-left" class="icon button-icon"></ons-icon></ons-button>
         <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="80px" swipeable id="draw-bar"></ons-carousel>
-        <ons-button modifier="quiet" onclick="carousel_next()"><ons-icon icon="md-arrow-right" class="button-icon"></ons-icon></ons-button>
+        <ons-button modifier="quiet" onclick="carousel_next()"><ons-icon icon="md-arrow-right" class="icon button-icon"></ons-icon></ons-button>
     </div>
 
     <ons-carousel overscrollable auto-scroll direction="horizontal" item-width="33%" swipeable id="draw-instrument-bar" class="downbar">
@@ -61,7 +61,7 @@
                     </div>
                     <div class="right">
                         <ons-toolbar-button onclick="hideDialog('dialog-features')">
-                            <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                            <ons-icon icon="md-close" class="icon dialog-close"></ons-icon>
                         </ons-toolbar-button>
                     </div>
                 </ons-toolbar>
@@ -80,7 +80,7 @@
                     </div>
                     <div class="right">
                         <ons-toolbar-button onclick="hideDialog('dialog-draw-instrument-coordinate')">
-                            <ons-icon icon="md-close" class="dialog-close"></ons-icon>
+                            <ons-icon icon="md-close" class="icon dialog-close"></ons-icon>
                         </ons-toolbar-button>
                     </div>
                 </ons-toolbar>

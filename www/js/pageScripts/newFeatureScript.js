@@ -273,7 +273,7 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
         addNewPhoto.remove()
         addNewPhoto = ons.createElement(`<ons-button modifier="outline light" id="addNewPhoto"></ons-button>`)
         addNewPhoto.innerHTML = `<div class='signature'>
-            <ons-icon icon="md-plus" size="20px"></ons-icon></div>`
+            <ons-icon class='icon' icon="md-plus" size="20px"></ons-icon></div>`
         addNewPhoto.style['width'] = "25%"
         addNewPhoto.style['float'] = 'right'
         document.querySelector('#photos').appendChild(addNewPhoto)

@@ -233,13 +233,19 @@ function getValueFromLayerAtrib(layerID, atribName, value){
             isOnline = true;
         }
     });
-    if(isOnline){
-        document.querySelector('#info-label').innerHTML = "Онлайн";
-        document.querySelector('.dot').setAttribute('style', 'background-color: green;');   
+
+    const dot = document.querySelector('.dot');
+    const label = document.querySelector('#info-label');
+
+    if (isOnline) {
+        label.innerHTML = "Онлайн";
+        dot.classList.add('online');
+        dot.classList.remove('offline');
     }
-    else{
-        document.querySelector('#info-label').innerHTML = "Оффлайн";
-        document.querySelector('.dot').setAttribute('style', 'background-color: #bbb;');
+    else {
+        label.innerHTML = "Оффлайн";
+        dot.classList.remove('online');
+        dot.classList.add('offline');
     }
  }
 

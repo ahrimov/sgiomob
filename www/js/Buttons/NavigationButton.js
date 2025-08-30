@@ -3,7 +3,7 @@ class NavigationButton extends ol.control.Control {
         const options = opt_options || {};
 
         const navButton = ons.createElement(`<div class='nav-button' id='nav-button'><ons-fab id='ons-nav-button' modifier='mini'>
-            <ons-icon icon='md-navigation' id="navigation-button-icon"></ons-icon>
+            <ons-icon class='icon' icon='md-navigation' id="navigation-button-icon"></ons-icon>
         </ons-fab></div>`);
 
         super({

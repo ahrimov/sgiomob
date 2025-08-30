@@ -3,7 +3,7 @@ class CancelButton extends ol.control.Control {
         const options = opt_options || {};
 
         const cancelButton = ons.createElement(`<div class='cancel-button' id='cancel-button'><ons-fab modifier='mini'>
-            <ons-icon icon='md-close'></ons-icon>
+            <ons-icon class='icon' icon='md-close'></ons-icon>
         </ons-fab></div>`)
 
         super({
