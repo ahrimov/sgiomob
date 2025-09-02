@@ -75,18 +75,6 @@
 
 .dot.online {
   background-color: #4CAF50;
-  animation: breathing 1.5s ease-in-out infinite;
-}
-
-@keyframes breathing {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.9;
-  }
 }
 
   .dot.offline {
