@@ -1,4 +1,4 @@
-const appVersion = '2.0.1';
+const appVersion = '2.0.2';
 
 let updateAppMode = false;
 
