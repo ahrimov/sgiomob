@@ -8,7 +8,7 @@
 		"projection": "EPSG:3857",
 		"tileSize": [256, 256],
 		"remote_url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-		"local_path": "Android/media/io.cordova.sgiomob/TileTrees/OSMTiles/{z}/{x}/{-y}.png",
+		"local_path": "Android/media/io.cordova.sgiomobmg/TileTrees/OSMTiles/{z}/{x}/{-y}.png",
 		"useLocalTiles": false
 	}, {
 		"id": "Yandex.Map (Satelite)",
@@ -19,7 +19,7 @@
 		"projection": "EPSG:3395",
 		"tileSize": [256, 256],
 		"remote_url": "https://core-sat.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
-		"local_path": "Android/media/io.cordova.sgiomob/TileTrees/YandexSatelite/{z}/{x}/{y}.jpg",
+		"local_path": "Android/media/io.cordova.sgiomobmg/TileTrees/YandexSatelite/{z}/{x}/{y}.jpg",
 		"useLocalTiles": false
 	}, {
 		"id": "Yandex.Map",
@@ -30,7 +30,7 @@
 		"projection": "EPSG:3395",
 		"tileSize": [256, 256],
 		"remote_url": "https://core-renderer-tiles.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}&scale=1&lang=ru_RU",
-		"local_path": "Android/media/io.cordova.sgiomob/TileTrees/YandexTiles/{z}/{x}/{-y}.png",
+		"local_path": "Android/media/io.cordova.sgiomobmg/TileTrees/YandexTiles/{z}/{x}/{-y}.png",
 		"useLocalTiles": false
 	}
 ]

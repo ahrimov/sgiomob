@@ -1,6 +1,7 @@
 function featurePropertiesScript(featureFromPage){
     transformUIToOrientation();
     const visibleBaseLayer = baseRasterLayers.filter(layer => layer.get('visible'));
+    console.log(baseRasterLayers);
     const currentBaseLayer = visibleBaseLayer.sort((a, b) => b.getZIndex() - a.getZIndex())[0];
     let clone_raster;
     if(typeof currentBaseLayer === 'undefined')

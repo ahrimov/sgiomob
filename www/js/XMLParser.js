@@ -17,7 +17,6 @@ function configParser(data, title){
     }
     else {
         for(let layerName of layersName){
-            console.log(root_directory + pathToLayers + layerName);
             openFile(root_directory + pathToLayers + layerName, layerParser);
         }
     }

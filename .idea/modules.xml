@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/sgiomob.iml" filepath="$PROJECT_DIR$/.idea/sgiomob.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/sgiomobmg.iml" filepath="$PROJECT_DIR$/.idea/mg.iml" />
     </modules>
   </component>
 </project>

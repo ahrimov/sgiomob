@@ -323,6 +323,7 @@ function createBaseRasterList(){
   const template = document.querySelector('#layerListItem');
   const list = document.querySelector('#base-raster-layers-list-content');
   const sortBaseLayers = baseRasterLayers.sort((a, b) => b.getZIndex() - a.getZIndex());
+  console.log(sortBaseLayers);
   sortBaseLayers.forEach((layer) => {
     const listItem = template.content.cloneNode(true);
     listItem.querySelector('.layer-label').textContent = layer.get('descr');
