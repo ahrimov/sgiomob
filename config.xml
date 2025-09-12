@@ -13,10 +13,6 @@
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application android:requestLegacyExternalStorage="true" />
         </edit-config>
-
-        <!-- Целевая версия SDK -->
-        <preference name="AndroidTargetSdkVersion" value="31" />
-        <preference name="AndroidMinSdkVersion" value="21" />
     </platform>
 
     <allow-intent href="http://*/*" />

@@ -233,25 +233,92 @@ function requestExternalStoragePermission() {
     }
 }
 
-function checkPermissions() {
-    if (cordova.plugins && cordova.plugins.permissions) {
-        cordova.plugins.permissions.checkPermission(
-            cordova.plugins.permissions.READ_EXTERNAL_STORAGE,
-            function (result) {
-                if (!result.hasPermission) {
-                    cordova.plugins.permissions.requestPermission(
-                        cordova.plugins.permissions.READ_EXTERNAL_STORAGE,
-                        function (status) {
-                            if (!status.hasPermission) {
-                                alert('Необходимо предоставить доступ к файлам!');
-                            }
-                        }
-                    );
-                }
-            }
-        );
+// function checkPermissions() {
+//     if (cordova.plugins && cordova.plugins.permissions) {
+//         cordova.plugins.permissions.checkPermission(
+//             cordova.plugins.permissions.READ_EXTERNAL_STORAGE,
+//             function (result) {
+//                 if (!result.hasPermission) {
+//                     cordova.plugins.permissions.requestPermission(
+//                         cordova.plugins.permissions.READ_EXTERNAL_STORAGE,
+//                         function (status) {
+//                             if (!status.hasPermission) {
+//                                 alert('Необходимо предоставить доступ к файлам!');
+//                             }
+//                         }
+//                     );
+//                 }
+//             }
+//         );
+//     }
+// }
+
+async function checkPermissions() {
+    try {
+        // Для Android 10+
+        if (device.platform === 'Android' && device.version >= 10) {
+            await checkAndroid10PlusPermissions();
+        } else {
+            await checkLegacyPermissions();
+        }
+    } catch (error) {
+        console.error('Permission error:', error);
     }
 }
+
+async function checkAndroid10PlusPermissions() {
+    if (cordova.plugins && cordova.plugins.permissions) {
+        // Для Android 11+ нужен MANAGE_EXTERNAL_STORAGE
+        if (device.version >= 11) {
+            const result = await new Promise((resolve) => {
+                cordova.plugins.permissions.checkPermission(
+                    'android.permission.MANAGE_EXTERNAL_STORAGE',
+                    resolve
+                );
+            });
+            
+            if (!result.hasPermission) {
+                const status = await new Promise((resolve) => {
+                    cordova.plugins.permissions.requestPermission(
+                        'android.permission.MANAGE_EXTERNAL_STORAGE',
+                        resolve
+                    );
+                });
+                
+                if (!status.hasPermission) {
+                    alert('Для работы приложения необходим доступ к файлам. Пожалуйста, предоставьте разрешение в настройках приложения.');
+                    // Открываем настройки
+                    cordova.plugins.diagnostic.switchToSettings();
+                }
+            }
+        }
+    }
+}
+
+async function checkLegacyPermissions() {
+    if (cordova.plugins && cordova.plugins.permissions) {
+        const result = await new Promise((resolve) => {
+            cordova.plugins.permissions.checkPermission(
+                cordova.plugins.permissions.READ_EXTERNAL_STORAGE,
+                resolve
+            );
+        });
+        
+        if (!result.hasPermission) {
+            const status = await new Promise((resolve) => {
+                cordova.plugins.permissions.requestPermission(
+                    cordova.plugins.permissions.READ_EXTERNAL_STORAGE,
+                    resolve
+                );
+            });
+            
+            if (!status.hasPermission) {
+                alert('Необходимо предоставить доступ к файлам!');
+            }
+        }
+    }
+}
+
 
 function checkManageExternalStoragePermission() {
     if (device.platform === 'Android' && parseInt(device.version) >= 10) {
