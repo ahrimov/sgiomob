@@ -14,7 +14,7 @@ class LoadScreen{
 
     elementLoaded(){
         this.counter++;
-        document.querySelector('#load_stage').textContent = `${this.counter}/${this.amount}`;
+        setTimeout(() => document.querySelector('#load_stage').textContent = `${this.counter}/${this.amount}`, 600);
         if(this.counter >= this.amount){
             this.finishLoad()
         }
@@ -30,6 +30,6 @@ class LoadScreen{
             if (this.message != '') {
                 ons.notification.alert({title: 'Загрузка', message: this.message});
             }
-        }, 600);
+        }, 800);
     }
 }
