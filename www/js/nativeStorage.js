@@ -106,7 +106,7 @@ async function loadLayersOrder() {
 async function initLayerOrder() {
     const savedOrder = await loadLayersOrder();
 
-    if (savedOrder) {
+    if (savedOrder.length) {
         layers.sort(function(a, b) {
             const aId = a.get("id");
             const bId = b.get("id");
@@ -118,6 +118,7 @@ async function initLayerOrder() {
         layers.sort(function(a, b) {
             return b.getZIndex() - a.getZIndex();
         });
+        saveLayersOrder(layers.map(layer => layer.get("id")));
     }
     
     let count = layers.length;
