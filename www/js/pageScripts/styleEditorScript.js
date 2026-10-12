@@ -1,6 +1,8 @@
 function styleEditor(layer, callback) {
     const geometryType = layer.geometryType;
     const styleSettings = layer.styleSettings;
+    const topologyName = document.getElementById('style-topology-name');
+    if (topologyName) topologyName.textContent = getStyleTopologyName(geometryType);
 
     const previewFeature = createPreviewFeature(geometryType);
 
@@ -37,6 +39,7 @@ function styleEditor(layer, callback) {
         currentStyle.setImage(currentImage);
         let currentShape = styleSettings?.shape || 'circle';
         let currentBorderColor = '#000000';
+        let currentOpacity = getColorOpacityPercent(currentImage.getFill()?.getColor());
 
         return {
             updateShape(shape) {
@@ -98,7 +101,16 @@ function styleEditor(layer, callback) {
             },
 
             updateColor(color) {
-                currentImage.getFill().setColor(color);
+                currentImage.getFill().setColor(applyOpacityToColor(color, currentOpacity));
+                previewFeature.setStyle(currentStyle);
+            },
+
+            updateOpacity(opacity) {
+                currentOpacity = normalizeOpacityPercent(opacity);
+                const fill = currentImage.getFill();
+                fill.setColor(applyOpacityToColor(fill.getColor(), currentOpacity));
+                currentImage.setFill(fill);
+                currentStyle.setImage(currentImage);
                 previewFeature.setStyle(currentStyle);
             },
 
@@ -135,6 +147,7 @@ function styleEditor(layer, callback) {
         const currentStyle = defaultStyle;
         previewFeature.setStyle(currentStyle);
         const DASH_RATIO = 3;
+        let currentOpacity = getColorOpacityPercent(currentStyle.getStroke()?.getColor());
 
         return {
             updatePattern(pattern) {
@@ -165,7 +178,15 @@ function styleEditor(layer, callback) {
 
             updateColor(color) {
                 const stroke = currentStyle.getStroke();
-                stroke.setColor(color);
+                stroke.setColor(applyOpacityToColor(color, currentOpacity));
+                currentStyle.setStroke(stroke);
+                previewFeature.setStyle(currentStyle);
+            },
+
+            updateOpacity(opacity) {
+                currentOpacity = normalizeOpacityPercent(opacity);
+                const stroke = currentStyle.getStroke();
+                stroke.setColor(applyOpacityToColor(stroke.getColor(), currentOpacity));
                 currentStyle.setStroke(stroke);
                 previewFeature.setStyle(currentStyle);
             }
@@ -178,11 +199,20 @@ function styleEditor(layer, callback) {
         let lastBorderColor = '#000000';
         let lastBorderPattern = 'solid';
         const DASH_RATIO = 3;
+        let currentOpacity = getColorOpacityPercent(currentStyle.getFill()?.getColor());
 
         return {
             updateColor(color) {
                 const fill = currentStyle.getFill();
-                fill.setColor(color);
+                fill.setColor(applyOpacityToColor(color, currentOpacity));
+                currentStyle.setFill(fill);
+                previewFeature.setStyle(currentStyle);
+            },
+
+            updateOpacity(opacity) {
+                currentOpacity = normalizeOpacityPercent(opacity);
+                const fill = currentStyle.getFill();
+                fill.setColor(applyOpacityToColor(fill.getColor(), currentOpacity));
                 currentStyle.setFill(fill);
                 previewFeature.setStyle(currentStyle);
             },
@@ -255,7 +285,7 @@ function styleEditor(layer, callback) {
             createLineStringEditor();
             break;
         case 'Polygon':
-        case 'Multipolygon':
+        case 'MultiPolygon':
             createPolygonEditor();
             break;
         default:
@@ -309,6 +339,13 @@ function styleEditor(layer, callback) {
             stylePointUpdater.updateColor(e.target.value);
         });
 
+        document.getElementById('style-input-opacity')?.addEventListener('change', (e) => {
+            const opacity = normalizeOpacityPercent(e.target.value);
+            e.target.value = opacity;
+            stylePointUpdater.updateOpacity(opacity);
+            updateStyleColorPreview(e.target.ownerDocument, opacity);
+        });
+
         document.getElementById('style-input-border')?.addEventListener('change', (e) => {
             stylePointUpdater.updateBorderSize(parseInt(e.target.value) ?? 0);
         });
@@ -336,6 +373,13 @@ function styleEditor(layer, callback) {
         document.getElementById('color-input')?.addEventListener('change', (e) => {
             styleLineUpdater.updateColor(e.target.value);
         });
+
+        document.getElementById('style-input-opacity')?.addEventListener('change', (e) => {
+            const opacity = normalizeOpacityPercent(e.target.value);
+            e.target.value = opacity;
+            styleLineUpdater.updateOpacity(opacity);
+            updateStyleColorPreview(e.target.ownerDocument, opacity);
+        });
     }
 
     function initPolygonStyleEditor() {
@@ -347,6 +391,13 @@ function styleEditor(layer, callback) {
 
         document.getElementById('color-input')?.addEventListener('change', (e) => {
             stylePolygonUpdater.updateColor(e.target.value);
+        });
+
+        document.getElementById('style-input-opacity')?.addEventListener('change', (e) => {
+            const opacity = normalizeOpacityPercent(e.target.value);
+            e.target.value = opacity;
+            stylePolygonUpdater.updateOpacity(opacity);
+            updateStyleColorPreview(e.target.ownerDocument, opacity);
         });
 
         document.getElementById('style-select-pattern')?.addEventListener('change', (e) => {
@@ -498,6 +549,11 @@ function applyDefaultPointStyleValues(style) {
         colorInput.value = fillColor;
     }
 
+    const opacityInput = document.getElementById('style-input-opacity');
+    if (opacityInput && image.getFill()) {
+        opacityInput.value = getColorOpacityPercent(image.getFill().getColor());
+    }
+
     const borderSizeInput = document.getElementById('style-input-border');
     if (borderSizeInput && image.getStroke()) {
         borderSizeInput.value = image.getStroke().getWidth() || 2;
@@ -558,6 +614,11 @@ function applyDefaultLineStyleValues(style) {
             preview.setAttribute('fill', stroke.getColor() || '#000000');
         }
     }
+
+    const opacityInput = document.getElementById('style-input-opacity');
+    if (opacityInput) {
+        opacityInput.value = getColorOpacityPercent(stroke.getColor());
+    }
 }
 
 function applyDefaultPolygonStyleValues(style) {
@@ -578,6 +639,11 @@ function applyDefaultPolygonStyleValues(style) {
         if (preview) {
             preview.setAttribute('fill', fillColor);
         }
+    }
+
+    const opacityInput = document.getElementById('style-input-opacity');
+    if (opacityInput && fill) {
+        opacityInput.value = getColorOpacityPercent(fill.getColor());
     }
 
     // Устанавливаем тип штриховки (solid/dotted)
@@ -671,6 +737,22 @@ function createPreviewFeature(geometryType) {
     }
 }
 
+function getStyleTopologyName(geometryType) {
+    switch (geometryType) {
+        case 'Point':
+        case 'MultiPoint':
+            return 'Точка';
+        case 'LineString':
+        case 'MultiLineString':
+            return 'Линия';
+        case 'Polygon':
+        case 'MultiPolygon':
+            return 'Площадь';
+        default:
+            return geometryType || 'не определена';
+    }
+}
+
 function createPointEditor() {
     const template = document.querySelector('#point-editor');
     const cloneNode = template.content.cloneNode(true);
@@ -761,27 +843,64 @@ function getPointStyleSettings() {
     const shape = document.getElementById('style-select-shape')?.value;
     const size = document.getElementById('style-input-size')?.value;
     const color = document.getElementById('color-input')?.value;
+    const opacity = normalizeOpacityPercent(document.getElementById('style-input-opacity')?.value);
     const borderSize = document.getElementById('style-input-border')?.value;
     const borderColor = document.getElementById('border-color-input')?.value;
 
-    return { shape, size, color, borderSize, borderColor };
+    return { shape, size, color: applyOpacityToColor(color, opacity), opacity, borderSize, borderColor };
 }
 
 function getLineStyleSettings() {
     const pattern = document.getElementById('style-select-pattern')?.value;
     const size = document.getElementById('style-input-size')?.value;
     const color = document.getElementById('color-input')?.value;
+    const opacity = normalizeOpacityPercent(document.getElementById('style-input-opacity')?.value);
 
-    return { pattern, size, color };
+    return { pattern, size, color: applyOpacityToColor(color, opacity), opacity };
 }
 
 function getPolygonStyleSettings() {
     const color = document.getElementById('color-input')?.value;
+    const opacity = normalizeOpacityPercent(document.getElementById('style-input-opacity')?.value);
     const pattern = document.getElementById('style-select-pattern')?.value;
     const borderSize = document.getElementById('style-input-border')?.value;
     const borderColor = document.getElementById('border-color-input')?.value;
 
-    return { color, pattern, borderSize, borderColor };
+    return { color: applyOpacityToColor(color, opacity), opacity, pattern, borderSize, borderColor };
+}
+
+function normalizeOpacityPercent(opacity) {
+    const value = Number(opacity);
+    if (!Number.isFinite(value)) return 100;
+    return Math.min(100, Math.max(0, Math.round(value)));
+}
+
+function getColorOpacityPercent(color) {
+    if (Array.isArray(color) && color.length > 3 && Number.isFinite(Number(color[3]))) {
+        return normalizeOpacityPercent(Number(color[3]) * 100);
+    }
+
+    if (typeof color === 'string') {
+        const rgba = color.match(/^rgba\([^,]+,[^,]+,[^,]+,\s*([\d.]+)\s*\)$/i);
+        if (rgba) return normalizeOpacityPercent(Number(rgba[1]) * 100);
+    }
+
+    return 100;
+}
+
+function applyOpacityToColor(color, opacity) {
+    const hex = olColorToHex(color);
+    const red = parseInt(hex.slice(1, 3), 16);
+    const green = parseInt(hex.slice(3, 5), 16);
+    const blue = parseInt(hex.slice(5, 7), 16);
+    const alpha = normalizeOpacityPercent(opacity) / 100;
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+}
+
+function updateStyleColorPreview(doc, opacity) {
+    const color = doc.getElementById('color-input')?.value || '#000000';
+    const preview = doc.getElementById('point-color-preview');
+    if (preview) preview.setAttribute('fill', applyOpacityToColor(color, opacity));
 }
 
 function olColorToHex(color) {

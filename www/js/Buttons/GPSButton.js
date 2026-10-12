@@ -2,8 +2,8 @@ class GPSButton extends ol.control.Control {
     constructor(opt_options) {
         const options = opt_options || {};
 
-        const gpsButton = ons.createElement(`<div class='gps-button' id='gps-button'><ons-fab  modifier='mini'>
-            <ons-icon class='icon' icon='md-gps'></ons-icon>
+        const gpsButton = ons.createElement(`<div class='gps-button' id='gps-button'><ons-fab class='map-control-fab' modifier='material mini' disable-auto-styling>
+            <img class='gps-button-icon' src='./resources/images/assets/sight.png' alt='Показать местоположение'>
         </ons-fab></div>`);
 
         super({

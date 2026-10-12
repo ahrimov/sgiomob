@@ -1,0 +1,48 @@
+:root {
+  --app-background-color: #003366;
+}
+
+html,
+body,
+ons-page,
+.page,
+.page__background {
+  background-color: var(--app-background-color);
+}
+
+ons-toolbar,
+.toolbar {
+  background-color: var(--app-background-color);
+}
+
+.toolbar__center,
+.toolbar__title {
+  color: #fff;
+}
+
+.drawer-page,
+.drawer-page .page__background,
+.drawer-page ons-list,
+.drawer-page .list {
+  background-color: #fff;
+}
+
+.toolbar-button:not(.home-toolbar-action),
+.toolbar-button:not(.home-toolbar-action) .icon {
+  color: #fff;
+}
+
+ons-back-button,
+.back-button,
+.back-button--material,
+.back-button__icon,
+.back-button__label,
+.back-button--material__label {
+  color: #fff;
+}
+
+.back-button__icon,
+.back-button--material__icon {
+  color: #fff;
+  fill: #fff;
+}

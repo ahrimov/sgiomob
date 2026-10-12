@@ -171,6 +171,47 @@
     margin-top: 2vh;
 }
 
+.manual-coordinate-action-button.button{
+    box-sizing: border-box;
+    height: 21px;
+    min-height: 21px;
+    padding: 0 12px;
+    border: 1px solid rgb(0, 93, 152);
+    border-radius: 10px;
+    background-color: rgb(76, 147, 194);
+    box-shadow: none;
+    color: #fff;
+    line-height: normal;
+}
+
+.manual-coordinate-action-button.button:active{
+    background-color: #ffc76e;
+    box-shadow: none;
+}
+
+.manual-coordinate-action-content{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.manual-coordinate-action-icon{
+    display: block;
+    flex: 0 0 auto;
+    object-fit: contain;
+}
+
+.manual-coordinate-close-icon{
+    width: 16px;
+    height: 16px;
+}
+
+.manual-coordinate-check-icon{
+    width: 12px;
+    height: 12px;
+}
+
 .manual-edit-geometry-add-coordinate-button-container{
     padding-right: 2vw;
     margin-bottom: 8vh;
@@ -226,6 +267,18 @@
 
 .manual-input-coordinates-tr:hover{
     background-color: #ededed;
+}
+
+.delete-button{
+    cursor: pointer;
+}
+
+.manual-coordinate-delete-icon{
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+    object-fit: contain;
 }
 
 .edit-geometry-delete-button{

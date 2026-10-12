@@ -140,6 +140,13 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
 
                 feature.changed();
                 saveDB();
+            }, function(err){
+                const errorMessage = err && err.message ? err.message : 'Неизвестная ошибка базы данных';
+                console.error('Feature was not saved:', errorMessage);
+                ons.notification.alert({
+                    title: 'Ошибка сохранения',
+                    message: `Не удалось сохранить объект: ${errorMessage}`
+                });
             }); 
         }
     }

@@ -2,8 +2,8 @@ class ZoomMinusButton extends ol.control.Control {
     constructor(opt_options) {
         const options = opt_options || {};
 
-        const buttonZoomMinus = ons.createElement(`<div class='zoom-minus' id='zoom-minus'><ons-fab modifier='mini'>
-            <ons-icon class='icon' icon='md-minus'></ons-icon>
+        const buttonZoomMinus = ons.createElement(`<div class='zoom-minus' id='zoom-minus'><ons-fab modifier='material mini' disable-auto-styling>
+            <img class='zoom-button-icon' src='./resources/images/assets/zoom_out.png' alt='Уменьшить масштаб'>
         </ons-fab></div>`);
 
         super({

@@ -4,11 +4,56 @@
     top: 75%;
     left: 85%;
   }
-  
+
   .zoom-minus{
     position: absolute;
     top: 82%;
     left: 85%;
+  }
+
+  .zoom-button-icon{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    transform: translateY(-2px);
+  }
+
+  .zoom-plus .fab,
+  .zoom-minus .fab,
+  .map-control-fab.fab{
+    box-sizing: border-box;
+    background-color: rgb(76, 147, 194);
+    border: 1px solid rgb(0, 93, 152);
+    box-shadow: none;
+    color: #fff;
+  }
+
+  .zoom-plus .fab:active,
+  .zoom-minus .fab:active,
+  .map-control-fab.fab:active{
+    background-color: #ffc76e;
+    box-shadow: none;
+  }
+
+  .map-control-fab .icon{
+    color: #fff;
+  }
+
+  .map-primary-action-icon{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    transform: translateY(-2px);
+  }
+
+  .gps-button-icon{
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    vertical-align: middle;
+    transform: translateY(-2px);
   }
   
   .buttons{
@@ -28,11 +73,6 @@
     left: 83%;
   }
   
-  .draw-button .fab{
-    background-color: #2375fa;
-    color: white;
-  }
-  
   .accept-draw-button{
     display: none;
     position: absolute;
@@ -40,21 +80,11 @@
     left: 83%;
   }
   
-  .accept-draw-button .fab{
-    background-color: #2375fa;
-    color: white;
-  }
-
   .accept-modify-button{
     display: none;
     position: absolute;
     top: 90%;
     left: 83%;
-  }
-  
-  .accept-modify-button .fab{
-    background-color: #2375fa;
-    color: white;
   }
   
   .cancel-button{
@@ -97,4 +127,4 @@
     align-items: center;
     gap: 3px;
   }
-  
+

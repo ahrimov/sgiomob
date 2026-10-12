@@ -2,8 +2,8 @@ class ZoomPlusButton extends ol.control.Control {
   constructor(opt_options) {
     const options = opt_options || {};
 
-    const buttonZoomPlus = ons.createElement(`<div class='zoom-plus' id='zoom-plus'><ons-fab modifier='mini'>
-      <ons-icon class='icon' icon='md-plus'></ons-icon>
+    const buttonZoomPlus = ons.createElement(`<div class='zoom-plus' id='zoom-plus'><ons-fab modifier='material mini' disable-auto-styling>
+      <img class='zoom-button-icon' src='./resources/images/assets/zoom_in.png' alt='Увеличить масштаб'>
     </ons-fab></div>`);
 
     super({

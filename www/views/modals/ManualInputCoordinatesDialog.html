@@ -2,7 +2,7 @@
     <ons-dialog id="manual-input-coordinates">
         <ons-toolbar class="dialog-toolbar">
             <div class="center dialog-toolbar-content">
-                Ручной ввод координат
+                Ручной ввод координат WGS-84
             </div>
             <div class="right">
                   <ons-toolbar-button onclick="hideDialog('manual-input-coordinates')">
@@ -32,7 +32,7 @@
             </div>
             <div class="manual-edit-geometry-add-coordinate-button-container">
                 <ons-button id="manual-edit-geometry-add-coordinate-button" style="float:right;">
-                    Добавить координату
+                    Добавить узел
                 </ons-button>
             </div>
             <div class="table-coordinates-container">
@@ -49,8 +49,22 @@
                 </table>
             </div>
             <div class="edit-geometry-bottom-buttons">
-                <ons-button id="edit-geometry-cancel-changes">Отмена</ons-button>
-                <ons-button id="edit-geometry-save-changes">Сохранить</ons-button>
+                <ons-button id="edit-geometry-cancel-changes" class="manual-coordinate-action-button" disable-auto-styling>
+                    <span class="manual-coordinate-action-content">
+                        <img class="manual-coordinate-action-icon manual-coordinate-close-icon"
+                             src="./resources/images/assets/close.png"
+                             alt="">
+                        <span>Отмена</span>
+                    </span>
+                </ons-button>
+                <ons-button id="edit-geometry-save-changes" class="manual-coordinate-action-button" disable-auto-styling>
+                    <span class="manual-coordinate-action-content">
+                        <img class="manual-coordinate-action-icon manual-coordinate-check-icon"
+                             src="./resources/images/assets/check_black.png"
+                             alt="">
+                        <span>Сохранить</span>
+                    </span>
+                </ons-button>
             </div>
             </div>
         </div>
@@ -63,7 +77,9 @@
         <td class="manual-input-coordinates-td latitude"></td>
         <td class="manual-input-coordinates-td longtitude"></td>
         <td class="manual-input-coordinates-td delete-button">
-            <ons-icon class='icon' icon="md-close"></ons-icon>
+            <img class="manual-coordinate-delete-icon"
+                 src="./resources/images/assets/delete.png"
+                 alt="Удалить узел">
         </td>
     </tr>
 </template>

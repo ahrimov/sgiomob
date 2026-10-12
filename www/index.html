@@ -20,6 +20,7 @@
         <link rel="stylesheet" href="./css/modalSelect.css" type="text/css">
         <link rel="stylesheet" href="./css/notification.css" type="text/css">
         <link rel="stylesheet" href="./css/styleEditor.css" type="text/css">
+        <link rel="stylesheet" href="./css/theme.css" type="text/css">
 
         <!--  CSS Buttons -->
         <link rel="stylesheet" href="./css/Buttons/Crosshair.css" type="text/css">
@@ -40,8 +41,8 @@
 
     <body>
         <ons-splitter ng-app="myApp">
-            <ons-splitter-side collapse id="menu" side="left">
-              <ons-page>
+            <ons-splitter-side collapse id="menu" side="right">
+              <ons-page class="drawer-page">
                 <ons-toolbar><div class="center">СГИОМОБ</div></ons-toolbar>
                 <ons-list>
                     <ons-list-item tappable onclick="fn.load('./views/layers.html')">

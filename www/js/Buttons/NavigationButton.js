@@ -2,7 +2,7 @@ class NavigationButton extends ol.control.Control {
     constructor(opt_options) {
         const options = opt_options || {};
 
-        const navButton = ons.createElement(`<div class='nav-button' id='nav-button'><ons-fab id='ons-nav-button' modifier='mini'>
+        const navButton = ons.createElement(`<div class='nav-button' id='nav-button'><ons-fab id='ons-nav-button' class='map-control-fab' modifier='material mini' disable-auto-styling>
             <ons-icon class='icon' icon='md-navigation' id="navigation-button-icon"></ons-icon>
         </ons-fab></div>`);
 
@@ -30,7 +30,6 @@ class NavigationButton extends ol.control.Control {
             case NAVIGATION_MODE.DISABLED:
                 navigationMode = NAVIGATION_MODE.TURN_NAVIGATION_ARROW;
                 turnOnNavigation();
-                document.getElementById('navigation-button-icon').style.color = '#2375fa';
                 if(!gps_position) return;
                 map.getView().animate({
                     center: ol.proj.fromLonLat([gps_position.coords.longitude, gps_position.coords.latitude])
@@ -50,17 +49,11 @@ class NavigationButton extends ol.control.Control {
             //     break;
             case NAVIGATION_MODE.TURN_NAVIGATION_ARROW:
                 navigationMode =  NAVIGATION_MODE.DISABLED;
-                document.getElementById('navigation-button-icon').style.color = '#000000';
-                document.getElementById('ons-nav-button').style.backgroundColor = '#ffffff';
                 document.getElementById('hold-center-button').style.display = 'none';
                 turnOffNavigation();
                 break;
             case NAVIGATION_MODE.HOLD_CENTER_MAP:
                 navigationMode = NAVIGATION_MODE.DISABLED;
-                document.getElementById('hold-center-button-icon').style.color = '#000000';
-                document.getElementById('ons-hold-center-button').style.backgroundColor = '#ffffff';
-                document.getElementById('navigation-button-icon').style.color = '#000000';
-                document.getElementById('ons-nav-button').style.backgroundColor = '#ffffff';
                 document.getElementById('hold-center-button').style.display = 'none';
                 window.removeEventListener('deviceorientationabsolute', getOrientation, true);
                 map.getInteractions().forEach(x => x.setActive(true));

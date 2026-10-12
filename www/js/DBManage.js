@@ -107,7 +107,39 @@ function getDataLayerFromBD(layer){
     }
 
     const query = `SELECT ${layer.atribs[0].name} as id,${selectTypeQuery} ${selectLabelQuery} AsText(Geometry) as geom from ` + layer.id;
-    try{  
+    const finishWithEmptySource = function () {
+        layer.setSource(source);
+        completeLoad();
+    };
+
+    const createLayerTable = function (tx) {
+        const quoteIdentifier = function (identifier) {
+            return `"${String(identifier).replace(/"/g, '""')}"`;
+        };
+        const columnType = function (atrib, index) {
+            if(index === 0) return 'INTEGER PRIMARY KEY';
+            if(atrib.type === 'DOUBLE') return 'REAL';
+            if(atrib.type === 'BOOLEAN') return 'INTEGER';
+            return 'TEXT';
+        };
+        const columns = layer.atribs.map(function (atrib, index) {
+            return `${quoteIdentifier(atrib.name)} ${columnType(atrib, index)}`;
+        });
+        columns.push(`${quoteIdentifier('Geometry')} BLOB`);
+
+        const createQuery = `CREATE TABLE IF NOT EXISTS ${quoteIdentifier(layer.id)} (${columns.join(', ')})`;
+        tx.executeSql(
+            createQuery,
+            [],
+            function () {
+                console.info(`Database table for layer '${layer.id}' was created.`);
+                finishWithEmptySource();
+            },
+            queryError
+        );
+    };
+
+    try{
         var querySuccess = function (tx, res) {
             const format = new ol.format.WKT();
             
@@ -125,17 +157,35 @@ function getDataLayerFromBD(layer){
             layer.setSource(source)
             completeLoad()
         }
-        var queryError = function (err) {
-            console.log("Error with database transaction")
-            console.log("Query:", query)
-            ons.notification.alert({title:"Внимание", message: 'Ошибка в базе данных.'})
+        var queryError = function (tx, err) {
+            const errorMessage = err?.message || String(err || '');
+            console.warn("Error with database transaction:", errorMessage);
+            console.warn("Query:", query);
+            ons.notification.alert({title:"Внимание", message: 'Ошибка в базе данных.'});
+            finishWithEmptySource();
+            return false;
         }
+
         db.transaction(function (tx) {
-            tx.executeSql(query, [], querySuccess, queryError);
+            tx.executeSql(
+                "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?",
+                [layer.id],
+                function (tx, res) {
+                    if (res.rows.length === 0) {
+                        console.warn(`Database table for layer '${layer.id}' does not exist. Creating it.`);
+                        createLayerTable(tx);
+                        return;
+                    }
+
+                    tx.executeSql(query, [], querySuccess, queryError);
+                },
+                queryError
+            );
         })
     }  catch(err){
+        console.error("Error while loading layer from database:", err);
         ons.notification.alert({title:"Внимание", message: 'Ошибка в базе данных.'});
-        completeLoad();
+        finishWithEmptySource();
     }
 }
 
@@ -148,10 +198,15 @@ function requestToDB(query, callback, notification = 'Неизвестная о�
         callback(res)
     }
     var queryError = function(tx, err){
-        //ons.notification.alert({title:"Внимание", message:notification})
         console.log("Error with database transaction", err);
         console.log("Query:", query);
-        //throw notification;
+        if(typeof notification === 'function'){
+            notification(err);
+        }
+        else{
+            ons.notification.alert({title:"Внимание", message:notification});
+        }
+        return false;
     }
     db.transaction(function (tx) {
         tx.executeSql(query, [], querySuccess, queryError);

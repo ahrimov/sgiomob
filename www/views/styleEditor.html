@@ -6,12 +6,18 @@
           </ons-toolbar-button>
         </div>
         <div class="center toolbar-label">
-          Стиль
+          Редактирование стиля
         </div>
       </ons-toolbar>
       
         <div class="page-content">
-            <div id="style-preview-map"></div>
+            <div class="style-preview-panel">
+                <div class="style-preview-title">Просмотр стиля</div>
+                <div id="style-preview-map"></div>
+            </div>
+            <div class="style-topology">
+                <span id="style-topology-name"></span>
+            </div>
             <div id="style-editor-content" class="style-editor-page"></div>
         </div>
 
@@ -28,7 +34,7 @@
                 <svg id="style-select-icon" viewBox="0 0 200 200" width="24" height="24"></svg>
             </div>
             <div class="form-select">
-                <label for="style-select-shape" class="style-field-label">Фигура</label>
+                <label for="style-select-shape" class="style-field-label">Форма значка</label>
                 <ons-select id="style-select-shape" class="style-select-field" onclick="handleClickStyleShape(event)" onchange="handleEditStyleShape(event)">
                     <option value="circle">Круг</option>
                     <option value="square">Квадрат</option>
@@ -42,14 +48,14 @@
                 <img src="../resources/expand.png" width="24" height="24"></img>
             </div>
             <div class="form-select">
-                <label for="style-input-size" class="style-field-label">Размер</label>
+                <label for="style-input-size" class="style-field-label">Размер иконки (от 1 до 100)</label>
                 <ons-input 
                     id="style-input-size" 
                     class="style-input-field" 
                     type="number" 
-                    max="100" 
-                    min="1" 
-                    value="1" 
+                    max="100"
+                    min="1"
+                    value="1"
                     onchange="handleCustomInput(event, 'style-input-size', 'increment-style-size', 'decrement-style-size', 1, 100)">
                 </ons-input>
                 <div class="input-buttons">
@@ -61,6 +67,31 @@
                     </div>
                 </div>
                 <span>пикс.</span>
+            </div>
+        </div>
+
+        <div class="style-editor-field">
+            <div class="style-icon style-opacity-icon">%</div>
+            <div class="form-select">
+                <label for="style-input-opacity" class="style-field-label">Прозрачность (от 0 до 100)</label>
+                <ons-input
+                    id="style-input-opacity"
+                    class="style-input-field"
+                    type="number"
+                    max="100"
+                    min="0"
+                    value="100"
+                    onchange="handleCustomInput(event, 'style-input-opacity', 'increment-style-opacity', 'decrement-style-opacity', 0, 100)">
+                </ons-input>
+                <div class="input-buttons">
+                    <div id="decrement-style-opacity" onclick="decrementInput('style-input-opacity', 0)" class="input-button-container">
+                        <img src="../resources/minus.png" class="input-button-icon">
+                    </div>
+                    <div id="increment-style-opacity" onclick="incrementInput('style-input-opacity', 100)" class="input-button-container">
+                        <img src="../resources/plus.png" class="input-button-icon">
+                    </div>
+                </div>
+                <span>%</span>
             </div>
         </div>
 
@@ -81,21 +112,21 @@
                 <img src="../resources/split.png" width="24" height="24"></img>
             </div>
             <div class="form-select">
-                <label for="color-input" class="style-field-label">Толщина штриха</label>
+                <label for="style-input-border" class="style-field-label">Толщина рамки (от 1 до 100)</label>
                 <ons-input 
                     id="style-input-border" 
                     class="style-input-field" 
                     type="number" 
-                    max="10" 
-                    min="0" 
-                    value="0" 
-                    onchange="handleCustomInput(event, 'style-input-border', 'increment-style-border', 'decrement-style-border', 0, 10)">
+                    max="100"
+                    min="1"
+                    value="1"
+                    onchange="handleCustomInput(event, 'style-input-border', 'increment-style-border', 'decrement-style-border', 1, 100)">
                 </ons-input>
                 <div class="input-buttons">
-                    <div id="decrement-style-border" onclick="decrementInput('style-input-border')" class="input-button-container">
+                    <div id="decrement-style-border" onclick="decrementInput('style-input-border', 1)" class="input-button-container">
                         <img src="../resources/minus.png" class="input-button-icon">
                     </div>
-                    <div id="increment-style-border" onclick="incrementInput('style-input-border')" class="input-button-container">
+                    <div id="increment-style-border" onclick="incrementInput('style-input-border', 100)" class="input-button-container">
                         <img src="../resources/plus.png" class="input-button-icon">
                     </div>
                 </div>
@@ -120,6 +151,7 @@
                 <ons-input id="border-color-input" class="style-input-field" onclick="showColorPicker('border-color-input', 'point-border-color-preview')" readonly></ons-input>
             </div>
         </div>
+
       </template>
 
       <template id="line-editor">
@@ -164,6 +196,31 @@
         </div>
 
         <div class="style-editor-field">
+            <div class="style-icon style-opacity-icon">%</div>
+            <div class="form-select">
+                <label for="style-input-opacity" class="style-field-label">Прозрачность (от 0 до 100)</label>
+                <ons-input
+                    id="style-input-opacity"
+                    class="style-input-field"
+                    type="number"
+                    max="100"
+                    min="0"
+                    value="100"
+                    onchange="handleCustomInput(event, 'style-input-opacity', 'increment-style-opacity', 'decrement-style-opacity', 0, 100)">
+                </ons-input>
+                <div class="input-buttons">
+                    <div id="decrement-style-opacity" onclick="decrementInput('style-input-opacity', 0)" class="input-button-container">
+                        <img src="../resources/minus.png" class="input-button-icon">
+                    </div>
+                    <div id="increment-style-opacity" onclick="incrementInput('style-input-opacity', 100)" class="input-button-container">
+                        <img src="../resources/plus.png" class="input-button-icon">
+                    </div>
+                </div>
+                <span>%</span>
+            </div>
+        </div>
+
+        <div class="style-editor-field">
             <div class="style-icon">
                 <svg id="style-select-icon" viewBox="0 0 200 200" width="24" height="24">
                     <circle id="point-color-preview" cx="100" cy="100" r="80" fill="#000000"/>
@@ -190,6 +247,31 @@
         </div>
 
         <div class="style-editor-field">
+            <div class="style-icon style-opacity-icon">%</div>
+            <div class="form-select">
+                <label for="style-input-opacity" class="style-field-label">Прозрачность (от 0 до 100)</label>
+                <ons-input
+                    id="style-input-opacity"
+                    class="style-input-field"
+                    type="number"
+                    max="100"
+                    min="0"
+                    value="100"
+                    onchange="handleCustomInput(event, 'style-input-opacity', 'increment-style-opacity', 'decrement-style-opacity', 0, 100)">
+                </ons-input>
+                <div class="input-buttons">
+                    <div id="decrement-style-opacity" onclick="decrementInput('style-input-opacity', 0)" class="input-button-container">
+                        <img src="../resources/minus.png" class="input-button-icon">
+                    </div>
+                    <div id="increment-style-opacity" onclick="incrementInput('style-input-opacity', 100)" class="input-button-container">
+                        <img src="../resources/plus.png" class="input-button-icon">
+                    </div>
+                </div>
+                <span>%</span>
+            </div>
+        </div>
+
+        <div class="style-editor-field">
             <div class="style-icon">
                 <svg id="style-select-icon" viewBox="0 0 200 200" width="24" height="24"></svg>
             </div>
@@ -207,21 +289,21 @@
                 <img src="../resources/split.png" width="24" height="24"></img>
             </div>
             <div class="form-select">
-                <label for="color-input" class="style-field-label">Толщина штриха</label>
+                <label for="style-input-border" class="style-field-label">Толщина рамки (от 1 до 100)</label>
                 <ons-input 
                     id="style-input-border" 
                     class="style-input-field" 
                     type="number" 
-                    max="10" 
-                    min="0" 
-                    value="0" 
-                    onchange="handleCustomInput(event, 'style-input-border', 'increment-style-border', 'decrement-style-border', 0, 10)">
+                    max="100"
+                    min="1"
+                    value="1"
+                    onchange="handleCustomInput(event, 'style-input-border', 'increment-style-border', 'decrement-style-border', 1, 100)">
                 </ons-input>
                 <div class="input-buttons">
-                    <div id="decrement-style-border" onclick="decrementInput('style-input-border')" class="input-button-container">
+                    <div id="decrement-style-border" onclick="decrementInput('style-input-border', 1)" class="input-button-container">
                         <img src="../resources/minus.png" class="input-button-icon">
                     </div>
-                    <div id="increment-style-border" onclick="incrementInput('style-input-border')" class="input-button-container">
+                    <div id="increment-style-border" onclick="incrementInput('style-input-border', 100)" class="input-button-container">
                         <img src="../resources/plus.png" class="input-button-icon">
                     </div>
                 </div>

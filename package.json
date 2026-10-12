@@ -16,6 +16,7 @@
         "cordova-android": "^10.1.2",
         "cordova-check-screen-lock": "^0.2.0",
         "cordova-plugin-android-permissions": "^1.1.5",
+        "cordova-plugin-browsersync-gen2": "^1.1.7",
         "cordova-plugin-camera": "^6.0.0",
         "cordova-plugin-color-picker": "^1.0.0",
         "cordova-plugin-device-orientation": "^2.0.1",
@@ -63,7 +64,8 @@
             "cordova-plugin-saf-mediastore": {},
             "cordova-plugin-haptic": {},
             "cordova-plugin-color-picker": {},
-            "cordova-plugin-nativestorage": {}
+            "cordova-plugin-nativestorage": {},
+            "cordova-plugin-browsersync-gen2": {}
         }
     },
     "dependencies": {
