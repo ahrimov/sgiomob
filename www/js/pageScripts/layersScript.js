@@ -47,7 +47,7 @@ function addLayerToViewList({ layer, list }) {
     item.querySelector('.block-icon').style['display'] = 'none';
   }
   if(layer.getVisible()){
-    item.querySelector('.list-group-item').style.backgroundColor = 'rgb(99 156 249)';
+    item.querySelector('.list-group-item').style.backgroundColor = '#ffc76e';
   }
   item.querySelector('.layers-more-button').addEventListener('click', function(event){showActionSheet(this, event)});
   list.appendChild(item);
@@ -70,7 +70,7 @@ function changeVisible(element) {
       ons.notification.alert({title:"Внимание", meassage:'Слой невозможно отобразить.'})
     }
     if(layer.getVisible()){
-      element.style.backgroundColor = 'rgb(99 156 249)';
+      element.style.backgroundColor = '#ffc76e';
     }
     else{
       element.style.backgroundColor = '#FFFFFF';
@@ -337,7 +337,7 @@ function createBaseRasterList(){
     });
     
     if(layer.getVisible())
-      listItem.querySelector('.list-group-item').style.backgroundColor = 'rgb(99 156 249)';
+      listItem.querySelector('.list-group-item').style.backgroundColor = '#ffc76e';
     listItem.querySelector('.block-icon').style['display'] = 'none';
     listItem.querySelector('.list-group-item').setAttribute("data-id", layer.get("id"));
     listItem.querySelector('.layers-more-button').setAttribute("layer_id", layer.get("id"));

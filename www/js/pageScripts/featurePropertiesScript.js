@@ -1,4 +1,4 @@
-function featurePropertiesScript(featureFromPage){
+function featurePropertiesScript(featureFromPage, clickCoordinate){
     transformUIToOrientation();
     const visibleBaseLayer = baseRasterLayers.filter(layer => layer.get('visible'));
     const currentBaseLayer = visibleBaseLayer.sort((a, b) => b.getZIndex() - a.getZIndex())[0];
@@ -32,7 +32,11 @@ function featurePropertiesScript(featureFromPage){
     }
     
 
-    document.querySelector('#feature-properties-title').textContent = layer.label;
+    document.querySelector('.feature-properties-main-title').textContent = `${layer.label}`;
+    document.querySelector('#feature-properties-title').textContent =
+        Array.isArray(clickCoordinate) && clickCoordinate.length >= 2 && clickCoordinate.slice(0, 2).every(Number.isFinite)
+            ? `Ш ${clickCoordinate[1].toFixed(5)}°, Д ${clickCoordinate[0].toFixed(5)}°`
+            : '';
 
     if (!kmlType) {
         const photosDiv = document.createElement('div');
@@ -61,6 +65,7 @@ function featurePropertiesScript(featureFromPage){
     document.querySelector('#feature-instrument-edit').addEventListener('click', clickEditFeature, false)
     document.querySelector('#feature-instrument-edit-geometry').addEventListener('click', clickEditGeometry, false)
     document.querySelector('#feature-instrument-delete').addEventListener('click', clickDeleteFeature, false)
+    document.querySelector('#feature-instrument-export').addEventListener('click', exportCurrentFeature, false)
 
     document.querySelector('#saveModificationFeature').addEventListener('click', updateFeature, false)
     document.querySelector('#cancelModification').addEventListener('click', safetyCancel, false)
@@ -161,7 +166,8 @@ function featurePropertiesScript(featureFromPage){
         let tr = document.createElement("tr");
         tr.className = 'geometry-property';
         const geometry = featureFromPage.getGeometry();
-        fillGeometryProperty(tr, geometry, layer.geometryType);
+        if (geometry) fillGeometryProperty(tr, geometry, layer.geometryType);
+        table.append(tr);
         document.getElementById("table").append(table);
     }
 
@@ -212,18 +218,18 @@ function featurePropertiesScript(featureFromPage){
         switch(atrib.type){
         case 'DOUBLE':
             if(typeof content === 'undefined' || content === '')
-                return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="number" placeholder="Числовые данные" float></ons-input>`
-            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' type="number" modifier="underbar" float  ></ons-input>`
+                return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="number" placeholder="Числовые данные"></ons-input>`
+            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' type="number" modifier="underbar"></ons-input>`
         case 'DATE':
             if(typeof content === 'undefined' || content === '')
-                return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="date" float></ons-input>`
+                return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="date"></ons-input>`
             let date = new Date(content).toLocaleString('ru-RU',  {year: 'numeric',month: 'numeric',day: 'numeric'});
             let date_string = date.toString();
             let pattern = /(\d{1,2})\.(\d{1,2})\.(\d{2,4})/;
             if(date_string.search(pattern) === 0){
                 content = date_string.replace(pattern,'$3-$2-$1');
             }
-            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" type="date" float  ></ons-input>`
+            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" type="date"></ons-input>`
         case 'BOOLEAN':
             let check = ''
             if(content === 1)
@@ -242,8 +248,8 @@ function featurePropertiesScript(featureFromPage){
             return select
         default:
             if(typeof content === 'undefined' || content === '')
-                return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" placeholder="Текстовые данные" float></ons-input>`
-            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" float></ons-input>`
+                return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" placeholder="Текстовые данные"></ons-input>`
+            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar"></ons-input>`
         }
     }
 
@@ -288,9 +294,8 @@ function featurePropertiesScript(featureFromPage){
             case "MULTIPOINT":
                 element.innerHTML += `<td class='title'>Координаты точки</td>`
                 let coords = geometry.getCoordinates()
-                let str = coords.toString()
-                let arr = str.split(',')
-                let lonlat = ol.proj.toLonLat([parseInt(arr[0]), parseInt(arr[1])]);
+                let pointCoords = geometry.getType() === 'Point' ? coords : coords[0];
+                let lonlat = ol.proj.toLonLat(pointCoords, map.getView().getProjection());
                 element.innerHTML += `<td class='metric'>${ol.coordinate.toStringXY(lonlat, 7)}</td>`
                 break
             case 'MULTILINESTRING':
@@ -424,7 +429,7 @@ function featurePropertiesScript(featureFromPage){
         renderProperties(true)
 
         document.querySelector('#feature-instruments').style['display'] = 'none'
-        document.querySelector('.feature-under-bar').style['display'] = 'block'
+        document.querySelector('.feature-under-bar').style['display'] = 'flex'
     }
 
     function clickEditGeometry(){
@@ -463,6 +468,47 @@ function featurePropertiesScript(featureFromPage){
             if(index === 1)
                 deleteCurrentFeature()
         });
+    }
+
+    async function exportCurrentFeature() {
+        try {
+            if (!feature.getGeometry()) {
+                throw new Error('У объекта отсутствует геометрия');
+            }
+
+            const exportedFeature = feature.clone();
+            if (values.length === atribs.length) {
+                atribs.forEach((name, index) => exportedFeature.set(name, values[index]));
+            }
+            if (!exportedFeature.get('name') && feature.label) {
+                exportedFeature.set('name', feature.label);
+            }
+
+            const kml = new ol.format.KML({ writeStyles: true }).writeFeatures(
+                [exportedFeature],
+                {
+                    dataProjection: 'EPSG:4326',
+                    featureProjection: map.getView().getProjection().getCode(),
+                }
+            );
+            const objectId = feature.id ?? feature.getId() ?? Date.now();
+            const filename = `${layer.id}_${objectId}`.replace(/[^a-zA-Z0-9_-]/g, '_') + '.kml';
+            await cordova.plugins.safMediastore.saveFile({
+                data: toBase64(kml),
+                filename,
+                folder: 'Documents',
+            });
+            ons.notification.alert({
+                title: 'Экспорт в KML',
+                message: `Объект сохранён в Documents как ${filename}`,
+            });
+        } catch (error) {
+            console.error('Не удалось экспортировать объект в KML', error);
+            ons.notification.alert({
+                title: 'Экспорт в KML',
+                message: 'Не удалось сохранить объект в KML.',
+            });
+        }
     }
 
     function deleteCurrentFeature(){
@@ -587,4 +633,3 @@ function featurePropertiesScript(featureFromPage){
     }
 }
 
-        

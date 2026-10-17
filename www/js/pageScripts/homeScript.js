@@ -18,9 +18,9 @@ function carousel_next(){
     carousel.next();
 }
 
-function openFeatureProperties(feature){
+function openFeatureProperties(feature, clickCoordinate){
     hideDialog('dialog-features')
-    document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {feature: feature}});
+    document.querySelector('#myNavigator').pushPage('./views/featureProperties.html', {data: {feature: feature, clickCoordinate: clickCoordinate}});
 }
 
 function showDialogFeatures(evt){
@@ -29,29 +29,26 @@ function showDialogFeatures(evt){
     if(features.length == 0){
         return
     }
+    const clickCoordinate = ol.proj.toLonLat(evt.coordinate, map.getView().getProjection());
     if(features.length == 1){
-        openFeatureProperties(features[0])
+        openFeatureProperties(features[0], clickCoordinate)
         return
     }
     ons.createElement('dialog_features', {append: true})
         .then(function(dialog){
             let content = document.getElementById('dialog-features-content')
-            let list = ''
-            for(layer of layers){
-                for(feature of features){
-                    if(layer.id == feature.layerID){
-                        var header = ons._util.createElement("<ons-list-header></ons-list-header>")
-                        header.innerHTML = layer.label
-                        content.appendChild(header)
-                        for(let feature of features){
-                            if(feature.layerID == layer.id){
-                                var item = ons._util.createElement("<ons-list-item tappable></ons-list-item>")
-                                item.innerHTML = `Элемент: ${feature.id}`
-                                item.addEventListener("click", () => openFeatureProperties(feature), false)
-                                content.appendChild(item)
-                            }
-                        }
-                        break
+            for(const layer of layers){
+                const layerFeatures = features.filter(feature => feature.layerID == layer.id)
+                if(layerFeatures.length > 0){
+                    const header = ons._util.createElement("<ons-list-header></ons-list-header>")
+                    header.textContent = layer.label
+                    content.appendChild(header)
+
+                    for(const feature of layerFeatures){
+                        const item = ons._util.createElement("<ons-list-item tappable></ons-list-item>")
+                        item.textContent = `Элемент: ${feature.id}`
+                        item.addEventListener("click", () => openFeatureProperties(feature, clickCoordinate), false)
+                        content.appendChild(item)
                     }
                 }
             }

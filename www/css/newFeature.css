@@ -18,7 +18,7 @@
 }
 
 .page-content .title{
-    color: dimgrey;
+    color: var(--app-accent-text-color);
     text-align: right;
     font-size: small;
     width: 40%;

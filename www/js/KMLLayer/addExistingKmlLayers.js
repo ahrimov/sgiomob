@@ -10,8 +10,7 @@ async function addExistingKMLLayers() {
         const mapProjection = map.getView().getProjection().getCode();
         const format = new ol.format.KML();
         
-        if (!completeLoad.finishCounter) completeLoad.finishCounter = 0;
-        completeLoad.finishCounter += files.filter(file => file.endsWith('.kml')).length;
+        completeLoad(); // KML discovery is complete; file loading remains.
 
         for (const file of files) {
             if (!file.endsWith('.kml')) continue;
@@ -22,7 +21,10 @@ async function addExistingKMLLayers() {
                     let descrLayerId = file;
 
                     const kmlContent = await readFileContent(folderPath + file);
-                    if (!kmlContent) continue;
+                    if (!kmlContent) {
+                        completeLoad();
+                        continue;
+                    }
                     const features = format.readFeatures(kmlContent, 
                         { dataProjection: 'EPSG:4326', featureProjection: mapProjection }
                     );

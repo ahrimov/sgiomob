@@ -175,7 +175,8 @@ function completeLoad() {
     const finishCounter = completeLoad.finishCounter;
     
     if (document.querySelector('#load_stage') && finishCounter) {
-        document.querySelector('#load_stage').textContent = `${completeLoad.counter}/${finishCounter}`;
+        const percent = Math.min(100, Math.round(completeLoad.counter / finishCounter * 100));
+        document.querySelector('#load_stage').textContent = `${percent}%`;
     }
     
     if (completeLoad.counter >= finishCounter && !completeLoad.navigationCalled) {

@@ -65,7 +65,7 @@ function loadLayersVisibility(showInList = false) {
                         if (showInList) {
                             const element = document.querySelector(`[data-id="${layerId}"]`);
                             if (element) {
-                                element.style.backgroundColor = isVisible ? 'rgb(99 156 249)' : '#FFFFFF';
+                                element.style.backgroundColor = isVisible ? '#ffc76e' : '#FFFFFF';
                             }
                         }
                     }

@@ -148,7 +148,7 @@
 }
 
 .layers-more-button{
-    color: black;
+    color: var(--app-accent-text-color);
 }
 
 .layer-label{
@@ -202,6 +202,6 @@
 }
 
 .addNewLayerButton .fab {
-    background-color: #2375fa;
+    background-color: var(--app-button-fill-color);
     color: white;
 }

@@ -27,7 +27,7 @@
 
 .style-topology {
     margin: 0 8px 20px;
-    color: #474747;
+    color: var(--app-accent-text-color);
     font-size: 15px;
 }
 

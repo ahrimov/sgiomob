@@ -4,6 +4,7 @@
   width: 100%;
   font-family: sans-serif;
   z-index: 1;
+  background-color: #fff;
 }
 
 .home-toolbar-action {
@@ -27,7 +28,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #2375fa;
+  color: var(--app-accent-text-color);
   font-size: 24px;
 }
 
@@ -55,7 +56,7 @@
 .carousel-item-content{
   text-align: center; 
   padding: 5%;
-  color: black;
+  color: var(--app-accent-text-color);
   height: 100%;
   width: 100%;
   white-space: pre-line;
@@ -115,7 +116,22 @@
 #dialog-features-content{
   margin-top: 2vh;
   max-height: 70vh;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#dialog-features-content::-webkit-scrollbar {
+  display: block !important;
+  width: 5px;
+}
+
+#dialog-features-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+#dialog-features-content::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgba(0, 93, 152, 0.55);
 }
 
 .dialog{

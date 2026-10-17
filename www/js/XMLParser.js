@@ -5,7 +5,9 @@ function configParser(data, title){
     var layersName = dom.getElementsByTagName("LayersName").item(0).textContent.split("|").filter(el => Boolean(el));
 
     if (!completeLoad.finishCounter) completeLoad.finishCounter = 0;
-    completeLoad.finishCounter += layersName.length;
+    const kmlFiles = dom.querySelector('storage KML KMLFiles')?.textContent
+        .split('|').filter(file => file.trim().endsWith('.kml')) || [];
+    completeLoad.finishCounter += layersName.length + kmlFiles.length + 1;
 
     if (updateAppMode) {
         updateVectorLayers(pathToLayers, function(){

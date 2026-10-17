@@ -19,7 +19,7 @@
 }
 
 .features thead th ons-select select{
-    color: #2375fa;
+    color: var(--app-accent-text-color);
 }
 
 .features td div{

@@ -1,5 +1,89 @@
 :root {
   --app-background-color: #003366;
+  --app-button-fill-color: #4C93C2;
+  --app-accent-text-color: rgb(0, 93, 152);
+}
+
+body {
+  color: var(--app-accent-text-color);
+}
+
+/* Text placed on white application surfaces */
+#about-content,
+#featureProperties,
+#feature-instruments,
+.feature-under-bar,
+.page-content,
+.under-bar,
+.features,
+.features thead th,
+#downbar-wrapper,
+.downbar,
+.att,
+.dialog,
+.dialog-container,
+ons-dialog,
+.alert-dialog,
+.alert-dialog-title,
+.alert-dialog-content,
+.alert-dialog-button,
+.popover,
+.popover__content,
+.card,
+ons-list,
+.list,
+ons-list-item,
+.list-item,
+.list-header,
+.list-group-item,
+.action-sheet-title,
+.action-sheet-title--material,
+.action-sheet-button,
+.action-sheet-button--material,
+.action-sheet-button--destructive,
+.action-sheet-icon,
+.action-sheet-icon--material {
+  color: var(--app-accent-text-color);
+}
+
+/* System modal surfaces */
+.alert-dialog,
+.alert-dialog--material {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.action-sheet--material {
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+}
+
+input,
+select,
+textarea,
+ons-input,
+ons-select,
+.text-input,
+.select-input,
+.textarea,
+.search-input,
+.text-input--material,
+.select-input--material,
+.text-input--material__label,
+.text-input--material__label--active,
+.select-input--material__label,
+.select-input--material__label--active,
+.text-input:invalid,
+.select-input:invalid {
+  color: var(--app-accent-text-color);
+}
+
+input::placeholder,
+textarea::placeholder,
+.text-input::placeholder,
+.search-input::placeholder {
+  color: var(--app-accent-text-color);
+  opacity: 0.65;
 }
 
 html,
@@ -45,4 +129,55 @@ ons-back-button,
 .back-button--material__icon {
   color: #fff;
   fill: #fff;
+}
+
+/* Filled buttons */
+.button,
+.button--cta,
+.button--large--cta,
+.button--material,
+.fab,
+.fab--material {
+  background-color: var(--app-button-fill-color);
+  color: #fff;
+}
+
+.button:active,
+.button--cta:active,
+.button--large:active,
+.button--large--cta:active,
+.button--material:active,
+.fab:active,
+.fab--material:active {
+  background-color: var(--app-button-fill-color);
+  color: #fff;
+}
+
+/* Buttons displayed on a white or transparent background */
+.button--outline,
+.button--light,
+.button--quiet,
+.button--large--quiet,
+.button--material--flat {
+  background-color: transparent;
+  color: var(--app-accent-text-color);
+}
+
+.button--outline:active,
+.button--light:active,
+.button--quiet:active,
+.button--large--quiet:active,
+.button--material--flat:active {
+  background-color: transparent;
+  color: var(--app-accent-text-color);
+}
+
+.button--outline,
+.button--light {
+  border-color: var(--app-accent-text-color);
+}
+
+.button--outline:active,
+.button--light:active {
+  border-color: var(--app-accent-text-color);
 }

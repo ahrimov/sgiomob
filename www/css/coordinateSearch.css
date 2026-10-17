@@ -1,0 +1,133 @@
+.coordinate-search-button {
+    position: absolute;
+    top: 68%;
+    left: 85%;
+}
+
+@media (orientation: landscape) {
+    .coordinate-search-button { top: 24%; }
+}
+
+#coordinate-search-dialog .dialog {
+    width: min(420px, calc(100vw - 24px));
+    max-width: none;
+}
+
+#coordinate-search-dialog .dialog-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh;
+    overflow: hidden;
+    background: #fff;
+    color: rgb(0, 93, 152);
+    border-radius: 6px;
+}
+
+.coordinate-search-form {
+    box-sizing: border-box;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 16px;
+    text-align: left;
+}
+
+.coordinate-search-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    padding: 8px 8px 8px 16px;
+    background: var(--app-background-color, #003366);
+    color: #fff;
+    text-align: left;
+}
+
+.coordinate-search-header h2 {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.3;
+    color: #fff;
+}
+
+.coordinate-search-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 30px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.coordinate-search-close span { color: inherit; }
+.coordinate-search-close:active { background: rgba(255, 255, 255, 0.15); }
+.coordinate-search-close:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -2px;
+}
+
+.coordinate-search-form label {
+    display: block;
+    margin: 10px 0 4px;
+    font-size: 14px;
+}
+
+.coordinate-search-form input,
+.coordinate-search-form select {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 40px;
+    border: 1px solid #8eabbf;
+    border-radius: 4px;
+    padding: 6px 8px;
+    background: #fff;
+    color: rgb(0, 93, 152);
+    font-size: 16px;
+}
+
+.coordinate-search-form input:focus,
+.coordinate-search-form select:focus {
+    outline: 2px solid #4c93c2;
+    outline-offset: 1px;
+}
+
+.coordinate-search-form .coordinate-search-mode {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 32px;
+}
+.coordinate-search-mode input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    min-height: 0;
+    margin: 0;
+    flex: 0 0 auto;
+    accent-color: rgb(0, 93, 152);
+}
+.coordinate-search-form input:disabled,
+.coordinate-search-form select:disabled {
+    opacity: 0.55;
+    background: #f2f4f6;
+}
+.coordinate-search-error { margin: 12px 0 0; font-size: 14px; color: rgb(0, 93, 152); }
+.coordinate-search-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.coordinate-search-actions button {
+    min-height: 40px;
+    padding: 6px 14px;
+    border: 1px solid var(--app-accent-text-color);
+    border-radius: 4px;
+    background: var(--app-button-fill-color);
+    color: #fff;
+    font-size: 16px;
+    box-shadow: none;
+}
+.coordinate-search-actions button:active { background: #ffc76e; color: #fff; }

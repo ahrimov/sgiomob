@@ -7,7 +7,7 @@
 .modal-select-check{
     position: absolute;
     left: 90%;
-    color: #2375fa;
+    color: var(--app-accent-text-color);
 }
 
 .select-search{

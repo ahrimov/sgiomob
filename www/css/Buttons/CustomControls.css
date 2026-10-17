@@ -23,8 +23,8 @@
   .zoom-minus .fab,
   .map-control-fab.fab{
     box-sizing: border-box;
-    background-color: rgb(76, 147, 194);
-    border: 1px solid rgb(0, 93, 152);
+    background-color: var(--app-button-fill-color);
+    border: 1px solid var(--app-accent-text-color);
     box-shadow: none;
     color: #fff;
   }

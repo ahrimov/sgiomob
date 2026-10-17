@@ -10,7 +10,7 @@ function showMap(){
         controls: [scaleLine, new CancelButton, new DrawButton, new GPSButton,
             new TileStatusBar, new ZoomMinusButton, new ZoomPlusButton, 
             new UndoButton, new AcceptDrawButton, new AcceptModifyButton, new NavigationButton,
-            new CompassArrow, new HoldCenterButton],
+            new CompassArrow, new HoldCenterButton, new CoordinateSearchButton],
         interaction: ol.interaction.defaults.defaults({altShiftDragRotate: false, pinchRotate: false})
     });
 

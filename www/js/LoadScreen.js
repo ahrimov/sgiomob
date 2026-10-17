@@ -8,13 +8,20 @@ class LoadScreen{
 
     startLoad(){
         setTimeout(() => { 
-            document.querySelector('#myNavigator').pushPage('./views/loadScreen.html');
+            document.querySelector('#myNavigator').pushPage('./views/loadScreen.html').then(() => {
+                const message = document.querySelector('#load_message');
+                if (message) message.textContent = 'Пожалуйста, подождите. Выполняется загрузка данных.';
+            });
          }, 400);
     }
 
     elementLoaded(){
         this.counter++;
-        document.querySelector('#load_stage').textContent = `${this.counter}/${this.amount}`;
+        const stage = document.querySelector('#load_stage');
+        if (stage) {
+            const percent = this.amount > 0 ? Math.min(100, Math.round(this.counter / this.amount * 100)) : 100;
+            stage.textContent = `${percent}%`;
+        }
         if(this.counter >= this.amount){
             this.finishLoad()
         }

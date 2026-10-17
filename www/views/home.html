@@ -51,6 +51,53 @@
           </ons-carousel-item>
     </template>
 
+    <template id="coordinate-search-template">
+        <ons-dialog id="coordinate-search-dialog" cancelable>
+            <div class="coordinate-search-header">
+                <h2>Переход по координатам WGS-84</h2>
+                <button type="button" class="coordinate-search-close" aria-label="Закрыть">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form class="coordinate-search-form" novalidate>
+                <label for="coordinate-search-latitude">Широта, °</label>
+                <input id="coordinate-search-latitude" name="latitude" type="text" inputmode="decimal"
+                       autocomplete="off" placeholder="55.751244" aria-describedby="coordinate-search-error">
+                <label for="coordinate-search-longitude">Долгота, °</label>
+                <input id="coordinate-search-longitude" name="longitude" type="text" inputmode="decimal"
+                       autocomplete="off" placeholder="37.618423" aria-describedby="coordinate-search-error">
+                <label class="coordinate-search-mode">
+                    <input type="radio" name="scaleMode" value="list" checked>
+                    Масштаб из списка
+                </label>
+                <select id="coordinate-search-scale" name="scale">
+                    <option value="500000">1 см = 500 км</option>
+                    <option value="100000">1 см = 100 км</option>
+                    <option value="50000">1 см = 50 км</option>
+                    <option value="10000">1 см = 10 км</option>
+                    <option value="5000">1 см = 5 км</option>
+                    <option value="1000">1 см = 1 км</option>
+                    <option value="500">1 см = 500 м</option>
+                    <option value="100">1 см = 100 м</option>
+                </select>
+                <div class="coordinate-search-custom">
+                    <label class="coordinate-search-mode">
+                        <input type="radio" name="scaleMode" value="custom">
+                        Пользовательский масштаб
+                    </label>
+                    <label for="coordinate-search-distance">1 см на карте = расстояние в метрах</label>
+                    <input id="coordinate-search-distance" name="distance" type="text" inputmode="decimal"
+                           value="1000" disabled aria-describedby="coordinate-search-error">
+                </div>
+                <p id="coordinate-search-error" class="coordinate-search-error" role="alert" hidden></p>
+                <div class="coordinate-search-actions">
+                    <button type="button" class="coordinate-search-cancel">Отмена</button>
+                    <button type="submit">Перейти</button>
+                </div>
+            </form>
+        </ons-dialog>
+    </template>
+
     <template id="dialog_features">
         <ons-dialog id="dialog-features">
                 <ons-toolbar class="dialog-toolbar">
