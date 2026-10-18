@@ -492,7 +492,7 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
                 }
             );
             const objectId = feature.id ?? feature.getId() ?? Date.now();
-            const filename = `${layer.id}_${objectId}`.replace(/[^a-zA-Z0-9_-]/g, '_') + '.kml';
+            const filename = `${layer.id}_${objectId}`.replace(/[^a-zA-Zа-яА-ЯёЁ0-9_-]/g, '_') + '.kml';
             await cordova.plugins.safMediastore.saveFile({
                 data: toBase64(kml),
                 filename,

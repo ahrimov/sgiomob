@@ -4,6 +4,7 @@
     <description>Simple maps</description>
     <content src="index.html" />
     <icon src="www/resources/sgio.png" />
+    <hook type="after_prepare" src="scripts/select-project-config.js" />
 
     <platform name="android">
         <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
