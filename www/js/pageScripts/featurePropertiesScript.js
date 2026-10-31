@@ -22,6 +22,8 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
     let values = []
     let images = []
     let is_editing_feature = false;
+    let initialEditValues = [];
+    let editInteracted = false;
     const kmlType = layer.get('kmlType');
 
     for (const atrib of layer.atribs) {
@@ -135,7 +137,8 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
 
                 values.push(data.rows.item(0)[atrib.name]);
             }
-            table.append(addMetricCharacter(layer, data.rows.item(0).geom));
+            const geometryRow = addMetricCharacter(layer, data.rows.item(0).geom);
+            if (geometryRow) table.append(geometryRow);
             document.getElementById("table").append(table);
         })
     }
@@ -163,16 +166,20 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
             table.append(tr);
             values.push(content);
         }
-        let tr = document.createElement("tr");
-        tr.className = 'geometry-property';
         const geometry = featureFromPage.getGeometry();
-        if (geometry) fillGeometryProperty(tr, geometry, layer.geometryType);
-        table.append(tr);
+        if (geometry) {
+            const geometryRow = fillGeometryProperty(geometry, layer.geometryType);
+            if (geometryRow) table.append(geometryRow);
+        }
         document.getElementById("table").append(table);
     }
 
     function safetyCancel(event){
         if(is_editing_feature){
+            if (!hasEditChanges()) {
+                cancel();
+                return;
+            }
             ons.notification.confirm({
                 title: 'Потверждение', 
                 message: 'Отменить изменения?', 
@@ -276,43 +283,48 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
     }
 
     function addMetricCharacter(layer, geom){
-        let tr = document.createElement("tr");
-        tr.className = 'geometry-property';
         if(typeof geom === 'undefined' || geom === ''){
-            return tr;
+            return null;
         }
         const format = new ol.format.WKT();
         let wkt = geom;
         let feature = format.readFeature(wkt.replace(/nan/g, "0"))
         let geometry = feature.getGeometry()
-        fillGeometryProperty(tr, geometry, layer.geometryType);
-        return tr;
+        return fillGeometryProperty(geometry, layer.geometryType);
     }
 
-    function fillGeometryProperty(element, geometry, geometryType){
+    function fillGeometryProperty(geometry, geometryType){
+        const metric = document.querySelector('#feature-properties-metric');
+        metric.textContent = '';
         switch(geometryType){
             case "MULTIPOINT":
-                element.innerHTML += `<td class='title'>Координаты точки</td>`
+                const row = document.createElement('tr');
+                row.className = 'geometry-property';
                 let coords = geometry.getCoordinates()
                 let pointCoords = geometry.getType() === 'Point' ? coords : coords[0];
                 let lonlat = ol.proj.toLonLat(pointCoords, map.getView().getProjection());
-                element.innerHTML += `<td class='metric'>${ol.coordinate.toStringXY(lonlat, 7)}</td>`
-                break
-            case 'MULTILINESTRING':
-                element.innerHTML += `<td class='title'>Длина линии</td>`
-                element.innerHTML += `<td class='metric'>${ol.sphere.getLength(geometry).toFixed(7)}</td>`
-                break
+                row.innerHTML = `<td class='title'>Координаты точки</td><td class='metric'>${ol.coordinate.toStringXY(lonlat, 7)}</td>`;
+                return row;
+            case 'MULTILINESTRING': {
+                const totalMeters = Math.round(ol.sphere.getLength(geometry));
+                const kilometers = Math.floor(totalMeters / 1000);
+                const meters = totalMeters % 1000;
+                metric.textContent = `Протяжённость: ${kilometers} км ${meters} м`;
+                break;
+            }
             case 'MULTIPOLYGON':
-                element.innerHTML += `<td class='title'>Площадь</td>`
-                element.innerHTML += `<td class='metric'>${ol.sphere.getArea(geometry).toFixed(7)}</td>`
-                break
+                metric.textContent = `Площадь: ${Math.round(ol.sphere.getArea(geometry))} м²`;
+                break;
         }
+        return null;
     }
 
     function updateGeometryProperty(geometry, geometryType){
         const element = document.querySelector('.geometry-property');
-        element.innerHTML = '';
-        fillGeometryProperty(element, geometry, geometryType);
+        const updatedRow = fillGeometryProperty(geometry, geometryType);
+        if (element && updatedRow) element.replaceWith(updatedRow);
+        else if (element) element.remove();
+        else if (updatedRow) document.querySelector('#table table')?.append(updatedRow);
     }
 
     //camera function
@@ -421,15 +433,49 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
     function clickEditFeature(){
         is_editing_feature = true;
         needsCancelNavigator = true;
+        editInteracted = false;
         let content = document.querySelectorAll('.content')
         for(let index in values){
             content[index].innerHTML = inputByType(layer.atribs[index], values[index]);
         }
+        const inputs = document.querySelectorAll('.input-content');
+        initialEditValues = Array.from(inputs, getInitialEditValue);
+        inputs.forEach(input => {
+            input.addEventListener('pointerdown', () => { editInteracted = true; });
+            input.addEventListener('keydown', () => { editInteracted = true; });
+            input.addEventListener('input', event => {
+                if (event.isTrusted) editInteracted = true;
+            });
+        });
 
         renderProperties(true)
 
         document.querySelector('#feature-instruments').style['display'] = 'none'
         document.querySelector('.feature-under-bar').style['display'] = 'flex'
+    }
+
+    function getEditValue(input) {
+        return input.tagName === 'ONS-CHECKBOX' ? input.checked : (input.value ?? '');
+    }
+
+    function getInitialEditValue(input) {
+        if (input.tagName === 'ONS-CHECKBOX') return input.hasAttribute('checked');
+        if (input.tagName === 'ONS-SELECT') {
+            const selected = input.querySelector('option[selected]') ?? input.querySelector('option');
+            return selected?.value ?? '';
+        }
+
+        const field = document.createElement('input');
+        field.type = input.getAttribute('type') || 'text';
+        field.value = input.getAttribute('value') ?? '';
+        return field.value;
+    }
+
+    function hasEditChanges() {
+        if (!editInteracted) return false;
+        const inputs = document.querySelectorAll('.input-content');
+        return inputs.length !== initialEditValues.length ||
+            Array.from(inputs).some((input, index) => getEditValue(input) !== initialEditValues[index]);
     }
 
     function clickEditGeometry(){
@@ -596,6 +642,8 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
 
     function cancel(){
         is_editing_feature = false;
+        initialEditValues = [];
+        editInteracted = false;
         needsCancelNavigator = false;
         let input_content = document.querySelectorAll('.input-content')
         for(let index in values){

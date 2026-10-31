@@ -4,6 +4,41 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
     const kmlType = layer.get('kmlType');
     let feature = pageFeature;   
     let featureImages = [];
+    let photoSection;
+    let hasPhotoGallery = false;
+
+    document.querySelector('#new-feature-layer-title').textContent = layer.label || '';
+    const geometryInfo = document.querySelector('#new-feature-geometry-info');
+    const geometry = feature.getGeometry();
+    if (geometry) {
+        switch (layer.geometryType) {
+            case 'MULTIPOINT': {
+                const coordinates = geometry.getCoordinates();
+                const point = geometry.getType() === 'Point' ? coordinates : coordinates[0];
+                if (point?.length >= 2 && point.slice(0, 2).every(Number.isFinite)) {
+                    const [longitude, latitude] = ol.proj.toLonLat(point, map.getView().getProjection());
+                    geometryInfo.textContent = `Ш ${latitude.toFixed(5)}°, Д ${longitude.toFixed(5)}°`;
+                }
+                break;
+            }
+            case 'MULTILINESTRING': {
+                const length = ol.sphere.getLength(geometry);
+                if (Number.isFinite(length)) {
+                    const totalMeters = Math.round(length);
+                    geometryInfo.textContent = `Протяжённость: ${Math.floor(totalMeters / 1000)} км ${totalMeters % 1000} м`;
+                }
+                break;
+            }
+            case 'MULTIPOLYGON': {
+                const area = ol.sphere.getArea(geometry);
+                if (Number.isFinite(area)) {
+                    geometryInfo.textContent = `Площадь: ${Math.round(area)} м²`;
+                }
+                break;
+            }
+        }
+    }
+
     const content  =  document.createElement('table');
     content.className = 'new-feature-content-table';
     for(let atrib of layer.atribs){
@@ -24,12 +59,13 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
         let template_gallery = document.querySelector('#photogallery');
         let clone_gallery = template_gallery.content.cloneNode(true);
         document.querySelector('#add-feature-content').appendChild(clone_gallery);
-        document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false)
+        photoSection = document.querySelector('#add-feature-content #photos');
+        photoSection.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false);
     }
 
 
     document.querySelector('#saveFeatureButton').addEventListener('click', saveFeature, false)
-    document.querySelector('#backButton').addEventListener('click', back, false)
+    document.querySelector('#backButton').addEventListener('click', deleteFeature, false)
 
     if (kmlType) {
         const features = layer.getSource().getFeatures();
@@ -57,7 +93,11 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
         });
     }
 
-    function back(){
+    function deleteFeature(){
+        if (fromMap) {
+            layer.getSource().removeFeature(feature);
+            if (map.draw) finishDraw();
+        }
         document.querySelector('#myNavigator').popPage();
     }
 
@@ -220,7 +260,7 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
                     let image = {imageEntry: fileEntry, imageName: imageName, image_options : image_options};
                     featureImages.push(image);
 
-                    let gallery = document.querySelector('.gallery');
+                    let gallery = photoSection.querySelector('.gallery');
                     displayImage(fileEntry.toInternalURL(), gallery);
 
                 }, function(error){
@@ -251,7 +291,7 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
                 return
                 
             firstImage()
-            let gallery = document.querySelector('.gallery')
+            let gallery = photoSection.querySelector('.gallery')
             for(let elem of image_options){
                 pathToImage = elem.path.replace(/\\\//g, '/');
                 getFileEntry(root_directory + pathToImage, function(fileEntry){
@@ -264,26 +304,18 @@ function newFeatureScipt(pageLayer, pageFeature, fromMap = true){
     }
 
     function firstImage(){
-        if(typeof firstImage.counter == 'undefined'){
-            firstImage.counter = 0
-            changeAddPhotoButton()
-            let gallery = document.createElement('div')
-            gallery.className = "gallery"
-            document.querySelector('#photos').appendChild(gallery)
-        }
-        else
-            return
+        if (hasPhotoGallery) return;
+        hasPhotoGallery = true;
+        changeAddPhotoButton();
+        let gallery = document.createElement('div');
+        gallery.className = 'gallery';
+        photoSection.appendChild(gallery);
     }
 
     function changeAddPhotoButton(){
-        let addNewPhoto = document.querySelector('#addNewPhoto')
-        addNewPhoto.remove()
-        addNewPhoto = ons.createElement(`<ons-button modifier="outline light" id="addNewPhoto"></ons-button>`)
-        addNewPhoto.innerHTML = `<div class='signature'>
-            <ons-icon class='icon' icon="md-plus" size="20px"></ons-icon></div>`
-        addNewPhoto.style['width'] = "25%"
-        addNewPhoto.style['float'] = 'right'
-        document.querySelector('#photos').appendChild(addNewPhoto)
-        document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false)
+        const addNewPhoto = photoSection.querySelector('#addNewPhoto');
+        addNewPhoto.classList.add('new-feature-photo-button--compact');
+        addNewPhoto.innerHTML = '<ons-icon icon="md-plus" size="30px"></ons-icon>';
+        addNewPhoto.setAttribute('aria-label', 'Добавить фотографию');
     }
 }

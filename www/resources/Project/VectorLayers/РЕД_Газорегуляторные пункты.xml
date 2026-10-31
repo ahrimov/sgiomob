@@ -73,7 +73,7 @@
         </attribute>
         <attribute type="STRING">
           <id>name</id>
-          <label>Наименование</label>
+          <label>Название ГРС</label>
           <required>0</required>
           <editable>1</editable>
         </attribute>

@@ -5,26 +5,35 @@
               <ons-back-button>Back</ons-back-button>
           </ons-toolbar-button>
         </div>
-        <div class="center toolbar-label">
-          Добавление нового элемента
+        <div class="center">
+          <div class="new-feature-heading">
+            <div id="new-feature-layer-title"></div>
+            <div id="new-feature-geometry-info"></div>
+          </div>
         </div>
       </ons-toolbar>
       <div id="add-feature-content" class="page-content">
       </div>
 
       <div class="under-bar" id="save-feature-bar">
-        <ons-button id='saveFeatureButton' style="float:right; margin: 1%;">Сохранить</ons-button>
-        <ons-button id="backButton" style="float:right; margin: 1%;">Отмена</ons-button>
+        <ons-button id='saveFeatureButton' class="feature-action-button" style="float:right; margin: 1%;">
+          <img src="./resources/images/assets/save.png" alt="">
+          <span>Сохранить</span>
+        </ons-button>
+        <ons-button id="backButton" class="feature-action-button" style="float:right; margin: 1%;">
+          <img src="./resources/images/assets/delete.png" alt="">
+          <span>Удалить</span>
+        </ons-button>
       </div>
 
       <template id="photogallery">
         <div id="photos">
-          <ons-button modifier="outline light" id="addNewPhoto">
+          <button type="button" id="addNewPhoto" class="new-feature-photo-button">
               <div>
                   <ons-icon icon="md-plus" size="30px"></ons-icon>
                   <p>Нажмите, чтобы<br/>добавить фотографию</p>
               </div>
-          </ons-button>
+          </button>
         </div>
       </template>
 

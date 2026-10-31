@@ -1,7 +1,61 @@
-.modal-select{
+#modal-select .dialog-toolbar{
+    align-items: center;
+}
+
+#modal-select-title{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+    width: auto;
+    height: auto;
+    padding: 0 16px;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    transform: none;
+}
+
+.modal-select-container{
+    position: relative;
     margin-top: 2vh;
+}
+
+.modal-select{
     max-height: 70vh;
-    overflow: scroll;
+    padding-right: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.modal-select::-webkit-scrollbar{
+    display: none;
+}
+
+.modal-select-scrollbar{
+    position: absolute;
+    top: 0;
+    right: 2px;
+    bottom: 0;
+    width: 5px;
+    border-radius: 2px;
+    background: rgba(0, 0, 0, 0.1);
+    touch-action: none;
+}
+
+.modal-select-scrollbar-thumb{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 2px;
+    background: rgba(0, 93, 152, 0.55);
 }
 
 .modal-select-check{

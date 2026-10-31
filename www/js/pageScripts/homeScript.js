@@ -9,13 +9,32 @@ function homeEnableButton(){
 }
 
 function carousel_prev(){
-    let carousel = document.getElementById('draw-bar');
-    carousel.prev();
+    if (document.getElementById('draw-carousel-prev').hasAttribute('disabled')) return;
+    document.getElementById('draw-bar').prev().then(updateDrawCarouselButtons);
 }
 
 function carousel_next(){
-    let carousel = document.getElementById('draw-bar');
-    carousel.next();
+    if (document.getElementById('draw-carousel-next').hasAttribute('disabled')) return;
+    document.getElementById('draw-bar').next().then(updateDrawCarouselButtons);
+}
+
+function updateDrawCarouselButtons(){
+    const carousel = document.getElementById('draw-bar');
+    const previous = document.getElementById('draw-carousel-prev');
+    const next = document.getElementById('draw-carousel-next');
+    if (!carousel || !previous || !next) return;
+
+    const items = carousel.querySelectorAll('ons-carousel-item');
+    const viewport = carousel.getBoundingClientRect();
+    const canScroll = viewport.width > 0 && items.length > 0;
+    const first = canScroll ? items[0].getBoundingClientRect() : null;
+    const last = canScroll ? items[items.length - 1].getBoundingClientRect() : null;
+
+    if (!canScroll || first.left >= viewport.left - 1) previous.setAttribute('disabled', '');
+    else previous.removeAttribute('disabled');
+
+    if (!canScroll || last.right <= viewport.right + 1) next.setAttribute('disabled', '');
+    else next.removeAttribute('disabled');
 }
 
 function openFeatureProperties(feature, clickCoordinate){
@@ -63,6 +82,10 @@ function openDrawBar(){
     drawBar.style["display"] = "grid"
     map.updateSize();
     document.querySelector('.crosshair').style['top'] = crosshairDownbarTop;
+    requestAnimationFrame(() => {
+        document.getElementById('draw-bar').refresh();
+        updateDrawCarouselButtons();
+    });
 }
 
 function closeDrawBar(){
@@ -96,6 +119,8 @@ function createDrawBar(){
         });
         drawCarousel.appendChild(carouselItem)
     }
+    if (drawCarousel.clientWidth > 0) drawCarousel.refresh();
+    requestAnimationFrame(updateDrawCarouselButtons);
 }
 
 function drawInstrumentCenter(){

@@ -131,7 +131,7 @@
         <template id="modalSelect.html">
           <ons-dialog id="modal-select">
                   <ons-toolbar class="dialog-toolbar">
-                      <div class="center dialog-toolbar-content">
+                      <div class="left dialog-toolbar-content" id="modal-select-title">
                           Значение
                       </div>
                       <div class="right">
@@ -140,11 +140,14 @@
                           </ons-toolbar-button>
                       </div>
                   </ons-toolbar>
-                  <div class="modal-select">
-                    <div id="select-search-container"></div>
-                      <ons-list id="select-list">
-                        
-                      </ons-list>
+                  <div class="modal-select-container">
+                    <div class="modal-select">
+                      <div id="select-search-container"></div>
+                      <ons-list id="select-list"></ons-list>
+                    </div>
+                    <div class="modal-select-scrollbar" aria-hidden="true">
+                      <div class="modal-select-scrollbar-thumb"></div>
+                    </div>
                   </div>
           </ons-dialog>
       </template>

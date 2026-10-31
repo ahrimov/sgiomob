@@ -46,14 +46,16 @@
     white-space: nowrap;
 }
 
+#feature-properties-metric,
 #feature-properties-title{
-    font-size: 12px;
-    line-height: 18px;
+    font-size: 11px;
+    line-height: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
+#feature-properties-metric:empty,
 #feature-properties-title:empty {
     display: none;
 }

@@ -139,6 +139,37 @@ function getDataLayerFromBD(layer){
         );
     };
 
+    const ensureLayerColumns = function (tx, onReady) {
+        const quoteIdentifier = function (identifier) {
+            return `"${String(identifier).replace(/"/g, '""')}"`;
+        };
+        tx.executeSql(`PRAGMA table_info(${quoteIdentifier(layer.id)})`, [], function (tx, res) {
+            const existingColumns = new Set();
+            for (let i = 0; i < res.rows.length; i++) {
+                existingColumns.add(res.rows.item(i).name.toLowerCase());
+            }
+            const missingColumns = layer.atribs.slice(1).filter(function (atrib) {
+                return !existingColumns.has(atrib.name.toLowerCase());
+            });
+
+            const addNextColumn = function () {
+                const atrib = missingColumns.shift();
+                if (!atrib) {
+                    onReady();
+                    return;
+                }
+                const type = atrib.type === 'DOUBLE' ? 'REAL' : atrib.type === 'BOOLEAN' ? 'INTEGER' : 'TEXT';
+                tx.executeSql(
+                    `ALTER TABLE ${quoteIdentifier(layer.id)} ADD COLUMN ${quoteIdentifier(atrib.name)} ${type}`,
+                    [],
+                    function () { addNextColumn(); },
+                    queryError
+                );
+            };
+            addNextColumn();
+        }, queryError);
+    };
+
     try{
         var querySuccess = function (tx, res) {
             const format = new ol.format.WKT();
@@ -177,7 +208,9 @@ function getDataLayerFromBD(layer){
                         return;
                     }
 
-                    tx.executeSql(query, [], querySuccess, queryError);
+                    ensureLayerColumns(tx, function () {
+                        tx.executeSql(query, [], querySuccess, queryError);
+                    });
                 },
                 queryError
             );

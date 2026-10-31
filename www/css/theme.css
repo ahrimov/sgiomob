@@ -246,3 +246,17 @@ ons-back-button,
 .button--light:active {
   border-color: var(--app-accent-text-color);
 }
+
+.feature-action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.feature-action-button img {
+  display: block;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
