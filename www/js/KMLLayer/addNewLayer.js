@@ -380,12 +380,12 @@ function convertGeomtetryTypeName(geometryType) {
 
 async function addLayerWithLoading(newLayer) {
     try {
-      const loading = new LoadScreen(0, '', () => {
+      const loading = new LoadScreen(1, '', () => {
         ons.notification.alert({ 
           title: 'Внимание', 
           message: 'Добавлен новый kml-слой.' 
         });
-      });
+      }, 'kml-import');
       loading.startLoad();
 
       layers.push(newLayer);
@@ -395,7 +395,7 @@ async function addLayerWithLoading(newLayer) {
       
       updatingVectorList();
 
-      loading.finishLoad();
+      loading.elementLoaded();
         
     } catch (error) {
         console.error('Ошибка при добавлении слоя:', error);

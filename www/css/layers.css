@@ -119,9 +119,31 @@
 .comparison-KML-bottom-buttons{
     position: sticky;
     bottom: 0;
-    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
     padding-top: 2vh;
-    height: 7vh;
+    min-height: 7vh;
+}
+
+.comparison-KML-bottom-buttons .button{
+    height: 30px;
+    min-height: 30px;
+    padding: 0 10px;
+    border: 1px solid var(--app-dialog-header-color);
+    border-radius: 10px;
+    background-color: var(--app-dialog-header-color);
+    box-shadow: none;
+    color: #fff;
+    font-size: 13px;
+    line-height: 28px;
+    text-transform: none;
+}
+
+.comparison-KML-bottom-buttons .button:active{
+    background-color: #ffc76e;
+    box-shadow: none;
 }
 
 #dialog-comparison-KML-content{

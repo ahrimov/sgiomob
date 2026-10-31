@@ -244,7 +244,11 @@ function checkPermissions() {
                         cordova.plugins.permissions.READ_EXTERNAL_STORAGE,
                         function (status) {
                             if (!status.hasPermission) {
-                                alert('Необходимо предоставить доступ к файлам!');
+                                ons.notification.alert({
+                                    title: 'Внимание',
+                                    message: 'Необходимо предоставить доступ к файлам!',
+                                    buttonLabel: 'ОК'
+                                });
                             }
                         }
                     );
@@ -264,7 +268,11 @@ function checkManageExternalStoragePermission() {
                         cordova.plugins.permissions.MANAGE_EXTERNAL_STORAGE,
                         function (status) {
                             if (!status.hasPermission) {
-                                alert('Необходимо предоставить доступ к внешнему хранилищу!');
+                                ons.notification.alert({
+                                    title: 'Внимание',
+                                    message: 'Необходимо предоставить доступ к внешнему хранилищу!',
+                                    buttonLabel: 'ОК'
+                                });
                             }
                         }
                     );

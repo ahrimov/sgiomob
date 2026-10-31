@@ -88,13 +88,14 @@
                 </div>
             </ons-toolbar>
             <div id="dialog-comparison-KML-content">
+                <p id="comparison-KML-count"></p>
                 <p>Соотнесите служебные имена характеристик в левой части (атрибуты из панели свойств)
                      и имена характеристик в правой (полученные из импортируемого Вами файла)</p>
                 <div id="dialog-list-properties">
                 </div>
                 <div class="comparison-KML-bottom-buttons">
-                  <ons-button modifier="quiet" id="acceptImportKML" style="float:right;">Применить</ons-button>
-                  <ons-button modifier="quiet" onclick="hideDialog('comparison-KML')" style="float:right;">Отмена</ons-button>
+                  <ons-button id="acceptImportKML">Применить</ons-button>
+                  <ons-button onclick="hideDialog('comparison-KML')">Отмена</ons-button>
                 </div>
             </div>
     </ons-dialog>

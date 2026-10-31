@@ -105,8 +105,12 @@ async function importKML(layerID, dict, features){
         ons.notification.alert({title: 'Окончание импорта KML', message: textFinishingLoading});
     }
 
-    let loading = new LoadScreen(features.length, textFinishingLoading, completeLoading);
-    loading.startLoad()
+    let loading = new LoadScreen(features.length, textFinishingLoading, completeLoading, 'kml-import');
+    loading.startLoad();
+    if (features.length === 0) {
+        loading.finishLoad();
+        return;
+    }
 
     let featureMaxID;
 

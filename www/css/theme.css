@@ -97,7 +97,7 @@ ons-list-item,
   margin: 0;
   padding: 0 12px;
   border: 1px solid var(--app-dialog-header-color);
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: var(--app-dialog-header-color);
   background-image: none;
   box-shadow: none;
@@ -105,6 +105,11 @@ ons-list-item,
   line-height: 1;
   text-align: center;
   text-transform: none;
+}
+
+.alert-dialog-footer .alert-dialog-button:only-child {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .alert-dialog-footer .alert-dialog-button:active {

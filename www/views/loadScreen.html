@@ -1,8 +1,8 @@
 <ons-page>
     <div class="load-screen">
         <div class="load-info">
-            <img src="../resources/sgio.png" width="40" height="40"/>
-            <br/>
+            <img id="load-logo" src="../resources/sgio.png" width="40" height="40"/>
+            <h1 id="load-title" hidden></h1>
             <p id="load_message">Выполняется запуск приложения. Пожалуйста, подождите.</p>
             <ons-progress-circular indeterminate></ons-progress-circular>
             <p id="load_stage">0%</p>
@@ -28,5 +28,34 @@
             transform: translate(-50%, -50%);
         }
 
+        .load-screen--kml-import #load-logo,
+        .load-screen--kml-import #load_message{
+            display: none;
+        }
+
+        .load-screen--kml-import #load-title{
+            display: block;
+            margin: 0 0 20px;
+            color: var(--app-accent-text-color);
+            font-size: 20px;
+            font-weight: 500;
+        }
+
     </style>
+    <script>
+        ons.getScriptPage().onInit = function() {
+            const options = this.data?.loadScreen;
+            if (!options) return;
+            const screen = this.querySelector('.load-screen');
+            if (options.mode === 'kml-import') {
+                screen.classList.add('load-screen--kml-import');
+                const title = screen.querySelector('#load-title');
+                title.textContent = 'Импорт KML';
+                title.hidden = false;
+                screen.querySelector('#load_stage').textContent = `0 из ${options.amount}`;
+            } else {
+                screen.querySelector('#load_message').textContent = 'Пожалуйста, подождите. Выполняется загрузка данных.';
+            }
+        };
+    </script>
 </ons-page>

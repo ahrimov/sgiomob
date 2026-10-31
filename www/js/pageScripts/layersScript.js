@@ -251,6 +251,8 @@ function changeVisible(element) {
         const properties = Object.keys(features[0].getProperties());
         ons.createElement('comparison_KML', {append: true})
             .then(function(dialog){
+                dialog.querySelector('#comparison-KML-count').textContent =
+                    `Внимание! Число экспортируемых объектов ${features.length}.`;
                 let html = '<table class="dialog-comparison-KML-table">'
                 for(let atrib of layer.atribs){
                     html += `<tr class='property'>
