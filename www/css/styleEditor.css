@@ -48,6 +48,13 @@
     gap: 20px;
 }
 
+.style-editor-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
 .style-editor-field {
     display: flex;
     align-items: center; 

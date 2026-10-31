@@ -2,8 +2,8 @@ class AcceptDrawButton extends ol.control.Control {
     constructor(opt_options) {
       const options = opt_options || {};
   
-      const acceptDrawButton = ons.createElement(`<div class='accept-draw-button' id="accept-draw-button"><ons-fab class='accept-draw-button-fab map-control-fab' modifier='material' disable-auto-styling>
-                                                    <ons-icon class='icon' icon='md-check'></ons-icon>
+      const acceptDrawButton = ons.createElement(`<div class='accept-draw-button' id="accept-draw-button"><ons-fab class='accept-draw-button-fab map-control-fab' modifier='material' disable-auto-styling aria-label='Завершить' title='Завершить'>
+                                                    <img class='map-drawing-control-icon map-drawing-control-icon--large' src='./resources/images/assets/check_black.png' alt=''>
                                                 </ons-fab></div>`)
   
       super({

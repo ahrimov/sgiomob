@@ -23,9 +23,9 @@
 
         <div id="color-picker-container" style="display: none;"></div>
 
-        <div class="under-bar" id="save-feature-bar">
-            <ons-button id='saveLayerStyle' style="float:right; margin: 1%;">Сохранить</ons-button>
-            <ons-button id="backButtonStyleEditor" style="float:right; margin: 1%;">Отмена</ons-button>
+        <div class="under-bar style-editor-actions" id="save-feature-bar">
+            <ons-button id="backButtonStyleEditor">Отмена</ons-button>
+            <ons-button id="saveLayerStyle">Применить</ons-button>
         </div>
 
       <template id="point-editor">
@@ -335,7 +335,8 @@
             transformUIToOrientation();
             const layer = this.data.layer;
             const callback = this.data.callback;
-            styleEditor(layer, callback);
+            const onCancel = this.data.onCancel;
+            styleEditor(layer, callback, onCancel);
         }
       </script>
 </ons-page>

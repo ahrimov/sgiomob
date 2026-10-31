@@ -1,4 +1,4 @@
-function styleEditor(layer, callback) {
+function styleEditor(layer, callback, onCancel) {
     const geometryType = layer.geometryType;
     const styleSettings = layer.styleSettings;
     const topologyName = document.getElementById('style-topology-name');
@@ -20,8 +20,14 @@ function styleEditor(layer, callback) {
 
     const navigator = document.querySelector('#myNavigator');
 
+    let applied = false;
     navigator.addEventListener('postpop', () => {
+        layer.getSource().removeFeature(previewFeature);
+        previewMap.removeLayer(layer);
+        previewMap.renderSync();
         layer.setVisible(layerVisibility);
+        if (applied) callback?.();
+        else onCancel?.();
     }, { once: true });
 
     previewMap.getView().fit(previewFeature.getGeometry().getExtent(), { padding: [1, 10, 30, 10] });
@@ -33,6 +39,8 @@ function styleEditor(layer, callback) {
     const defaultStyle = getDefaultStyleFromLayer(layer);
 
     const stylePointUpdater = (() => {
+        if (geometryType !== 'Point' && geometryType !== 'MultiPoint') return null;
+
         let currentStyle = defaultStyle;
         previewFeature.setStyle(currentStyle);
         let currentImage = defaultStyle.getImage();
@@ -144,6 +152,8 @@ function styleEditor(layer, callback) {
     })();
 
     const styleLineUpdater = (() => {
+        if (geometryType !== 'LineString' && geometryType !== 'MultiLineString') return null;
+
         const currentStyle = defaultStyle;
         previewFeature.setStyle(currentStyle);
         const DASH_RATIO = 3;
@@ -194,6 +204,8 @@ function styleEditor(layer, callback) {
     })();
 
     const stylePolygonUpdater = (() => {
+        if (geometryType !== 'Polygon' && geometryType !== 'MultiPolygon') return null;
+
         const currentStyle = defaultStyle;
         previewFeature.setStyle(currentStyle);
         let lastBorderColor = '#000000';
@@ -314,10 +326,7 @@ function styleEditor(layer, callback) {
         saveButton.addEventListener('click', () => saveStyle(layer, geometryType, callback));
 
         const cancelButton = document.getElementById('backButtonStyleEditor');
-        cancelButton.addEventListener('click', () => closeStylePage(callback));
-    
-        const backButton = document.getElementById('style-editor-back-button');
-        backButton.addEventListener('click', () => closeStylePage(callback));
+        cancelButton.addEventListener('click', closeStylePage);
     }, 0);
 
     function initPointStyleEditor () {
@@ -448,17 +457,13 @@ function styleEditor(layer, callback) {
 
         handleStyleUpdate(layer);
 
-        closeStylePage(callback);
+        applied = true;
+        closeStylePage();
     }
 
-    function closeStylePage(callback) {
-        layer.getSource().removeFeature(previewFeature);
-        previewMap.removeLayer(layer);
-        previewMap.renderSync();
-
+    function closeStylePage() {
         const navigator = document.querySelector('#myNavigator');
         navigator.popPage({ times: 1 });
-        callback?.();
     }
 }
 

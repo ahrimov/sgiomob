@@ -32,7 +32,8 @@ function getDefaultKMLStyle(geometryType) {
                 })
             });
             break;
-        case 'LineString': 
+        case 'LineString':
+        case 'MultiLineString':
             style = new ol.style.Style({
                 stroke: new ol.style.Stroke({
                     color: generateColor(),
@@ -44,6 +45,7 @@ function getDefaultKMLStyle(geometryType) {
             });
             break;
         case 'Polygon':
+        case 'MultiPolygon':
             style = new ol.style.Style({
                 fill: new ol.style.Fill({
                     color: generateColor()

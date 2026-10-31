@@ -151,7 +151,7 @@ function rosreetrUrlFunction(tileCoord, number, projection){
     return rosreestr_url + '&bbox=' + bboxM.join(','); 
 }
 
-function globalReadlFile(fileUri, callback) {
+function globalReadlFile(fileUri, callback, onReadError) {
     if (fileUri.startsWith('content://')) {
         cordova.plugins.safMediastore.readFile(fileUri).then(data => {
             const decoder = new TextDecoder('utf-8'); 
@@ -169,6 +169,7 @@ function globalReadlFile(fileUri, callback) {
     
                 reader.onerror = function () {
                     console.error('Ошибка чтения файла:', this.error);
+                    if (onReadError) onReadError(this.error);
                 };
     
                 reader.readAsText(file, 'UTF-8');
@@ -178,5 +179,6 @@ function globalReadlFile(fileUri, callback) {
 
     function onError(error) {
         console.error("Ошибка: " + JSON.stringify(error));
+        if (onReadError) onReadError(error);
     }
 }

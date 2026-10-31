@@ -78,8 +78,17 @@
     border-bottom: 0;
 }
 
+#featureProperties .property ons-input.input-content .text-input {
+    background-image: none;
+    box-shadow: none;
+}
+
 #featureProperties .property ons-select.input-content .select-input {
     pointer-events: none;
+}
+
+#featureProperties .property ons-select.input-content .select-input--material {
+    background-size: auto, 0 0;
 }
 
 #featureProperties .property ons-input.input-content .text-input__label {
@@ -262,20 +271,27 @@
     margin-top: 2vh;
 }
 
-.manual-coordinate-action-button.button{
+.manual-input-coordinates-content .button,
+.dialog-edit-coordinate-content .button{
     box-sizing: border-box;
-    height: 21px;
-    min-height: 21px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    min-height: 30px;
     padding: 0 12px;
-    border: 1px solid var(--app-accent-text-color);
+    border: 1px solid #1166A2;
     border-radius: 10px;
     background-color: var(--app-button-fill-color);
     box-shadow: none;
-    color: #fff;
-    line-height: normal;
+    color: #1166A2;
+    font-size: 13px;
+    line-height: 1;
+    text-transform: none;
 }
 
-.manual-coordinate-action-button.button:active{
+.manual-input-coordinates-content .button:active,
+.dialog-edit-coordinate-content .button:active{
     background-color: #ffc76e;
     box-shadow: none;
 }
@@ -304,8 +320,32 @@
 }
 
 .manual-edit-geometry-add-coordinate-button-container{
+    display: flex;
+    justify-content: flex-end;
     padding-right: 2vw;
     margin-bottom: 8vh;
+}
+
+#manual-edit-geometry-add-coordinate-button{
+    position: relative;
+    box-sizing: border-box;
+    min-width: 120px;
+    height: 30px;
+    min-height: 30px;
+    padding: 0 12px;
+    background-color: var(--app-button-fill-color);
+    color: #fff;
+    text-transform: none;
+}
+
+.manual-coordinate-add-label{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    line-height: 1;
+    white-space: nowrap;
 }
 
 #featureProperties table{

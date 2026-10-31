@@ -86,7 +86,6 @@
 }
 
 .dialog-toolbar{
-  background-color: #2375fa;
   position: relative !important;
 }
 
@@ -108,9 +107,29 @@
 
 .choose-type-edit-geometry-actions{
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 8px;
   padding: 8px 2vw 1vh;
+}
+
+.choose-type-edit-geometry-actions .button{
+  height: 30px;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--app-accent-text-color);
+  border-radius: 10px;
+  background-color: #1166A2;
+  box-shadow: none;
+  color: #fff;
+  font-size: 13px;
+  line-height: 28px;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.choose-type-edit-geometry-actions .button:active{
+  background-color: #ffc76e;
+  box-shadow: none;
 }
 
 #dialog-features-content{

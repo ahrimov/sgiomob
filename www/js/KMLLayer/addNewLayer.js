@@ -7,9 +7,14 @@ async function addNewLayer() {
   if (!answer) return;
     fileChooser.open((fileUri) => {
       globalReadlFile(fileUri, (text) => {
+        try {
         const fileName = getFileNameFromUri(fileUri);
         const mapProjection = map.getView().getProjection().getCode();
         const format = new ol.format.KML();
+        const xmlDoc = new DOMParser().parseFromString(text, 'application/xml');
+        if (xmlDoc.querySelector('parsererror') || xmlDoc.documentElement.localName !== 'kml') {
+          throw new Error('Файл не является корректным KML.');
+        }
         const features = format.readFeatures(text, 
           { dataProjection: 'EPSG:4326', featureProjection: mapProjection }
         );
@@ -18,22 +23,20 @@ async function addNewLayer() {
           return;
         }
 
-        if (!features[0].get('ID')) {
-          text = addMissingIdsToKml(text, features);
-        }
+        text = addMissingIdsToKml(text, features);
 
         let descrLayerId = fileName;
         let schemaName = '';
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(text, "application/xml");
+        const normalizedDoc = parser.parseFromString(text, "application/xml");
 
-        const schemaElement = xmlDoc.querySelector("kml > Document > Schema");
+        const schemaElement = normalizedDoc.querySelector("kml > Document > Schema");
         if (schemaElement) {
           schemaName = schemaElement.getAttribute("name");
           if (schemaName) descrLayerId += `_${schemaName}`;
           schemaElement.setAttribute('name', descrLayerId);
           const serializer = new XMLSerializer();
-          text = serializer.serializeToString(xmlDoc);
+          text = serializer.serializeToString(normalizedDoc);
         } 
 
         const date = new Date();
@@ -43,16 +46,8 @@ async function addNewLayer() {
         const similarLayers = layers.filter(layer => regex.test(layer.label));
         if (similarLayers?.length) descrLayerId += ('_' + similarLayers.length);
   
-        let innerFeatureId = 1;
         features.forEach(feature => {
-          if (feature.get('ID')) {
-            feature.id = feature.get('ID');
-          } else {
-             const id = innerFeatureId;
-             feature.set('ID', id);
-             feature.id = id;
-             innerFeatureId += 1; 
-          }
+          feature.id = feature.get('ID');
           feature.layerID = innerLayerId;
           feature.type = 'default';
         });
@@ -76,7 +71,8 @@ async function addNewLayer() {
                         }),
                     });
     
-                case 'LineString': 
+                case 'LineString':
+                case 'MultiLineString':
                     return new ol.style.Style({
                         stroke: new ol.style.Stroke({
                             color: '#2375fa',
@@ -84,7 +80,8 @@ async function addNewLayer() {
                         }),
                     });
     
-                case 'Polygon': 
+                case 'Polygon':
+                case 'MultiPolygon':
                     return new ol.style.Style({
                         fill: new ol.style.Fill({
                             color: 'rgba(35, 117, 250, 0.5)',
@@ -137,7 +134,8 @@ async function addNewLayer() {
                   })
               });
               break;
-          case 'LineString': 
+          case 'LineString':
+          case 'MultiLineString':
               style = new ol.style.Style({
                   stroke: new ol.style.Stroke({
                       color: generateColor(),
@@ -149,6 +147,7 @@ async function addNewLayer() {
               });
               break;
           case 'Polygon':
+          case 'MultiPolygon':
               style = new ol.style.Style({
                   fill: new ol.style.Fill({
                       color: generateColor()
@@ -184,20 +183,29 @@ async function addNewLayer() {
               document.querySelector('#myNavigator').pushPage('./views/styleEditor.html', { data: {
                 layer: newLayer,
                 callback: () => {
+                  addKMLLayerFileToConfig(innerLayerId);
                   addLayerWithLoading(newLayer);
-                  // layers.push(newLayer);
-                  // map.addLayer(newLayer);
-                  // updatingVectorList();
-                  // ons.notification.alert({ title: 'Внимание', message: 'Добавлен новый kml-слой.' });
+                },
+                onCancel: () => {
+                  deleteFile(newLayer.get('fileUri')).catch(error => {
+                    console.error('Не удалось удалить временный KML-файл:', error);
+                  });
                 },
               }});
 
             }, onError);
-            addKMLLayerFileToConfig(innerLayerId);
           });
         }, onError);
-        
-      });
+        } catch (error) {
+          console.error('Ошибка при добавлении KML-слоя:', error);
+          ons.notification.alert({
+            title: 'Не удалось добавить KML-слой',
+            message: error.message === 'Файл не является корректным KML.'
+              ? error.message
+              : 'Не удалось обработать KML-файл. Проверьте его формат и попробуйте снова.'
+          });
+        }
+      }, onError);
     }, { "mime": ".kml,application/vnd.google-earth.kml+xml" }); 
     
   
@@ -241,55 +249,94 @@ function addKMLLayerFileToConfig(kmlFile) {
   });
 }
 
-function addMissingIdsToKml(kmlContent,features) {
+function addMissingIdsToKml(kmlContent, features) {
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(kmlContent, "application/xml");
+  const root = xmlDoc.documentElement;
+  const createElement = name => xmlDoc.createElementNS(root.namespaceURI, name);
+  let documentNode = Array.from(root.children).find(node => node.localName === 'Document');
+  if (!documentNode) {
+    documentNode = createElement('Document');
+    while (root.firstChild) documentNode.appendChild(root.firstChild);
+    root.appendChild(documentNode);
+  }
 
-  const schema = xmlDoc.querySelector('Schema');
+  let schema = documentNode.querySelector('Schema');
   if (!schema) {
-    const document = xmlDoc.querySelector('Document');
-    schema = xmlDoc.createElement('Schema');
-    schema.setAttribute('name', 'DefaultSchema');
+    schema = createElement('Schema');
+    schema.setAttribute('name', '');
     schema.setAttribute('id', 'DefaultSchema');
-    document.insertBefore(schema, document.firstChild);
+    documentNode.insertBefore(schema, documentNode.firstChild);
   }
-
-  let idField = Array.from(schema.querySelectorAll('SimpleField')).find(field => field.getAttribute('name') === 'ID');
-
-  if (!idField) {
-    idField = xmlDoc.createElement('SimpleField');
-    idField.setAttribute('name', 'ID');
-    idField.setAttribute('type', 'string');
-    schema.appendChild(idField);
-  }
+  if (!schema.getAttribute('id')) schema.setAttribute('id', 'DefaultSchema');
+  const schemaId = schema.getAttribute('id');
+  const fieldNames = new Set(Array.from(schema.querySelectorAll('SimpleField'), field => field.getAttribute('name')));
+  const addField = name => {
+    if (!name || fieldNames.has(name)) return;
+    const field = createElement('SimpleField');
+    field.setAttribute('name', name);
+    field.setAttribute('type', 'string');
+    schema.appendChild(field);
+    fieldNames.add(name);
+  };
 
   const placemarks = xmlDoc.querySelectorAll('Placemark');
-
+  const usedIds = new Set();
   placemarks.forEach((placemark, index) => {
-    const schemaData = placemark.querySelector('SchemaData');
-    if (!schemaData) return;
-
-    const idData = placemark.querySelector('SimpleData[name="ID"]');
-    if (idData) {
-      return;
+    let extendedData = placemark.querySelector('ExtendedData');
+    if (!extendedData) {
+      extendedData = createElement('ExtendedData');
+      placemark.insertBefore(extendedData, placemark.firstChild);
     }
-
-    const newId = `${index}`;
-    if (features[index]) {
-      features[index].set('ID', newId);
+    let schemaData = extendedData.querySelector('SchemaData');
+    if (!schemaData) {
+      schemaData = createElement('SchemaData');
+      extendedData.appendChild(schemaData);
     }
+    schemaData.setAttribute('schemaUrl', `#${schemaId}`);
 
-    const newIdData = xmlDoc.createElement('SimpleData');
-    newIdData.setAttribute('name', 'ID');
-    newIdData.textContent = newId;
+    Array.from(extendedData.children).filter(node => node.localName === 'Data').forEach(data => {
+      const name = data.getAttribute('name');
+      if (!name) return;
+      addField(name);
+      if (!Array.from(schemaData.querySelectorAll('SimpleData')).some(node => node.getAttribute('name') === name)) {
+        const simpleData = createElement('SimpleData');
+        simpleData.setAttribute('name', name);
+        simpleData.textContent = data.querySelector('value')?.textContent || '';
+        schemaData.appendChild(simpleData);
+      }
+      extendedData.removeChild(data);
+    });
+    schemaData.querySelectorAll('SimpleData').forEach(data => addField(data.getAttribute('name')));
 
-    schemaData.appendChild(newIdData);
+    const feature = features[index];
+    const existingId = feature?.get('ID') ?? feature?.get('id');
+    let id = existingId === undefined || existingId === null || String(existingId).trim() === ''
+      ? String(index)
+      : String(existingId);
+    while (usedIds.has(id)) id = String(Number(id) + 1 || index + 1);
+    usedIds.add(id);
+    if (feature) feature.set('ID', id);
+
+    let idData = schemaData.querySelector('SimpleData[name="ID"]');
+    if (!idData) {
+      idData = createElement('SimpleData');
+      idData.setAttribute('name', 'ID');
+      schemaData.appendChild(idData);
+    }
+    idData.textContent = id;
   });
 
-  const serializer = new XMLSerializer();
-  const updatedKml = serializer.serializeToString(xmlDoc);
+  addField('ID');
+  let folder = Array.from(documentNode.children).find(node => node.localName === 'Folder');
+  if (!folder) {
+    folder = createElement('Folder');
+    Array.from(documentNode.children).filter(node => node.localName === 'Placemark').forEach(node => folder.appendChild(node));
+    documentNode.appendChild(folder);
+  }
 
-  return updatedKml;
+  const serializer = new XMLSerializer();
+  return serializer.serializeToString(xmlDoc);
 }
 
 

@@ -294,7 +294,7 @@ function changeVisible(element) {
     let layer = findLayer(layerID);
     const kmlType = layer.get('kmlType');
     ons
-    .notification.confirm({title: 'Очистка слоя', messageHTML: `<p class="notification-alert">Вы уверены, что хотите очитстить слой ${layer.label}?</p>`, buttonLabels: ["Нет", "Да"]})
+    .notification.confirm({title: 'Очистка слоя', messageHTML: `<p class="notification-alert">Вы уверены, что хотите очистить слой ${layer.label}?</p>`, buttonLabels: ["Нет", "Да"]})
     .then(function(index) {
         if(index == 1){
           if (kmlType) {

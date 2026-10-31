@@ -218,18 +218,18 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
         switch(atrib.type){
         case 'DOUBLE':
             if(typeof content === 'undefined' || content === '')
-                return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="number" placeholder="Числовые данные"></ons-input>`
-            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' type="number" modifier="underbar"></ons-input>`
+                return `<ons-input id='${atrib.name}' class='input-content' type="number" placeholder="Числовые данные"></ons-input>`
+            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' type="number"></ons-input>`
         case 'DATE':
             if(typeof content === 'undefined' || content === '')
-                return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" type="date"></ons-input>`
+                return `<ons-input id='${atrib.name}' class='input-content' type="date"></ons-input>`
             let date = new Date(content).toLocaleString('ru-RU',  {year: 'numeric',month: 'numeric',day: 'numeric'});
             let date_string = date.toString();
             let pattern = /(\d{1,2})\.(\d{1,2})\.(\d{2,4})/;
             if(date_string.search(pattern) === 0){
                 content = date_string.replace(pattern,'$3-$2-$1');
             }
-            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar" type="date"></ons-input>`
+            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' type="date"></ons-input>`
         case 'BOOLEAN':
             let check = ''
             if(content === 1)
@@ -248,8 +248,8 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
             return select
         default:
             if(typeof content === 'undefined' || content === '')
-                return `<ons-input id='${atrib.name}' class='input-content' modifier="underbar" placeholder="Текстовые данные"></ons-input>`
-            return `<ons-input id='${atrib.name}' class='input-content' value='${content}' modifier="underbar"></ons-input>`
+                return `<ons-input id='${atrib.name}' class='input-content' placeholder="Текстовые данные"></ons-input>`
+            return `<ons-input id='${atrib.name}' class='input-content' value='${content}'></ons-input>`
         }
     }
 

@@ -60,10 +60,10 @@
                 </button>
             </div>
             <form class="coordinate-search-form" novalidate>
-                <label for="coordinate-search-latitude">Широта, °</label>
+                <label for="coordinate-search-latitude">Широта (WGS-84) ГГ°ГГГГГГ</label>
                 <input id="coordinate-search-latitude" name="latitude" type="text" inputmode="decimal"
                        autocomplete="off" placeholder="55.751244" aria-describedby="coordinate-search-error">
-                <label for="coordinate-search-longitude">Долгота, °</label>
+                <label for="coordinate-search-longitude">Долгота (WGS-84) ГГ°ГГГГГГ</label>
                 <input id="coordinate-search-longitude" name="longitude" type="text" inputmode="decimal"
                        autocomplete="off" placeholder="37.618423" aria-describedby="coordinate-search-error">
                 <label class="coordinate-search-mode">
@@ -91,8 +91,8 @@
                 </div>
                 <p id="coordinate-search-error" class="coordinate-search-error" role="alert" hidden></p>
                 <div class="coordinate-search-actions">
-                    <button type="button" class="coordinate-search-cancel">Отмена</button>
                     <button type="submit">Перейти</button>
+                    <button type="button" class="coordinate-search-cancel">Отмена</button>
                 </div>
             </form>
         </ons-dialog>

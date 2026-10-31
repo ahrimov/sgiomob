@@ -2,8 +2,8 @@ class UndoButton extends ol.control.Control {
     constructor(opt_options) {
         const options = opt_options || {};
     
-        const undoButton = ons.createElement(`<div class='undo-button'><ons-fab class='map-control-fab' modifier='material mini' disable-auto-styling>
-                                                <ons-icon class='icon' icon='md-undo'></ons-icon>
+        const undoButton = ons.createElement(`<div class='undo-button'><ons-fab class='map-control-fab' modifier='material mini' disable-auto-styling aria-label='Вернуть точку' title='Вернуть точку'>
+                                                <img class='map-drawing-control-icon' src='./resources/images/assets/undo.png' alt=''>
                                             </ons-fab></div>`)
     
         super({
