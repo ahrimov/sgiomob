@@ -9,18 +9,26 @@
             Таблица
         </div>
         <div class="right">
-            <ons-toolbar-button id="tool-search">
-                <ons-icon class='icon' icon="md-search"></ons-icon>
+            <ons-toolbar-button id="features-actions-button" aria-label="Действия с объектами" aria-haspopup="menu" aria-controls="features-actions-menu" aria-expanded="false">
+                <ons-icon class="icon" icon="md-more-vert"></ons-icon>
             </ons-toolbar-button>
         </div>
     </ons-toolbar>
-    <div id="features-list"></div>
+    <div class="features-page-content">
+        <div id="features-count" class="features-count">Объектов в слое: …</div>
+        <div class="features-scroll-container">
+            <div id="features-list"></div>
+            <div class="features-scrollbar" aria-hidden="true" hidden>
+                <div class="features-scrollbar-thumb"></div>
+            </div>
+        </div>
+    </div>
 
     <template id="dialog_search">
         <ons-dialog id="dialog-search">
                 <ons-toolbar class="dialog-toolbar">
                     <div class="center dialog-toolbar-content">
-                        Поиск
+                        Фильтр
                     </div>
                     <div class="right">
                         <ons-toolbar-button onclick="hideDialog('dialog-search')">
@@ -29,13 +37,14 @@
                     </div>
                 </ons-toolbar>
                 <div class="dialog-search-content">
-                    <p>Имя столбца</p>
-                        <ons-select id='ons-select-dialog-search' modifier="material">
-                            <select id='select-dialog-search' required></select>
-                        </ons-select>
-                    <div id="select-value-dialog-search"></div>
-                    <ons-button id="accept-filter-button" modifier="quiet" style="float:right;">Установить</ons-button>
-                    <ons-button id="clear-filter-button" modifier="quiet" style="float:right;">Очистить фильтр</ons-button>
+                    <div class="column-filter">
+                        <label id="filter-label" for="filter-value"></label>
+                        <div id="filter-control"></div>
+                    </div>
+                    <div class="dialog-search-actions">
+                        <ons-button id="clear-filter-button">Сбросить</ons-button>
+                        <ons-button id="accept-filter-button">Найти</ons-button>
+                    </div>
                 </div>
         </ons-dialog>
     </template>

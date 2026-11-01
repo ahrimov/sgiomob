@@ -24,7 +24,9 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
     let is_editing_feature = false;
     let initialEditValues = [];
     let editInteracted = false;
+    let hasPhotoGallery = false;
     const kmlType = layer.get('kmlType');
+    const photoSection = document.querySelector('#featureProperties #photos');
 
     for (const atrib of layer.atribs) {
         if (checkServiceField(atrib.name)) {
@@ -41,25 +43,18 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
             : '';
 
     if (!kmlType) {
-        const photosDiv = document.createElement('div');
-        
-        photosDiv.innerHTML = `
-            <ons-button modifier="outline light" id="addNewPhoto">
+        const addNewPhoto = document.createElement('button');
+        addNewPhoto.type = 'button';
+        addNewPhoto.id = 'addNewPhoto';
+        addNewPhoto.className = 'feature-photo-button';
+        addNewPhoto.innerHTML = `
                 <div>
-                    <ons-icon class='icon' icon="md-plus" size="30px"></ons-icon>
+                    <ons-icon icon="md-plus" size="30px"></ons-icon>
                     <p>Нажмите, чтобы<br/>добавить фотографию</p>
                 </div>
-            </ons-button>
         `;
-        
-        
-        const container = document.querySelector('#photos'); 
-        if (container) {
-            container.appendChild(photosDiv);
-            setTimeout(() => {
-                 document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false);
-            }, 0);
-        }
+        photoSection.appendChild(addNewPhoto);
+        addNewPhoto.addEventListener('click', clickOpenCamera, false);
     }
 
 
@@ -352,7 +347,7 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
                     
                     saveImage(fileEntry, imageName, image_options, layer, feature, function(imgUri){
                         getFileEntry(imgUri, function(){
-                            let gallery = document.querySelector('.gallery')
+                            let gallery = photoSection.querySelector('.gallery')
                             displayImage(fileEntry.toInternalURL(), gallery)
                         })
                     })
@@ -384,7 +379,7 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
                 return
                 
             firstImage()
-            let gallery = document.querySelector('.gallery')
+            let gallery = photoSection.querySelector('.gallery')
             for(let elem of image_options){
                 pathToImage = elem.path.replace(/\\\//g, '/');
                 getFileEntry(root_directory + pathToImage, function(fileEntry){
@@ -397,27 +392,19 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
     }
 
     function firstImage(){
-        if(typeof firstImage.counter == 'undefined'){
-            firstImage.counter = 0
-            changeAddPhotoButton()
-            let gallery = document.createElement('div')
-            gallery.className = "gallery"
-            document.querySelector('#photos').appendChild(gallery)
-        }
-        else
-            return
+        if (hasPhotoGallery) return;
+        hasPhotoGallery = true;
+        changeAddPhotoButton();
+        const gallery = document.createElement('div');
+        gallery.className = 'gallery';
+        photoSection.appendChild(gallery);
     }
 
     function changeAddPhotoButton(){
-        let addNewPhoto = document.querySelector('#addNewPhoto')
-        addNewPhoto.remove()
-        addNewPhoto = ons.createElement(`<ons-button modifier="outline light" id="addNewPhoto"></ons-button>`)
-        addNewPhoto.innerHTML = `<div class='signature'>
-            <ons-icon class='icon' icon="md-plus" size="20px"></ons-icon></div>`
-        addNewPhoto.style['width'] = "25%"
-        addNewPhoto.style['float'] = 'right'
-        document.querySelector('#photos').appendChild(addNewPhoto)
-        document.querySelector('#addNewPhoto').addEventListener('click', clickOpenCamera, false)
+        const addNewPhoto = photoSection.querySelector('#addNewPhoto');
+        addNewPhoto.classList.add('feature-photo-button--compact');
+        addNewPhoto.innerHTML = '<ons-icon icon="md-plus" size="30px"></ons-icon>';
+        addNewPhoto.setAttribute('aria-label', 'Добавить фотографию');
     }
 
 

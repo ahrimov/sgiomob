@@ -695,16 +695,16 @@ function addSelectInteraction(map) {
         condition: () => false,
         multi: false,
         style: function(feature) {
-            const geomType = feature.getGeometry().getType();
-            const baseType = geomType.startsWith('Multi') 
-              ? geometry.getGeometryAt(0).getType() 
-              : geomType;
+            const geometry = feature.getGeometry();
+            if (!geometry) return null;
+            const geomType = geometry.getType();
+            const baseType = geomType.startsWith('Multi') ? geomType.slice(5) : geomType;
 
             if (baseType === 'LineString') {
                 return getLineHighlightStyle();
-            } else if (geomType === 'Polygon') {
+            } else if (baseType === 'Polygon') {
                 return getPolygonHighlightStyle();
-            } else if (geomType === 'Point') {
+            } else if (baseType === 'Point') {
                 return getPointHighlightStyle();
             }
                 return null;
@@ -719,10 +719,15 @@ function addSelectInteraction(map) {
 }
 
 function selectFeature(feature) {
-    const selectInteraction = findInteraction(ol.interaction.Select);
+    selectFeatures([feature]);
+}
 
-    selectInteraction.getFeatures().clear();
-    selectInteraction.getFeatures().push(feature); 
+function selectFeatures(features) {
+    const selectInteraction = findInteraction(ol.interaction.Select);
+    if (!selectInteraction) return;
+    const selection = selectInteraction.getFeatures();
+    selection.clear();
+    features.forEach(feature => selection.push(feature));
 }
 
 

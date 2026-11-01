@@ -1,4 +1,41 @@
 function layersScriptInit() {
+  document.querySelectorAll('.layer-group-toggle').forEach(button => {
+    const content = document.getElementById(button.getAttribute('aria-controls'));
+    let animation;
+    button.addEventListener('click', () => {
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!expanded));
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        if (animation) animation.cancel();
+        animation = null;
+        content.classList.remove('is-animating');
+        content.hidden = expanded;
+        return;
+      }
+
+      const startHeight = content.getBoundingClientRect().height;
+      const startOpacity = content.hidden ? 0 : Number(getComputedStyle(content).opacity);
+      if (animation) animation.cancel();
+      content.hidden = false;
+      content.classList.add('is-animating');
+      const endHeight = expanded ? 0 : content.scrollHeight;
+
+      animation = content.animate([
+        { height: `${startHeight}px`, opacity: startOpacity },
+        { height: `${endHeight}px`, opacity: expanded ? 0 : 1 }
+      ], { duration: 240, easing: 'ease-in-out' });
+      const currentAnimation = animation;
+      animation.onfinish = () => {
+        if (animation !== currentAnimation) return;
+        currentAnimation.cancel();
+        animation = null;
+        content.classList.remove('is-animating');
+        content.hidden = expanded;
+      };
+    });
+  });
+
   creatingLayerList();
 
   createBaseRasterList();

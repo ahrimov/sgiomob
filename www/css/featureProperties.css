@@ -118,35 +118,57 @@
     padding: 3%;
 }
 
-#photos{
+#featureProperties #photos{
+    display: flex;
     width: 100%;
-    height: 20%;
-    position: relative;
+    height: 130px;
+    margin-top: 16px;
 }
 
-.gallery{
-    width: 75%;
+#featureProperties #photos .gallery{
+    order: -1;
+    flex: 1;
+    width: auto;
     height: 100%;
     overflow-x: scroll;
     white-space: nowrap;
     display: flex;
 }
 
-#addNewPhoto{
+#featureProperties #addNewPhoto{
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
     height: 100%;
     width: 100%;
-    display: inline;
+    padding: 12px;
     text-align: center;
-    color: #fff;
-    background-color: var(--app-button-fill-color);
-    border: 1px solid var(--app-accent-text-color);
+    color: #000;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
     box-shadow: none;
+    font: inherit;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
-#addNewPhoto:active {
-    background-color: #ffc76e;
+#featureProperties #addNewPhoto:active{
+    background: transparent;
 }
 
+#featureProperties #addNewPhoto p{
+    margin: 8px 0 0;
+    line-height: 1.3;
+}
+
+#featureProperties #addNewPhoto.feature-photo-button--compact{
+    flex: 0 0 25%;
+    width: 25%;
+}
 
 
 .signature{

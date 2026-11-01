@@ -1,5 +1,9 @@
 #base-raster-layers-list{
-    margin-bottom: 50px;
+    margin-bottom: 0;
+}
+
+#vector-layers-list{
+    margin-bottom: 0;
 }
 
 .icon {
@@ -20,10 +24,35 @@
     margin-bottom: 7px;
 }
 
+.layer-group-content.list-group{
+    margin-bottom: 0;
+}
+
+.layer-group-content.is-animating{
+    overflow: hidden;
+}
+
 .list-group-item{
     display: flex;
     flex-direction: row;
     gap: 5px;
+}
+
+.reorder-move{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 30px;
+    min-height: 40px;
+    color: var(--app-accent-text-color);
+    cursor: grab;
+    touch-action: none;
+}
+
+.reorder-move svg{
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
 }
 
 .icon-layer{
@@ -46,9 +75,48 @@
 }
 
 .layer-list-header{
+    height: auto;
+    padding: 0;
     text-align: center;
     font-size: 1.6rem;
     font-weight: 700;
+}
+
+.layer-group-toggle{
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 40px;
+    border: 0;
+    background: transparent;
+    color: var(--app-accent-text-color);
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+}
+
+.layer-group-chevron{
+    position: absolute;
+    top: 50%;
+    right: 18px;
+    width: 9px;
+    height: 9px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-70%) rotate(45deg);
+    transition: transform 240ms ease-in-out;
+}
+
+.layer-group-toggle[aria-expanded="false"] .layer-group-chevron{
+    transform: translateY(-30%) rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce){
+    .layer-group-chevron{
+        transition: none;
+    }
 }
 
 .base-layer-expandable{
@@ -217,13 +285,37 @@
 }
 
 .addNewLayerButton{
-    position: fixed;
-    bottom: 3%;
-    right: 2%;
-    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    padding: 16px 16px 24px;
+    background-color: white;
 }
 
-.addNewLayerButton .fab {
+.addNewLayerButton .button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--app-accent-text-color);
+    border-radius: 10px;
     background-color: var(--app-button-fill-color);
-    color: white;
+    box-shadow: none;
+    color: #fff;
+    font-size: 14px;
+    text-transform: none;
+}
+
+.addNewLayerButton .button:active {
+    background-color: #ffc76e;
+    box-shadow: none;
+    color: #fff;
+}
+
+.add-layer-plus {
+    font-size: 20px;
+    line-height: 1;
 }

@@ -10,20 +10,32 @@
       </div>
     </ons-toolbar>
 
-    <div id="layerListWithHandle" class="list-group"></div>
-
-    <div class="addNewLayerButton">
-      <ons-fab>
-          <ons-icon class='icon' icon='md-plus' onclick="addNewLayer()"></ons-icon>
-      </ons-fab>
-    </div>
-
     <ons-list id="base-raster-layers-list">
       <ons-list-header class="layer-list-header">
-        <span class="layer-list-header-label">Растровые слои</span>
+        <button type="button" class="layer-group-toggle" aria-controls="base-raster-layers-list-content" aria-expanded="true">
+          <span class="layer-list-header-label">Растровые слои</span>
+          <span class="layer-group-chevron" aria-hidden="true"></span>
+        </button>
       </ons-list-header>
-      <div id="base-raster-layers-list-content"></div>
+      <div id="base-raster-layers-list-content" class="layer-group-content"></div>
     </ons-list>
+
+    <ons-list id="vector-layers-list">
+      <ons-list-header class="layer-list-header">
+        <button type="button" class="layer-group-toggle" aria-controls="layerListWithHandle" aria-expanded="true">
+          <span class="layer-list-header-label">Векторные слои</span>
+          <span class="layer-group-chevron" aria-hidden="true"></span>
+        </button>
+      </ons-list-header>
+      <div id="layerListWithHandle" class="list-group layer-group-content"></div>
+    </ons-list>
+
+    <div class="addNewLayerButton">
+      <ons-button class="add-layer-button" onclick="addNewLayer()">
+        <span class="add-layer-plus" aria-hidden="true">+</span>
+        <span>Добавить слой</span>
+      </ons-button>
+    </div>
 
     <template id="baseRasterLayerListItem">
       <ons-list-item expandable>
@@ -46,7 +58,11 @@
 
     <template id="layerListItem">
       <div class="list-group-item" onclick="changeVisible(this)">
-          <ons-icon icon="md-reorder" class="reorder-move" size="150%"></ons-icon>
+          <span class="reorder-move" role="img" aria-label="Перетащить слой">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+            </svg>
+          </span>
           <image class="icon-layer" src=""></image>
           <span class="layer-label"></span>
           <div class="layer-list-right">
