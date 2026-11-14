@@ -37,10 +37,12 @@ class AcceptDrawButton extends ol.control.Control {
               }
             }
             if(map.draw.currentFeature.getGeometry().getType() == 'Polygon'){
-              if(len <= 4){
+              const ring = map.draw.currentFeature.getGeometry().getCoordinates()[0] || [];
+              const uniqueNodes = new Set(ring.map(coordinate => `${coordinate[0]},${coordinate[1]}`));
+              if(uniqueNodes.size < 3){
                 ons.notification.alert({
                   title:'Внимание',
-                  message:'Невозможно создать геометрию объекта'
+                  message:'Невозможно создать геометрию объекта. Слишком мало узлов.'
                 });
                 return;
               }
