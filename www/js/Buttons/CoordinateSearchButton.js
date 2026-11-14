@@ -2,7 +2,7 @@ class CoordinateSearchButton extends ol.control.Control {
     constructor(options = {}) {
         const element = ons.createElement(`<div class="coordinate-search-button">
             <ons-fab class="map-control-fab" modifier="material mini" disable-auto-styling
-                     aria-label="Переход по координатам WGS-84" title="Переход по координатам WGS-84">
+                     aria-label="Переход по WGS-координатам" title="Переход по WGS-координатам">
                 <img class="map-primary-action-icon" src="./resources/images/assets/showOnMap.png" alt="">
             </ons-fab>
         </div>`);
@@ -18,6 +18,7 @@ class CoordinateSearchButton extends ol.control.Control {
         try {
             const dialog = await ons.createElement('coordinate-search-template', { append: true });
             const form = dialog.querySelector('form');
+            const scaleSelect = form.querySelector('#coordinate-search-scale');
             const view = targetMap.getView();
             const center = view.getCenter();
             if (center) {
@@ -27,13 +28,13 @@ class CoordinateSearchButton extends ol.control.Control {
                 const currentDistance = ol.proj.getPointResolution(
                     view.getProjection(), view.getResolution(), center, 'm'
                 ) * (96 / 2.54);
-                const scaleOptions = Array.from(form.elements.scale.options)
+                const scaleOptions = Array.from(scaleSelect.options)
                     .filter(option => Number(option.value) > 0);
                 if (Number.isFinite(currentDistance) && currentDistance > 0 && scaleOptions.length) {
                     const closest = scaleOptions.reduce((best, option) =>
                         Math.abs(Math.log(Number(option.value) / currentDistance)) <
                         Math.abs(Math.log(Number(best.value) / currentDistance)) ? option : best);
-                    form.elements.scale.value = closest.value;
+                    scaleSelect.value = closest.value;
                 }
             }
             const close = () => dialog.hide();
@@ -44,7 +45,7 @@ class CoordinateSearchButton extends ol.control.Control {
             form.querySelectorAll('input[name="scaleMode"]').forEach(radio => {
                 radio.addEventListener('change', () => {
                     const custom = form.elements.scaleMode.value === 'custom';
-                    form.elements.scale.disabled = custom;
+                    scaleSelect.disabled = custom;
                     form.elements.distance.disabled = !custom;
                 });
             });
@@ -57,7 +58,7 @@ class CoordinateSearchButton extends ol.control.Control {
                     const center = ol.proj.fromLonLat(coordinate, view.getProjection());
                     if (!center.every(Number.isFinite)) throw new Error('Не удалось преобразовать координаты.');
                     const distance = parseCoordinateSearchNumber(form.elements.scaleMode.value === 'custom'
-                        ? form.elements.distance.value : form.elements.scale.value);
+                        ? form.elements.distance.value : scaleSelect.value);
                     const zoom = coordinateSearchZoom(view, center, distance);
                     // Stop GPS recentering while keeping the location marker active.
                     if (navigationMode === NAVIGATION_MODE.HOLD_CENTER_MAP) {

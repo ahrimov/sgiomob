@@ -24,7 +24,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--app-button-fill-color);
+    background-color: var(--app-control-button-fill-color);
     border: 1px solid var(--app-accent-text-color);
     box-shadow: none;
     color: #fff;

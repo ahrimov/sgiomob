@@ -49,21 +49,13 @@
                 </table>
             </div>
             <div class="edit-geometry-bottom-buttons">
-                <ons-button id="edit-geometry-cancel-changes" class="manual-coordinate-action-button" disable-auto-styling>
-                    <span class="manual-coordinate-action-content">
-                        <img class="manual-coordinate-action-icon manual-coordinate-close-icon"
-                             src="./resources/images/assets/delete.png"
-                             alt="">
-                        <span>Отмена</span>
-                    </span>
+                <ons-button id="edit-geometry-cancel-changes" class="manual-coordinate-action-button form-action-button" disable-auto-styling>
+                    <img class="form-action-icon form-action-icon--cancel" src="./resources/images/assets/delete.png" alt="">
+                    <span>Отмена</span>
                 </ons-button>
-                <ons-button id="edit-geometry-save-changes" class="manual-coordinate-action-button" disable-auto-styling>
-                    <span class="manual-coordinate-action-content">
-                        <img class="manual-coordinate-action-icon manual-coordinate-check-icon"
-                             src="./resources/images/assets/check_black.png"
-                             alt="">
-                        <span>Сохранить</span>
-                    </span>
+                <ons-button id="edit-geometry-save-changes" class="manual-coordinate-action-button form-action-button" disable-auto-styling>
+                    <img class="form-action-icon form-action-icon--save" src="./resources/images/assets/check_black.png" alt="">
+                    <span>Сохранить</span>
                 </ons-button>
             </div>
             </div>
@@ -126,8 +118,14 @@
                 </div>
             </template>
             <div class="edit-geometry-bottom-buttons">
-                <ons-button id="edit-coordinate-cancel-changes">Отмена</ons-button>
-                <ons-button id="edit-coordinate-save-changes">Сохранить</ons-button>
+                <ons-button id="edit-coordinate-cancel-changes" class="form-action-button">
+                    <img class="form-action-icon form-action-icon--cancel" src="./resources/images/assets/delete.png" alt="">
+                    <span>Отмена</span>
+                </ons-button>
+                <ons-button id="edit-coordinate-save-changes" class="form-action-button">
+                    <img class="form-action-icon form-action-icon--save" src="./resources/images/assets/check_black.png" alt="">
+                    <span>Сохранить</span>
+                </ons-button>
             </div>
         </div>
     </ons-dialog>

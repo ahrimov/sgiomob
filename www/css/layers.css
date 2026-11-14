@@ -60,8 +60,16 @@
     height: 30px;
 }
 
+#base-raster-layers-list-content .icon-layer{
+    align-self: center;
+}
+
 .icon-layer[src=""]{
     visibility: hidden;
+}
+
+#layerListWithHandle .icon-layer[src=""]{
+    display: none;
 }
 
 .icon-base-raster-layers{
@@ -242,19 +250,20 @@
 }
 
 .layer-label{
-    display: inline-flex;
-    justify-content: center;
+    display: block;
+    align-self: center;
+    flex: 1 1 auto;
+    min-width: 0;
     white-space: nowrap;
     text-overflow: ellipsis;
-    flex-direction: column;
     overflow: hidden;
-    max-width: 80%;
 }
 
 .layer-list-right{
     display: flex;
-    position: absolute;
-    right: 1%;
+    align-items: center;
+    flex: 0 0 auto;
+    margin-left: auto;
 }
 
 .block-icon{

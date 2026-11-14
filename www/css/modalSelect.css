@@ -1,3 +1,11 @@
+#modal-select .dialog-container{
+    background-color: #fff;
+}
+
+ons-select[onclick] .select-input{
+    pointer-events: none;
+}
+
 #modal-select .dialog-toolbar{
     align-items: center;
 }

@@ -55,6 +55,10 @@
     gap: 8px;
 }
 
+.style-editor-actions ons-button {
+    border-radius: 10px;
+}
+
 .style-editor-field {
     display: flex;
     align-items: center; 

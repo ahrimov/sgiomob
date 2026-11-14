@@ -54,7 +54,7 @@
     <template id="coordinate-search-template">
         <ons-dialog id="coordinate-search-dialog" cancelable>
             <div class="coordinate-search-header">
-                <h2>Переход по координатам WGS-84</h2>
+                <h2>Переход по WGS-координатам</h2>
                 <button type="button" class="coordinate-search-close" aria-label="Закрыть">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -70,7 +70,7 @@
                     <input type="radio" name="scaleMode" value="list" checked>
                     Масштаб из списка
                 </label>
-                <select id="coordinate-search-scale" name="scale">
+                <ons-select id="coordinate-search-scale" name="scale" onclick="simpleCreateModalSelect('coordinate-search-scale', 'Масштаб из списка', false)">
                     <option value="500000">1 см = 500 км</option>
                     <option value="100000">1 см = 100 км</option>
                     <option value="50000">1 см = 50 км</option>
@@ -79,7 +79,7 @@
                     <option value="1000">1 см = 1 км</option>
                     <option value="500">1 см = 500 м</option>
                     <option value="100">1 см = 100 м</option>
-                </select>
+                </ons-select>
                 <div class="coordinate-search-custom">
                     <label class="coordinate-search-mode">
                         <input type="radio" name="scaleMode" value="custom">

@@ -1,11 +1,16 @@
+let modalSelectPending = false;
+
 function createModalSelect(dict, element_id, selected=null, hasSearch=true, title='Значение'){
-    let element = document.getElementById(element_id);
-    element.disabled = true;
-    element.disabled = false;
+    if (modalSelectPending || !document.getElementById(element_id)) return;
+    modalSelectPending = true;
     ons.createElement('modalSelect.html', {append: true})
         .then(function(dialog){
+            dialog.addEventListener('posthide', () => {
+                dialog.remove();
+                modalSelectPending = false;
+            }, {once: true});
             dialog.querySelector('#modal-select-title').textContent = title;
-            let content = document.getElementById('select-list');
+            let content = dialog.querySelector('#select-list');
             const scrollArea = dialog.querySelector('.modal-select');
             const scrollbar = dialog.querySelector('.modal-select-scrollbar');
             const thumb = dialog.querySelector('.modal-select-scrollbar-thumb');
@@ -41,10 +46,10 @@ function createModalSelect(dict, element_id, selected=null, hasSearch=true, titl
             });
 
             showList(dict, content, selected);
-            dialog.onDeviceBackButton = () => { hideDialog('modal-select') }
+            dialog.onDeviceBackButton = closeModalSelect;
 
             if (hasSearch) {
-                const searchContainer = document.getElementById('select-search-container');
+                const searchContainer = dialog.querySelector('#select-search-container');
                 const searchInput = document.createElement('ons-list-item');
                 searchInput.className = 'select-search';
                 searchInput.innerHTML = `
@@ -52,7 +57,7 @@ function createModalSelect(dict, element_id, selected=null, hasSearch=true, titl
                 `;
                 searchContainer.appendChild(searchInput);
 
-                const input = document.getElementById('select-search');
+                const input = dialog.querySelector('#select-search');
                 input.oninput = function() {
                     content.innerHTML = '';
                     showList(dict, content, selected, input.value);
@@ -60,8 +65,13 @@ function createModalSelect(dict, element_id, selected=null, hasSearch=true, titl
                 };
             }
  
-            dialog.show().then(() => requestAnimationFrame(updateScrollbar));
+            return dialog.show().then(() => requestAnimationFrame(updateScrollbar));
         })
+        .catch(error => {
+            document.getElementById('modal-select')?.remove();
+            modalSelectPending = false;
+            console.error('Не удалось открыть справочник:', error);
+        });
     
     function showList(dict, content, selected, filter=null){
         for(let key in dict){
@@ -70,16 +80,23 @@ function createModalSelect(dict, element_id, selected=null, hasSearch=true, titl
             item.innerHTML = dict[key];
             if(selected != null && selected == key)
                 item.innerHTML += `<ons-icon class="icon modal-select-check" icon="md-check"></ons-icon>`;
-            item.addEventListener("click", () => returnSelectedValue(key, element_id), false);
+            item.addEventListener("click", event => {
+                event.stopPropagation();
+                returnSelectedValue(key, element_id);
+            }, false);
             content.appendChild(item);
         }
     }
 }
 
+function closeModalSelect(){
+    document.getElementById('modal-select')?.hide();
+}
+
 function returnSelectedValue(key, element_id){
     const selectElement = document.getElementById(element_id);
     selectElement.value = key;
-    hideDialog('modal-select');
+    closeModalSelect();
 
     const event = new Event('change', { bubbles: true });
     selectElement.dispatchEvent(event);
@@ -92,7 +109,7 @@ function callModalSelectWithLayerAtribs(layer_id, atribName, element_id){
     createModalSelect(atrib.options, element_id, selected, true, atrib.label || atrib.name);
 }
 
-function simpleCreateModalSelect(element_id){
+function simpleCreateModalSelect(element_id, titleOverride=null, hasSearch=true){
     let select = document.getElementById(element_id);
     let selected_value = select.value;
     let options = {};
@@ -101,6 +118,6 @@ function simpleCreateModalSelect(element_id){
         let text = option.text;
         options[value] = text;
     }
-    const title = select.closest('tr')?.querySelector('.title')?.textContent?.trim() || 'Значение';
-    createModalSelect(options, element_id, selected_value, true, title);
+    const title = titleOverride || select.closest('tr')?.querySelector('.title')?.textContent?.trim() || 'Значение';
+    createModalSelect(options, element_id, selected_value, hasSearch, title);
 }

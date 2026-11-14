@@ -93,6 +93,15 @@
     font-size: 16px;
 }
 
+.coordinate-search-form ons-select {
+    display: block;
+    width: 100%;
+}
+
+.coordinate-search-form ons-select .select-input {
+    width: 100%;
+}
+
 .coordinate-search-form input:focus,
 .coordinate-search-form select:focus {
     outline: 2px solid #4c93c2;
@@ -114,7 +123,8 @@
     accent-color: rgb(0, 93, 152);
 }
 .coordinate-search-form input:disabled,
-.coordinate-search-form select:disabled {
+.coordinate-search-form select:disabled,
+.coordinate-search-form ons-select[disabled] {
     opacity: 0.55;
     background: #f2f4f6;
 }
@@ -124,7 +134,7 @@
     min-height: 40px;
     padding: 6px 14px;
     border: 1px solid var(--app-accent-text-color);
-    border-radius: 4px;
+    border-radius: 10px;
     background: var(--app-button-fill-color);
     color: #fff;
     font-size: 16px;

@@ -203,11 +203,11 @@
     width: 65px;
     height: 65px;
     border-radius: 50px;
+    background-color: var(--app-control-button-fill-color);
 }
 
 #feature-instruments .instruments-item-content,
 .feature-under-bar .feature-modification-button {
-    background-color: var(--app-button-fill-color);
     border: 1px solid var(--app-accent-text-color);
     color: #fff;
     box-shadow: none;
@@ -246,6 +246,7 @@
 }
 
 .feature-under-bar .feature-modification-button {
+    background-color: var(--app-button-fill-color);
     margin: 0 2px;
     padding: 0 8px;
     border-radius: 10px;
@@ -308,7 +309,7 @@
     border-radius: 10px;
     background-color: var(--app-button-fill-color);
     box-shadow: none;
-    color: #1166A2;
+    color: #fff;
     font-size: 13px;
     line-height: 1;
     text-transform: none;
@@ -318,29 +319,6 @@
 .dialog-edit-coordinate-content .button:active{
     background-color: #ffc76e;
     box-shadow: none;
-}
-
-.manual-coordinate-action-content{
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.manual-coordinate-action-icon{
-    display: block;
-    flex: 0 0 auto;
-    object-fit: contain;
-}
-
-.manual-coordinate-close-icon{
-    width: 16px;
-    height: 16px;
-}
-
-.manual-coordinate-check-icon{
-    width: 12px;
-    height: 12px;
 }
 
 .manual-edit-geometry-add-coordinate-button-container{

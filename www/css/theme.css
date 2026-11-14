@@ -1,6 +1,7 @@
 :root {
   --app-background-color: #003366;
-  --app-button-fill-color: #4C93C2;
+  --app-button-fill-color: #1166A2;
+  --app-control-button-fill-color: #4C93C2;
   --app-accent-text-color: rgb(0, 93, 152);
   --app-dialog-header-color: #1166A2;
 }
@@ -72,6 +73,12 @@ ons-list-item,
   text-align: center;
 }
 
+.alert-dialog-content,
+.alert-dialog-content--material {
+  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
 .alert-dialog-footer,
 .alert-dialog-footer--material {
   box-sizing: border-box;
@@ -116,6 +123,16 @@ ons-list-item,
   background-color: #ffc76e;
   background-image: none;
   color: #fff;
+}
+
+ons-dialog ons-button,
+ons-dialog .button,
+ons-dialog button,
+.alert-dialog-footer .alert-dialog-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .action-sheet--material {
@@ -205,9 +222,7 @@ ons-back-button,
 .button,
 .button--cta,
 .button--large--cta,
-.button--material,
-.fab,
-.fab--material {
+.button--material {
   background-color: var(--app-button-fill-color);
   color: #fff;
 }
@@ -216,10 +231,16 @@ ons-back-button,
 .button--cta:active,
 .button--large:active,
 .button--large--cta:active,
-.button--material:active,
+.button--material:active {
+  background-color: var(--app-button-fill-color);
+  color: #fff;
+}
+
+.fab,
+.fab--material,
 .fab:active,
 .fab--material:active {
-  background-color: var(--app-button-fill-color);
+  background-color: var(--app-control-button-fill-color);
   color: #fff;
 }
 
@@ -252,16 +273,26 @@ ons-back-button,
   border-color: var(--app-accent-text-color);
 }
 
-.feature-action-button {
+.form-action-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
+  border-radius: 10px;
 }
 
-.feature-action-button img {
+.form-action-icon {
   display: block;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.form-action-icon--cancel {
   width: 16px;
   height: 16px;
-  object-fit: contain;
+}
+
+.form-action-icon--save {
+  width: 12px;
+  height: 12px;
 }
