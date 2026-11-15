@@ -34,20 +34,8 @@ let baseRasterLayers = [];
 
 function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
+    initNetworkTileMode();
     initial()
 }
-
-window.fn = {};
-        
-window.fn.openMenu = function() {
-  var menu = document.getElementById('menu');
-  menu.open();
-};
-
-window.fn.load = function(page) {
-  document.querySelector('#myNavigator').pushPage(page)
-  var menu = document.getElementById('menu');
-  menu.close()
-};
 
 window.addEventListener("orientationchange", transformUIToOrientation);

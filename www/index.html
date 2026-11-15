@@ -41,22 +41,27 @@
     </head>
 
     <body>
-        <ons-splitter ng-app="myApp">
-            <ons-splitter-side collapse id="menu" side="right">
-              <ons-page class="drawer-page">
-                <ons-toolbar><div class="center">СГИОМОБ</div></ons-toolbar>
-                <ons-list>
-                    <ons-list-item tappable onclick="fn.load('./views/about.html')">
-                      О приложении
-                    </ons-list-item>
-                  </ons-list>
-              </ons-page>
-            </ons-splitter-side>
-            <ons-splitter-content>
-                <ons-navigator id="myNavigator" var="myNavigator">
-            </ons-navigator>
-            </ons-splitter-content>
-          </ons-splitter>
+        <ons-navigator id="myNavigator" var="myNavigator"></ons-navigator>
+
+        <div id="about-popover" class="about-popover" role="menu" hidden>
+            <button type="button" role="menuitem" onclick="showAboutDialog()">О приложении</button>
+        </div>
+
+        <ons-dialog id="about-dialog" cancelable>
+            <ons-toolbar class="dialog-toolbar">
+                <div class="center dialog-toolbar-content">О приложении</div>
+                <div class="right">
+                    <ons-toolbar-button onclick="closeAboutDialog()" aria-label="Закрыть">
+                        <ons-icon icon="md-close" class="icon dialog-close"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+            <div class="about-content">
+                <p>СГИОМОБ 2.0.2<br>
+                    ООО «Геосервис-Информ»<br>
+                    О любых проблемах пишите на почту support@corelight.ru</p>
+            </div>
+        </ons-dialog>
 
         <!-- Constants -->
         <script src="./resources/consts/uiConsts.js"></script>
@@ -69,6 +74,7 @@
         <script src="./js/index.js"></script>
         <script src="./js/initial.js"></script>
         <script src="./js/FileManage.js"></script>
+        <script src="./js/NetworkTileMode.js"></script>
         <script src="./js/XMLParser.js"></script>
         <script src="./js/XMLStringify.js"></script>
         <script src="./js/DBManage.js"></script>

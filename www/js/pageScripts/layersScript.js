@@ -421,13 +421,17 @@ function baseLayersShowActionSheet(element, event){
         ]
       }).then(function (index) {
         if(index === 0){
-          const remote_url = layer.get('remote_url');
-          layer.getSource().setTileLoadFunction(tileLoadFunctionDefault);
-          if(layer.get("id") === 'Rosreestr')
-            layer.getSource().setTileUrlFunction(rosreetrUrlFunction);
-          else
-            layer.getSource().setUrl(remote_url);
-          layer.set('useLocalTiles', false);
+          syncNetworkTileMode();
+          if (networkTileOffline) {
+            ons.notification.alert({
+              title: 'Нет сети',
+              message: 'Включите сеть, чтобы использовать онлайн-тайлы.',
+              buttonLabels: ['ОК']
+            });
+            return;
+          }
+          layer.set('preferredUseLocalTiles', false);
+          setBaseRasterLayerMode(layer, false);
           updateInfo();
         }
       });
@@ -447,10 +451,8 @@ function baseLayersShowActionSheet(element, event){
         ]
       }).then(function (index) {
         if(index === 0){
-          const local_path = layer.get('local_path');
-          layer.getSource().setUrl(main_directory + local_path);
-          layer.getSource().setTileLoadFunction(tileLoadFunctionLocal);
-          layer.set('useLocalTiles', true);
+          layer.set('preferredUseLocalTiles', true);
+          setBaseRasterLayerMode(layer, true);
           updateInfo();
         }
       });

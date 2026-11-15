@@ -17,12 +17,20 @@ class NavigationButton extends ol.control.Control {
     trackDevice(){
 
         if(!hasGeolocationPermission){
-            ons.notification.toast('Доступ к геолокации заблокирован', {timeout: 1000, animation: "ascend"}); 
+            ons.notification.alert({
+                title: 'Геолокация',
+                message: 'Доступ к геолокации заблокирован',
+                buttonLabels: ['ОК'],
+            });
             return;
         }
 
         if(!gps_position) {
-            ons.notification.toast('Ожидание gps-сигнала', {timeout: 1000, animation: "ascend"}); 
+            ons.notification.alert({
+                title: 'Геолокация',
+                message: 'Ожидание GPS-сигнала',
+                buttonLabels: ['ОК'],
+            });
             return;
         }
 

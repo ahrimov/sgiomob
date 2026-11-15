@@ -1,11 +1,11 @@
 async function saveKMLToFile(layerId) {
     const layer = findLayer(layerId);
 
-    const showSaveSuccess = newFileUri => {
+    const showSaveSuccess = async newFileUri => {
         console.log('Успешное сохранение файла: ', newFileUri);
         ons.notification.alert({
             title: 'Внимание',
-            message: 'Файл успешно сохранён: ' + newFileUri,
+            messageHTML: await getSavedFileMessageHTML(newFileUri),
             buttonLabels: ['ОК'],
         });
     };

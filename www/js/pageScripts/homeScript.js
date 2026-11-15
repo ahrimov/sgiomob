@@ -1,11 +1,64 @@
 function homeDisableButtons(){
     document.querySelector('#layers-button').disabled = true
-    document.querySelector('#side-menu-button').disabled = true
 }
 
 function homeEnableButton(){
     document.querySelector('#layers-button').disabled = false
-    document.querySelector('#side-menu-button').disabled = false
+}
+
+let aboutDialogOpening = false;
+
+function showAboutPopover(button){
+    const popover = document.getElementById('about-popover');
+    if (!popover.hidden) {
+        hideAboutPopover();
+        return;
+    }
+    const bounds = button.getBoundingClientRect();
+    popover.style.top = `${bounds.bottom + 6}px`;
+    popover.style.right = `${Math.max(8, window.innerWidth - bounds.right)}px`;
+    popover.hidden = false;
+    button.setAttribute('aria-expanded', 'true');
+    document.addEventListener('pointerdown', closeAboutPopoverOnOutsideClick, true);
+    document.addEventListener('keydown', closeAboutPopoverOnEscape, true);
+}
+
+function hideAboutPopover(){
+    document.getElementById('about-popover').hidden = true;
+    document.getElementById('about-menu-button')?.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('pointerdown', closeAboutPopoverOnOutsideClick, true);
+    document.removeEventListener('keydown', closeAboutPopoverOnEscape, true);
+}
+
+function closeAboutPopoverOnOutsideClick(event){
+    if (!document.getElementById('about-popover').contains(event.target) &&
+        !document.getElementById('about-menu-button')?.contains(event.target)) {
+        hideAboutPopover();
+    }
+}
+
+function closeAboutPopoverOnEscape(event){
+    if (event.key === 'Escape') {
+        hideAboutPopover();
+    }
+}
+
+async function showAboutDialog(){
+    const dialog = document.getElementById('about-dialog');
+    if (aboutDialogOpening || dialog.visible) return;
+    aboutDialogOpening = true;
+    try {
+        hideAboutPopover();
+        await dialog.show();
+    } catch (error) {
+        console.error('Не удалось открыть сведения о приложении:', error);
+    } finally {
+        aboutDialogOpening = false;
+    }
+}
+
+function closeAboutDialog(){
+    document.getElementById('about-dialog').hide();
 }
 
 function carousel_prev(){

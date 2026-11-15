@@ -1,5 +1,50 @@
-#about-content{
-    background-color: white;
-    padding-top: 5px;
-    padding-left: 5px;
+.about-popover {
+    position: fixed;
+    z-index: 30001;
+    width: 180px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+    overflow: hidden;
+}
+
+.about-popover[hidden] {
+    display: none;
+}
+
+.about-popover button {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    padding: 0 16px;
+    border: 0;
+    background: #fff;
+    color: var(--app-accent-text-color);
+    font-size: 16px;
+    text-align: left;
+    text-transform: none;
+}
+
+.about-popover button:active {
+    background: #e2eff7;
+}
+
+#about-dialog .dialog {
+    width: min(360px, calc(100vw - 32px));
+    max-width: none;
+}
+
+#about-dialog .dialog-toolbar-content {
+    transform: none;
+}
+
+.about-content {
+    padding: 16px;
+    background-color: #fff;
+    overflow-wrap: anywhere;
+    text-transform: none;
+}
+
+.about-content p {
+    margin: 0;
 }

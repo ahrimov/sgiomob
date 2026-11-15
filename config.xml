@@ -22,4 +22,7 @@
 
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <access origin="https://tile.openstreetmap.org" />
+    <access origin="https://core-sat.maps.yandex.net" />
+    <access origin="https://core-renderer-tiles.maps.yandex.net" />
 </widget>

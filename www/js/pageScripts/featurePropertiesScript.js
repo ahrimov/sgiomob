@@ -526,14 +526,14 @@ function featurePropertiesScript(featureFromPage, clickCoordinate){
             );
             const objectId = feature.id ?? feature.getId() ?? Date.now();
             const filename = `${layer.id}_${objectId}`.replace(/[^a-zA-Zа-яА-ЯёЁ0-9_-]/g, '_') + '.kml';
-            await cordova.plugins.safMediastore.saveFile({
+            const fileUri = await cordova.plugins.safMediastore.saveFile({
                 data: toBase64(kml),
                 filename,
                 folder: 'Documents',
             });
             ons.notification.alert({
                 title: 'Экспорт в KML',
-                message: `Объект сохранён в Documents как ${filename}`,
+                messageHTML: await getSavedFileMessageHTML(fileUri),
             });
         } catch (error) {
             console.error('Не удалось экспортировать объект в KML', error);

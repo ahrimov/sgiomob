@@ -11,7 +11,6 @@ body {
 }
 
 /* Text placed on white application surfaces */
-#about-content,
 #featureProperties,
 #feature-instruments,
 .feature-under-bar,
@@ -189,13 +188,6 @@ ons-toolbar,
 .toolbar__center,
 .toolbar__title {
   color: #fff;
-}
-
-.drawer-page,
-.drawer-page .page__background,
-.drawer-page ons-list,
-.drawer-page .list {
-  background-color: #fff;
 }
 
 .toolbar-button:not(.home-toolbar-action),

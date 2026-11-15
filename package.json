@@ -22,12 +22,14 @@
         "cordova-plugin-color-picker": "^1.0.0",
         "cordova-plugin-device-orientation": "^2.0.1",
         "cordova-plugin-file": "^7.0.0",
+        "cordova-plugin-file-transfer": "file:config/plugins/cordova-plugin-file-transfer",
         "cordova-plugin-filechooser": "^1.2.0",
         "cordova-plugin-filepath": "^1.6.0",
         "cordova-plugin-geolocation": "^4.1.0",
         "cordova-plugin-haptic": "^1.0.0",
         "cordova-plugin-intent": "^0.1.2",
         "cordova-plugin-nativestorage": "^2.3.2",
+        "cordova-plugin-network-information": "3.1.0",
         "cordova-plugin-permission": "^0.1.0",
         "cordova-plugin-saf-mediastore": "^1.0.10",
         "cordova-plugin-screen-orientation": "^3.0.3",
@@ -50,6 +52,8 @@
             "cordova-plugin-file": {
                 "ANDROIDX_WEBKIT_VERSION": "1.4.0"
             },
+            "cordova-plugin-file-transfer": {},
+            "cordova-plugin-network-information": {},
             "cordova-plugin-screen-orientation": {},
             "cordova-check-screen-lock": {},
             "cordova-plugin-device-orientation": {},

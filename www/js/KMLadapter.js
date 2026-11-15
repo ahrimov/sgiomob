@@ -64,10 +64,10 @@ function exportKML(layerID){
             data: toBase64(kml),
             filename: fileName,
             folder: 'Documents',
-        }).then(newFileUri => {
+        }).then(async newFileUri => {
             ons.notification.alert({ 
                 title:"Внимание", 
-                messageHTML:'<p class="notification-alert">Файл успешно сохранён: ' + newFileUri + '</p>',
+                messageHTML: await getSavedFileMessageHTML(newFileUri),
             });
         }).catch(e => {
             ons.notification.alert({ 

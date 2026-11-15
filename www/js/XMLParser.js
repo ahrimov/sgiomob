@@ -47,6 +47,7 @@ function configParser(data, title){
             try{
                 const jsonArray = JSON.parse(text);
                 baseRasterLayers = parseBaseRasterLayers(jsonArray);
+                syncNetworkTileMode();
             } catch(e){
                 ons.notification.alert({
                     title:"Внимание", 
@@ -680,6 +681,8 @@ function parseBaseRasterLayers(jsonArray){
         }
         if(json.useLocalTiles){
             source.setTileLoadFunction(tileLoadFunctionLocal);
+        } else if (json.local_path && json.id !== 'Rosreestr') {
+            source.setTileLoadFunction(createCachedTileLoadFunction(json.local_path, source.getTileGrid()));
         }
         if(json.id === 'Rosreestr'){
             rosreestr_url = json.remote_url;
@@ -693,6 +696,7 @@ function parseBaseRasterLayers(jsonArray){
             icon: json.icon,
             maxZoom: 24,
             useLocalTiles: json.useLocalTiles,
+            preferredUseLocalTiles: json.useLocalTiles,
             local_path: json.local_path,
             remote_url: json.remote_url,
             source: source
