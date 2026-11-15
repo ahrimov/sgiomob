@@ -7,24 +7,39 @@ function homeEnableButton(){
 }
 
 let aboutDialogOpening = false;
+let aboutPopoverHideTimeout;
 
 function showAboutPopover(button){
     const popover = document.getElementById('about-popover');
-    if (!popover.hidden) {
+    if (button.getAttribute('aria-expanded') === 'true') {
         hideAboutPopover();
         return;
     }
+    clearTimeout(aboutPopoverHideTimeout);
     const bounds = button.getBoundingClientRect();
     popover.style.top = `${bounds.bottom + 6}px`;
     popover.style.right = `${Math.max(8, window.innerWidth - bounds.right)}px`;
     popover.hidden = false;
+    popover.removeAttribute('aria-hidden');
+    void popover.offsetWidth;
+    popover.classList.add('is-open');
     button.setAttribute('aria-expanded', 'true');
     document.addEventListener('pointerdown', closeAboutPopoverOnOutsideClick, true);
     document.addEventListener('keydown', closeAboutPopoverOnEscape, true);
 }
 
 function hideAboutPopover(){
-    document.getElementById('about-popover').hidden = true;
+    const popover = document.getElementById('about-popover');
+    popover.classList.remove('is-open');
+    popover.setAttribute('aria-hidden', 'true');
+    clearTimeout(aboutPopoverHideTimeout);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        popover.hidden = true;
+    } else {
+        aboutPopoverHideTimeout = setTimeout(() => {
+            popover.hidden = true;
+        }, 180);
+    }
     document.getElementById('about-menu-button')?.setAttribute('aria-expanded', 'false');
     document.removeEventListener('pointerdown', closeAboutPopoverOnOutsideClick, true);
     document.removeEventListener('keydown', closeAboutPopoverOnEscape, true);
