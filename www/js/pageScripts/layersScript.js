@@ -150,11 +150,11 @@ function changeVisible(element) {
         cancelable: true,
         buttons: [
           {
-            label: 'Список атрибутов',
+            label: 'Показать списком',
             modifier: 'destructive'
           },
           {
-            label: 'Добавить объект',
+            label: 'Создать объект',
           },
           {
             label: 'Изменить стиль',
@@ -166,7 +166,7 @@ function changeVisible(element) {
             label: 'Очистить слой',
           },
           {
-            label: 'Исключить из проекта',
+            label: 'Удалить слой',
           },
           {
             label: 'Назад',
@@ -204,11 +204,11 @@ function changeVisible(element) {
         cancelable: true,
         buttons: [
           {
-            label: 'Список атрибутов',
+            label: 'Показать списком',
             modifier: 'destructive'
           },
           {
-            label: 'Добавить объект',
+            label: 'Создать объект',
           },
           {
             label: 'Экспорт kml',
