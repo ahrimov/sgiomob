@@ -106,25 +106,21 @@ function featuresInit(layerID) {
                     </label>
                 </th>` +
                 `<th><div class="features-header">
-                    <ons-select id="feat_left">
-                        <select class="feat_left">`
+                    <ons-select id="feat_left" onclick="simpleCreateModalSelect('feat_left', 'Левый столбец')">`
                         for(atrib of layerAtribs){
                             table += `<option value="${atrib.name}">${atrib.label}</option>`
                         }
-                    table += `</select>
-                    </ons-select>
+                    table += `</ons-select>
                     <button type="button" class="features-filter-button" data-side="left" aria-label="Фильтр левого столбца">
                         <ons-icon icon="md-search"></ons-icon>
                     </button>
                 </div></th>` +
                 `<th><div class="features-header">
-                    <ons-select id="feat_right">
-                        <select class='feat_right'>`
+                    <ons-select id="feat_right" onclick="simpleCreateModalSelect('feat_right', 'Правый столбец')">`
                         for(atrib of layerAtribs){
                             table += `<option value="${atrib.name}">${atrib.label}</option>`
                         }
-                    table += `</select>
-                    </ons-select>
+                    table += `</ons-select>
                     <button type="button" class="features-filter-button" data-side="right" aria-label="Фильтр правого столбца">
                         <ons-icon icon="md-search"></ons-icon>
                     </button>
@@ -165,6 +161,7 @@ function featuresInit(layerID) {
         const leftSelect = content.querySelector('#feat_left');
         const rightSelect = content.querySelector('#feat_right');
 
+        rightSelect.value = right_row;
         leftSelect.addEventListener('change', editFeaturesTable);
         rightSelect.addEventListener('change', editFeaturesTable);
     })
@@ -172,7 +169,6 @@ function featuresInit(layerID) {
     document.getElementById("title").innerHTML = layer.label
     left_row = layerAtribs[0].name
     right_row = layerAtribs[1].name
-    document.getElementsByClassName("feat_right")[0].value = right_row
     const scrollArea = content;
     const scrollbar = content.parentElement.querySelector('.features-scrollbar');
     const thumb = scrollbar.querySelector('.features-scrollbar-thumb');
@@ -292,14 +288,15 @@ function featuresInit(layerID) {
     }
 
     function editFeaturesTable(event){
-        let divClass = event.target.className
-        divClass = divClass.split(" ")[0]
-        if(divClass == 'feat_left'){
-            left_row = event.target.value
+        const select = event.currentTarget;
+        if(select.id === 'feat_left'){
+            if (left_row === select.value) return;
+            left_row = select.value;
             filters.left = '';
         }
-        else if(divClass == 'feat_right'){    
-            right_row = event.target.value
+        else if(select.id === 'feat_right'){
+            if (right_row === select.value) return;
+            right_row = select.value;
             filters.right = '';
         }
         resetFeaturesList();
