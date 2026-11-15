@@ -52,6 +52,8 @@ function updateLayerStyleInKML(layer, xmlDoc) {
         extendedData.appendChild(data);
     };
 
+    addStyleData('ol_style_label_column', layer.labelColumn || '');
+
     switch (geometryType) {
         case 'Point':
         case 'MultiPoint':

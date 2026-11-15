@@ -77,9 +77,13 @@ function createModalSelect(dict, element_id, selected=null, hasSearch=true, titl
         for(let key in dict){
             if(filter !== null && dict[key].search(filter) === -1) continue;
             let item = ons._util.createElement("<ons-list-item tappable></ons-list-item>");
-            item.innerHTML = dict[key];
-            if(selected != null && selected == key)
-                item.innerHTML += `<ons-icon class="icon modal-select-check" icon="md-check"></ons-icon>`;
+            item.textContent = dict[key];
+            if(selected != null && selected == key){
+                const check = document.createElement('ons-icon');
+                check.className = 'icon modal-select-check';
+                check.setAttribute('icon', 'md-check');
+                item.appendChild(check);
+            }
             item.addEventListener("click", event => {
                 event.stopPropagation();
                 returnSelectedValue(key, element_id);

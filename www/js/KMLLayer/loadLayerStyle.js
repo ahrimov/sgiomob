@@ -2,15 +2,39 @@ function loadKMLLayerStyle(layer, kmlContent, geometryType = 'Point') {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(kmlContent, "application/xml");
     
+    layer.labelColumn = '';
     const style = parseLayerStyleFromKML(layer, xmlDoc) ?? getDefaultKMLStyle(geometryType);
-    if (style) {
-        layer.setStyle(style);
+    if (style) applyKMLLayerStyle(layer, style);
+}
 
-        const features = layer.getSource().getFeatures();
-        features.forEach((feature) => {
-            feature.setStyle(style);
+function createKMLLabelText(text, geometryType) {
+    const isLine = geometryType === 'LineString' || geometryType === 'MultiLineString';
+    const labelStyle = createDefaultLabelStyle(isLine ? 'line' : 'point');
+    labelStyle.setText(text);
+    return labelStyle;
+}
+
+function applyKMLLayerStyle(layer, style) {
+    layer.kmlBaseStyle = style;
+    const column = layer.labelColumn;
+    if (column) {
+        const cache = new Map();
+        layer.setStyle(feature => {
+            const value = feature.get(column);
+            if (value === undefined || value === null || value === '') return style;
+            const text = String(value);
+            if (!cache.has(text)) {
+                const labeledStyle = style.clone();
+                labeledStyle.setText(createKMLLabelText(text, layer.geometryType));
+                cache.set(text, labeledStyle);
+            }
+            return cache.get(text);
         });
-    } 
+    } else {
+        layer.setStyle(style);
+    }
+    layer.getSource().getFeatures().forEach(feature => feature.setStyle(null));
+    layer.getSource().changed();
 }
 
 function getDefaultKMLStyle(geometryType) {
@@ -83,6 +107,8 @@ function parseLayerStyleFromKML(layer, xmlDoc) {
         const data = extendedData.querySelector(`Data[name="${name}"]`);
         return data ? data.querySelector('value')?.textContent : null;
     };
+
+    layer.labelColumn = getStyleValue('ol_style_label_column') || '';
 
     switch (geometryType) {
         case 'Point':

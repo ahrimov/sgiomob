@@ -69,6 +69,30 @@
     width: 30px;
 }
 
+.style-label-field {
+    margin: 20px 8px 24px;
+}
+
+.style-label-field .style-icon {
+    color: rgb(0, 93, 152);
+    font-weight: 600;
+}
+
+#style-label-select-container {
+    width: 100%;
+    cursor: pointer;
+}
+
+#style-label-select-container ons-select,
+#style-label-select-container select {
+    pointer-events: none;
+}
+
+#style-label-select-container:focus-visible {
+    outline: 2px solid rgb(0, 93, 152);
+    outline-offset: 2px;
+}
+
 .style-opacity-icon {
     color: rgb(0, 93, 152);
     font-size: 20px;

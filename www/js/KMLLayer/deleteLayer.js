@@ -1,5 +1,12 @@
-function deleteLayer(layerID) {
+async function deleteLayer(layerID) {
     const layer = findLayer(layerID);
+    const answer = await ons.notification.confirm({
+        title: 'Удаление слоя',
+        message: `Вы уверены, что хотите удалить слой ${layer.label}?`,
+        buttonLabels: ['Нет', 'Да']
+    });
+    if (answer !== 1) return;
+
     const fileUri = layer.get('fileUri');
     const fileName = fileUri.split('/').pop();
 

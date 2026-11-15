@@ -36,7 +36,61 @@ function styleEditor(layer, callback, onCancel) {
         previewMap.getView().setZoom(currentZoom - 1);
     }
 
-    const defaultStyle = getDefaultStyleFromLayer(layer);
+    const defaultStyle = getDefaultStyleFromLayer(layer, geometryType);
+    const labelAttributes = new Map();
+    const isLabelAttribute = name => name && !['geometry', 'geometryType', 'styleUrl'].includes(name);
+    (layer.atribs || []).forEach(attribute => {
+        if (isLabelAttribute(attribute.name)) labelAttributes.set(attribute.name, attribute.label || attribute.name);
+    });
+    layer.getSource().getFeatures().forEach(feature => {
+        if (feature === previewFeature) return;
+        feature.getKeys().forEach(name => {
+            if (isLabelAttribute(name) && !labelAttributes.has(name)) labelAttributes.set(name, name);
+        });
+    });
+    const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[character]);
+    const optionsHTML = ['<option value="">Без подписей</option>'];
+    labelAttributes.forEach((label, name) => {
+        optionsHTML.push(`<option value="${escapeHTML(name)}">${escapeHTML(label)}</option>`);
+    });
+    const labelSelectContainer = document.getElementById('style-label-select-container');
+    labelSelectContainer.innerHTML = `<ons-select id="style-select-label-attribute" class="style-select-field">${optionsHTML.join('')}</ons-select>`;
+    const labelSelect = labelSelectContainer.querySelector('ons-select');
+    labelSelect.value = labelAttributes.has(layer.labelColumn) ? layer.labelColumn : '';
+    labelSelect.setAttribute('aria-hidden', 'true');
+    requestAnimationFrame(() => {
+        const nativeSelect = labelSelect.querySelector('select');
+        if (nativeSelect) nativeSelect.tabIndex = -1;
+    });
+    const openLabelAttributeSelect = () => {
+        const options = Object.create(null);
+        options[''] = 'Без подписей';
+        labelAttributes.forEach((label, name) => { options[name] = label; });
+        createModalSelect(options, labelSelect.id, labelSelect.value, true, 'Атрибут для подписи');
+    };
+    labelSelectContainer.addEventListener('click', openLabelAttributeSelect);
+    labelSelectContainer.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openLabelAttributeSelect();
+        }
+    });
+    labelSelect.addEventListener('change', updatePreviewLabel);
+
+    function updatePreviewLabel() {
+        const column = labelSelect.value;
+        labelSelectContainer.setAttribute('aria-label', `Атрибут для подписи: ${labelAttributes.get(column) || 'Без подписей'}`);
+        const sample = layer.getSource().getFeatures()
+            .filter(feature => feature !== previewFeature)
+            .map(feature => feature.get(column))
+            .find(value => value !== undefined && value !== null && value !== '');
+        defaultStyle.setText(column ? createKMLLabelText(sample === undefined ? 'Пример подписи' : String(sample), geometryType) : null);
+        previewFeature.setStyle(defaultStyle);
+    }
+
+    updatePreviewLabel();
 
     const stylePointUpdater = (() => {
         if (geometryType !== 'Point' && geometryType !== 'MultiPoint') return null;
@@ -424,7 +478,8 @@ function styleEditor(layer, callback, onCancel) {
 
 
     function saveStyle(layer, geometryType, callback) {
-        const style = previewFeature.getStyle();
+        const style = previewFeature.getStyle().clone();
+        style.setText(null);
         let styleSettings;
         switch (geometryType) {
             case 'Point':
@@ -442,14 +497,8 @@ function styleEditor(layer, callback, onCancel) {
             default: break;
         }
 
-        const features = layer.getSource().getFeatures();
-        if (features.length > 0) {
-            features.forEach(feature => {
-                feature.setStyle(style);
-            });
-        }
-
-        layer.setStyle(style);
+        layer.labelColumn = labelSelect.value;
+        applyKMLLayerStyle(layer, style);
 
         layer.styleSettings = styleSettings;
         
@@ -468,24 +517,22 @@ function styleEditor(layer, callback, onCancel) {
 }
 
 function getDefaultStyleFromLayer(layer, geometryType) {
+    if (layer.kmlBaseStyle) return layer.kmlBaseStyle.clone();
     const features = layer.getSource().getFeatures();
     if (features.length > 0) {
         const feature = features[0];
-        const featureStyle = feature.getStyle()?.clone() || layer.getStyle()?.clone();
-        if (!featureStyle) {
-            switch (geometryType) {
-                case 'Point': return createDefaultPointStyle();
-                case 'LineString': return createDefaultLineStyle();
-                case 'Polygon': return createDefaultPolygonStyle();
-                default: return null;
-            }
-        }
-        return feature.getStyle().clone() || layer.getStyle().clone();
+        const featureStyle = feature.getStyle();
+        if (featureStyle instanceof ol.style.Style) return featureStyle.clone();
     }
+    const layerStyle = layer.getStyle();
+    if (layerStyle instanceof ol.style.Style) return layerStyle.clone();
     switch (geometryType) {
         case 'Point': return createDefaultPointStyle();
+        case 'MultiPoint': return createDefaultPointStyle();
         case 'LineString': return createDefaultLineStyle();
+        case 'MultiLineString': return createDefaultLineStyle();
         case 'Polygon': return createDefaultPolygonStyle();
+        case 'MultiPolygon': return createDefaultPolygonStyle();
         default: return null;
     };
 }

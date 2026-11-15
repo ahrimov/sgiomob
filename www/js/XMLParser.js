@@ -543,8 +543,8 @@ function parseZoomLevel(dom){
     return [zoomMin, zoomMax];
 }
 
-function labelStyleParse(dom, placement = 'point'){
-    const defaultStyle = new ol.style.Text({
+function createDefaultLabelStyle(placement = 'point') {
+    return new ol.style.Text({
         fill: new ol.style.Fill({color: '#000000'}),
         offsetY: placement === 'line' ? -3 : -12,
         stroke: new ol.style.Stroke({
@@ -555,6 +555,10 @@ function labelStyleParse(dom, placement = 'point'){
         overflow: true,
         maxAngle: 360,
     });
+}
+
+function labelStyleParse(dom, placement = 'point'){
+    const defaultStyle = createDefaultLabelStyle(placement);
     const labelStyleDom = dom.getElementsByTagName('LabelStyle')?.item(0);
     if(!labelStyleDom)
         return defaultStyle; 
